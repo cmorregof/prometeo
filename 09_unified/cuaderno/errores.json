@@ -1,6 +1,6 @@
 {
  "version": 1,
- "sembrado": "2026-09-25T07:28:23",
+ "sembrado": "2026-09-25T14:38:32",
  "errores": [
   {
    "id": "E001",
@@ -35,8 +35,8 @@
     }
    },
    "contadores": {
-    "apariciones": 1,
-    "ultimo_episodio": "bis_5c_cota_uniforme#1"
+    "apariciones": 0,
+    "ultimo_episodio": null
    }
   },
   {
@@ -745,88 +745,6 @@
    "contadores": {
     "apariciones": 0,
     "ultimo_episodio": null
-   }
-  },
-  {
-   "id": "A026",
-   "clase": "aprendido",
-   "texto": "La automatización no cerró directamente las cotas del punto medio con división por 2; ese obstáculo se repitió al probar invariantes de la bisección.",
-   "afirma": [],
-   "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
-   },
-   "procedencia": {
-    "destilacion": "20260925-073216-gpt-6-luna",
-    "fecha": "2026-09-25T08:33:52"
-   }
-  },
-  {
-   "id": "A027",
-   "clase": "aprendido",
-   "texto": "`smt` no dedujo en varios pasos el signo del producto a partir de las hipótesis sobre los factores.",
-   "afirma": [],
-   "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
-   },
-   "procedencia": {
-    "destilacion": "20260925-073216-gpt-6-luna",
-    "fecha": "2026-09-25T08:33:52"
-   }
-  },
-  {
-   "id": "A028",
-   "clase": "aprendido",
-   "texto": "Se invocó un hecho no disponible con el nombre `mult_commute`.",
-   "afirma": [
-    {
-     "tipo": "hecho",
-     "nombre": "mult_commute",
-     "existe": false
-    }
-   ],
-   "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
-   },
-   "procedencia": {
-    "destilacion": "20260925-073216-gpt-6-luna",
-    "fecha": "2026-09-25T08:34:00"
-   }
-  },
-  {
-   "id": "A029",
-   "clase": "aprendido",
-   "texto": "Se intentó usar el caso `left_negative`, que no estaba disponible en esa prueba.",
-   "afirma": [],
-   "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
-   },
-   "procedencia": {
-    "destilacion": "20260925-073216-gpt-6-luna",
-    "fecha": "2026-09-25T08:34:00"
-   }
-  },
-  {
-   "id": "A030",
-   "clase": "aprendido",
-   "texto": "Isabelle rechazó el método `nlinarith` como indefinido.",
-   "afirma": [
-    {
-     "tipo": "metodo",
-     "nombre": "nlinarith",
-     "existe": false
-    }
-   ],
-   "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
-   },
-   "procedencia": {
-    "destilacion": "20260925-073216-gpt-6-luna",
-    "fecha": "2026-09-25T08:34:07"
    }
   }
  ]

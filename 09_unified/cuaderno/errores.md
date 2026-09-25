@@ -6,7 +6,7 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * En su lugar: método `linarith`, método `smt`, método `argo`.
 * No existe en Isabelle. Da a linarith los productos como hechos explícitos (p. ej. mult_nonneg_nonneg, zero_le_power2) o usa smt.
-* Visto en episodios de este cuaderno: 1.
+* Visto en episodios de este cuaderno: 0.
 
 ## E002 · `ring` no existe en Isabelle (método de Lean)
 
