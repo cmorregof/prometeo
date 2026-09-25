@@ -8,6 +8,8 @@ Veredictos: **✓** se reproduce; **≈** se reproduce con matiz; **✗** no se 
 **pendiente**: sin registro, y reproducirla carga la máquina, así que va después de las corridas del RL verbal.
 No se editó ningún README: las correcciones esperan tu visto bueno.
 
+Resumen: 34 cifras; 18 ✓, 4 ≈, 9 ✗ y 3 pendientes (la fila 24 cuenta como ✗ porque una de sus dos cifras no se reproduce).
+
 | # | dónde | cifra escrita | registro | medido | veredicto |
 |---|---|---|---|---|---|
 | 1 | `CLAUDE.md:57` | `--no-tui` con 3000 + 3000 tarda 0,35 s en 01–05 | `tiempos.md` | 0,35–0,41 s | ✓ |
@@ -33,7 +35,7 @@ No se editó ningún README: las correcciones esperan tu visto bueno.
 | 21 | `06_stepsizes/README.md:90` | SDP n = 8 ≈ 80 ms, n = 12 ≈ 200 ms, n = 24 ≈ 1 s; certificado n = 12 ≈ 1 s | ninguno | no medido | pendiente (`steprl bench`) |
 | 22 | `07_interpolacion/README.md:23` | criterio de parada en la gen. ~80; coincide con la teoría en 8 estados | `corridas_locales/07_interpolacion/20260925-144926/historia.json` (semilla 1) | gen. 80; 8 estados (gen. 526) | ✓ |
 | 23 | `07_interpolacion/README.md:24` | γ = 1 estable en la gen. 500–800 según semilla; Q(γ=1) ≈ −3 y Q(γ=0) ≈ −12 | ídem y CI (semilla 0) | gen. 726 (semilla 1) y 543 (semilla 0); −2,84 y −13,43 | ≈ (Q(γ=0) final −13,4) |
-| 24 | `07_interpolacion/README.md:25` | éxito 80–90 %, con ~19 nodos de media | ídem | 89 % y 17,4 nodos | ≈ en el éxito; ✗ en los nodos: poner ~17 |
+| 24 | `07_interpolacion/README.md:25` | éxito 80–90 %, con ~19 nodos de media | ídem | 89 % y 17,4 nodos | ✗ en los nodos (poner ~17); ≈ en el éxito |
 | 25 | `07_interpolacion/README.md:27` | Λ equiespaciados n = 16: 934; Chebyshev: 2,7 | ídem (`informe.md`) | 934,534 y 2,725 | ✓ |
 | 26 | `07_interpolacion/README.md:38` | semilla 1: demostración completa ~190, mínima ~460 | ídem | 186 y 463 | ✓ |
 | 27 | `07_interpolacion/README.md:52–54` | n = 8: Λ = 2,27473107 / 1,94157316 / 1,93872335 | `corridas_locales/07_interpolacion/20260925-144935/busqueda_n8.json`, recalculado con otra malla | 2,27473077 / 1,94157277 / 1,93866819 | ✗ desde la 7.ª cifra (el verificador actual reproduce sus valores a 12 cifras con otra malla) |

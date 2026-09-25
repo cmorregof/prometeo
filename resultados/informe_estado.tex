@@ -1,0 +1,269 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathptmx}
+% Esta instalación (BasicTeX) no trae Zapf Chancery ni Courier, que usan mathptmx y pcr. Con los paquetes
+% `zapfchan` y `courier` instalados, borrar las tres líneas siguientes y usar \renewcommand{\ttdefault}{pcr},
+% como en formulacion_rl_verbal.tex.
+\DeclareSymbolFont{symbols}{OMS}{cmsy}{m}{n}
+\SetSymbolFont{symbols}{bold}{OMS}{cmsy}{b}{n}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[letterpaper,margin=2.5cm]{geometry}
+\usepackage{setspace}\setstretch{1.15}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+
+\definecolor{darkblue}{HTML}{003366}
+\definecolor{BG1}{HTML}{EEF4FF}
+
+% Nombres en español (babel-spanish no está disponible en todas las instalaciones)
+\addto\captionsenglish{%
+  \renewcommand{\contentsname}{Contenido}%
+  \renewcommand{\refname}{Referencias}%
+  \renewcommand{\abstractname}{Resumen}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\appendixname}{Apéndice}%
+  \renewcommand{\proofname}{Demostración}}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Observación}
+
+\newtcolorbox{recuadro}[1]{enhanced,breakable,colback=BG1,colframe=darkblue,
+  boxrule=0.6pt,arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,
+  title={#1},fonttitle=\bfseries}
+
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\estado}[1]{\textsc{#1}}
+\newcommand{\fuente}[1]{\par\smallskip{\raggedright\footnotesize\textit{Fuente:} #1\par}}
+\urlstyle{tt}
+
+\input{tablas/macros.tex}
+
+\title{\textbf{Prometeo desencadenado}\\[4pt]
+\large Informe de estado del proyecto\\[8pt]
+\normalsize Aprendizaje por refuerzo verbal con memoria verificada\\
+para la demostración formal de teoremas de análisis numérico}
+\author{Carlos\\
+\small Maestría en Matemática Aplicada, Universidad Nacional de Colombia, Sede Manizales\\
+\small ORCID: 0009-0001-9163-5137}
+\date{25 de septiembre de 2026 \quad(datos al \GeneradoDatos; tablas del commit \texttt{\CommitTablas})}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+La primera ronda de experimentos todavía no tiene resultados. Las cuatro corridas largas lanzadas el 25 de septiembre se \emph{interrumpieron por error} por dos defectos del código, que ya están corregidos; el relanzamiento está preparado y no había empezado al cerrar este informe. Lo que sí está establecido: el martillo solo (Sledgehammer, sin modelo y sin cuaderno) cierra \AtodosX{} de los \AtodosN{} teoremas del corpus y \AtestX{} de los \AtestN{} de test; el corpus de \CorpusN{} peldaños está aprobado y comprobado; y la reproducción de la Tabla~1 del artículo de referencia confirma que \TunoUnaLinea{} de sus \TunoVC{} obligaciones tienen una prueba verificada de una línea, de las cuales la automatización encuentra sola \TunoSola. Falta todo lo que decide las hipótesis H1--H4: el cuaderno congelado, la línea base con el cuaderno y las comparaciones pareadas.
+\end{abstract}
+
+\begin{recuadro}{Cómo leer este informe}
+\begin{itemize}[nosep,leftmargin=*]
+\item Toda cifra sale de un archivo del repositorio. El Apéndice~\ref{ap:procedencia} da, para cada tabla, el archivo, su huella SHA-256, el código que lo produjo y la fecha. Las tablas y las cifras del texto las genera \texttt{resultados/tablas\_informe.py}; no se transcribieron a mano.
+\item Cada corrida está en uno de cuatro estados, que no se mezclan: \estado{terminado}, \estado{en curso}, \estado{interrumpida por error} y \estado{planeado}. Los datos de las interrumpidas solo aparecen en la Sección~\ref{sec:problemas}, como conteos y sin intervalos.
+\item Las hipótesis se numeran como en la formulación: H1 (margen), H2 (aprendizaje), H3 (transferencia entre métodos) y H4 (transferencia entre modelos).
+\end{itemize}
+\end{recuadro}
+
+\section{Estado del proyecto}\label{sec:estado}
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{@{}lp{7.6cm}l@{}}
+\toprule
+Subproyecto & Qué & Estado\\
+\midrule
+01--05, 07 & Agente de Q-learning tabular: aprende el método (fase 1) y ordena el grafo de lemas escrito a mano (fase 2) & \estado{terminado}\\
+06 & Programas de pasos del descenso de gradiente con el PEP como juez: 4 corridas \texttt{evolve} (Astra), 60 referencias por entropía cruzada, certificados racionales exactos & \estado{terminado}\\
+08 & Reproducción de la fila de bisección de la Tabla 1 del artículo (Sección~\ref{sec:tabla1}) & \estado{terminado}\\
+09 & Jueces del 23--24 sep: grafo (V\textsubscript{G}), PEP (V\textsubscript{P}), Isabelle sobre la bisección (V\textsubscript{I}) y el teorema de stepsize (Sección~\ref{sec:jueces}) & \estado{terminado}\\
+09 & RL verbal, Etapas 0--6 del plan: corpus, juez, martillo, recompensa, episodio con reflexión y cuaderno & \estado{terminado}\\
+09 & Etapa 7: línea base A sin cuaderno (Sección~\ref{sec:lineabase}) & \estado{terminado}\\
+09 & Etapa 7: cuaderno, evaluación B0/B/C, pareadas C3 de Luna y de Sol (25 sep) & \estado{interrumpida por error}\\
+09 & Etapa 7: relanzamiento completo de la primera ronda (Sección~\ref{sec:ronda}) & \estado{planeado}\\
+09 & Etapa 7: A con el cuaderno congelado (H1), E y las pareadas E3 (H2--H4) & \estado{planeado}\\
+\bottomrule
+\end{tabular}
+\caption{Estado de cada parte del proyecto al cierre del informe. Ninguna corrida estaba \estado{en curso}.}\label{tab:estado}
+\fuente{\path{resultados/INVENTARIO.md} y \path{resultados/resumen.json}.}
+\end{table}
+
+\section{Antecedente: la Tabla 1 del artículo de bisección}\label{sec:tabla1}
+
+El artículo de Bryant, Huerta y Munive, y Foster verifica la bisección en Isabelle/HOL generando \TunoVC{} obligaciones de prueba (VCs) y declara que \TunoArticulo{} se cierran de forma automática, entendiendo por «automática» una VC cerrada con una llamada directa a un demostrador. Se compiló su sesión (commit \texttt{0e7830d}) y se regeneraron las VCs con \texttt{vcg}; a cada una se le aplicó \texttt{try0} durante 5\,s y, si fallaba, Sledgehammer durante 60\,s con siete demostradores externos (\TunoSegundos\,s en total).
+
+\begin{itemize}[nosep]
+\item La automatización cierra sola \TunoSola{} de las \TunoVC{} VCs.
+\item Otras \TunoLema{} (las de la poscondición) solo se cierran porque se importa el lema \texttt{bisect\_root\_extract}, que es la prueba manual del artículo empaquetada como lema.
+\item Las \TunoAbiertas{} VCs de «el variante decrece» quedan abiertas a los 60\,s y a los 240\,s. La línea \texttt{smt} del artículo, con 18 hechos, cierra las \TunoSmt{} en unos 0,2\,s.
+\end{itemize}
+
+Así, \TunoUnaLinea{} de \TunoVC{} VCs tienen una prueba de una línea verificada, como dice el artículo, pero la automatización sin ayuda encuentra \TunoSola. La diferencia está en un paso humano que la tabla no registra: en el artículo, la VC del variante se enuncia con una sola premisa antes de llamar a Sledgehammer. En esta máquina, adelgazar la VC a una premisa tampoco basta: Sledgehammer agota los 60\,s con y sin el preludio del artículo. Por último, el juez V\textsubscript{I} sí puede aceptar: con la anotación del artículo y sus lemas auxiliares acepta el teorema completo (15 de 15 VCs).
+
+\fuente{\path{08_isabelle/runs/repro_bisection.json}, \path{repro_vc4_240s.json}; \path{09_unified/runs/_baseline/given_smt_08.json}, \path{sh_goals.json} y \path{upper_bound.json}.}
+
+\section{El corpus de búsqueda de raíces}\label{sec:corpus}
+
+El corpus tiene \CorpusN{} peldaños: \CorpusTrain{} de entrenamiento (bisección, punto fijo, órdenes de convergencia y Newton) y \CorpusTest{} de prueba (secante y regula falsi completos). La partición es por método, así que el test mide transferencia a métodos no vistos (H3). \CorpusClasicas{} peldaños están en su forma de libro y \CorpusDebilitadas{} en una versión debilitada, que siempre va seguida de su versión clásica. El test es más difícil que el entrenamiento: tiene 5 peldaños de dificultad 5 y el entrenamiento, 1.
+
+\begin{table}[H]
+\centering\small
+\input{tablas/corpus.tex}
+\caption{Peldaños por método, partición y dificultad estimada (1--5).}\label{tab:corpus}
+\fuente{\path{09_unified/corpus/raices/*.json}; resumen en \path{revision_enunciados.md}.}
+\end{table}
+
+\paragraph{Revisión de cada peldaño.} Claude redactó los enunciados el 24 de septiembre. Cada uno pasó tres comprobaciones mecánicas, ninguna de las cuales demuestra la conclusión, y después la revisión humana:
+\begin{enumerate}[nosep]
+\item \emph{Isabelle}: el preludio compila, el enunciado tipa y una \texttt{interpretation} con valores concretos demuestra que las hipótesis se pueden cumplir (el peldaño no es vacuo). Pasan las \CorpusIsabelleOK{} de \CorpusIsabelleN{} teorías de método, que cubren los \CorpusN{} peldaños.
+\item \emph{Numérica}: en casos aleatorios que cumplen las hipótesis, la conclusión se cumple siempre; son 400 casos por peldaño salvo en \CorpusMenos. En tres peldaños la comprobación es débil (lo dice la nota de revisión).
+\item \emph{Exportación}: el teorema se exporta al contexto global y un \texttt{sorry} de prueba se detecta como \texttt{skip\_proof}, en \CorpusExporta{} de \CorpusN.
+\item \emph{Aprobación humana}: Carlos revisó los \CorpusN{} enunciados el 24 de septiembre («todos correctos matemáticamente») y pidió cambios, que se aplicaron. Es la frontera semántica de la formulación (supuesto C3): el kernel no puede comprobar que un enunciado formal dice lo que pretende.
+\end{enumerate}
+Hay \CorpusRefPrivada{} peldaños de entrenamiento con una prueba de referencia privada, que nunca se muestra al proponente ni entra al cuaderno.
+
+\section{Resultado principal: la línea base A}\label{sec:lineabase}
+
+La configuración A es el martillo solo: \texttt{try0} durante 5\,s y Sledgehammer durante 60\,s sobre la meta de cada peldaño, en serie, sin modelo y sin cuaderno. Una línea cuenta solo si el juez la acepta en el kernel. Es el control que separa lo que el modelo aporta de lo que la automatización hace sola: por la formulación, un peldaño que el martillo cierra solo sale de $\T^*$ y no da recompensa.
+
+\begin{table}[H]
+\centering\small
+\input{tablas/linea_base_metodo.tex}
+\caption{Línea base A sin cuaderno, por método. Intervalos exactos al 95\,\%. Corrida \estado{terminada} el 24 de septiembre a las 16:54.}\label{tab:lineabase}
+\fuente{\path{09_unified/resultados/martillo_linea_base.json}; intervalos en \path{resultados/estadistica.json}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\input{tablas/linea_base_dificultad.tex}
+\caption{Línea base A sin cuaderno, por dificultad: cerrados por el martillo sobre peldaños.}\label{tab:lineabase-dif}
+\fuente{Ídem.}
+\end{table}
+
+El martillo solo cierra \AtodosX{} de \AtodosN{} peldaños (IC 95\,\% \AtodosIC): \texttt{pf\_3\_unicidad}, con una sola línea \texttt{smt} de siete hechos. En test no cierra ninguno: \AtestX{} de \AtestN{} (IC 95\,\% \AtestIC). Cada peldaño tardó en promedio \Amedia\,s (entre \Amin{} y \Amax\,s), porque en todos salvo uno Sledgehammer agota sus 60\,s sin encontrar nada. Cinco peldaños de secante se rehicieron bajo \texttt{caffeinate}: en cuatro la máquina se había suspendido durante la búsqueda de Sledgehammer y en el quinto fuera de ella (Sección~\ref{sec:problemas}); el resultado no cambió.
+
+\begin{recuadro}{Relación con H1 (margen)}
+La formulación define H1 sobre el cuaderno congelado $c_{\mathrm{final}}$, y su criterio quedó prerregistrado el 25 de septiembre a las 14:30 (commit \texttt{b9d850f}), antes de construir el cuaderno: \textbf{H1 se cumple si el martillo solo, con el cuaderno congelado, deja sin cerrar al menos 12 de los 16 teoremas de test}. Sin cuaderno quedan sin cerrar los \AtestNoCerrados{} de \AtestN. Ese número no decide H1, porque los lemas del cuaderno pueden darle al martillo lo que le falta; es el punto de partida. H1 se decide en el paso 5 del relanzamiento.
+\end{recuadro}
+
+\section{La primera ronda: qué falta y cuándo}\label{sec:ronda}
+
+\paragraph{Qué pasó el 25 de septiembre.} Se lanzaron en paralelo la construcción del cuaderno (Luna, configuración F) y tres evaluaciones sin cuaderno: B0, B y C con Luna, y las pareadas C3 con Luna y con Sol. Las cuatro se \emph{interrumpieron por error}. Sus datos no estiman ninguna tasa (Sección~\ref{sec:problemas}).
+
+\paragraph{El relanzamiento.} Con el código corregido (commit \texttt{b008480}) y el cuaderno resembrado a su estado inicial, los comandos están en \texttt{09\_unified/RELANZAMIENTO.md}. Hasta el cierre de este informe no se había lanzado nada.
+\begin{enumerate}[nosep]
+\item[1--4.] En paralelo: el cuaderno ($\approx$\,5--6\,h), B0/B/C con Luna ($\approx$\,2\,h) y las pareadas C3 con Luna y con Sol ($\approx$\,1\,h cada una).
+\item[5.] A con el cuaderno congelado, sola y en serie ($\approx$\,20\,min, sin API): decide \textbf{H1}.
+\item[6.] E con Luna, 2 episodios por peldaño: con C, da \textbf{H2}; como el cuaderno se construyó con los métodos de entrenamiento, también \textbf{H3}.
+\item[7.] Las pareadas E3 con Luna y con Sol: E3 de Sol frente a C3 de Sol, con el cuaderno de Luna, da \textbf{H4}.
+\end{enumerate}
+La cota de costo de toda la ronda es \CotaRelanzamiento: llamadas máximas por paso multiplicadas por el costo medio medido por llamada (Luna \MediaLuna, Sol \MediaSol). Antes de los pasos 6 y 7 hay dos decisiones pendientes (Sección~\ref{sec:coherencia}).
+
+\paragraph{Qué puede detectar la prueba prerregistrada.} El estimando principal es $\Delta=p_E-p_C$ sobre $\T^*_{\mathrm{test}}$, con la prueba exacta de McNemar sobre los pares discordantes. La Tabla~\ref{tab:mcnemar} verifica el párrafo de potencia de la formulación: con 5 pares discordantes no se puede rechazar al 5\,\% bilateral; con 6, 7 u 8, solo si todos favorecen a E. Solo se pueden detectar efectos grandes, y así se declara antes de ver los datos.
+
+\begin{table}[H]
+\centering\small
+\input{tablas/mcnemar.tex}
+\caption{Prueba exacta de McNemar, bilateral al 5\,\%: cuántos de los pares discordantes deben favorecer a E para rechazar la hipótesis nula. Es aritmética de la prueba prerregistrada, no un resultado.}\label{tab:mcnemar}
+\fuente{\path{resultados/estadistica.json} (\path{mcnemar_umbrales}).}
+\end{table}
+
+\section{Otros resultados terminados}\label{sec:jueces}
+
+\begin{table}[H]
+\centering\scriptsize
+\input{tablas/jueces.tex}
+\caption{Corridas de los jueces de 09 (23--24 sep), con Luna o Astra en esfuerzo alto y hasta 4 intentos por episodio. Las corridas archivadas (\texttt{runs/\_*}, cada una con su motivo) no se incluyen.}\label{tab:jueces}
+\fuente{\path{resultados/metricas.csv} (desde los \path{attempts.jsonl} de cada corrida).}
+\end{table}
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Grafo de lemas (V\textsubscript{G}).} Luna ordena bien el grafo en \VGx{} de \VGn{} episodios (IC 95\,\% \VGic). El juez es el grafo escrito a mano, así que acepta exactamente lo que su autor consideró válido: la fase 2 de 01--05 no demuestra teoremas.
+\item \textbf{PEP (V\textsubscript{P}).} Solo el primer episodio de cada variante es independiente (Sección~\ref{sec:problemas}). Astra certifica una mejora en \PEPAstraX{} de \PEPAstraN{} variantes (IC 95\,\% \PEPAstraIC) y Luna en \PEPLunaX{} de \PEPLunaN{} (IC 95\,\% \PEPLunaIC). Las mejoras de Astra van de \PEPMejoraMin{} a \PEPMejoraMax{}, con certificado racional exacto, sobre una referencia que es la búsqueda propia de 06 por entropía cruzada, no un óptimo publicado. Lo más probable es que sean un redescubrimiento de las composiciones de Grimmer, Shu y Wang; no se comprobó contra sus tablas.
+\item \textbf{Isabelle sobre el programa de bisección (V\textsubscript{I}).} Luna no hace aceptar el teorema en ninguna de las tres variantes (invariante y variante; con lemas; con lemas y memoria), y Astra tampoco en la de lemas y memoria, la única que corrió. El juez sí puede aceptar (Sección~\ref{sec:tabla1}).
+\item \textbf{Teorema de stepsize en Isabelle.} Luna no cierra ninguno de los cuatro enunciados en 3 episodios de 4 intentos. Con Astra está aprobado y \estado{planeado}.
+\end{itemize}
+
+\section{Costos}\label{sec:costos}
+
+Desde el 25 de septiembre a las 07:24, toda llamada a OpenAI pasa por un libro de gastos que registra sus tokens y su costo, y que aborta la corrida antes de pasarse del tope. Hasta el cierre de este informe van \GastoTotal{} de \GastoTope{} (quedan \GastoRestante), en \GastoLlamadas{} llamadas: Luna \GastoLuna{} en \GastoLunaN{} llamadas y Sol \GastoSol{} en \GastoSolN. De ese gasto, \GastoSinResultado{} fueron a episodios que murieron por los errores del código sin llegar a cerrarse. Las corridas anteriores (06 del 9--10 sep y 09 del 23--24 sep) no registraron tokens: su costo no está medido.
+
+\begin{table}[H]
+\centering\small
+\input{tablas/gasto.tex}
+\caption{Libro de gastos por corrida. La última columna es lo gastado en episodios que no llegaron a cerrarse.}\label{tab:gasto}
+\fuente{\path{09_unified/logs/gasto.json}; los episodios cerrados, en el \path{episodios.jsonl} de cada corrida.}
+\end{table}
+
+\section{Problemas encontrados y cómo se corrigieron}\label{sec:problemas}
+
+\paragraph{1. Los dos errores que interrumpieron las corridas del 25 de septiembre.} \emph{(a)} El caché SQLite del martillo se creaba en el hilo principal, y los episodios lo usaban desde hilos trabajadores. Cada episodio en que el modelo entregó una prueba con pasos marcados \texttt{by martillo} murió en ese intento sin quedar registrado. Como la evaluación solo capturaba los errores del proveedor, cada corrida siguió hasta agotar su lista y solo al final mostró el error. \emph{(b)} La destilación del cuaderno produce errores aprendidos sin el campo \texttt{en\_su\_lugar}, y al guardar el cuaderno la generación de \texttt{errores.md} falló: la construcción se detuvo tras \CuadernoHechos{} de \CuadernoPlan{} episodios y dejó el cuaderno a medio escribir. Se perdieron \PerdidosEval{} de \PlaneadosEval{} episodios de evaluación, y la pérdida no es aleatoria: son justamente los episodios en que el modelo quiso usar el martillo por pasos. Por eso la Tabla~\ref{tab:interrumpidas} da solo conteos, sin intervalos.
+
+\begin{table}[H]
+\centering\small
+\input{tablas/interrumpidas.tex}
+\caption{Corridas \estado{interrumpidas por error} el 25 de septiembre: solo conteos. En el cuaderno, los 26 peldaños sin registro no llegaron a intentarse; en las evaluaciones, todos los trabajos se procesaron y los que faltan murieron por el error. No se deben leer como tasas.}\label{tab:interrumpidas}
+\fuente{El \path{episodios.jsonl} de cada corrida; \path{INTERRUMPIDA.md} en cada carpeta.}
+\end{table}
+
+\emph{Corrección} (commit \texttt{b008480}): la conexión SQLite se comparte entre hilos bajo un candado. Ante cualquier error del código, la evaluación se detiene: no lanza más episodios, deja el motivo con su traza en \texttt{ABORTADA.txt} y sale con código 1. Además, \texttt{errores.md} ahora dibuja también los errores aprendidos. Hay pruebas de regresión, que fallaban antes de corregir, entre ellas una que corre el martillo real desde dos hilos trabajadores; pasan las \PruebasRapidasNueve{} pruebas rápidas y las \PruebasIsabelleNueve{} con Isabelle. Una de estas últimas falló al correrla en una copia aislada, porque escribía bajo \texttt{/private/tmp}, que el aislamiento permite; repetida en el repositorio, pasa. El cuaderno se resembró a su estado inicial exacto (hash \texttt{0b6385c1aed55323}), y el estado en que quedó al fallar está archivado con la corrida.
+
+\paragraph{2. La memoria entre episodios filtró la solución en el PEP.} En los episodios 2 y 3 de cada variante, Astra recibió en su memoria el programa ya certificado del episodio 1 y lo volvió a enviar. Las sucesiones de pasos lo confirman: son idénticas en tres variantes y difieren en menos de $5\cdot10^{-5}$ por paso en las otras dos. Así, los 15 de 15 episodios certificados son 5 descubrimientos independientes y 10 repeticiones. \emph{Corrección:} en el recuento, solo cuenta el primer episodio de cada variante (Sección~\ref{sec:jueces}); en el diseño de la primera ronda, los episodios de evaluación son independientes y comparten solo el cuaderno congelado, como pide la formulación.
+
+\paragraph{3. Los modelos escriben tácticas de Lean en Isabelle.} En los registros de V\textsubscript{I} y del teorema de stepsize hay \LeanTotal{} usos de métodos que no existen en Isabelle: \texttt{nlinarith} \Leannlinarith, \texttt{ring} \Leanring, \texttt{field\_simp} \Leanfieldsimp, \texttt{omega} \Leanomega{} y \texttt{positivity} \Leanpositivity. Son \LeanLuna{} de Luna y \LeanAstra{} de Astra, y hay además 10 nombres de hechos inexistentes. \emph{Mitigación:} un glosario Lean$\to$Isabelle de 25 entradas, comprobado en Isabelle, forma parte del entorno base de todas las configuraciones salvo B0. Su efecto se mide comparando B0 con B, que todavía no tiene datos terminados.
+
+\paragraph{4. La recompensa por fracción de pasos cerrados se descartó.} La formulación la deja solo como métrica, fuera de las reglas de actualización del cuaderno, porque se puede inflar partiendo una prueba en pasos triviales. Es una decisión de diseño, no la respuesta a un caso observado: ninguna corrida usó recompensa con crédito parcial. Por la misma razón, no dan crédito una prueba que es solo \texttt{by martillo} ni una aceptada que sea una sola línea opaca (\texttt{smt} o \texttt{metis} con más de 4 hechos).
+
+\paragraph{5. Infraestructura.} El 24 de septiembre a las 04:44 se agotaron los créditos de OpenAI y la cola nocturna siguió lanzando corridas: 10 corridas del PEP quedaron sin datos, y el episodio 3 de Astra en V\textsubscript{I} se perdió y se repitió después. Desde entonces el bucle aborta ante la falta de créditos, y el libro de gastos pone un tope en dólares. El Mac se suspendió durante 4 peldaños de la línea base, y Sledgehammer, que mide en tiempo de pared, dio falsos \emph{timeouts}. Ahora se compara el tiempo de pared con el monótono y las corridas largas van bajo \texttt{caffeinate}. Otros defectos del protocolo se corrigieron el 23--24 de septiembre y sus corridas quedaron archivadas:
+\begin{itemize}[nosep]
+\item el delimitador \texttt{>{}>{}>} colisionaba con símbolos de Isabelle;
+\item 7 de 36 distractores mostraban la refutación del profesor;
+\item un error del analizador trató \texttt{LEMMAS: <{}<{}<{}>{}>} como lemas;
+\item el programa del PEP podía falsear su certificado por introspección.
+\end{itemize}
+
+\paragraph{6. Pruebas y cifras documentadas.} El CI de GitHub estaba en rojo desde el 17 de septiembre por dos pruebas del 06 que dependían de una referencia vieja. Ya pasan las \PruebasSeis{} (commit \texttt{5a57f46}); falta subir la rama. Se auditaron \AudTotal{} cifras de los README y las notas contra sus registros: \AudSi{} se reproducen, \AudMatiz{} se reproducen con matiz, \AudNo{} no se reproducen y \AudPend{} quedan pendientes (\texttt{resultados/auditoria\_cifras.md}). Entre las que no se reproducen están:
+\begin{itemize}[nosep]
+\item el $\tau$ del README del 06 para $n=6$ (0,020049), superado por el certificado vigente de 0,019665446;
+\item los «19 lemas» de la nota del 08, que son 18;
+\item el $\Lambda$ encontrado para $n=12$ del README del 07 (2,1574), que con la configuración por defecto da 2,16267;
+\item los valores de 8 cifras del README del 07, que no coinciden desde la séptima.
+\end{itemize}
+Las cifras de base que 02, 04 y 05 escriben como texto fijo («Newton puro converge \textasciitilde73\,\%») ahora tienen registro, y se reproducen aproximadamente.
+
+\section{Coherencia entre la formulación y el código}\label{sec:coherencia}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Qué es E.} La formulación define E como «C más el cuaderno congelado», y el cuaderno es $c=(L,E,S)$, con estrategias. En el código y en el plan, E lleva errores y lemas, y las estrategias entran recién en F. \emph{Decisión pendiente antes del paso 6.}
+\item \textbf{$\T^*$ con el cuaderno.} La formulación define $\T^*$ con la teoría $\Theta_c$, que contiene todo $L$. La línea base con cuaderno del código le da al martillo los lemas que E recuperaría para cada peldaño (hasta 8, por relevancia; en test solo cuentan los de alcance general). Si el cuaderno final tiene más de 8 lemas generales, las dos definiciones pueden diferir; se comprobará al congelarlo.
+\item \textbf{Recompensa.} La formulación usa $R=\mathbf{1}[\tau\in\T^*]\cdot Y$. El código registra además $r_V=\rho+\mathbf{1}[\text{aceptada}]$, solo como métrica, con ceros más estrictos (la línea opaca). El resultado principal de la ronda será $Y$.
+\item \textbf{Topes de llamadas por fase.} El libro de gastos suma las llamadas de cada fase de todas las corridas, y las interrumpidas ya consumieron 230 de la fase de evaluación y 44 y 45 de las pareadas. Con los topes aprobados, E y E3 no alcanzan a terminar. \emph{Decisión pendiente}: subir cada tope en lo consumido por las interrumpidas, sin tocar el tope de \GastoTope.
+\end{enumerate}
+
+\section{Pendientes}\label{sec:pendientes}
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Correr el relanzamiento} (\texttt{09\_unified/RELANZAMIENTO.md}): pasos 1--5 sin decisiones pendientes; pasos 6--7 después de decidir los dos puntos de la Sección~\ref{sec:coherencia}. Cota de costo: \CotaRelanzamiento.
+\item \textbf{El informe de resultados}, cuando la ronda termine: tasas por configuración y modelo con sus intervalos, la prueba de McNemar para C frente a E con los conteos $b$ y $b'$, los resultados por dificultad y método, el acuerdo entre los dos episodios de Luna y H1 evaluada primero.
+\item \textbf{Reproducciones con CPU pesada}, sin API, cuando la máquina esté libre: la tabla de la búsqueda del 06 ($n=1\ldots8$) y sus tiempos (\texttt{steprl bench}).
+\item \textbf{Corregir los README}, con los valores medidos de la auditoría, cuando Carlos lo apruebe.
+\item \textbf{Tipografía exacta}: instalar \texttt{courier} y \texttt{zapfchan}, para que este informe y la formulación usen Courier y la matemática completa de \texttt{mathptmx}. En esta máquina la formulación no compila sin ellos.
+\item \textbf{Subir la rama} \texttt{versionar-y-corregir} para que el CI la verifique. El repositorio es público, y las pruebas de referencia privadas quedaron fuera de git.
+\end{itemize}
+
+\appendix
+\section{Procedencia}\label{ap:procedencia}
+
+Datos consolidados en el commit \texttt{\CommitDatos}; tablas generadas en el commit \texttt{\CommitTablas}. Cada fila de \path{resultados/metricas.csv} lleva además su propia fuente, la huella SHA-256 de esa fuente y el código que la produjo. Los registros pesados (\texttt{llamadas.jsonl}) no se versionan y se identifican por su huella.
+
+{\scriptsize\setlength{\tabcolsep}{3pt}
+\input{tablas/procedencia.tex}
+}
+
+\end{document}

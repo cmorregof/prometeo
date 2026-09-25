@@ -10,8 +10,10 @@ ninguna API. Commit de referencia (HEAD): `dcb8f7bc343870eadb7482527fbc7614c3e7f
 
 1. **No hay nada corriendo.** `ps` (12:09) no muestra ningún proceso de Python, Isabelle ni `caffeinate`. La única
    pestaña de la terminal no está ejecutando nada. El Mac arrancó hoy a las 07:09.
-2. **Las cinco corridas de la Etapa 7 del RL verbal (25 sep, 07:32–09:27) se detuvieron por dos errores de código.
-   Ninguna terminó.** La huella actual de `unirl` (`5ef59e25793670fb`, SHA-256 de `unirl/*.py`) coincide con la que
+2. **Las cuatro corridas largas de la Etapa 7 del RL verbal (cuaderno, evaluación B0/B/C y las dos pareadas C3; 25 sep,
+   07:32–09:27) se detuvieron por dos errores de código. Ninguna terminó.** El humo (07:23) y la medición de Sol
+   (3 llamadas, 07:32–07:39) sí terminaron. *(Corregido el 25 sep por la tarde: la primera versión de este inventario
+   decía «cinco».)* La huella actual de `unirl` (`5ef59e25793670fb`, SHA-256 de `unirl/*.py`) coincide con la que
    registran esas corridas, así que los dos errores siguen sin corregir.
    * **Evaluación (B0/B/C de Luna, C3 de Luna y C3 de Sol).** El caché SQLite del martillo se crea en el hilo principal.
      Cuando un episodio corre en un hilo trabajador y el modelo entrega una prueba con marcas `by martillo` que pasan los
