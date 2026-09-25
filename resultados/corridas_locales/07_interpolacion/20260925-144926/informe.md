@@ -1,0 +1,132 @@
+# InterpRL · informe de aprendizaje
+
+Generado: 2026-09-25 14:49 · semilla 1 · tolerancia 1e-05 · tiempo total **7.8 s**
+(fase 1: 7.6 s, fase 2: 0.1 s).
+
+## Síntesis: cómo aprendió
+
+**Fase 1 (interpolación).** El agente elige una familia de nodos (γ = 0 equiespaciados … γ = 1 Chebyshev) y luego decide, nodo a nodo, si sigue o entrega, viendo solo la diferencia entre los dos últimos interpolantes. En sus primeras 100 generaciones acertó el 2 % de las veces. En la generación 80 fijó el criterio de parada: entregar cuando |pₙ − pₙ₋₁| es mucho menor que la tolerancia y va bajando, que es el estimador de error de cualquiera que no conoce f. En la 726 pasó a preferir de forma estable γ = 1, los nodos de Chebyshev: con equiespaciados las funciones tipo Runge empeoran al añadir nodos y el episodio se agota. Valores finales del bandido: Q(γ=0.00) = -13.4 (110 usos), Q(γ=0.25) = -14.1 (95 usos), Q(γ=0.50) = -12.2 (96 usos), Q(γ=0.75) = -9.8 (115 usos), Q(γ=1.00) = -2.8 (2584 usos). Desde la 526 su regla de parada coincide con la teoría en todos los estados bien visitados. Total: 2187 aproximaciones correctas, 792 entregas prematuras y 21 agotadas en 3000 generaciones (7.6 s); media final de 17.4 nodos.
+
+**Fase 2 (demostración).** Los pasos se asentaron en la política en este orden: DEFW (gen 2), H1 (gen 2), H2 (gen 2), CHEB (gen 18), FIX (gen 18), EXIST (gen 19), AUX (gen 21), ZEROS (gen 75), DERIV (gen 100), FORMULA (gen 125), ROLLE (gen 125), BOUND (gen 175), QED (gen 175). El último fue QED (gen 175); la conclusión tiene profundidad 8 (la cadena larga es función auxiliar → ceros → Rolle iterado → fórmula → cota). Primera demostración completa en la generación 186, primera sin saltos lógicos en la 463, primera mínima (13 pasos) en la 463. La política voraz produce la demostración mínima desde la generación 200. Cometió 8195 saltos lógicos, 3497 con distractores: «más nodos ⇒ menos error» fue intentado 443 veces, «f continua ⇒ pₙ → f» 446, el non sequitur de Weierstrass 434 y la confusión con el resto de Taylor 438; todos quedaron descartados. Total: 2782 demostraciones completas y 1690 mínimas en 3000 generaciones (0.1 s).
+
+**Lectura.** En la práctica, el agente descubrió que dónde se ponen los nodos importa más que cuántos: con nodos equiespaciados hay funciones para las que añadir nodos empeora (Runge), y con los de Chebyshev el error baja geométricamente. En la teoría, aprendió que el error es f⁽ⁿ⁺¹⁾(ξ)·w(x)/(n+1)! y que el único factor que los nodos controlan es máx|w|, que Chebyshev minimiza. Lo que la teoría clásica no da es el conjunto de nodos que minimiza la constante de Lebesgue: eso es la fase 3 (`python -m interprl search`), donde no hay grafo sino un verificador. Tiempo total: 7.8 s.
+
+## Demostración final (política voraz, sin exploración)
+
+**Teorema (error de interpolación).** Sea f ∈ Cⁿ⁺¹[a, b] y pₙ el interpolante en n + 1 nodos distintos. Para cada x existe ξ con
+f(x) − pₙ(x) = f⁽ⁿ⁺¹⁾(ξ)·w(x)/(n+1)!, w(t) = ∏(t − xᵢ). Con nodos de Chebyshev en [−1, 1], máx|w| = 2⁻ⁿ es mínimo.
+
+1. **Hipótesis 2** (H2). x₀ < x₁ < … < xₙ son n + 1 nodos distintos en [a, b].
+2. **Hipótesis 1** (H1). f ∈ Cⁿ⁺¹[a, b].
+3. **Polinomio nodal** (DEFW). w(t) = ∏ᵢ₌₀ⁿ (t − xᵢ) tiene grado n + 1, coeficiente principal 1 y w⁽ⁿ⁺¹⁾ ≡ (n + 1)!.
+4. **Existencia y unicidad** (EXIST). Existe un único pₙ de grado ≤ n con pₙ(xᵢ) = f(xᵢ): la base de Lagrange ℓᵢ lo construye y dos soluciones difieren en un polinomio de grado ≤ n con n + 1 ceros, luego nulo.
+5. **Fijar x** (FIX). Sea x ∈ [a, b] distinto de todos los nodos (si x = xᵢ ambos lados de la fórmula son 0). Entonces w(x) ≠ 0.
+6. **Minimalidad de Chebyshev** (CHEB). En [−1, 1], entre todos los polinomios mónicos de grado n + 1, Tₙ₊₁/2ⁿ tiene la menor norma uniforme, 2⁻ⁿ; sus ceros son los nodos de Chebyshev y con ellos máx|w| = 2⁻ⁿ.
+7. **Función auxiliar** (AUX). Sea g(t) = f(t) − pₙ(t) − [f(x) − pₙ(x)]·w(t)/w(x). Por H1, g ∈ Cⁿ⁺¹[a, b].
+8. **n + 2 ceros** (ZEROS). g se anula en los n + 1 nodos (allí f = pₙ y w = 0) y en x (por construcción): n + 2 ceros distintos.
+9. **Derivada n + 1** (DERIV). pₙ⁽ⁿ⁺¹⁾ ≡ 0 (grado ≤ n) y w⁽ⁿ⁺¹⁾ ≡ (n + 1)!, luego g⁽ⁿ⁺¹⁾(t) = f⁽ⁿ⁺¹⁾(t) − [f(x) − pₙ(x)]·(n + 1)!/w(x).
+10. **Rolle iterado** (ROLLE). Entre dos ceros consecutivos de g hay un cero de g′ (Rolle): g′ tiene ≥ n + 1 ceros, g″ ≥ n, …, g⁽ⁿ⁺¹⁾ tiene al menos un cero ξ ∈ (a, b).
+11. **Fórmula del error** (FORMULA). Evaluando en ξ: 0 = f⁽ⁿ⁺¹⁾(ξ) − [f(x) − pₙ(x)]·(n + 1)!/w(x), es decir f(x) − pₙ(x) = f⁽ⁿ⁺¹⁾(ξ)·w(x)/(n + 1)!.
+12. **Cota uniforme** (BOUND). Con M = máx|f⁽ⁿ⁺¹⁾|: máx_{[a,b]} |f − pₙ| ≤ M · máx|w| / (n + 1)!. El único factor que depende de los nodos es máx|w|.
+13. **Conclusión** (QED). Con nodos de Chebyshev, máx|f − pₙ| ≤ M / (2ⁿ (n + 1)!), y ninguna otra elección de nodos mejora el factor máx|w|. ∎
+
+## Fase 1 · familia de nodos aprendida
+
+| γ | Q(γ) = retorno medio del episodio | usos | mejor |
+|---|---|---|---|
+| 0.00 | -13.43 | 110 |  |
+| 0.25 | -14.09 | 95 |  |
+| 0.50 | -12.18 | 96 |  |
+| 0.75 | -9.77 | 115 |  |
+| 1.00 | -2.84 | 2584 | ★ |
+
+γ = 0 son nodos equiespaciados; γ = 1, Chebyshev–Lobatto. Por qué gana Chebyshev, en números (independientes del agente):
+
+| n | Λ equiespaciados | Λ Chebyshev | máx\|w\| equiespaciados | máx\|w\| Chebyshev |
+|---|---|---|---|---|
+| 4 | 2.208 | 1.799 | 1.13e-01 | 1.16e-01 |
+| 8 | 10.946 | 2.275 | 1.88e-02 | 7.66e-03 |
+| 12 | 89.325 | 2.539 | 4.01e-03 | 4.84e-04 |
+| 16 | 934.534 | 2.725 | 9.43e-04 | 3.04e-05 |
+| 24 | 137851.979 | 2.984 | 5.98e-05 | 1.19e-07 |
+
+## Fase 1 · regla de parada aprendida (9/9 estados bien visitados coinciden con la teoría)
+
+Acciones: `+` añadir un nodo, `■` parar y entregar. Estimador: est = máx|pₙ − pₙ₋₁| / escala.
+
+| estimador | tendencia | n | acción aprendida | teoría | |
+|---|---|---|---|---|---|
+| est<tol/100 | baja | n ≤ 6 | ? | ■ | — |
+| est<tol/100 | sube | n ≤ 6 | ? | ■/+ | — |
+| tol/100–tol | baja | n ≤ 6 | ■ | ■/+ | ✔ |
+| tol/100–tol | sube | n ≤ 6 | ? | + | — |
+| tol–100tol | baja | n ≤ 6 | + | + | ✔ |
+| tol–100tol | sube | n ≤ 6 | + | + | ✔ |
+| est≥100tol | baja | n ≤ 6 | + | + | ✔ |
+| est≥100tol | sube | n ≤ 6 | + | + | ✔ |
+| est<tol/100 | baja | n > 6 | ■ | ■ | ✔ |
+| est<tol/100 | sube | n > 6 | ? | ■/+ | — |
+| tol/100–tol | baja | n > 6 | ■ | ■/+ | ✔ |
+| tol/100–tol | sube | n > 6 | ■ | + | ✘ |
+| tol–100tol | baja | n > 6 | + | + | ✔ |
+| tol–100tol | sube | n > 6 | + | + | ✔ |
+| est≥100tol | baja | n > 6 | + | + | ✔ |
+| est≥100tol | sube | n > 6 | + | + | ✔ |
+
+Aproximaciones correctas: 2187 · entregas prematuras: 792 · agotadas: 21
+· éxito final (100 últimas): 89 % · nodos medios: 17.4
+
+## Fase 2 · orden en que se asentó cada paso
+
+| paso | título | profundidad | 1ª vez válido (gen) | entra en política voraz (gen) | usos |
+|---|---|---|---|---|---|
+| H1 | Hipótesis 1 | 0 | 1 | 2 | 2782 |
+| H2 | Hipótesis 2 | 0 | 1 | 2 | 2782 |
+| DEFW | Polinomio nodal | 1 | 2 | 2 | 2782 |
+| FIX | Fijar x | 2 | 6 | 18 | 2782 |
+| CHEB | Minimalidad de Chebyshev | 2 | 3 | 18 | 2782 |
+| EXIST | Existencia y unicidad | 1 | 2 | 19 | 2782 |
+| AUX | Función auxiliar | 3 | 63 | 21 | 2782 |
+| ZEROS | n + 2 ceros | 4 | 81 | 75 | 2782 |
+| DERIV | Derivada n + 1 | 4 | 66 | 100 | 2782 |
+| ROLLE | Rolle iterado | 5 | 94 | 125 | 2782 |
+| FORMULA | Fórmula del error | 6 | 128 | 125 | 2782 |
+| BOUND | Cota uniforme | 7 | 128 | 175 | 2782 |
+| QED | Conclusión | 8 | — | 175 | 2782 |
+
+Saltos lógicos más frecuentes:
+
+| paso | tipo | intentos inválidos |
+|---|---|---|
+| D_NEWTON | Distractor | 463 |
+| D_CONT | Distractor | 446 |
+| D_MORE | Distractor | 443 |
+| D_TAYLOR | Distractor | 438 |
+| D_WEIER | Non sequitur | 434 |
+| D_EQUI | Distractor | 429 |
+| D_BEST | Distractor | 428 |
+| FORMULA | Fórmula del error | 427 |
+
+Demostraciones completas: 2782 · mínimas: 1690 · mejor retorno: +13.50 (gen 463).
+
+## Fase 3 · lo que la teoría no da
+
+El teorema dice que Chebyshev minimiza máx|w|, pero no qué nodos minimizan la constante de Lebesgue Λ (la amplificación
+del error en los datos). Eso solo se conoce numéricamente. `python -m interprl search --n 8` busca nodos con Λ menor que
+la de Chebyshev extendido usando el verificador `lebesgue_constant`, y `verify` recalcula el resultado con otra malla.
+
+## Bitácora de hitos
+
+| fase | generación | tiempo | hito |
+|---|---|---|---|
+| 1 | 80 | 0.0 s | primera aproximación correcta: sin(3.3x+1.6) con n = 15 (γ = 1.0); óptimo con Chebyshev n = 10 |
+| 1 | 80 | 0.0 s | descubrió el criterio de parada: entregar cuando |pₙ − pₙ₋₁| ≪ tol y va bajando |
+| 1 | 526 | 0.6 s | su regla coincide con la teoría en los 8 estados visitados (estable 100 gen.) |
+| 1 | 726 | 1.0 s | prefiere γ = 1 de forma estable: nodos de Chebyshev (Q = -3.3 frente a -11.0 con equiespaciados) |
+| 1 | 3000 | 7.6 s | fase 1 terminada: 2187 aproximaciones correctas, 792 entregas prematuras, 21 agotadas |
+| 2 | 1 | 7.6 s | primer paso válido: Hipótesis 2 (H2) |
+| 2 | 186 | 7.6 s | ¡primera demostración completa! 13 pasos, 15 saltos lógicos |
+| 2 | 200 | 7.6 s | la política voraz (sin exploración) ya produce la demostración mínima |
+| 2 | 463 | 7.6 s | primera demostración sin ningún salto lógico |
+| 2 | 463 | 7.6 s | primera demostración mínima (13 pasos, sin desvíos) |
+| 2 | 3000 | 7.7 s | fase 2 terminada: 2782 demostraciones completas, 1690 mínimas |

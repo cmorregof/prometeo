@@ -1,0 +1,10 @@
+n = 4 · 0.8 s
+  chebyshev_lobatto      Λ = 1.79876180
+  chebyshev_extendido    Λ = 1.57016749
+  encontrado             Λ = 1.55949021  ratio = 0.993200  bate la referencia ✔
+  nodos: -1.000000, -0.620911, +0.000000, +0.620911, +1.000000
+  guardado en 
+/Users/cmorregof/Personal/rl_metodos/resultados/corridas_locales/07_interpolacio
+n/20260925-144934/busqueda_n4.json  ·  comprobar con: python -m interprl verify 
+/Users/cmorregof/Personal/rl_metodos/resultados/corridas_locales/07_interpolacio
+n/20260925-144934/busqueda_n4.json

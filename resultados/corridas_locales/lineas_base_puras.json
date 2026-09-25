@@ -1,0 +1,70 @@
+{
+ "semilla": 0,
+ "problemas": 3000,
+ "resultados": [
+  {
+   "proyecto": "02_punto_fijo",
+   "estrategia": "α fijo (siempre «mantener α»)",
+   "problemas": 3000,
+   "convergen": 993,
+   "tasa": 0.331,
+   "n_iter_media_si_converge": 18.01,
+   "finales": {
+    "diverged": 949,
+    "timeout": 1058,
+    "converged": 993
+   }
+  },
+  {
+   "proyecto": "04_newton",
+   "estrategia": "Newton puro (siempre «paso completo λ=1»)",
+   "problemas": 3000,
+   "convergen": 2231,
+   "tasa": 0.7437,
+   "n_evals_media_si_converge": 7.04,
+   "finales": {
+    "converged": 2231,
+    "diverged": 615,
+    "timeout": 121,
+    "derivative_zero": 33
+   }
+  },
+  {
+   "proyecto": "05_secante",
+   "estrategia": "secante pura (siempre «secante por los dos últimos puntos»)",
+   "problemas": 3000,
+   "convergen": 2027,
+   "tasa": 0.6757,
+   "n_evals_media_si_converge": 10.81,
+   "finales": {
+    "timeout": 849,
+    "converged": 2027,
+    "diverged": 106,
+    "undefined": 18
+   }
+  },
+  {
+   "proyecto": "05_secante",
+   "estrategia": "regula falsi pura (siempre «regula falsi por los extremos del corchete»)",
+   "problemas": 3000,
+   "convergen": 1888,
+   "tasa": 0.6293,
+   "n_evals_media_si_converge": 21.45,
+   "finales": {
+    "converged": 1888,
+    "timeout": 1112
+   }
+  },
+  {
+   "proyecto": "05_secante",
+   "estrategia": "bisección pura (siempre «bisección del corchete»)",
+   "problemas": 3000,
+   "convergen": 3000,
+   "tasa": 1.0,
+   "n_evals_media_si_converge": 31.7,
+   "finales": {
+    "converged": 3000
+   }
+  }
+ ]
+}

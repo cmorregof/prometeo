@@ -1,0 +1,118 @@
+# SecantRL · informe de aprendizaje
+
+Generado: 2026-09-25 14:49 · semilla 0 · tolerancia 1e-09 · tiempo total **0.3 s**
+(fase 1: 0.1 s, fase 2: 0.1 s).
+
+## Síntesis: cómo aprendió
+
+**Fase 1 (secante con salvaguardas).** El agente conoce el paso de la secante pero no cuándo fiarse de él. Solo observa la reducción del residuo ρ = |f(xₙ)|/|f(xₙ₋₁)| y si el punto que propone la secante cae dentro del corchete con cambio de signo, y elige entre secante (dos últimos puntos), regula falsi (extremos del corchete) o bisección. En las primeras 100 generaciones convergió el 100 % de las veces (en este banco la secante pura converge ~69 %: ∛x oscila, x·e^(−x²) dispara puntos lejos, ln x cae fuera del dominio; la regula falsi pura ~63 % porque un extremo se estanca; la bisección siempre, pero con ~32 evaluaciones). En la generación 26 fijó que, cuando la secante cae dentro del corchete y el residuo baja, el paso de secante es el mejor: es el régimen superlineal. En la 70 aprendió a no fiarse de la secante cuando se sale del corchete y volver a él (bisecar): la salvaguarda de Dekker que hereda de la bisección del proyecto 01. Desde la 147 la mediana del orden de convergencia observado en sus rachas de secante es ≈ 1.60: φ = (1+√5)/2 ≈ 1.618, superlineal pero no cuadrático, tal como predice el teorema. Por familias, la mediana del orden va de 1.48 en x·e^{−x²} a 1.98 en ∛x. En la 1201 su ley quedó estable: coincide con Dekker en 6/7 estados bien visitados (ρ<0.05 secante dentro → secante por los dos últimos puntos; 0.05–0.5 secante dentro → secante por los dos últimos puntos; 0.5–1 secante dentro → secante por los dos últimos puntos; ρ≥1 secante dentro → regula falsi por los extremos del corchete; 0.05–0.5 secante fuera → bisección del corchete; 0.5–1 secante fuera → bisección del corchete; ρ≥1 secante fuera → bisección del corchete). Y descubrió un matiz que la regla no contempla (gen 636): si la secante cae dentro del corchete, seguirla aunque el residuo apenas baje sale más barato que bisecar, porque bisecar tira el punto actual (0.5–1 secante dentro). La regula falsi la reserva para el refugio (21 % de sus acciones) y casi nunca la encadena: solo el 1 % de esos pasos sigue a otro. Desde la generación 100 converge en ≥ 95 % de los casos. Total: 2996 convergencias, 4 divergencias y 0 episodios agotados en 3000 generaciones (0.1 s); media final de 10.2 evaluaciones por convergencia.
+
+**Fase 2 (demostración).** Los pasos se asentaron en la política en este orden: H1 (gen 6), INTERP (gen 9), NBHD (gen 14), DEF (gen 16), ERRID (gen 16), MVT (gen 16), PROD (gen 75), DELTA (gen 100), CONV (gen 125), FIB (gen 125), INV (gen 125), ORDER (gen 175), QED (gen 175). El último fue QED (gen 175); la conclusión tiene profundidad 9. Primera demostración completa en la generación 188, primera sin saltos lógicos en la 405, primera mínima (13 pasos) en la 405. La política voraz produce la demostración mínima desde la generación 175. Cometió 8218 saltos lógicos, 3237 con distractores: «es Newton con la derivada aproximada, luego cuadrático» fue intentado 390 veces, «es un punto fijo, luego lineal» 433 veces, «los puntos encierran la raíz, luego (b−a)/2ⁿ» 407 veces y el non sequitur de Bolzano 413 veces; todos quedaron descartados. Total: 2793 demostraciones completas y 1682 mínimas en 3000 generaciones (0.1 s).
+
+**Lectura.** Las dos fases se explican mutuamente. El teorema dice que la secante es superlineal de orden φ *cerca* de una raíz simple: la identidad del error sale de la forma de Newton del interpolante (diferencias divididas, el papel que en Newton hacía el resto de Lagrange), la cota es un producto |eₙ|·|eₙ₋₁| en vez de un cuadrado, y de ahí la recurrencia de Fibonacci y p² = p + 1. La fase 1 muestra los dos lados: dentro del corchete el agente encadena secantes y ve el orden ≈ 1.60; cuando la secante se sale (arctan con corchete asimétrico, ∛x, ln x) el paso destruye la convergencia y hace falta el corchete. Y de paso descubre por qué la regula falsi no es un método sino un refugio: un paso por los extremos es un buen paso de interpolación, encadenarlos es lineal. Tiempo total: 0.3 s.
+
+## Demostración final (política voraz, sin exploración)
+
+**Teorema (convergencia local de orden φ de la secante).** Sea f ∈ C² en un entorno de r con f(r) = 0 y f'(r) ≠ 0. Existe δ > 0 tal
+que para todo par x₀ ≠ x₁ con |xᵢ − r| ≤ δ la sucesión xₙ₊₁ = xₙ − f(xₙ)(xₙ − xₙ₋₁)/(f(xₙ) − f(xₙ₋₁)) converge a r,
+|xₙ₊₁ − r| ≤ (M/2m)·|xₙ − r|·|xₙ₋₁ − r|, y el orden de convergencia es φ = (1 + √5)/2 ≈ 1.618.
+
+1. **Hipótesis** (H1). f ∈ C² en un entorno de r, f(r) = 0 y f'(r) ≠ 0 (raíz simple).
+2. **Forma de Newton** (INTERP). Con diferencias divididas, para todo x: f(x) = f(xₙ) + f[xₙ₋₁, xₙ](x − xₙ) + f[xₙ₋₁, xₙ, x](x − xₙ)(x − xₙ₋₁). En x = r el lado izquierdo es 0.
+3. **Entorno seguro** (NBHD). Por continuidad de f' y f'' existe δ₀ > 0 con |f'(x)| ≥ m > 0 y |f''(x)| ≤ M en I = [r − δ₀, r + δ₀].
+4. **Definición** (DEF). Para xₙ ≠ xₙ₋₁ en I, f(xₙ) ≠ f(xₙ₋₁) (f es inyectiva en I porque f' ≠ 0), luego el paso de la secante xₙ₊₁ = xₙ − f(xₙ)(xₙ − xₙ₋₁)/(f(xₙ) − f(xₙ₋₁)) está bien definido.
+5. **Identidad del error** (ERRID). Dividiendo por f[xₙ₋₁, xₙ] y usando la definición: r − xₙ₊₁ = −(f[xₙ₋₁, xₙ, r] / f[xₙ₋₁, xₙ]) · (r − xₙ)(r − xₙ₋₁).
+6. **Valor medio** (MVT). Si xₙ₋₁, xₙ ∈ I: f[xₙ₋₁, xₙ] = f'(ξₙ) con |f'(ξₙ)| ≥ m, y f[xₙ₋₁, xₙ, r] = ½f''(ηₙ) con |f''(ηₙ)| ≤ M (Rolle iterado, como en el resto de Lagrange).
+7. **Cota producto** (PROD). Con eₙ = xₙ − r: |eₙ₊₁| ≤ (M / 2m)·|eₙ|·|eₙ₋₁| =: C·|eₙ|·|eₙ₋₁| mientras xₙ₋₁, xₙ ∈ I.
+8. **Elección de δ** (DELTA). Tómese δ ≤ δ₀ con C·δ < 1. Si |e₀|, |e₁| ≤ δ entonces |e₂| ≤ C·|e₁|·|e₀| ≤ (C·δ)·|e₁| < δ.
+9. **Invariante** (INV). Por inducción xₙ ∈ [r − δ, r + δ] para todo n y |eₙ₊₁| ≤ (C·δ)·|eₙ|.
+10. **Convergencia** (CONV). |eₙ| ≤ (C·δ)ⁿ⁻¹·|e₁| → 0 porque C·δ < 1, luego xₙ → r.
+11. **Fibonacci** (FIB). Sea dₙ = C·|eₙ| ≤ d := C·δ < 1. De la cota producto, dₙ₊₁ ≤ dₙ·dₙ₋₁, luego dₙ ≤ d^{Fₙ} con Fₙ los números de Fibonacci (F₀ = F₁ = 1).
+12. **Orden φ** (ORDER). Si |eₙ₊₁| ~ K·|eₙ|ᵖ, la cota producto da p = 1 + 1/p, es decir p² = p + 1: p = φ = (1 + √5)/2 ≈ 1.618 (= lím Fₙ₊₁/Fₙ). Superlineal, pero no cuadrático.
+13. **Conclusión** (QED). La secante converge a r desde todo par x₀, x₁ con |xᵢ − r| ≤ δ, con orden φ ≈ 1.618. ∎
+
+## Fase 1 · ley de control aprendida (6/7 estados coinciden con Dekker; orden observado 1.60, φ = 1.618)
+
+Acciones: `sec` secante por los dos últimos puntos, `rf` regula falsi por los extremos del corchete, `bis` bisección.
+Uso total: sec: 16995 · rf: 5685 · bis: 5035.
+
+| ρ = |f(xₙ)|/|f(xₙ₋₁)| | la secante cae | acción aprendida | Dekker | | visitas |
+|---|---|---|---|---|---|
+| ρ<0.05 | dentro | sec | sec | ✔ | 5574 |
+| 0.05–0.5 | dentro | sec | sec | ✔ | 7260 |
+| 0.5–1 | dentro | sec | bis/rf | ✘ (matiz) | 4177 |
+| ρ≥1 | dentro | rf | bis/rf | ✔ | 4064 |
+| ρ<0.05 | fuera | bis | bis/rf | ✔ | 5 |
+| 0.05–0.5 | fuera | bis | bis/rf | ✔ | 317 |
+| 0.5–1 | fuera | bis | bis/rf | ✔ | 2793 |
+| ρ≥1 | fuera | bis | bis/rf | ✔ | 525 |
+
+Convergencias: 2996 · divergencias: 4 · agotadas: 0
+· éxito final (100 últimas): 100 % · evaluaciones medias: 10.2
+· pasos de regula falsi encadenados (100 últimas): 1 %
+
+Orden de convergencia observado por familia (mediana de las rachas de secante al converger):
+
+| familia | rachas | orden |
+|---|---|---|
+| eˣ − c | 292 | 1.62 |
+| x³ − 2x + 2 | 287 | 1.62 |
+| ln x − 1 | 280 | 1.61 |
+| x³ − x − 1 | 280 | 1.61 |
+| cúbica con un par complejo | 272 | 1.62 |
+| x·e^{−x²} | 226 | 1.48 |
+| xᵏ + x/8 | 219 | 1.55 |
+| arctan x | 211 | 1.62 |
+| ∛x | 14 | 1.98 |
+
+## Fase 2 · orden en que se asentó cada paso
+
+| paso | título | profundidad | 1ª vez válido (gen) | entra en política voraz (gen) | usos |
+|---|---|---|---|---|---|
+| H1 | Hipótesis | 0 | 1 | 6 | 2793 |
+| INTERP | Forma de Newton | 1 | 1 | 9 | 2793 |
+| NBHD | Entorno seguro | 1 | 2 | 14 | 2793 |
+| DEF | Definición | 2 | 2 | 16 | 2793 |
+| MVT | Valor medio | 2 | 2 | 16 | 2793 |
+| ERRID | Identidad del error | 3 | 33 | 16 | 2793 |
+| PROD | Cota producto | 4 | 50 | 75 | 2793 |
+| DELTA | Elección de δ | 5 | 75 | 100 | 2793 |
+| INV | Invariante | 6 | 87 | 125 | 2793 |
+| FIB | Fibonacci | 6 | 81 | 125 | 2793 |
+| CONV | Convergencia | 7 | 98 | 125 | 2793 |
+| ORDER | Orden φ | 8 | 148 | 175 | 2793 |
+| QED | Conclusión | 9 | — | 175 | 2793 |
+
+Saltos lógicos más frecuentes:
+
+| paso | tipo | intentos inválidos |
+|---|---|---|
+| D_FIXPT | Falso | 433 |
+| D_MULT | Falso | 421 |
+| D_BOLZ | Non sequitur | 413 |
+| INV | Invariante | 412 |
+| QED | Conclusión | 411 |
+| ERRID | Identidad del error | 409 |
+| D_BRACKET | Otro método | 407 |
+| CONV | Convergencia | 405 |
+
+Demostraciones completas: 2793 · mínimas: 1682 · mejor retorno: +13.50 (gen 405).
+
+## Bitácora de hitos
+
+| fase | generación | tiempo | hito |
+|---|---|---|---|
+| 1 | 1 | 0.0 s | primera convergencia: x·e^{−x²} en [-2.43, 1.09] con 9 evaluaciones |
+| 1 | 26 | 0.0 s | aprendió que cuando la secante cae dentro del corchete y el residuo baja, el paso de secante es el mejor (régimen superlineal) |
+| 1 | 70 | 0.0 s | aprendió a no fiarse de la secante cuando se sale del corchete y volver a él (bisecar o un paso de regula falsi según el residuo): método de Dekker |
+| 1 | 100 | 0.0 s | ≥95 % de convergencia en las últimas 100 generaciones (secante pura: ~69 %, regula falsi: ~63 %) |
+| 1 | 147 | 0.0 s | orden de convergencia observado ≈ 1.61 (mediana): φ = (1+√5)/2 ≈ 1.618, superlineal pero no cuadrático |
+| 1 | 636 | 0.0 s | matiz que Dekker no contempla: si la secante cae dentro del corchete, seguirla aunque el residuo apenas baje sale más barato que bisecar (bisecar tira el punto actual) |
+| 1 | 1201 | 0.1 s | ley estable 200 gen.: coincide con Dekker en 6/7 estados; discrepa en: 0.5–1 secante dentro → sec |
+| 1 | 3000 | 0.1 s | fase 1 terminada: 2996 convergencias, 4 divergencias, 0 agotadas |
+| 2 | 1 | 0.1 s | primer paso válido: Hipótesis (H1) |
+| 2 | 175 | 0.2 s | la política voraz (sin exploración) ya produce la demostración mínima |
+| 2 | 188 | 0.2 s | ¡primera demostración completa! 13 pasos, 17 saltos lógicos |
+| 2 | 405 | 0.2 s | primera demostración sin ningún salto lógico |
+| 2 | 405 | 0.2 s | primera demostración mínima (13 pasos, sin desvíos) |
+| 2 | 3000 | 0.3 s | fase 2 terminada: 2793 demostraciones completas, 1682 mínimas |

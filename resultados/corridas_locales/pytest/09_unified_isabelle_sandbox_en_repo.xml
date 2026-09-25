@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="7.109" timestamp="2026-09-25T14:48:06.520845-05:00" hostname="MacBook-Air-de-Carlos.local"><testcase classname="tests.test_juez_teorema" name="test_isabelle_sandbox_no_escribe_fuera" time="7.097" /></testsuite></testsuites>

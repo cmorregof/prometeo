@@ -1,0 +1,177 @@
+                       BisectRL · informe de aprendizaje                        
+
+Generado: 2026-09-25 14:51 · semilla 0 · tolerancia 0.001 · tiempo total 0.3 s  
+(fase 1: 0.1 s, fase 2: 0.1 s).                                                 
+
+Síntesis: cómo aprendió                                                         
+
+Fase 1 (bisección). En las primeras 100 generaciones el agente convergió solo 6 
+veces: cortaba en fracciones arbitrarias y con frecuencia conservaba el         
+subintervalo equivocado, perdiendo la raíz. En la generación 305 su regla de    
+conservación quedó fijada: guardar siempre el lado donde f cambia de signo, que 
+es exactamente el invariante f(aₙ)·f(bₙ) ≤ 0 de la demostración. En la          
+generación 343 el corte λ = 1/2 pasó a ser, de forma estable, el de mayor valor 
+(Q = +0.000 frente a -0.049 de sus vecinos 0.4 y 0.6): el agente redescubrió que
+el punto medio maximiza el progreso esperado por evaluación, es decir, el método
+de bisección. Desde la generación 475 converge en ≥ 95 % de los casos. Total:   
+2818 convergencias y 182 raíces perdidas en 3000 generaciones (0.1 s).          
+
+Fase 2 (demostración). Los primeros pasos válidos fueron las hipótesis, que no  
+dependen de nada; después el agente fue asentando lemas en el orden en que sus  
+dependencias quedaban disponibles: H2 (gen 1), H1 (gen 2), DEF (gen 5), WIDTH   
+(gen 5), CONV_A (gen 6), CONV_B (gen 6), INV (gen 6), MONO_A (gen 6), MONO_B    
+(gen 6), SAME (gen 250), CONT (gen 275), ROOT (gen 275), MID (gen 325), QED (gen
+325). El último paso en entrar en la política fue QED (gen 325); el paso más    
+profundo del grafo de dependencias es QED (profundidad 7), lo que explica por   
+qué la conclusión se aprende al final: su valor solo se propaga hacia atrás una 
+vez que la cadena completa ha sido recorrida. La primera demostración completa  
+apareció en la generación 303, la primera sin saltos lógicos en la 435, y la    
+primera mínima (14 pasos) en la 435. La política voraz produce la demostración  
+mínima desde la generación 375. En total cometió 9682 saltos lógicos, 3593 de   
+ellos con lemas distractores; el non sequitur «por Bolzano existe raíz, luego el
+método converge» fue intentado 536 veces y quedó descartado por su recompensa   
+negativa. Total: 2672 demostraciones completas y 1686 mínimas en 3000           
+generaciones (0.1 s).                                                           
+
+Lectura. Nada del método ni de la demostración estaba programado como regla:    
+solo la recompensa (progreso por evaluación, penalización por perder el cambio  
+de signo, coste por línea y bono por ∎) y un verificador de dependencias. Con   
+eso, una tabla Q descubrió el punto medio, el invariante de Bolzano y el orden  
+lógico monotonía → convergencia → mismo límite → continuidad → raíz → cota → ∎. 
+Tiempo total: 0.3 s.                                                            
+
+Demostración final (política voraz, sin exploración)                            
+
+Teorema. Sea f continua en [a, b] con f(a)·f(b) < 0. Las sucesiones de la       
+bisección satisfacen mₙ → c con f(c) = 0 y |mₙ − c| ≤ (b − a)/2ⁿ⁺¹.             
+
+  1 Hipótesis 2 (H2). f(a) · f(b) < 0 (cambio de signo).                        
+  2 Definición (DEF). Sea a₀ = a, b₀ = b, mₙ = (aₙ + bₙ)/2. Si f(aₙ)·f(mₙ) ≤ 0  
+    tomar [aₙ₊₁, bₙ₊₁] = [aₙ, mₙ]; si no, [mₙ, bₙ].                             
+  3 Monotonía de aₙ (MONO_A). (aₙ) es no decreciente y acotada superiormente por
+    b.                                                                          
+  4 Longitud (WIDTH). Cada paso divide la longitud a la mitad: bₙ − aₙ = (b − a)
+    / 2ⁿ.                                                                       
+  5 Monotonía de bₙ (MONO_B). (bₙ) es no creciente y acotada inferiormente por  
+    a.                                                                          
+  6 Convergencia de bₙ (CONV_B). Análogamente bₙ → β.                           
+  7 Invariante (INV). Por inducción sobre n: f(aₙ) · f(bₙ) ≤ 0 para todo n (el  
+    cambio de signo nunca se pierde).                                           
+  8 Convergencia de aₙ (CONV_A). Toda sucesión monótona y acotada converge: aₙ →
+    α.                                                                          
+  9 Hipótesis 1 (H1). f es continua en [a, b].                                  
+ 10 Mismo límite (SAME). β − α = lim (bₙ − aₙ) = lim (b − a)/2ⁿ = 0, luego α = β
+    =: c.                                                                       
+ 11 Continuidad (CONT). Por continuidad de f: f(aₙ) · f(bₙ) → f(c) · f(c) =     
+    f(c)².                                                                      
+ 12 Raíz (ROOT). El límite de una sucesión ≤ 0 es ≤ 0: f(c)² ≤ 0, así que f(c) =
+    0.                                                                          
+ 13 Cota de error (MID). c ∈ [aₙ, bₙ] para todo n, luego |mₙ − c| ≤ (bₙ − aₙ)/2 
+    = (b − a)/2ⁿ⁺¹.                                                             
+ 14 Conclusión (QED). Por tanto mₙ → c, f(c) = 0 y el error decrece             
+    geométricamente. ∎                                                          
+
+Fase 1 · política de corte aprendida                                            
+
+                                       
+ λ    Q(λ) = progreso medio − 1  mejor 
+ ───────────────────────────────────── 
+ 0.1  -0.550                           
+ 0.2  -0.272                           
+ 0.3  -0.134                           
+ 0.4  -0.055                           
+ 0.5  +0.000                     ★     
+ 0.6  -0.043                           
+ 0.7  -0.124                           
+ 0.8  -0.323                           
+ 0.9  -0.544                           
+                                       
+
+Regla de conservación (signos de f(a), f(x), f(b) → lado conservado):           
+
+                                                
+ signos     lado  ¿preserva el cambio de signo? 
+ ────────────────────────────────────────────── 
+ (−, −, +)  der   ✔                             
+ (−, +, +)  izq   ✔                             
+ (+, −, −)  izq   ✔                             
+ (+, +, −)  der   ✔                             
+                                                
+
+Convergencias: 2818 · raíces perdidas: 182 · éxito final (100 últimas): 100 % · 
+iteraciones / óptimo (100 últimas): 1.07                                        
+
+Fase 2 · orden en que se asentó cada paso                                       
+
+                                                                                
+                                                   entra en                     
+                                    1ª vez válido  política      usos en        
+ paso    título        profundidad  (gen)          voraz (gen)   demostraciones 
+ ────────────────────────────────────────────────────────────────────────────── 
+ H2      Hipótesis 2   0            2              1             2672           
+ H1      Hipótesis 1   0            1              2             2672           
+ DEF     Definición    1            2              5             2672           
+ WIDTH   Longitud      2            10             5             2672           
+ MONO_A  Monotonía de  2            2              6             2672           
+         aₙ                                                                     
+ INV     Invariante    2            2              6             2672           
+ MONO_B  Monotonía de  2            10             6             2672           
+         bₙ                                                                     
+ CONV_B  Convergencia  3            25             6             2672           
+         de bₙ                                                                  
+ CONV_A  Convergencia  3            26             6             2672           
+         de aₙ                                                                  
+ SAME    Mismo límite  4            109            250           2672           
+ CONT    Continuidad   5            170            275           2672           
+ ROOT    Raíz          6            187            275           2672           
+ MID     Cota de       5            164            325           2672           
+         error                                                                  
+ QED     Conclusión    7            —              325           2672           
+                                                                                
+
+Saltos lógicos más frecuentes:                                                  
+
+                                            
+ paso      tipo          intentos inválidos 
+ ────────────────────────────────────────── 
+ D_BOLZ    Non sequitur  536                
+ D_DERIV   Distractor    525                
+ D_UNIQ    Distractor    519                
+ ROOT      Raíz          519                
+ D_NEWTON  Distractor    513                
+ D_TVM     Distractor    512                
+ D_LIP     Distractor    504                
+ QED       Conclusión    502                
+                                            
+
+Demostraciones completas: 2672 · mínimas: 1686 · mejor retorno: +13.00 (gen     
+435).                                                                           
+
+Bitácora de hitos                                                               
+
+                                                                                
+ fase  generación  tiempo  hito                                                 
+ ────────────────────────────────────────────────────────────────────────────── 
+ 1     33          0.0 s   primera convergencia (16 iteraciones, f = eˣ − 3.08) 
+ 1     305         0.0 s   aprendió el invariante de Bolzano: siempre conserva  
+                           el subintervalo con cambio de signo                  
+ 1     343         0.0 s   descubrió el corte óptimo λ = 1/2: esto ES el método 
+                           de bisección                                         
+ 1     475         0.0 s   ≥95 % de convergencia en las últimas 100             
+                           generaciones                                         
+ 1     3000        0.1 s   fase 1 terminada: 2818 convergencias, 182 raíces     
+                           perdidas                                             
+ 2     1           0.1 s   primer paso válido: Hipótesis 1 (H1)                 
+ 2     303         0.2 s   ¡primera demostración completa! 14 pasos, 12 saltos  
+                           lógicos                                              
+ 2     375         0.2 s   la política voraz (sin exploración) ya produce la    
+                           demostración mínima                                  
+ 2     435         0.2 s   primera demostración sin ningún salto lógico         
+ 2     435         0.2 s   primera demostración mínima (14 pasos, sin desvíos)  
+ 2     3000        0.3 s   fase 2 terminada: 2672 demostraciones completas,     
+                           1686 mínimas                                         
+                                                                                
+
+Informe guardado en 
+../resultados/corridas_locales/01_biseccion/20260925-145147/informe.md  ·  
+historia.json  ·  demostracion.md

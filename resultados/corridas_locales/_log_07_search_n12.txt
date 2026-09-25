@@ -1,0 +1,11 @@
+n = 12 · 6.4 s
+  chebyshev_lobatto      Λ = 2.53930834
+  chebyshev_extendido    Λ = 2.17470167
+  encontrado             Λ = 2.16267253  ratio = 0.994469  bate la referencia ✔
+  nodos: -1.000000, -0.944429, -0.831153, -0.669771, -0.469420, -0.241746, 
++0.000000, +0.241746, +0.469420, +0.669771, +0.831153, +0.944429, +1.000000
+  guardado en 
+/Users/cmorregof/Personal/rl_metodos/resultados/corridas_locales/07_interpolacio
+n/20260925-144938/busqueda_n12.json  ·  comprobar con: python -m interprl verify
+/Users/cmorregof/Personal/rl_metodos/resultados/corridas_locales/07_interpolacio
+n/20260925-144938/busqueda_n12.json

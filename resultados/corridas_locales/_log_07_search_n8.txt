@@ -1,0 +1,11 @@
+n = 8 · 2.4 s
+  chebyshev_lobatto      Λ = 2.27473077
+  chebyshev_extendido    Λ = 1.94157277
+  encontrado             Λ = 1.93866819  ratio = 0.998504  bate la referencia ✔
+  nodos: -1.000000, -0.884115, -0.655546, -0.349945, +0.000000, +0.349945, 
++0.655546, +0.884115, +1.000000
+  guardado en 
+/Users/cmorregof/Personal/rl_metodos/resultados/corridas_locales/07_interpolacio
+n/20260925-144935/busqueda_n8.json  ·  comprobar con: python -m interprl verify 
+/Users/cmorregof/Personal/rl_metodos/resultados/corridas_locales/07_interpolacio
+n/20260925-144935/busqueda_n8.json

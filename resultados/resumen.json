@@ -1,0 +1,3395 @@
+{
+ "generado": "2026-09-25T14:55:36",
+ "commit": "e419660",
+ "estados": [
+  "terminado",
+  "en curso",
+  "interrumpida por error",
+  "planeado"
+ ],
+ "qagent": [
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260915-070524",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 133.7,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260915-070524/historia.json",
+   "sha": "816035e61a301a7e",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260915-072310",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 121.97,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260915-072310/historia.json",
+   "sha": "a785f1f9a39c165c",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260916-083557",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 123.38,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260916-083557/historia.json",
+   "sha": "8e15bd5dd129e11d",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260916-084139",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 123.51,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260916-084139/historia.json",
+   "sha": "adccdb49836c78a1",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260916-110122",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 122.66,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260916-110122/historia.json",
+   "sha": "2c83327d33b58d05",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260916-110129",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 122.08,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260916-110129/historia.json",
+   "sha": "9893535994477aa1",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260916-110500",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 125.35,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260916-110500/historia.json",
+   "sha": "c48221f60cea8671",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260918-110135",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 125.35,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260918-110135/historia.json",
+   "sha": "8ccc2be9b2a0ffdd",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260921-093835",
+   "local": false,
+   "config": {
+    "episodes_bisection": 200,
+    "episodes_proof": 100,
+    "seed": 42,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 52,
+    "lost": 148
+   },
+   "completas": 0,
+   "minimas": 0,
+   "tiempo_s": 33.38,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 5,
+     "texto": "primera convergencia (13 iteraciones, f = eˣ − 1.96)"
+    },
+    {
+     "fase": 1,
+     "generacion": 200,
+     "texto": "fase 1 terminada: 52 convergencias, 148 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 2 (H2)"
+    },
+    {
+     "fase": 2,
+     "generacion": 100,
+     "texto": "fase 2 terminada: 0 demostraciones completas, 0 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260921-093835/historia.json",
+   "sha": "27410e28f8de490a",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260921-094003",
+   "local": false,
+   "config": {
+    "episodes_bisection": 200,
+    "episodes_proof": 100,
+    "seed": 42,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 52,
+    "lost": 148
+   },
+   "completas": 0,
+   "minimas": 0,
+   "tiempo_s": 39.14,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 5,
+     "texto": "primera convergencia (13 iteraciones, f = eˣ − 1.96)"
+    },
+    {
+     "fase": 1,
+     "generacion": 200,
+     "texto": "fase 1 terminada: 52 convergencias, 148 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 2 (H2)"
+    },
+    {
+     "fase": 2,
+     "generacion": 100,
+     "texto": "fase 2 terminada: 0 demostraciones completas, 0 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260921-094003/historia.json",
+   "sha": "bdc2e011dd21da9a",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260924-161133",
+   "local": false,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 124.48,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "01_biseccion/runs/20260924-161133/historia.json",
+   "sha": "ae54acb9587f2693",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260925-144905",
+   "local": true,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 1,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2821,
+    "lost": 179
+   },
+   "completas": 2695,
+   "minimas": 1665,
+   "tiempo_s": 0.29,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 7,
+     "texto": "primera convergencia (15 iteraciones, f = sin(1.38x) − 0.72)"
+    },
+    {
+     "fase": 1,
+     "generacion": 345,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 358,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 391,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2821 convergencias, 179 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 2 (H2)"
+    },
+    {
+     "fase": 2,
+     "generacion": 256,
+     "texto": "¡primera demostración completa! 14 pasos, 13 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 300,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 459,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 459,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2695 demostraciones completas, 1665 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/01_biseccion/20260925-144905/historia.json",
+   "sha": "114cf660968612d6",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260925-145147",
+   "local": true,
+   "config": {
+    "episodes_bisection": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 2818,
+    "lost": 182
+   },
+   "completas": 2672,
+   "minimas": 1686,
+   "tiempo_s": 0.29,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "primera convergencia (16 iteraciones, f = eˣ − 3.08)"
+    },
+    {
+     "fase": 1,
+     "generacion": 305,
+     "texto": "aprendió el invariante de Bolzano: siempre conserva el subintervalo con cambio de signo"
+    },
+    {
+     "fase": 1,
+     "generacion": 343,
+     "texto": "descubrió el corte óptimo λ = 1/2: esto ES el método de bisección"
+    },
+    {
+     "fase": 1,
+     "generacion": 475,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2818 convergencias, 182 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 303,
+     "texto": "¡primera demostración completa! 14 pasos, 12 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 375,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 435,
+     "texto": "primera demostración mínima (14 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/01_biseccion/20260925-145147/historia.json",
+   "sha": "d6227492b355d582",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260925-145306",
+   "local": true,
+   "config": {
+    "episodes_bisection": 100,
+    "episodes_proof": 100,
+    "seed": 1,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 15,
+    "lost": 85
+   },
+   "completas": 0,
+   "minimas": 0,
+   "tiempo_s": 0.01,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 7,
+     "texto": "primera convergencia (15 iteraciones, f = sin(1.38x) − 0.72)"
+    },
+    {
+     "fase": 1,
+     "generacion": 100,
+     "texto": "fase 1 terminada: 15 convergencias, 85 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 2 (H2)"
+    },
+    {
+     "fase": 2,
+     "generacion": 100,
+     "texto": "fase 2 terminada: 0 demostraciones completas, 0 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/01_biseccion_100gen/20260925-145306/historia.json",
+   "sha": "7d49391fca93fa73",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "01_biseccion",
+   "corrida": "20260925-145308",
+   "local": true,
+   "config": {
+    "episodes_bisection": 300,
+    "episodes_proof": 300,
+    "seed": 1,
+    "tol": 0.001
+   },
+   "fase1": {
+    "converged": 130,
+    "lost": 170
+   },
+   "completas": 9,
+   "minimas": 0,
+   "tiempo_s": 0.03,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 7,
+     "texto": "primera convergencia (15 iteraciones, f = sin(1.38x) − 0.72)"
+    },
+    {
+     "fase": 1,
+     "generacion": 300,
+     "texto": "fase 1 terminada: 130 convergencias, 170 raíces perdidas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 2 (H2)"
+    },
+    {
+     "fase": 2,
+     "generacion": 256,
+     "texto": "¡primera demostración completa! 14 pasos, 13 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 300,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 300,
+     "texto": "fase 2 terminada: 9 demostraciones completas, 0 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/01_biseccion_300gen/20260925-145308/historia.json",
+   "sha": "3e991f789cffa17f",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "02_punto_fijo",
+   "corrida": "20260908-231722",
+   "local": false,
+   "config": {
+    "episodes_fixpoint": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-06
+   },
+   "fase1": {
+    "converged": 2667,
+    "diverged": 218,
+    "timeout": 115
+   },
+   "completas": 2788,
+   "minimas": 1715,
+   "tiempo_s": 194.54,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 2,
+     "texto": "aprendió que si diverge monótonamente el signo de α está mal: invertirlo"
+    },
+    {
+     "fase": 1,
+     "generacion": 26,
+     "texto": "aprendió que si oscila α es demasiado grande: reducirlo (|g'| < 1 es lo que importa)"
+    },
+    {
+     "fase": 1,
+     "generacion": 27,
+     "texto": "primera convergencia (28 iteraciones, f = -3.44(x−0.58) + 0.3(x−0.58)³)"
+    },
+    {
+     "fase": 1,
+     "generacion": 661,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 1612,
+     "texto": "su ley de control coincide con la teoría de Banach en los 12 estados (estable 100 gen.)"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2667 convergencias, 218 divergencias, 115 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 193,
+     "texto": "¡primera demostración completa! 13 pasos, 16 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 200,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 440,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 440,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2788 demostraciones completas, 1715 mínimas"
+    }
+   ],
+   "fuente": "02_punto_fijo/runs/20260908-231722/historia.json",
+   "sha": "2aee71747e10610e",
+   "codigo": "ee8277d (inferido por fecha)"
+  },
+  {
+   "proyecto": "02_punto_fijo",
+   "corrida": "20260925-144906",
+   "local": true,
+   "config": {
+    "episodes_fixpoint": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-06
+   },
+   "fase1": {
+    "converged": 2667,
+    "diverged": 218,
+    "timeout": 115
+   },
+   "completas": 2788,
+   "minimas": 1715,
+   "tiempo_s": 0.28,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 2,
+     "texto": "aprendió que si diverge monótonamente el signo de α está mal: invertirlo"
+    },
+    {
+     "fase": 1,
+     "generacion": 26,
+     "texto": "aprendió que si oscila α es demasiado grande: reducirlo (|g'| < 1 es lo que importa)"
+    },
+    {
+     "fase": 1,
+     "generacion": 27,
+     "texto": "primera convergencia (28 iteraciones, f = -3.44(x−0.58) + 0.3(x−0.58)³)"
+    },
+    {
+     "fase": 1,
+     "generacion": 661,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 1612,
+     "texto": "su ley de control coincide con la teoría de Banach en los 12 estados (estable 100 gen.)"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2667 convergencias, 218 divergencias, 115 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 193,
+     "texto": "¡primera demostración completa! 13 pasos, 16 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 200,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 440,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 440,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2788 demostraciones completas, 1715 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/02_punto_fijo/20260925-144906/historia.json",
+   "sha": "37626eca26bc0fd3",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "03_taylor",
+   "corrida": "20260908-234647",
+   "local": false,
+   "config": {
+    "episodes_taylor": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-06
+   },
+   "fase1": {
+    "stop_ok": 1352,
+    "stop_bad": 261,
+    "abort_ok": 1104,
+    "abort_bad": 283,
+    "timeout": 0
+   },
+   "completas": 2783,
+   "minimas": 1664,
+   "tiempo_s": 115.52,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 132,
+     "texto": "primera aproximación correcta: sin x en x* = 1.00 con 6 términos (óptimo 5)"
+    },
+    {
+     "fase": 1,
+     "generacion": 213,
+     "texto": "descubrió el criterio del último término: parar cuando |tₙ| ≪ tol y los términos decrecen"
+    },
+    {
+     "fase": 1,
+     "generacion": 226,
+     "texto": "descubrió el criterio del cociente: si |tₙ/tₙ₋₁| ≥ 1 de forma sostenida, la serie no converge"
+    },
+    {
+     "fase": 1,
+     "generacion": 898,
+     "texto": "su ley coincide con la teoría en los 11 estados visitados (estable 100 gen.)"
+    },
+    {
+     "fase": 1,
+     "generacion": 1390,
+     "texto": "≥95 % de aciertos en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 1352 aproximaciones correctas, 1104 divergencias detectadas, 544 veredictos erróneos, 0 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 194,
+     "texto": "¡primera demostración completa! 13 pasos, 13 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 250,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 322,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 322,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2783 demostraciones completas, 1664 mínimas"
+    }
+   ],
+   "fuente": "03_taylor/runs/20260908-234647/historia.json",
+   "sha": "ab61ea81362863a4",
+   "codigo": "51ded6b (inferido por fecha)"
+  },
+  {
+   "proyecto": "03_taylor",
+   "corrida": "20260915-073657",
+   "local": false,
+   "config": {
+    "episodes_taylor": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-06
+   },
+   "fase1": {
+    "stop_ok": 1352,
+    "stop_bad": 261,
+    "abort_ok": 1104,
+    "abort_bad": 283,
+    "timeout": 0
+   },
+   "completas": 2783,
+   "minimas": 1664,
+   "tiempo_s": 117.02,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 132,
+     "texto": "primera aproximación correcta: sin x en x* = 1.00 con 6 términos (óptimo 5)"
+    },
+    {
+     "fase": 1,
+     "generacion": 213,
+     "texto": "descubrió el criterio del último término: parar cuando |tₙ| ≪ tol y los términos decrecen"
+    },
+    {
+     "fase": 1,
+     "generacion": 226,
+     "texto": "descubrió el criterio del cociente: si |tₙ/tₙ₋₁| ≥ 1 de forma sostenida, la serie no converge"
+    },
+    {
+     "fase": 1,
+     "generacion": 898,
+     "texto": "su ley coincide con la teoría en los 11 estados visitados (estable 100 gen.)"
+    },
+    {
+     "fase": 1,
+     "generacion": 1390,
+     "texto": "≥95 % de aciertos en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 1352 aproximaciones correctas, 1104 divergencias detectadas, 544 veredictos erróneos, 0 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 194,
+     "texto": "¡primera demostración completa! 13 pasos, 13 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 250,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 322,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 322,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2783 demostraciones completas, 1664 mínimas"
+    }
+   ],
+   "fuente": "03_taylor/runs/20260915-073657/historia.json",
+   "sha": "75ece02da302a735",
+   "codigo": "51ded6b (inferido por fecha)"
+  },
+  {
+   "proyecto": "03_taylor",
+   "corrida": "20260925-144906",
+   "local": true,
+   "config": {
+    "episodes_taylor": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-06
+   },
+   "fase1": {
+    "stop_ok": 1352,
+    "stop_bad": 261,
+    "abort_ok": 1104,
+    "abort_bad": 283,
+    "timeout": 0
+   },
+   "completas": 2783,
+   "minimas": 1664,
+   "tiempo_s": 0.24,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 132,
+     "texto": "primera aproximación correcta: sin x en x* = 1.00 con 6 términos (óptimo 5)"
+    },
+    {
+     "fase": 1,
+     "generacion": 213,
+     "texto": "descubrió el criterio del último término: parar cuando |tₙ| ≪ tol y los términos decrecen"
+    },
+    {
+     "fase": 1,
+     "generacion": 226,
+     "texto": "descubrió el criterio del cociente: si |tₙ/tₙ₋₁| ≥ 1 de forma sostenida, la serie no converge"
+    },
+    {
+     "fase": 1,
+     "generacion": 898,
+     "texto": "su ley coincide con la teoría en los 11 estados visitados (estable 100 gen.)"
+    },
+    {
+     "fase": 1,
+     "generacion": 1390,
+     "texto": "≥95 % de aciertos en las últimas 100 generaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 1352 aproximaciones correctas, 1104 divergencias detectadas, 544 veredictos erróneos, 0 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 194,
+     "texto": "¡primera demostración completa! 13 pasos, 13 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 250,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 322,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 322,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2783 demostraciones completas, 1664 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/03_taylor/20260925-144906/historia.json",
+   "sha": "96f2bafb7eb3f534",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "04_newton",
+   "corrida": "20260925-144906",
+   "local": true,
+   "config": {
+    "episodes_newton": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-09
+   },
+   "fase1": {
+    "converged": 2859,
+    "diverged": 15,
+    "timeout": 126
+   },
+   "completas": 2779,
+   "minimas": 1752,
+   "tiempo_s": 0.25,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 1,
+     "texto": "primera convergencia: x·e^{−x²} desde x₀ = 0.41 con 11 evaluaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 29,
+     "texto": "aprendió a rechazar los pasos que empeoran |f| y retroceder con búsqueda lineal (Newton amortiguado)"
+    },
+    {
+     "fase": 1,
+     "generacion": 33,
+     "texto": "aprendió que cuando el residuo cae rápido el paso completo de Newton es el mejor (cuenca cuadrática)"
+    },
+    {
+     "fase": 1,
+     "generacion": 106,
+     "texto": "orden de convergencia observado ≈ 1.70: los dígitos correctos se duplican (convergencia cuadrática)"
+    },
+    {
+     "fase": 1,
+     "generacion": 111,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones (Newton puro: ~73 %)"
+    },
+    {
+     "fase": 1,
+     "generacion": 1236,
+     "texto": "matiz que Armijo no contempla: si el paso de Newton propuesto ya decrece, el paso completo es más barato que la búsqueda lineal"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2859 convergencias, 15 divergencias, 126 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 102,
+     "texto": "¡primera demostración completa! 11 pasos, 13 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 125,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 353,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 353,
+     "texto": "primera demostración mínima (11 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2779 demostraciones completas, 1752 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/04_newton/20260925-144906/historia.json",
+   "sha": "a7cd343df3bb0f81",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "05_secante",
+   "corrida": "20260925-144907",
+   "local": true,
+   "config": {
+    "episodes_secant": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-09
+   },
+   "fase1": {
+    "rf_chain_fraction": 0.007692307692307693,
+    "converged": 2996,
+    "diverged": 4,
+    "timeout": 0
+   },
+   "completas": 2793,
+   "minimas": 1682,
+   "tiempo_s": 0.28,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 1,
+     "texto": "primera convergencia: x·e^{−x²} en [-2.43, 1.09] con 9 evaluaciones"
+    },
+    {
+     "fase": 1,
+     "generacion": 26,
+     "texto": "aprendió que cuando la secante cae dentro del corchete y el residuo baja, el paso de secante es el mejor (régimen superlineal)"
+    },
+    {
+     "fase": 1,
+     "generacion": 70,
+     "texto": "aprendió a no fiarse de la secante cuando se sale del corchete y volver a él (bisecar o un paso de regula falsi según el residuo): método de Dekker"
+    },
+    {
+     "fase": 1,
+     "generacion": 100,
+     "texto": "≥95 % de convergencia en las últimas 100 generaciones (secante pura: ~69 %, regula falsi: ~63 %)"
+    },
+    {
+     "fase": 1,
+     "generacion": 147,
+     "texto": "orden de convergencia observado ≈ 1.61 (mediana): φ = (1+√5)/2 ≈ 1.618, superlineal pero no cuadrático"
+    },
+    {
+     "fase": 1,
+     "generacion": 636,
+     "texto": "matiz que Dekker no contempla: si la secante cae dentro del corchete, seguirla aunque el residuo apenas baje sale más barato que bisecar (bisecar tira el punto actual)"
+    },
+    {
+     "fase": 1,
+     "generacion": 1201,
+     "texto": "ley estable 200 gen.: coincide con Dekker en 6/7 estados; discrepa en: 0.5–1 secante dentro → sec"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2996 convergencias, 4 divergencias, 0 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 175,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 188,
+     "texto": "¡primera demostración completa! 13 pasos, 17 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 405,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 405,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2793 demostraciones completas, 1682 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/05_secante/20260925-144907/historia.json",
+   "sha": "32e2bf1447ffc6a6",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "07_interpolacion",
+   "corrida": "20260925-144926",
+   "local": true,
+   "config": {
+    "episodes_interp": 3000,
+    "episodes_proof": 3000,
+    "seed": 1,
+    "tol": 1e-05
+   },
+   "fase1": {
+    "stop_ok": 2187,
+    "stop_bad": 792,
+    "timeout": 21
+   },
+   "completas": 2782,
+   "minimas": 1690,
+   "tiempo_s": 7.77,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 80,
+     "texto": "primera aproximación correcta: sin(3.3x+1.6) con n = 15 (γ = 1.0); óptimo con Chebyshev n = 10"
+    },
+    {
+     "fase": 1,
+     "generacion": 80,
+     "texto": "descubrió el criterio de parada: entregar cuando |pₙ − pₙ₋₁| ≪ tol y va bajando"
+    },
+    {
+     "fase": 1,
+     "generacion": 526,
+     "texto": "su regla coincide con la teoría en los 8 estados visitados (estable 100 gen.)"
+    },
+    {
+     "fase": 1,
+     "generacion": 726,
+     "texto": "prefiere γ = 1 de forma estable: nodos de Chebyshev (Q = -3.3 frente a -11.0 con equiespaciados)"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2187 aproximaciones correctas, 792 entregas prematuras, 21 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 2 (H2)"
+    },
+    {
+     "fase": 2,
+     "generacion": 186,
+     "texto": "¡primera demostración completa! 13 pasos, 15 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 200,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 463,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 463,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2782 demostraciones completas, 1690 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/07_interpolacion/20260925-144926/historia.json",
+   "sha": "9b966192857f8661",
+   "codigo": "e419660 (HEAD)"
+  },
+  {
+   "proyecto": "07_interpolacion",
+   "corrida": "20260925-144934",
+   "local": true,
+   "config": {
+    "episodes_interp": 3000,
+    "episodes_proof": 3000,
+    "seed": 0,
+    "tol": 1e-05
+   },
+   "fase1": {
+    "stop_ok": 2221,
+    "stop_bad": 758,
+    "timeout": 21
+   },
+   "completas": 2764,
+   "minimas": 1701,
+   "tiempo_s": 7.9,
+   "hitos": [
+    {
+     "fase": 1,
+     "generacion": 1,
+     "texto": "primera aproximación correcta: e^(0.6x) con n = 8 (γ = 0.75); óptimo con Chebyshev n = 5"
+    },
+    {
+     "fase": 1,
+     "generacion": 55,
+     "texto": "descubrió el criterio de parada: entregar cuando |pₙ − pₙ₋₁| ≪ tol y va bajando"
+    },
+    {
+     "fase": 1,
+     "generacion": 431,
+     "texto": "su regla coincide con la teoría en los 8 estados visitados (estable 100 gen.)"
+    },
+    {
+     "fase": 1,
+     "generacion": 543,
+     "texto": "prefiere γ = 1 de forma estable: nodos de Chebyshev (Q = -5.1 frente a -12.3 con equiespaciados)"
+    },
+    {
+     "fase": 1,
+     "generacion": 3000,
+     "texto": "fase 1 terminada: 2221 aproximaciones correctas, 758 entregas prematuras, 21 agotadas"
+    },
+    {
+     "fase": 2,
+     "generacion": 1,
+     "texto": "primer paso válido: Hipótesis 1 (H1)"
+    },
+    {
+     "fase": 2,
+     "generacion": 207,
+     "texto": "¡primera demostración completa! 13 pasos, 14 saltos lógicos"
+    },
+    {
+     "fase": 2,
+     "generacion": 225,
+     "texto": "la política voraz (sin exploración) ya produce la demostración mínima"
+    },
+    {
+     "fase": 2,
+     "generacion": 284,
+     "texto": "primera demostración sin ningún salto lógico"
+    },
+    {
+     "fase": 2,
+     "generacion": 284,
+     "texto": "primera demostración mínima (13 pasos, sin desvíos)"
+    },
+    {
+     "fase": 2,
+     "generacion": 3000,
+     "texto": "fase 2 terminada: 2764 demostraciones completas, 1701 mínimas"
+    }
+   ],
+   "fuente": "resultados/corridas_locales/07_interpolacion/20260925-144934/historia.json",
+   "sha": "6d3b0da3b485e38e",
+   "codigo": "e419660 (HEAD)"
+  }
+ ],
+ "stepsizes": {
+  "evolve": [
+   {
+    "corrida": "20260909-214116",
+    "modelo": "gpt-6-astra",
+    "objetivo": "anytime",
+    "generaciones_llm": 17,
+    "validas": 6,
+    "errores": {
+     "proveedor: la respuesta se cortó por lon": 11
+    },
+    "mejor_C_target": null,
+    "fuente": "06_stepsizes/runs/20260909-214116/evolucion.json",
+    "sha": "820fce46111409d6",
+    "codigo": "4b75004 (inferido por fecha)"
+   },
+   {
+    "corrida": "20260910-075701",
+    "modelo": "gpt-6-astra",
+    "objetivo": "anytime",
+    "generaciones_llm": 4,
+    "validas": 4,
+    "errores": {},
+    "mejor_C_target": null,
+    "fuente": "06_stepsizes/runs/20260910-075701/evolucion.json",
+    "sha": "df73bd1a01f6d3ea",
+    "codigo": "6b458eb (inferido por fecha)"
+   },
+   {
+    "corrida": "20260910-090345",
+    "modelo": "gpt-6-astra",
+    "objetivo": "anytime",
+    "generaciones_llm": 20,
+    "validas": 1,
+    "errores": {
+     "proveedor: Connection error.": 19
+    },
+    "mejor_C_target": 0.21374768965363045,
+    "fuente": "06_stepsizes/runs/20260910-090345/evolucion.json",
+    "sha": "c22c1d398d0049c7",
+    "codigo": "6b458eb (inferido por fecha)"
+   },
+   {
+    "corrida": "20260910-102749",
+    "modelo": "gpt-6-astra",
+    "objetivo": "anytime",
+    "generaciones_llm": 20,
+    "validas": 9,
+    "errores": {
+     "proveedor: Connection error.": 3,
+     "SolverError: Solver 'CLARABEL' failed. T": 8
+    },
+    "mejor_C_target": 0.16667051884149836,
+    "fuente": "06_stepsizes/runs/20260910-102749/evolucion.json",
+    "sha": "0a5c19618e9d81a3",
+    "codigo": "6b458eb (inferido por fecha)"
+   }
+  ],
+  "certificados": [
+   {
+    "archivo": "06_stepsizes/certificados/fval_mu0_n12.json",
+    "tarea": "fval, μ = 0, n = 12",
+    "tau_cert": 0.008972494158,
+    "tau_sdp": 0.008972390160767266,
+    "ok": true,
+    "sha": "dc1c39c6a5c81c6b"
+   },
+   {
+    "archivo": "06_stepsizes/certificados/fval_mu0_n3.json",
+    "tarea": "fval, μ = 0, n = 3",
+    "tau_cert": 0.042893459677,
+    "tau_sdp": 0.04289322972397252,
+    "ok": true,
+    "sha": "6d4f55f01dffe48f"
+   },
+   {
+    "archivo": "06_stepsizes/certificados/fval_mu0_n6.json",
+    "tarea": "fval, μ = 0, n = 6",
+    "tau_cert": 0.019665446255,
+    "tau_sdp": 0.019665326783461317,
+    "ok": true,
+    "sha": "26138f90573a989f"
+   },
+   {
+    "archivo": "06_stepsizes/runs/cert-fval_mu0_n12.json",
+    "tarea": "fval, μ = 0, n = 12",
+    "tau_cert": 0.008972494158,
+    "tau_sdp": 0.008972390160767266,
+    "ok": true,
+    "sha": "dc1c39c6a5c81c6b"
+   },
+   {
+    "archivo": "06_stepsizes/runs/cert-fval_mu0_n3.json",
+    "tarea": "fval, μ = 0, n = 3",
+    "tau_cert": 0.042893459677,
+    "tau_sdp": 0.04289322972397252,
+    "ok": true,
+    "sha": "6d4f55f01dffe48f"
+   },
+   {
+    "archivo": "06_stepsizes/runs/cert-fval_mu0_n6.json",
+    "tarea": "fval, μ = 0, n = 6",
+    "tau_cert": 0.019885665265,
+    "tau_sdp": 0.019885429753425506,
+    "ok": true,
+    "sha": "03ed991dc37fb2c8"
+   },
+   {
+    "archivo": "06_stepsizes/runs/cert-n2.json",
+    "tarea": "fval, μ = 0, n = 2",
+    "tau_cert": 0.065951634994,
+    "tau_sdp": 0.06595148529278122,
+    "ok": true,
+    "sha": "4a406cb277d55a4b"
+   }
+  ],
+  "referencias": {
+   "instancias": 60,
+   "fuentes": {
+    "ce": 54,
+    "tabla": 6
+   },
+   "fuente": "06_stepsizes/steprl/refs.json",
+   "sha": "405da8162e7ef5d4"
+  }
+ },
+ "tabla1_biseccion": {
+  "vcs": 15,
+  "automatizacion_sola": 9,
+  "solo_con_bisect_root_extract": 2,
+  "abiertas_60s": 4,
+  "abiertas_cerradas_por_la_smt_del_articulo": 4,
+  "con_prueba_de_una_linea_verificada": 13,
+  "articulo_auto": 13,
+  "segundos": 423.6,
+  "fuentes": {
+   "08_isabelle/runs/repro_bisection.json": "efbdd2e623e4feab",
+   "09_unified/runs/_baseline/given_smt_08.json": "1d6a82dda914114a",
+   "08_isabelle/runs/repro_vc4_240s.json": "eb1d9fa582235636",
+   "09_unified/runs/_baseline/sh_goals.json": "ea9f97306cc71ec7",
+   "09_unified/runs/_baseline/upper_bound.json": "cb56cc9e2e7018a7"
+  }
+ },
+ "jueces_09": [
+  {
+   "corrida": "_abortado_mismo_segundo/bisection_graph/20260923-155840",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "bisection_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 4,
+   "aceptados": 4,
+   "intentos": 8,
+   "etiquetas": {
+    "DISTRACTOR": 1,
+    "ACCEPTED": 7
+   },
+   "fuente": "09_unified/runs/_abortado_mismo_segundo/bisection_graph/20260923-155840/attempts.jsonl",
+   "sha": "4cff5905f73beaf6",
+   "codigo": "86662c08be9c32ed"
+  },
+  {
+   "corrida": "_abortado_mismo_segundo/bisection_isabelle/20260923-155839",
+   "archivada": true,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle",
+   "modelo": "gpt-6-luna",
+   "episodios": 0,
+   "aceptados": 0,
+   "intentos": 0,
+   "etiquetas": {},
+   "fuente": "09_unified/runs/_abortado_mismo_segundo/bisection_isabelle/20260923-155839/attempts.jsonl",
+   "sha": "e3b0c44298fc1c14",
+   "codigo": "86662c08be9c32ed"
+  },
+  {
+   "corrida": "_abortado_mismo_segundo/fixedpoint_graph/20260923-155840",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "fixedpoint_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 3,
+   "aceptados": 2,
+   "intentos": 5,
+   "etiquetas": {
+    "ACCEPTED": 2,
+    "INVALID_STEP": 3
+   },
+   "fuente": "09_unified/runs/_abortado_mismo_segundo/fixedpoint_graph/20260923-155840/attempts.jsonl",
+   "sha": "540c910d5df5cb53",
+   "codigo": "86662c08be9c32ed"
+  },
+  {
+   "corrida": "_abortado_mismo_segundo/newton_graph/20260923-155840",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "newton_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 3,
+   "aceptados": 2,
+   "intentos": 5,
+   "etiquetas": {
+    "ACCEPTED": 2,
+    "INVALID_STEP": 3
+   },
+   "fuente": "09_unified/runs/_abortado_mismo_segundo/newton_graph/20260923-155840/attempts.jsonl",
+   "sha": "3a3b9a9f714d695a",
+   "codigo": "86662c08be9c32ed"
+  },
+  {
+   "corrida": "_abortado_mismo_segundo/secant_graph/20260923-155840",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "secant_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 3,
+   "aceptados": 2,
+   "intentos": 5,
+   "etiquetas": {
+    "ACCEPTED": 2,
+    "INVALID_STEP": 2,
+    "DISTRACTOR": 1
+   },
+   "fuente": "09_unified/runs/_abortado_mismo_segundo/secant_graph/20260923-155840/attempts.jsonl",
+   "sha": "307518964ee8d10e",
+   "codigo": "86662c08be9c32ed"
+  },
+  {
+   "corrida": "_abortado_mismo_segundo/taylor_graph/20260923-155840",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "taylor_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 4,
+   "aceptados": 3,
+   "intentos": 5,
+   "etiquetas": {
+    "DISTRACTOR": 1,
+    "ACCEPTED": 3,
+    "INVALID_STEP": 1
+   },
+   "fuente": "09_unified/runs/_abortado_mismo_segundo/taylor_graph/20260923-155840/attempts.jsonl",
+   "sha": "7a2d4d68a847568b",
+   "codigo": "86662c08be9c32ed"
+  },
+  {
+   "corrida": "_descartado_colision_delimitador/20260923-182334-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "VCG_FAILED": 5,
+    "VC_OPEN": 7
+   },
+   "fuente": "09_unified/runs/_descartado_colision_delimitador/20260923-182334-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "e137c6d7a9357218",
+   "codigo": "6e76c3d459b1e09f"
+  },
+  {
+   "corrida": "_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "bisection_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 19,
+   "intentos": 35,
+   "etiquetas": {
+    "ACCEPTED": 19,
+    "DISTRACTOR": 6,
+    "INVALID_STEP": 10
+   },
+   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "d1f5c4b66ae41a8e",
+   "codigo": "a053f2d4c8ea43bd"
+  },
+  {
+   "corrida": "_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-6-luna-high",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "bisection_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 20,
+   "etiquetas": {
+    "ACCEPTED": 20
+   },
+   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-6-luna-high/attempts.jsonl",
+   "sha": "1c94d143d304f66e",
+   "codigo": "a053f2d4c8ea43bd"
+  },
+  {
+   "corrida": "_descartado_refutaciones_visibles/fixedpoint_graph/20260923-155926-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "fixedpoint_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 17,
+   "intentos": 51,
+   "etiquetas": {
+    "INVALID_STEP": 32,
+    "ACCEPTED": 17,
+    "DISTRACTOR": 1,
+    "UNKNOWN_LEMMA": 1
+   },
+   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/fixedpoint_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "c8bd5f1e031c2169",
+   "codigo": "a053f2d4c8ea43bd"
+  },
+  {
+   "corrida": "_descartado_refutaciones_visibles/newton_graph/20260923-155926-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "newton_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 28,
+   "etiquetas": {
+    "ACCEPTED": 20,
+    "INVALID_STEP": 8
+   },
+   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/newton_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "73d3324943ba8132",
+   "codigo": "a053f2d4c8ea43bd"
+  },
+  {
+   "corrida": "_descartado_refutaciones_visibles/secant_graph/20260923-155926-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "secant_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 19,
+   "intentos": 34,
+   "etiquetas": {
+    "ACCEPTED": 19,
+    "INVALID_STEP": 10,
+    "DISTRACTOR": 5
+   },
+   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/secant_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "ce113b0215ba7fb3",
+   "codigo": "a053f2d4c8ea43bd"
+  },
+  {
+   "corrida": "_descartado_refutaciones_visibles/taylor_graph/20260923-155926-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "taylor_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 22,
+   "etiquetas": {
+    "ACCEPTED": 20,
+    "INVALID_STEP": 2
+   },
+   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/taylor_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "8e1ff65c5494f6c8",
+   "codigo": "a053f2d4c8ea43bd"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044647-gpt-6-luna-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_fval_mu001_n4",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044647-gpt-6-luna-high/attempts.jsonl",
+   "sha": "0f02e746d7099f26",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044905-gpt-6-astra-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_fval_mu001_n4",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044905-gpt-6-astra-high/attempts.jsonl",
+   "sha": "d3a5d51666063a54",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044712-gpt-6-luna-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_fval_mu01_n5",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044712-gpt-6-luna-high/attempts.jsonl",
+   "sha": "9833815056ff125c",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044929-gpt-6-astra-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_fval_mu01_n5",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044929-gpt-6-astra-high/attempts.jsonl",
+   "sha": "205c6882a09eb77a",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_gradnorm_n4/20260924-044535-gpt-6-luna-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4/20260924-044535-gpt-6-luna-high/attempts.jsonl",
+   "sha": "bbcf67e53ef241ea",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_gradnorm_n4/20260924-044748-gpt-6-astra-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4/20260924-044748-gpt-6-astra-high/attempts.jsonl",
+   "sha": "f634972229d35a9b",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044624-gpt-6-luna-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4_neg",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044624-gpt-6-luna-high/attempts.jsonl",
+   "sha": "9e6fd346907e6dc9",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044842-gpt-6-astra-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4_neg",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044842-gpt-6-astra-high/attempts.jsonl",
+   "sha": "c55cf8d18e5488a0",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_gradnorm_n6/20260924-044600-gpt-6-luna-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n6",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n6/20260924-044600-gpt-6-luna-high/attempts.jsonl",
+   "sha": "c36c684c864a2df1",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_descartado_sin_creditos/pep_gradnorm_n6/20260924-044813-gpt-6-astra-high",
+   "archivada": true,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n6",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROVIDER_ERROR": 12
+   },
+   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n6/20260924-044813-gpt-6-astra-high/attempts.jsonl",
+   "sha": "d8ddf2f385d37784",
+   "codigo": "50a7a35e5e8b72ad"
+  },
+  {
+   "corrida": "_excluido_solo_luna/20260923-193430-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 1,
+   "aceptados": 0,
+   "intentos": 2,
+   "etiquetas": {
+    "VCG_FAILED": 1,
+    "VC_OPEN": 1
+   },
+   "fuente": "09_unified/runs/_excluido_solo_luna/20260923-193430-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "5c39add32a32a446",
+   "codigo": "6c134468af9913e4"
+  },
+  {
+   "corrida": "_excluido_solo_luna/bisection_graph/20260923-193739-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "bisection_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 30,
+   "etiquetas": {
+    "ACCEPTED": 20,
+    "DISTRACTOR": 6,
+    "INVALID_STEP": 4
+   },
+   "fuente": "09_unified/runs/_excluido_solo_luna/bisection_graph/20260923-193739-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "e28ee448abc24a6c",
+   "codigo": "dff30ac55387001b"
+  },
+  {
+   "corrida": "_excluido_solo_luna/fixedpoint_graph/20260923-193740-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "fixedpoint_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 19,
+   "intentos": 37,
+   "etiquetas": {
+    "ACCEPTED": 19,
+    "INVALID_STEP": 18
+   },
+   "fuente": "09_unified/runs/_excluido_solo_luna/fixedpoint_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "c680e19a99a6cd40",
+   "codigo": "dff30ac55387001b"
+  },
+  {
+   "corrida": "_excluido_solo_luna/newton_graph/20260923-193740-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "newton_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 31,
+   "etiquetas": {
+    "ACCEPTED": 20,
+    "INVALID_STEP": 11
+   },
+   "fuente": "09_unified/runs/_excluido_solo_luna/newton_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "26038301b2a98d90",
+   "codigo": "dff30ac55387001b"
+  },
+  {
+   "corrida": "_excluido_solo_luna/secant_graph/20260923-193740-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "secant_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 19,
+   "intentos": 39,
+   "etiquetas": {
+    "DISTRACTOR": 4,
+    "ACCEPTED": 19,
+    "INVALID_STEP": 16
+   },
+   "fuente": "09_unified/runs/_excluido_solo_luna/secant_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "cd0310bf763a9831",
+   "codigo": "dff30ac55387001b"
+  },
+  {
+   "corrida": "_excluido_solo_luna/taylor_graph/20260923-193739-gpt-5.4-mini-low",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "taylor_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 19,
+   "intentos": 27,
+   "etiquetas": {
+    "INVALID_STEP": 4,
+    "ACCEPTED": 19,
+    "DISTRACTOR": 4
+   },
+   "fuente": "09_unified/runs/_excluido_solo_luna/taylor_graph/20260923-193739-gpt-5.4-mini-low/attempts.jsonl",
+   "sha": "d8972aaaf14d20a4",
+   "codigo": "dff30ac55387001b"
+  },
+  {
+   "corrida": "_piloto/_descartado_bisection_isabelle_parser_bug/20260923-153833",
+   "archivada": true,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle",
+   "modelo": "gpt-6-luna",
+   "episodios": 1,
+   "aceptados": 0,
+   "intentos": 1,
+   "etiquetas": {
+    "VCG_FAILED": 1
+   },
+   "fuente": "09_unified/runs/_piloto/_descartado_bisection_isabelle_parser_bug/20260923-153833/attempts.jsonl",
+   "sha": "fdfaca08e1435d3b",
+   "codigo": ""
+  },
+  {
+   "corrida": "_piloto/bisection_isabelle/20260923-154022",
+   "archivada": true,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle",
+   "modelo": "gpt-6-luna",
+   "episodios": 0,
+   "aceptados": 0,
+   "intentos": 0,
+   "etiquetas": {},
+   "fuente": "09_unified/runs/_piloto/bisection_isabelle/20260923-154022/attempts.jsonl",
+   "sha": "e3b0c44298fc1c14",
+   "codigo": ""
+  },
+  {
+   "corrida": "_v0/bisection_graph/20260923-152937",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "bisection_graph",
+   "modelo": "gpt-5.4-mini",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 24,
+   "etiquetas": {
+    "ACCEPTED": 20,
+    "INVALID_STEP": 4
+   },
+   "fuente": "09_unified/runs/_v0/bisection_graph/20260923-152937/attempts.jsonl",
+   "sha": "55040c62171e168f",
+   "codigo": ""
+  },
+  {
+   "corrida": "_v0/bisection_graph/20260923-153831",
+   "archivada": true,
+   "juez": "lemma_graph",
+   "entorno": "bisection_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 5,
+   "aceptados": 5,
+   "intentos": 5,
+   "etiquetas": {
+    "ACCEPTED": 5
+   },
+   "fuente": "09_unified/runs/_v0/bisection_graph/20260923-153831/attempts.jsonl",
+   "sha": "04f98c58b236b2bd",
+   "codigo": ""
+  },
+  {
+   "corrida": "bisection_graph/20260923-193740-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "lemma_graph",
+   "entorno": "bisection_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 20,
+   "etiquetas": {
+    "ACCEPTED": 20
+   },
+   "fuente": "09_unified/runs/bisection_graph/20260923-193740-gpt-6-luna-high/attempts.jsonl",
+   "sha": "5ab69925bd135475",
+   "codigo": "dff30ac55387001b"
+  },
+  {
+   "corrida": "bisection_isabelle/20260923-155924-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "VC_OPEN": 12
+   },
+   "fuente": "09_unified/runs/bisection_isabelle/20260923-155924-gpt-6-luna-high/attempts.jsonl",
+   "sha": "fcfd00dd38a1f31e",
+   "codigo": "a053f2d4c8ea43bd"
+  },
+  {
+   "corrida": "bisection_isabelle_lemas/20260923-211101-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle_lemas",
+   "modelo": "gpt-6-luna",
+   "episodios": 1,
+   "aceptados": 0,
+   "intentos": 4,
+   "etiquetas": {
+    "VC_OPEN": 2,
+    "LEMMA_FAILED": 2
+   },
+   "fuente": "09_unified/runs/bisection_isabelle_lemas/20260923-211101-gpt-6-luna-high/attempts.jsonl",
+   "sha": "4ff366575278c567",
+   "codigo": "ca7b35f40457a756"
+  },
+  {
+   "corrida": "bisection_isabelle_lemas_mem/20260923-215521-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle_lemas_mem",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "VC_OPEN": 2,
+    "LEMMA_FAILED": 10
+   },
+   "fuente": "09_unified/runs/bisection_isabelle_lemas_mem/20260923-215521-gpt-6-luna-high/attempts.jsonl",
+   "sha": "9756426b18dd6d45",
+   "codigo": "2de201754f3073b3"
+  },
+  {
+   "corrida": "bisection_isabelle_lemas_mem/20260923-224900-gpt-6-astra-high",
+   "archivada": false,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle_lemas_mem",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "LEMMA_FAILED": 8,
+    "PROVIDER_ERROR": 4
+   },
+   "fuente": "09_unified/runs/bisection_isabelle_lemas_mem/20260923-224900-gpt-6-astra-high/attempts.jsonl",
+   "sha": "76a198614a9f15a2",
+   "codigo": "61c5c2b8649611f6"
+  },
+  {
+   "corrida": "bisection_isabelle_lemas_mem/20260924-060102-gpt-6-astra-high",
+   "archivada": false,
+   "juez": "isabelle",
+   "entorno": "bisection_isabelle_lemas_mem",
+   "modelo": "gpt-6-astra",
+   "episodios": 1,
+   "aceptados": 0,
+   "intentos": 4,
+   "etiquetas": {
+    "LEMMA_FAILED": 4
+   },
+   "fuente": "09_unified/runs/bisection_isabelle_lemas_mem/20260924-060102-gpt-6-astra-high/attempts.jsonl",
+   "sha": "3003c54a5dbea4e8",
+   "codigo": "61c5c2b8649611f6"
+  },
+  {
+   "corrida": "fixedpoint_graph/20260923-200114-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "lemma_graph",
+   "entorno": "fixedpoint_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 20,
+   "etiquetas": {
+    "ACCEPTED": 20
+   },
+   "fuente": "09_unified/runs/fixedpoint_graph/20260923-200114-gpt-6-luna-high/attempts.jsonl",
+   "sha": "006789c3bfc1d383",
+   "codigo": "1028b6b7db86e0f7"
+  },
+  {
+   "corrida": "gd_const_dt/20260924-091710-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "isabelle_teorema",
+   "entorno": "gd_const_dt",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROOF_FAILED": 4,
+    "TIMEOUT": 3,
+    "LEMMA_FAILED": 5
+   },
+   "fuente": "09_unified/runs/gd_const_dt/20260924-091710-gpt-6-luna-high/attempts.jsonl",
+   "sha": "99d2f6bd9a33fadf",
+   "codigo": "6786e6748894a378"
+  },
+  {
+   "corrida": "gd_const_n2/20260924-073842-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "isabelle_teorema",
+   "entorno": "gd_const_n2",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "PROOF_FAILED": 12
+   },
+   "fuente": "09_unified/runs/gd_const_n2/20260924-073842-gpt-6-luna-high/attempts.jsonl",
+   "sha": "3ca5ba251bf21f30",
+   "codigo": "557c0d8abb1ce464"
+  },
+  {
+   "corrida": "gd_const_textbook/20260924-082858-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "isabelle_teorema",
+   "entorno": "gd_const_textbook",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "LEMMA_FAILED": 11,
+    "STATEMENT_DRIFT": 1
+   },
+   "fuente": "09_unified/runs/gd_const_textbook/20260924-082858-gpt-6-luna-high/attempts.jsonl",
+   "sha": "05492f78e4f24d0f",
+   "codigo": "6786e6748894a378"
+  },
+  {
+   "corrida": "gd_n1/20260924-062122-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "isabelle_teorema",
+   "entorno": "gd_n1",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "INVALID_PROPOSAL": 4,
+    "PROOF_FAILED": 8
+   },
+   "fuente": "09_unified/runs/gd_n1/20260924-062122-gpt-6-luna-high/attempts.jsonl",
+   "sha": "1a218fb4a36bf7eb",
+   "codigo": "468180702f068c44"
+  },
+  {
+   "corrida": "newton_graph/20260923-200118-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "lemma_graph",
+   "entorno": "newton_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 20,
+   "etiquetas": {
+    "ACCEPTED": 20
+   },
+   "fuente": "09_unified/runs/newton_graph/20260923-200118-gpt-6-luna-high/attempts.jsonl",
+   "sha": "9794b35acc17a16a",
+   "codigo": "1028b6b7db86e0f7"
+  },
+  {
+   "corrida": "pep_fval_mu001_n4/20260924-061156-gpt-6-astra-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_fval_mu001_n4",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 3,
+   "intentos": 4,
+   "etiquetas": {
+    "INVALID_SCHEDULE": 1,
+    "CERTIFIED": 3
+   },
+   "fuente": "09_unified/runs/pep_fval_mu001_n4/20260924-061156-gpt-6-astra-high/attempts.jsonl",
+   "sha": "3eedbc6632878cf7",
+   "codigo": "3b796cf0ea9262d7"
+  },
+  {
+   "corrida": "pep_fval_mu001_n4/20260924-074351-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_fval_mu001_n4",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "NOT_IMPROVED": 12
+   },
+   "fuente": "09_unified/runs/pep_fval_mu001_n4/20260924-074351-gpt-6-luna-high/attempts.jsonl",
+   "sha": "3a5c7b38c9a56a85",
+   "codigo": "557c0d8abb1ce464"
+  },
+  {
+   "corrida": "pep_fval_mu01_n5/20260924-062058-gpt-6-astra-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_fval_mu01_n5",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 3,
+   "intentos": 3,
+   "etiquetas": {
+    "CERTIFIED": 3
+   },
+   "fuente": "09_unified/runs/pep_fval_mu01_n5/20260924-062058-gpt-6-astra-high/attempts.jsonl",
+   "sha": "a96119e060fefc1d",
+   "codigo": "468180702f068c44"
+  },
+  {
+   "corrida": "pep_fval_mu01_n5/20260924-075941-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_fval_mu01_n5",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "NOT_IMPROVED": 12
+   },
+   "fuente": "09_unified/runs/pep_fval_mu01_n5/20260924-075941-gpt-6-luna-high/attempts.jsonl",
+   "sha": "cc68591517f88c8b",
+   "codigo": "557c0d8abb1ce464"
+  },
+  {
+   "corrida": "pep_gradnorm_n4/20260924-060113-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "NOT_IMPROVED": 12
+   },
+   "fuente": "09_unified/runs/pep_gradnorm_n4/20260924-060113-gpt-6-luna-high/attempts.jsonl",
+   "sha": "86f3deeadd0c4f96",
+   "codigo": "58d4f6941bc218e2"
+  },
+  {
+   "corrida": "pep_gradnorm_n4/20260924-060127-gpt-6-astra-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 3,
+   "intentos": 3,
+   "etiquetas": {
+    "CERTIFIED": 3
+   },
+   "fuente": "09_unified/runs/pep_gradnorm_n4/20260924-060127-gpt-6-astra-high/attempts.jsonl",
+   "sha": "1d373d9b68c87c50",
+   "codigo": "58d4f6941bc218e2"
+  },
+  {
+   "corrida": "pep_gradnorm_n4_neg/20260924-060745-gpt-6-astra-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4_neg",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 3,
+   "intentos": 3,
+   "etiquetas": {
+    "CERTIFIED": 3
+   },
+   "fuente": "09_unified/runs/pep_gradnorm_n4_neg/20260924-060745-gpt-6-astra-high/attempts.jsonl",
+   "sha": "c1a6b7c61ee14c98",
+   "codigo": "ec492bd5f7b40ff6"
+  },
+  {
+   "corrida": "pep_gradnorm_n4_neg/20260924-072359-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n4_neg",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "NOT_IMPROVED": 11,
+    "INVALID_SCHEDULE": 1
+   },
+   "fuente": "09_unified/runs/pep_gradnorm_n4_neg/20260924-072359-gpt-6-luna-high/attempts.jsonl",
+   "sha": "32b3feaf20eb465b",
+   "codigo": "557c0d8abb1ce464"
+  },
+  {
+   "corrida": "pep_gradnorm_n6/20260924-060414-gpt-6-astra-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n6",
+   "modelo": "gpt-6-astra",
+   "episodios": 3,
+   "aceptados": 3,
+   "intentos": 3,
+   "etiquetas": {
+    "CERTIFIED": 3
+   },
+   "fuente": "09_unified/runs/pep_gradnorm_n6/20260924-060414-gpt-6-astra-high/attempts.jsonl",
+   "sha": "7212430a8f233825",
+   "codigo": "58d4f6941bc218e2"
+  },
+  {
+   "corrida": "pep_gradnorm_n6/20260924-061836-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "pep",
+   "entorno": "pep_gradnorm_n6",
+   "modelo": "gpt-6-luna",
+   "episodios": 3,
+   "aceptados": 0,
+   "intentos": 12,
+   "etiquetas": {
+    "NOT_IMPROVED": 12
+   },
+   "fuente": "09_unified/runs/pep_gradnorm_n6/20260924-061836-gpt-6-luna-high/attempts.jsonl",
+   "sha": "b8712be8a04b2a81",
+   "codigo": "468180702f068c44"
+  },
+  {
+   "corrida": "secant_graph/20260923-200120-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "lemma_graph",
+   "entorno": "secant_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 23,
+   "etiquetas": {
+    "ACCEPTED": 20,
+    "INVALID_STEP": 2,
+    "DISTRACTOR": 1
+   },
+   "fuente": "09_unified/runs/secant_graph/20260923-200120-gpt-6-luna-high/attempts.jsonl",
+   "sha": "6397dbd86555848e",
+   "codigo": "1028b6b7db86e0f7"
+  },
+  {
+   "corrida": "taylor_graph/20260923-200116-gpt-6-luna-high",
+   "archivada": false,
+   "juez": "lemma_graph",
+   "entorno": "taylor_graph",
+   "modelo": "gpt-6-luna",
+   "episodios": 20,
+   "aceptados": 20,
+   "intentos": 24,
+   "etiquetas": {
+    "INVALID_STEP": 4,
+    "ACCEPTED": 20
+   },
+   "fuente": "09_unified/runs/taylor_graph/20260923-200116-gpt-6-luna-high/attempts.jsonl",
+   "sha": "fcc605c2f8930741",
+   "codigo": "1028b6b7db86e0f7"
+  }
+ ],
+ "corpus": {
+  "peldanos": 48,
+  "estados": {
+   "aprobado": 48
+  },
+  "splits": {
+   "train": 32,
+   "test": 16
+  },
+  "versiones": {
+   "clasica": 37,
+   "debilitada": 11
+  },
+  "por_metodo": [
+   {
+    "split": "test",
+    "metodo": "regula_falsi",
+    "d1": 0,
+    "d2": 2,
+    "d3": 3,
+    "d4": 0,
+    "d5": 2,
+    "total": 7
+   },
+   {
+    "split": "test",
+    "metodo": "secante",
+    "d1": 0,
+    "d2": 3,
+    "d3": 0,
+    "d4": 3,
+    "d5": 3,
+    "total": 9
+   },
+   {
+    "split": "train",
+    "metodo": "biseccion",
+    "d1": 1,
+    "d2": 3,
+    "d3": 3,
+    "d4": 1,
+    "d5": 0,
+    "total": 8
+   },
+   {
+    "split": "train",
+    "metodo": "newton",
+    "d1": 0,
+    "d2": 2,
+    "d3": 2,
+    "d4": 4,
+    "d5": 1,
+    "total": 9
+   },
+   {
+    "split": "train",
+    "metodo": "ordenes",
+    "d1": 1,
+    "d2": 2,
+    "d3": 0,
+    "d4": 0,
+    "d5": 0,
+    "total": 3
+   },
+   {
+    "split": "train",
+    "metodo": "punto_fijo",
+    "d1": 1,
+    "d2": 5,
+    "d3": 5,
+    "d4": 1,
+    "d5": 0,
+    "total": 12
+   }
+  ],
+  "numerica": {
+   "todos_cumplen": true,
+   "menos_de_400": {
+    "newton_6c_q_orden2": 20,
+    "rf_1_punto": 148,
+    "rf_6c_puntos_convergen": 392,
+    "secante_6c_orden_phi": 17
+   }
+  },
+  "aprobados_por": {
+   "Carlos Manuel Orrego Franco 2026-09-24": 48
+  },
+  "con_referencia_privada": [
+   "bis_4_raiz",
+   "bis_5_cota",
+   "pf_1_derivada",
+   "pf_2_dentro",
+   "pf_4_decaimiento",
+   "pf_9_cuadratico"
+  ],
+  "validacion_isabelle": {
+   "biseccion": true,
+   "punto_fijo": true,
+   "newton": true,
+   "ordenes": true,
+   "secante": true,
+   "regula_falsi": true
+  },
+  "exportacion_y_sorry": 48,
+  "fuentes": {
+   "09_unified/corpus/raices/validacion_isabelle.json": "6d6acaa6dcbdef36",
+   "09_unified/corpus/raices/validacion_exportacion.json": "5f282e47aad7f548",
+   "09_unified/corpus/raices/revision_enunciados.md": "ccccd389060011f7"
+  }
+ },
+ "linea_base_A": {
+  "cuaderno": "sin-cuaderno",
+  "fecha": "2026-09-24T16:54",
+  "grupos": [
+   {
+    "grupo": [
+     "dificultad",
+     "test",
+     2
+    ],
+    "resueltos": 0,
+    "n": 5
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "test",
+     3
+    ],
+    "resueltos": 0,
+    "n": 3
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "test",
+     4
+    ],
+    "resueltos": 0,
+    "n": 3
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "test",
+     5
+    ],
+    "resueltos": 0,
+    "n": 5
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "train",
+     1
+    ],
+    "resueltos": 0,
+    "n": 3
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "train",
+     2
+    ],
+    "resueltos": 1,
+    "n": 12
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "train",
+     3
+    ],
+    "resueltos": 0,
+    "n": 10
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "train",
+     4
+    ],
+    "resueltos": 0,
+    "n": 6
+   },
+   {
+    "grupo": [
+     "dificultad",
+     "train",
+     5
+    ],
+    "resueltos": 0,
+    "n": 1
+   },
+   {
+    "grupo": [
+     "metodo",
+     "biseccion"
+    ],
+    "resueltos": 0,
+    "n": 8
+   },
+   {
+    "grupo": [
+     "metodo",
+     "newton"
+    ],
+    "resueltos": 0,
+    "n": 9
+   },
+   {
+    "grupo": [
+     "metodo",
+     "ordenes"
+    ],
+    "resueltos": 0,
+    "n": 3
+   },
+   {
+    "grupo": [
+     "metodo",
+     "punto_fijo"
+    ],
+    "resueltos": 1,
+    "n": 12
+   },
+   {
+    "grupo": [
+     "metodo",
+     "regula_falsi"
+    ],
+    "resueltos": 0,
+    "n": 7
+   },
+   {
+    "grupo": [
+     "metodo",
+     "secante"
+    ],
+    "resueltos": 0,
+    "n": 9
+   },
+   {
+    "grupo": [
+     "split",
+     "test"
+    ],
+    "resueltos": 0,
+    "n": 16
+   },
+   {
+    "grupo": [
+     "split",
+     "train"
+    ],
+    "resueltos": 1,
+    "n": 32
+   },
+   {
+    "grupo": [
+     "todos"
+    ],
+    "resueltos": 1,
+    "n": 48
+   }
+  ],
+  "segundos": {
+   "media": 76.0,
+   "min": 65.9,
+   "max": 99.0
+  },
+  "fuente": "09_unified/resultados/martillo_linea_base.json",
+  "sha": "404f799d93412d5f"
+ },
+ "rl_verbal": [
+  {
+   "corrida": "20260925-073216-gpt-6-luna",
+   "fase": "cuaderno",
+   "modelo": "gpt-6-luna",
+   "estado": "interrumpida por error",
+   "inicio": "2026-09-25T07:32:16",
+   "codigo": {
+    "unirl_sha256": "5ef59e25793670fb",
+    "git_commit": "dcb8f7b",
+    "unirl_dirty": true
+   },
+   "por_config": {
+    "F": {
+     "planeados": 32,
+     "registrados": 6,
+     "aceptados_entre_registrados": 1
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 27,
+   "fuentes": {
+    "09_unified/runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/meta.json": "37cb770eb3b78a7c",
+    "09_unified/runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/episodios.jsonl": "69dcefc6ba59d7be",
+    "09_unified/runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/llamadas.jsonl": "460f0c565ac65045"
+   }
+  },
+  {
+   "corrida": "20260925-073228-gpt-6-luna",
+   "fase": "evaluacion",
+   "modelo": "gpt-6-luna",
+   "estado": "interrumpida por error",
+   "inicio": "2026-09-25T07:32:28",
+   "codigo": {
+    "unirl_sha256": "5ef59e25793670fb",
+    "git_commit": "dcb8f7b",
+    "unirl_dirty": true
+   },
+   "por_config": {
+    "B0": {
+     "planeados": 32,
+     "registrados": 14,
+     "aceptados_entre_registrados": 0
+    },
+    "B": {
+     "planeados": 32,
+     "registrados": 21,
+     "aceptados_entre_registrados": 3
+    },
+    "C": {
+     "planeados": 32,
+     "registrados": 14,
+     "aceptados_entre_registrados": 8
+    }
+   },
+   "perdidos": 47,
+   "llamadas_registradas": 183,
+   "fuentes": {
+    "09_unified/runs/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/meta.json": "46c9cb3063be5c2e",
+    "09_unified/runs/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/episodios.jsonl": "c272c3c00656fad5",
+    "09_unified/runs/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/llamadas.jsonl": "ee19fa93f3af662a"
+   }
+  },
+  {
+   "corrida": "20260925-072357-gpt-6-luna",
+   "fase": "humo",
+   "modelo": "gpt-6-luna",
+   "estado": "terminado",
+   "inicio": "2026-09-25T07:23:57",
+   "codigo": {
+    "unirl_sha256": "32799044dbcbbb01",
+    "git_commit": "dcb8f7b",
+    "unirl_dirty": true
+   },
+   "por_config": {
+    "C": {
+     "planeados": 0,
+     "registrados": 1,
+     "aceptados_entre_registrados": 1
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 4,
+   "fuentes": {
+    "09_unified/runs/rl_verbal/humo/20260925-072357-gpt-6-luna/meta.json": "9cf6014b7041e72d",
+    "09_unified/runs/rl_verbal/humo/20260925-072357-gpt-6-luna/episodios.jsonl": "11627f013e2edd8c",
+    "09_unified/runs/rl_verbal/humo/20260925-072357-gpt-6-luna/llamadas.jsonl": "d8fabd3bebb3fcdd"
+   }
+  },
+  {
+   "corrida": "20260925-073231-gpt-6-sol",
+   "fase": "medicion_sol",
+   "modelo": "gpt-6-sol",
+   "estado": "terminado",
+   "inicio": "2026-09-25T07:32:31",
+   "codigo": {
+    "unirl_sha256": "5ef59e25793670fb",
+    "git_commit": "dcb8f7b",
+    "unirl_dirty": true
+   },
+   "por_config": {},
+   "perdidos": 0,
+   "llamadas_registradas": 3,
+   "fuentes": {
+    "09_unified/runs/rl_verbal/medicion_sol/20260925-073231-gpt-6-sol/meta.json": "37d7fb73e2cadd77",
+    "09_unified/runs/rl_verbal/medicion_sol/20260925-073231-gpt-6-sol/llamadas.jsonl": "14b17471d9c9593e"
+   }
+  },
+  {
+   "corrida": "20260925-073939-gpt-6-luna",
+   "fase": "pareada_luna",
+   "modelo": "gpt-6-luna",
+   "estado": "interrumpida por error",
+   "inicio": "2026-09-25T07:39:39",
+   "codigo": {
+    "unirl_sha256": "5ef59e25793670fb",
+    "git_commit": "dcb8f7b",
+    "unirl_dirty": true
+   },
+   "por_config": {
+    "C3": {
+     "planeados": 16,
+     "registrados": 7,
+     "aceptados_entre_registrados": 2
+    }
+   },
+   "perdidos": 9,
+   "llamadas_registradas": 35,
+   "fuentes": {
+    "09_unified/runs/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/meta.json": "31bc23fee80e35b3",
+    "09_unified/runs/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/episodios.jsonl": "b55d6176cde3ff7e",
+    "09_unified/runs/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/llamadas.jsonl": "41e2c709d520f62d"
+   }
+  },
+  {
+   "corrida": "20260925-073936-gpt-6-sol",
+   "fase": "pareada_sol",
+   "modelo": "gpt-6-sol",
+   "estado": "interrumpida por error",
+   "inicio": "2026-09-25T07:39:36",
+   "codigo": {
+    "unirl_sha256": "5ef59e25793670fb",
+    "git_commit": "dcb8f7b",
+    "unirl_dirty": true
+   },
+   "por_config": {
+    "C3": {
+     "planeados": 16,
+     "registrados": 9,
+     "aceptados_entre_registrados": 4
+    }
+   },
+   "perdidos": 7,
+   "llamadas_registradas": 38,
+   "fuentes": {
+    "09_unified/runs/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/meta.json": "215e5770a2749364",
+    "09_unified/runs/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/episodios.jsonl": "08d67fc16cb59d04",
+    "09_unified/runs/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/llamadas.jsonl": "4947274b1471e82d"
+   }
+  }
+ ],
+ "gasto": {
+  "tope_usd": 25.0,
+  "total_usd": 4.158282,
+  "llamadas": 354,
+  "primera": "2026-09-25T07:24:22",
+  "ultima": "2026-09-25T09:27:17",
+  "por_corrida": {
+   "humo|20260925-072357-gpt-6-luna|gpt-6-luna": {
+    "llamadas": 4,
+    "usd": 0.003848
+   },
+   "evaluacion|20260925-073228-gpt-6-luna|gpt-6-luna": {
+    "llamadas": 230,
+    "usd": 0.740976
+   },
+   "cuaderno|20260925-073216-gpt-6-luna|gpt-6-luna": {
+    "llamadas": 28,
+    "usd": 0.088981
+   },
+   "medicion_sol|20260925-073231-gpt-6-sol|gpt-6-sol": {
+    "llamadas": 3,
+    "usd": 0.208352
+   },
+   "pareada_sol|20260925-073936-gpt-6-sol|gpt-6-sol": {
+    "llamadas": 45,
+    "usd": 2.952131
+   },
+   "pareada_luna|20260925-073939-gpt-6-luna|gpt-6-luna": {
+    "llamadas": 44,
+    "usd": 0.163994
+   }
+  },
+  "por_modelo": {
+   "gpt-6-luna": {
+    "llamadas": 306,
+    "usd": 0.997799
+   },
+   "gpt-6-sol": {
+    "llamadas": 48,
+    "usd": 3.160483
+   }
+  },
+  "restante_usd": 20.841718,
+  "fuente": "09_unified/logs/gasto.json",
+  "sha": "936d47504c65b94d",
+  "nota": "Empieza el 25 sep 07:24. Las corridas anteriores (06 del 9–10 sep; 09 del 23–24 sep) no registraron tokens: su costo no está medido."
+ }
+}
