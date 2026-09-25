@@ -1,0 +1,530 @@
+{
+ "generado": "2026-09-25T14:57:17",
+ "nivel": "95 %, Clopper–Pearson exacto",
+ "fuentes": {
+  "resumen.json": "2026-09-25T14:57:16",
+  "commit": "08b6264"
+ },
+ "A_sin_cuaderno": {
+  "todos": {
+   "exitos": 1,
+   "n": 48,
+   "tasa": 0.0208,
+   "ic95": [
+    0.0005,
+    0.1107
+   ]
+  },
+  "train": {
+   "exitos": 1,
+   "n": 32,
+   "tasa": 0.0312,
+   "ic95": [
+    0.0008,
+    0.1622
+   ]
+  },
+  "test": {
+   "exitos": 0,
+   "n": 16,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.2059
+   ]
+  },
+  "por_metodo": {
+   "biseccion": {
+    "exitos": 0,
+    "n": 8,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.3694
+    ]
+   },
+   "newton": {
+    "exitos": 0,
+    "n": 9,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.3363
+    ]
+   },
+   "ordenes": {
+    "exitos": 0,
+    "n": 3,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.7076
+    ]
+   },
+   "punto_fijo": {
+    "exitos": 1,
+    "n": 12,
+    "tasa": 0.0833,
+    "ic95": [
+     0.0021,
+     0.3848
+    ]
+   },
+   "regula_falsi": {
+    "exitos": 0,
+    "n": 7,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.4096
+    ]
+   },
+   "secante": {
+    "exitos": 0,
+    "n": 9,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.3363
+    ]
+   }
+  },
+  "por_dificultad": {
+   "test d2": {
+    "exitos": 0,
+    "n": 5,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.5218
+    ]
+   },
+   "test d3": {
+    "exitos": 0,
+    "n": 3,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.7076
+    ]
+   },
+   "test d4": {
+    "exitos": 0,
+    "n": 3,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.7076
+    ]
+   },
+   "test d5": {
+    "exitos": 0,
+    "n": 5,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.5218
+    ]
+   },
+   "train d1": {
+    "exitos": 0,
+    "n": 3,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.7076
+    ]
+   },
+   "train d2": {
+    "exitos": 1,
+    "n": 12,
+    "tasa": 0.0833,
+    "ic95": [
+     0.0021,
+     0.3848
+    ]
+   },
+   "train d3": {
+    "exitos": 0,
+    "n": 10,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.3085
+    ]
+   },
+   "train d4": {
+    "exitos": 0,
+    "n": 6,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.4593
+    ]
+   },
+   "train d5": {
+    "exitos": 0,
+    "n": 1,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.975
+    ]
+   }
+  },
+  "T_estrella_test_sin_cuaderno": 16,
+  "nota": "H1 se decide con el cuaderno congelado (criterio prerregistrado: |T*_test| ≥ 12 de 16); aún no hay cuaderno. Sin cuaderno, el martillo solo no cierra ninguno de los 16 de test."
+ },
+ "V_G_grafo": {
+  "por_metodo": {
+   "bisection_graph | gpt-6-luna (high)": {
+    "exitos": 20,
+    "n": 20,
+    "tasa": 1.0,
+    "ic95": [
+     0.8316,
+     1.0
+    ]
+   },
+   "fixedpoint_graph | gpt-6-luna (high)": {
+    "exitos": 20,
+    "n": 20,
+    "tasa": 1.0,
+    "ic95": [
+     0.8316,
+     1.0
+    ]
+   },
+   "newton_graph | gpt-6-luna (high)": {
+    "exitos": 20,
+    "n": 20,
+    "tasa": 1.0,
+    "ic95": [
+     0.8316,
+     1.0
+    ]
+   },
+   "secant_graph | gpt-6-luna (high)": {
+    "exitos": 20,
+    "n": 20,
+    "tasa": 1.0,
+    "ic95": [
+     0.8316,
+     1.0
+    ]
+   },
+   "taylor_graph | gpt-6-luna (high)": {
+    "exitos": 20,
+    "n": 20,
+    "tasa": 1.0,
+    "ic95": [
+     0.8316,
+     1.0
+    ]
+   }
+  },
+  "conjunto": {
+   "exitos": 100,
+   "n": 100,
+   "tasa": 1.0,
+   "ic95": [
+    0.9638,
+    1.0
+   ]
+  },
+  "nota": "20 episodios independientes por método (sin memoria). El juez es el grafo escrito a mano: no demuestra nada por sí mismo."
+ },
+ "V_P_PEP": {
+  "primer_episodio_por_variante": {
+   "pep_fval_mu001_n4 | gpt-6-astra (high)": {
+    "exitos": 1,
+    "n": 1,
+    "tasa": 1.0,
+    "ic95": [
+     0.025,
+     1.0
+    ]
+   },
+   "pep_fval_mu001_n4 | gpt-6-luna (high)": {
+    "exitos": 0,
+    "n": 1,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.975
+    ]
+   },
+   "pep_fval_mu01_n5 | gpt-6-astra (high)": {
+    "exitos": 1,
+    "n": 1,
+    "tasa": 1.0,
+    "ic95": [
+     0.025,
+     1.0
+    ]
+   },
+   "pep_fval_mu01_n5 | gpt-6-luna (high)": {
+    "exitos": 0,
+    "n": 1,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.975
+    ]
+   },
+   "pep_gradnorm_n4 | gpt-6-luna (high)": {
+    "exitos": 0,
+    "n": 1,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.975
+    ]
+   },
+   "pep_gradnorm_n4 | gpt-6-astra (high)": {
+    "exitos": 1,
+    "n": 1,
+    "tasa": 1.0,
+    "ic95": [
+     0.025,
+     1.0
+    ]
+   },
+   "pep_gradnorm_n4_neg | gpt-6-astra (high)": {
+    "exitos": 1,
+    "n": 1,
+    "tasa": 1.0,
+    "ic95": [
+     0.025,
+     1.0
+    ]
+   },
+   "pep_gradnorm_n4_neg | gpt-6-luna (high)": {
+    "exitos": 0,
+    "n": 1,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.975
+    ]
+   },
+   "pep_gradnorm_n6 | gpt-6-astra (high)": {
+    "exitos": 1,
+    "n": 1,
+    "tasa": 1.0,
+    "ic95": [
+     0.025,
+     1.0
+    ]
+   },
+   "pep_gradnorm_n6 | gpt-6-luna (high)": {
+    "exitos": 0,
+    "n": 1,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.975
+    ]
+   }
+  },
+  "por_modelo": {
+   "gpt-6-astra (high)": {
+    "exitos": 5,
+    "n": 5,
+    "tasa": 1.0,
+    "ic95": [
+     0.4782,
+     1.0
+    ]
+   },
+   "gpt-6-luna (high)": {
+    "exitos": 0,
+    "n": 5,
+    "tasa": 0.0,
+    "ic95": [
+     0.0,
+     0.5218
+    ]
+   }
+  },
+  "nota": "Solo el episodio 1 de cada variante es independiente: en los episodios 2 y 3 el modelo vio el programa certificado (15/15 de Astra = 5 descubrimientos + 10 repeticiones)."
+ },
+ "V_I_biseccion": {
+  "bisection_isabelle | gpt-6-luna (high)": {
+   "exitos": 0,
+   "n": 3,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.7076
+   ]
+  },
+  "bisection_isabelle_lemas | gpt-6-luna (high)": {
+   "exitos": 0,
+   "n": 1,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.975
+   ]
+  },
+  "bisection_isabelle_lemas_mem | gpt-6-luna (high)": {
+   "exitos": 0,
+   "n": 1,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.975
+   ]
+  },
+  "bisection_isabelle_lemas_mem | gpt-6-astra (high)": {
+   "exitos": 0,
+   "n": 1,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.975
+   ]
+  }
+ },
+ "stepsize_isabelle": {
+  "gd_const_dt | gpt-6-luna (high)": {
+   "exitos": 0,
+   "n": 1,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.975
+   ]
+  },
+  "gd_const_n2 | gpt-6-luna (high)": {
+   "exitos": 0,
+   "n": 1,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.975
+   ]
+  },
+  "gd_const_textbook | gpt-6-luna (high)": {
+   "exitos": 0,
+   "n": 1,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.975
+   ]
+  },
+  "gd_n1 | gpt-6-luna (high)": {
+   "exitos": 0,
+   "n": 1,
+   "tasa": 0.0,
+   "ic95": [
+    0.0,
+    0.975
+   ]
+  }
+ },
+ "primera_ronda": {
+  "terminadas": [],
+  "interrumpidas": [
+   "20260925-073216-gpt-6-luna",
+   "20260925-073228-gpt-6-luna",
+   "20260925-073939-gpt-6-luna",
+   "20260925-073936-gpt-6-sol"
+  ],
+  "tasas_por_configuracion": "no evaluable: ninguna corrida de evaluación terminó",
+  "mcnemar_C_frente_a_E": "no evaluable: E no se ha corrido (necesita el cuaderno congelado)",
+  "acuerdo_entre_dos_episodios": "no evaluable: la única corrida con dos episodios por peldaño se interrumpió",
+  "por_dificultad_y_metodo_en_test": "no evaluable hasta que termine la evaluación"
+ },
+ "mcnemar_umbrales": {
+  "tabla": [
+   {
+    "pares_discordantes": 1,
+    "b_minimo_a_favor_de_E": null,
+    "p_si_todos_a_favor": 1.0
+   },
+   {
+    "pares_discordantes": 2,
+    "b_minimo_a_favor_de_E": null,
+    "p_si_todos_a_favor": 0.5
+   },
+   {
+    "pares_discordantes": 3,
+    "b_minimo_a_favor_de_E": null,
+    "p_si_todos_a_favor": 0.25
+   },
+   {
+    "pares_discordantes": 4,
+    "b_minimo_a_favor_de_E": null,
+    "p_si_todos_a_favor": 0.125
+   },
+   {
+    "pares_discordantes": 5,
+    "b_minimo_a_favor_de_E": null,
+    "p_si_todos_a_favor": 0.0625
+   },
+   {
+    "pares_discordantes": 6,
+    "b_minimo_a_favor_de_E": 6,
+    "p_si_todos_a_favor": 0.03125
+   },
+   {
+    "pares_discordantes": 7,
+    "b_minimo_a_favor_de_E": 7,
+    "p_si_todos_a_favor": 0.01562
+   },
+   {
+    "pares_discordantes": 8,
+    "b_minimo_a_favor_de_E": 8,
+    "p_si_todos_a_favor": 0.00781
+   },
+   {
+    "pares_discordantes": 9,
+    "b_minimo_a_favor_de_E": 8,
+    "p_si_todos_a_favor": 0.00391
+   },
+   {
+    "pares_discordantes": 10,
+    "b_minimo_a_favor_de_E": 9,
+    "p_si_todos_a_favor": 0.00195
+   },
+   {
+    "pares_discordantes": 11,
+    "b_minimo_a_favor_de_E": 10,
+    "p_si_todos_a_favor": 0.00098
+   },
+   {
+    "pares_discordantes": 12,
+    "b_minimo_a_favor_de_E": 10,
+    "p_si_todos_a_favor": 0.00049
+   },
+   {
+    "pares_discordantes": 13,
+    "b_minimo_a_favor_de_E": 11,
+    "p_si_todos_a_favor": 0.00024
+   },
+   {
+    "pares_discordantes": 14,
+    "b_minimo_a_favor_de_E": 12,
+    "p_si_todos_a_favor": 0.00012
+   },
+   {
+    "pares_discordantes": 15,
+    "b_minimo_a_favor_de_E": 12,
+    "p_si_todos_a_favor": 6e-05
+   },
+   {
+    "pares_discordantes": 16,
+    "b_minimo_a_favor_de_E": 13,
+    "p_si_todos_a_favor": 3e-05
+   }
+  ],
+  "comprobacion_formulacion": {
+   "p(5 de 5)": 0.0625,
+   "p(6 de 6)": 0.03125,
+   "minimo_de_pares_para_rechazar": 6
+  }
+ }
+}

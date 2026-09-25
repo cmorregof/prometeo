@@ -209,9 +209,12 @@ def jueces09(filas: list[dict], resumen: dict) -> None:
         juez = meta.get("judge")
         codigo = (meta.get("code") or {}).get("unirl_sha256", "")
         corrida = str(m.parent.relative_to(U / "runs"))
+        cont_f = m.parent / "continuacion.json"
+        cont = json.loads(cont_f.read_text(encoding="utf-8")) if cont_f.exists() else None
         eps = defaultdict(list)
-        for a in intentos:
-            eps[a.get("episode")].append(a)
+        for a in intentos:  # una continuación numera desde 1 el episodio que repite (continuacion.json dice cuál es)
+            e = a.get("episode")
+            eps[(cont["episodio"] + e - 1) if cont and isinstance(e, int) else e].append(a)
         for e, v in sorted(eps.items(), key=lambda kv: (kv[0] is None, kv[0])):
             ok = [x for x in v if x.get("accepted")]
             etiquetas = Counter(x.get("outcome_label") for x in v)
@@ -222,7 +225,7 @@ def jueces09(filas: list[dict], resumen: dict) -> None:
             solo_proveedor = all(x.get("outcome_label") == "PROVIDER_ERROR" for x in v)
             incl = "no" if archivada else ("no (solo errores del proveedor; el episodio se repitió)" if solo_proveedor else "sí")
             filas.append(fila(subproyecto="09", experimento=f"juez {juez}", estado="terminado", incluida=incl,
-                              corrida=corrida, fecha=meta.get("started"), configuracion=f"{entorno}; B = {meta.get('budget')}; memoria {(meta.get('config') or {}).get('memory', 'no')}",
+                              corrida=corrida, fecha=meta.get("started"), configuracion=f"{entorno}; B = {meta.get('budget')}; memoria {(meta.get('config') or {}).get('memory', 'no')}" + (f"; continuación del episodio {cont['episodio']} de {cont['de']}" if cont else ""),
                               modelo=f"{meta.get('model')} ({meta.get('effort')})", tarea=entorno, episodio=e,
                               exito=int(bool(ok)), intentos_usados=len(v), intento_exito=min(x["step"] for x in ok) if ok else "",
                               tiempo_pared_s=round(sum((x.get("llm_s") or 0) + (x.get("cost_s") or 0) for x in v), 1),

@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-25T14:55:36",
- "commit": "e419660",
+ "generado": "2026-09-25T14:57:16",
+ "commit": "08b6264",
  "estados": [
   "terminado",
   "en curso",
@@ -872,7 +872,7 @@
    ],
    "fuente": "resultados/corridas_locales/01_biseccion/20260925-144905/historia.json",
    "sha": "114cf660968612d6",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -950,7 +950,7 @@
    ],
    "fuente": "resultados/corridas_locales/01_biseccion/20260925-145147/historia.json",
    "sha": "d6227492b355d582",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -993,7 +993,7 @@
    ],
    "fuente": "resultados/corridas_locales/01_biseccion_100gen/20260925-145306/historia.json",
    "sha": "7d49391fca93fa73",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -1046,7 +1046,7 @@
    ],
    "fuente": "resultados/corridas_locales/01_biseccion_300gen/20260925-145308/historia.json",
    "sha": "3e991f789cffa17f",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "02_punto_fijo",
@@ -1214,7 +1214,7 @@
    ],
    "fuente": "resultados/corridas_locales/02_punto_fijo/20260925-144906/historia.json",
    "sha": "37626eca26bc0fd3",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "03_taylor",
@@ -1472,7 +1472,7 @@
    ],
    "fuente": "resultados/corridas_locales/03_taylor/20260925-144906/historia.json",
    "sha": "96f2bafb7eb3f534",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "04_newton",
@@ -1561,7 +1561,7 @@
    ],
    "fuente": "resultados/corridas_locales/04_newton/20260925-144906/historia.json",
    "sha": "a7cd343df3bb0f81",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "05_secante",
@@ -1656,7 +1656,7 @@
    ],
    "fuente": "resultados/corridas_locales/05_secante/20260925-144907/historia.json",
    "sha": "32e2bf1447ffc6a6",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "07_interpolacion",
@@ -1735,7 +1735,7 @@
    ],
    "fuente": "resultados/corridas_locales/07_interpolacion/20260925-144926/historia.json",
    "sha": "9b966192857f8661",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   },
   {
    "proyecto": "07_interpolacion",
@@ -1814,7 +1814,7 @@
    ],
    "fuente": "resultados/corridas_locales/07_interpolacion/20260925-144934/historia.json",
    "sha": "6d3b0da3b485e38e",
-   "codigo": "e419660 (HEAD)"
+   "codigo": "08b6264 (HEAD)"
   }
  ],
  "stepsizes": {
