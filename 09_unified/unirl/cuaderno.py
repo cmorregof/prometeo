@@ -74,6 +74,14 @@ def render_errores(doc: dict) -> str:
            "Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y cada alternativa también "
            "(sí existe).", ""]
     for e in doc["errores"]:
+        if e.get("clase") == "aprendido":
+            # de la destilación (Etapa 6): texto libre, sin `en_su_lugar`; sus afirmaciones de existencia se
+            # comprobaron en Isabelle al admitirlo (25 sep: un KeyError aquí detuvo la construcción del cuaderno)
+            out += [f"## {e['id']} · aprendido en los episodios de train", "", f"* {e['texto']}"]
+            out += [f"* Comprobado en Isabelle2025: {TIPO[a['tipo']]} `{a['nombre']}` "
+                    f"{'existe' if a['existe'] else 'no existe'}." for a in e.get("afirma", [])]
+            out += [f"* Visto en episodios de este cuaderno: {e['contadores']['apariciones']}.", ""]
+            continue
         alts = ", ".join(f"{TIPO[a['tipo']]} `{a['nombre']}`" for a in e["en_su_lugar"])
         out += [f"## {e['id']} · `{e['lean']}` no existe en Isabelle ({TIPO[e['tipo']]} de Lean)", "",
                 f"* En su lugar: {alts}.", f"* {e['nota']}",

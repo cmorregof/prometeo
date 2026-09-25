@@ -177,7 +177,10 @@ def test_glosario_del_repo_comprobado_y_al_dia():
 def test_errores_md_del_repo_coincide_con_su_fuente():
     doc = json.loads(cuaderno.ERRORES_JSON.read_text())
     assert cuaderno.ERRORES_MD.read_text() == cuaderno.render_errores(doc)
-    assert len(doc["errores"]) == len(json.loads(cuaderno.GLOSARIO.read_text())["entradas"])
+    # el glosario sembrado sigue entero; después de construir el cuaderno se le suman errores aprendidos
+    glosario = [e for e in doc["errores"] if e.get("clase") == "glosario"]
+    assert len(glosario) == len(json.loads(cuaderno.GLOSARIO.read_text())["entradas"])
+    assert all(e.get("clase") in ("glosario", "aprendido") for e in doc["errores"])
 
 
 # ------------------------------------------------------------------------------------ con Isabelle

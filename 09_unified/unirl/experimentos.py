@@ -21,6 +21,7 @@ import re
 import statistics
 import sys
 import time
+import traceback
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
@@ -233,8 +234,13 @@ def construir_cuaderno(modelo: str, ids: list[str] | None = None, reanudar: Path
             todas = [json.loads(l) for l in llamadas_f.read_text().splitlines()]
             destilar(prov, cuad, pendientes_destilar, todas, llamadas_f, {"fase": "cuaderno", "corrida": out.name, "modelo": modelo})
     except ProviderFatal as e:
-        (out / "ABORTADA.txt").write_text(f"{datetime.now().isoformat(timespec='seconds')}: {e}\n", encoding="utf-8")
-        print(f"\nCORRIDA DETENIDA: {e}\nSe puede reanudar con --reanudar {out}", flush=True)
+        _abortar(out, str(e))
+        print(f"Se puede reanudar con --reanudar {out}", flush=True)
+        return out
+    except Exception:
+        # 25 sep: un KeyError al guardar el cuaderno lo dejó a medio escribir sin marca en la corrida
+        _abortar(out, f"error del código\n{traceback.format_exc()}")
+        print(f"Se puede reanudar con --reanudar {out} después de corregirlo", flush=True)
         return out
     congelado = cuad.congelar()
     (out / "FIN.json").write_text(json.dumps({"fin": datetime.now().isoformat(timespec="seconds"), "cuaderno": congelado.hash(),
@@ -307,21 +313,36 @@ def evaluar(modelo: str, configs: list[str], episodios_por_peldano: int, paralel
         if detener:
             return None
         meta = {"fase": fase, "corrida": out.name, "modelo": modelo, "episodio_id": f"{spec['id']}#{c}#{k}"}
-        ep = episodio(spec, CONFIGS[c], prov, llamadas_f, meta, cuaderno=cuad if CONFIGS[c].partes else None,
-                      cache=cache, resueltos=resueltos[c], verbose=verbose)
+        try:
+            ep = episodio(spec, CONFIGS[c], prov, llamadas_f, meta, cuaderno=cuad if CONFIGS[c].partes else None,
+                          cache=cache, resueltos=resueltos[c], verbose=verbose)
+        except BaseException:
+            detener.append(meta["episodio_id"])  # el mismo hilo detiene la corrida antes de tomar otro trabajo
+            raise
         escribir(episodios_f, {**_resumen_episodio(ep), "episodio_k": k})
         return ep
 
+    # 25 sep: aquí solo se capturaba ProviderFatal. Un error del código (sqlite desde hilos trabajadores) mataba el
+    # episodio sin registro y la corrida seguía hasta el final. Ahora cualquier fallo detiene la corrida: los
+    # episodios en curso terminan, no se lanza ninguno más, y ABORTADA.txt guarda el motivo con su traza.
     with ThreadPoolExecutor(max_workers=max(1, paralelo)) as ex:
-        futuros = [ex.submit(uno, *t) for t in trabajos]
+        futuros = {ex.submit(uno, *t): t for t in trabajos}
         for f in as_completed(futuros):
             try:
                 f.result()
             except ProviderFatal as e:
-                detener.append(str(e))
-                (out / "ABORTADA.txt").write_text(f"{datetime.now().isoformat(timespec='seconds')}: {e}\n", encoding="utf-8")
+                _abortar(out, str(e))
+            except Exception:
+                spec, c, k = futuros[f]
+                _abortar(out, f"error del código en {spec['id']}#{c}#{k}\n{traceback.format_exc()}")
     resumen(out)
     return out
+
+
+def _abortar(out: Path, motivo: str) -> None:
+    with open(out / "ABORTADA.txt", "a", encoding="utf-8") as fh:
+        fh.write(f"{datetime.now().isoformat(timespec='seconds')}: {motivo}\n")
+    print(f"\nCORRIDA DETENIDA ({out.name}): {motivo.splitlines()[0]}", file=sys.stderr, flush=True)
 
 
 # ----------------------------------------------------------------------------- Sol: medición previa
@@ -419,11 +440,14 @@ def main(argv: list[str] | None = None) -> int:
         escribir(out / "episodios.jsonl", _resumen_episodio(ep))
         print(resumen(out).read_text())
     elif a.cmd == "cuaderno":
-        construir_cuaderno(a.modelo, [x for x in a.ids.split(",") if x] or None, Path(a.reanudar) if a.reanudar else None)
+        out = construir_cuaderno(a.modelo, [x for x in a.ids.split(",") if x] or None, Path(a.reanudar) if a.reanudar else None)
+        return 0 if (out / "FIN.json").exists() else 1  # FIN.json solo existe si el cuaderno quedó congelado
     elif a.cmd == "evaluar":
         out = evaluar(a.modelo, a.configs.split(","), a.episodios, a.paralelo, a.cuaderno, a.fase,
                       [x for x in a.ids.split(",") if x] or None)
         print((out / "resumen.md").read_text())
+        if (out / "ABORTADA.txt").exists():  # código distinto de cero, para encadenar etapas con &&
+            return 1
     elif a.cmd == "linea-base":
         print(linea_base_con_cuaderno(cargar_congelado(a.cuaderno), a.config))
     elif a.cmd == "medir-sol":

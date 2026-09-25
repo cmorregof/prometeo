@@ -21,6 +21,7 @@ import hashlib
 import json
 import re
 import sqlite3
+import threading
 import time
 from pathlib import Path
 
@@ -271,28 +272,39 @@ def _ml_str(s: str) -> str:
 
 
 class Cache:
+    """Caché SQLite del martillo. `evaluar` lo crea en el hilo principal y lo usan los episodios desde hilos
+    trabajadores (25 sep: con la conexión por defecto, atada a su hilo, cada episodio con `by martillo` moría con
+    sqlite3.ProgrammingError). La conexión se comparte entre hilos bajo un candado, y SQLite coordina los procesos
+    que comparten el archivo."""
+
     def __init__(self, ruta: Path = CACHE):
         ruta.parent.mkdir(parents=True, exist_ok=True)
-        self.db = sqlite3.connect(str(ruta))
-        self.db.execute("create table if not exists martillo (clave text primary key, tipo text, resultado text, fecha text)")
+        self._candado = threading.Lock()
+        self.db = sqlite3.connect(str(ruta), check_same_thread=False, timeout=60)
+        with self._candado:
+            self.db.execute("create table if not exists martillo (clave text primary key, tipo text, resultado text, fecha text)")
 
     @staticmethod
     def clave(*partes: str) -> str:
         return hashlib.sha256("\x1f".join(partes).encode()).hexdigest()
 
     def leer(self, clave: str) -> dict | None:
-        r = self.db.execute("select resultado from martillo where clave = ?", (clave,)).fetchone()
+        with self._candado:
+            r = self.db.execute("select resultado from martillo where clave = ?", (clave,)).fetchone()
         return json.loads(r[0]) if r else None
 
     def guardar(self, clave: str, tipo: str, resultado: dict) -> None:
-        self.db.execute("insert or replace into martillo values (?, ?, ?, ?)",
-                        (clave, tipo, json.dumps(resultado, ensure_ascii=False), time.strftime("%Y-%m-%dT%H:%M:%S")))
-        self.db.commit()
+        with self._candado:
+            self.db.execute("insert or replace into martillo values (?, ?, ?, ?)",
+                            (clave, tipo, json.dumps(resultado, ensure_ascii=False), time.strftime("%Y-%m-%dT%H:%M:%S")))
+            self.db.commit()
 
     def lineas_de(self, prefijo: str) -> list[tuple[str, str]]:
         """(meta, línea) guardadas para un contexto (enunciado + cuaderno), para ofrecerlas al método `martillo`."""
+        with self._candado:
+            filas = self.db.execute("select resultado from martillo where tipo = 'paso'").fetchall()
         out = []
-        for (res,) in self.db.execute("select resultado from martillo where tipo = 'paso'"):
+        for (res,) in filas:
             d = json.loads(res)
             if d.get("contexto") == prefijo and d.get("linea"):
                 out.append((d["meta"], d["linea"]))
