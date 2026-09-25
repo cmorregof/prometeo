@@ -179,7 +179,7 @@ La cota de costo de toda la ronda es \CotaRelanzamiento: llamadas máximas por p
 \begin{table}[H]
 \centering\scriptsize
 \input{tablas/jueces.tex}
-\caption{Corridas de los jueces de 09 (23--24 sep), con Luna o Astra en esfuerzo alto y hasta 4 intentos por episodio. Las corridas archivadas (\texttt{runs/\_*}, cada una con su motivo) no se incluyen.}\label{tab:jueces}
+\caption{Corridas de los jueces de 09 (23--24 sep), con Luna o Astra en esfuerzo alto y hasta 4 intentos por episodio. Las corridas archivadas (\texttt{runs/\_*}, cada una con su motivo) no se incluyen. (a)~El episodio 3 se perdió sin créditos (4 intentos PROVIDER\_ERROR). (b)~Continuación que repite ese episodio 3 desde la memoria del episodio 2.}\label{tab:jueces}
 \fuente{\path{resultados/metricas.csv} (desde los \path{attempts.jsonl} de cada corrida).}
 \end{table}
 
@@ -208,7 +208,7 @@ Desde el 25 de septiembre a las 07:24, toda llamada a OpenAI pasa por un libro d
 \begin{table}[H]
 \centering\small
 \input{tablas/interrumpidas.tex}
-\caption{Corridas \estado{interrumpidas por error} el 25 de septiembre: solo conteos. En el cuaderno, los 26 peldaños sin registro no llegaron a intentarse; en las evaluaciones, todos los trabajos se procesaron y los que faltan murieron por el error. No se deben leer como tasas.}\label{tab:interrumpidas}
+\caption{Corridas \estado{interrumpidas por error} el 25 de septiembre: solo conteos. En el cuaderno, los 26 peldaños sin registro no llegaron a intentarse; en las evaluaciones, todos los trabajos se procesaron y los que faltan murieron por el error. «Aceptados» cuenta solo entre los registrados. No se deben leer como tasas.}\label{tab:interrumpidas}
 \fuente{El \path{episodios.jsonl} de cada corrida; \path{INTERRUMPIDA.md} en cada carpeta.}
 \end{table}
 
@@ -259,6 +259,7 @@ Las cifras de base que 02, 04 y 05 escriben como texto fijo («Newton puro conve
 
 \appendix
 \section{Procedencia}\label{ap:procedencia}
+\sloppy
 
 Datos consolidados en el commit \texttt{\CommitDatos}; tablas generadas en el commit \texttt{\CommitTablas}. Cada fila de \path{resultados/metricas.csv} lleva además su propia fuente, la huella SHA-256 de esa fuente y el código que la produjo. Los registros pesados (\texttt{llamadas.jsonl}) no se versionan y se identifican por su huella.
 

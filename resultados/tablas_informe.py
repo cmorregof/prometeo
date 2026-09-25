@@ -141,9 +141,9 @@ def main() -> None:
             v[0] += int(f["exito"] or 0)
             v[1] += 1
             if "continuación" in f["configuracion"]:
-                notas_cont[f["corrida"]] = " (repite el ep. 3)"
+                notas_cont[f["corrida"]] = "\\textsuperscript{b}"
         elif f["experimento"].startswith("juez ") and f["incluida"].startswith("no ("):
-            notas_cont.setdefault(f["corrida"], " (+1 ep. perdido sin créditos)")
+            notas_cont.setdefault(f["corrida"], "\\textsuperscript{a}")
     j = {a["corrida"]: a for a in R["jueces_09"] if not a["archivada"]}
     fl = []
     for a in sorted(j.values(), key=lambda a: (a["juez"], a["entorno"], a["modelo"], a["corrida"])):
@@ -151,7 +151,7 @@ def main() -> None:
         x, n = validos.get(a["corrida"], [0, 0])
         fl.append(f"{tex(a['juez'])} & {tex(a['entorno'])} & {tex(a['modelo'])} & {x} de {n}{notas_cont.get(a['corrida'], '')} & {{\\footnotesize {et}}}\\\\")
     (T / "jueces.tex").write_text(
-        "\\begin{tabular}{@{}lllr>{\\raggedright\\arraybackslash}p{5.2cm}@{}}\n\\toprule\nJuez & Entorno & Modelo & Episodios aceptados & Etiquetas de los intentos\\\\\n\\midrule\n"
+        "\\begin{tabular}{@{}lllr>{\\raggedright\\arraybackslash}p{5.0cm}@{}}\n\\toprule\nJuez & Entorno & Modelo & Episodios aceptados & Etiquetas de los intentos\\\\\n\\midrule\n"
         + "\n".join(fl) + "\n\\bottomrule\n\\end{tabular}\n", encoding="utf-8")
 
     # ------------------------------------------------------------------ gasto
@@ -194,7 +194,7 @@ def main() -> None:
             fl.append(f"{etiquetas_fase[c['fase']]} & {tex(c['modelo'])} & {tex(conf)} & {v['planeados']} & {v['registrados']} & "
                       f"{v['planeados'] - v['registrados']} & {v['aceptados_entre_registrados']}\\\\")
     (T / "interrumpidas.tex").write_text(
-        "\\begin{tabular}{@{}lllrrrr@{}}\n\\toprule\nCorrida & Modelo & Config. & Planeados & Registrados & Sin registro & Aceptados entre los registrados\\\\\n\\midrule\n"
+        "\\begin{tabular}{@{}lllrrrr@{}}\n\\toprule\nCorrida & Modelo & Config. & Planeados & Registrados & Sin registro & Aceptados\\\\\n\\midrule\n"
         + "\n".join(fl) + "\n\\bottomrule\n\\end{tabular}\n", encoding="utf-8")
 
     # ------------------------------------------------------------------ McNemar: umbrales
@@ -232,7 +232,7 @@ def main() -> None:
     ]
     fl = [f"{q} & \\path{{{ruta}}} & \\texttt{{{sha(ruta)}}} & {tex(c)} & {tex(f)}\\\\" for q, ruta, c, f in fuentes]
     (T / "procedencia.tex").write_text(
-        "\\begin{longtable}{@{}>{\\raggedright\\arraybackslash}p{3.0cm}>{\\raggedright\\arraybackslash}p{5.6cm}p{2.3cm}>{\\raggedright\\arraybackslash}p{2.9cm}>{\\raggedright\\arraybackslash}p{1.7cm}@{}}\n\\toprule\nQué & Archivo & SHA-256 (16) & Código & Fecha\\\\\n\\midrule\n\\endhead\n"
+        "\\begin{longtable}{@{}>{\\raggedright\\arraybackslash}p{3.0cm}>{\\raggedright\\arraybackslash}p{5.45cm}p{2.45cm}>{\\raggedright\\arraybackslash}p{2.9cm}>{\\raggedright\\arraybackslash}p{1.7cm}@{}}\n\\toprule\nQué & Archivo & SHA-256 (16) & Código & Fecha\\\\\n\\midrule\n\\endhead\n"
         + "\n".join(fl) + "\n\\bottomrule\n\\end{longtable}\n", encoding="utf-8")
 
     # ------------------------------------------------------------------ cifras del texto (también desde archivos)
