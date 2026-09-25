@@ -1,0 +1,35 @@
+{
+ "library": {},
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "NOT_IMPROVED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "def schedule(n: int) -> list[float]:\n    return [1.67] * n",
+   "last_feedback": "NOT_IMPROVED: τ = 0.0354959 vs τ_ref = 0.0295431; h = [1.8, 1.7, 1.6, 1.0]",
+   "best_extra": "τ = 0.0324200 frente a τ_ref = 0.0295431; h = [1.67, 1.67, 1.67, 1.67]"
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "NOT_IMPROVED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "def schedule(n: int) -> list[float]:\n    return [1.64, 1.74, 1.74, 1.64][:n]",
+   "last_feedback": "NOT_IMPROVED: τ = 0.0320327 vs τ_ref = 0.0295431; h = [1.64, 1.74, 1.74, 1.64]",
+   "best_extra": "τ = 0.0320327 frente a τ_ref = 0.0295431; h = [1.64, 1.74, 1.74, 1.64]"
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "NOT_IMPROVED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "def schedule(n: int) -> list[float]:\n    return [1.35, 2.05, 1.35, 2.05][:n]",
+   "last_feedback": "NOT_IMPROVED: τ = 0.0318308 vs τ_ref = 0.0295431; h = [1.35, 2.05, 1.35, 2.05]",
+   "best_extra": "τ = 0.0318308 frente a τ_ref = 0.0295431; h = [1.35, 2.05, 1.35, 2.05]"
+  }
+ ]
+}

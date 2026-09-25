@@ -1,0 +1,41 @@
+{
+ "library": {},
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "PROOF_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "by (simp [gd]; nlinarith [interp[of xs x0], interp[of x0 xs], interp[of xs \"x0 - g x0\"], interp[of \"x0 - g x0\" xs], interp[of xs \"x0 - g x0 - g (x0 - g x0)\"], interp[of \"x0 - g x0 - g (x0 - g x0)\" xs], interp[of x0 \"x0 - g x0\"], interp[of \"x0 - g x0\" x0], interp[of \"x0 - g x0\" \"x0 - g x0 - g (x0 - g x0)\"], interp[of \"x0 - g x0 - g (x0 - g x0)\" \"x0 - g x0\"], interp[of x0 \"x0 - g x0 - g (x0 - g x0)\"], interp[of \"x0 - g x0 - g (x0 - g x0)\" x0]])"
+   },
+   "last_feedback": "PROOF_FAILED: Isabelle rechazó la demostración (errores literales):\n*** Outer syntax error (línea 1 de tu PROOF): keyword \")\" expected,\n*** but end-of-input (línea 21 de tu PROOF) was found\n*** At command \"<malformed>\" (línea 1 de tu PROOF)",
+   "best_extra": "0 lemas verificados"
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "PROOF_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "by (simp [gd]; nlinarith\n  [interp[of xs x0], interp[of x0 xs],\n   interp[of xs \"x0 - g x0\"], interp[of \"x0 - g x0\" xs],\n   interp[of xs \"x0 - g x0 - g (x0 - g x0)\"],\n   interp[of \"x0 - g x0 - g (x0 - g x0)\" xs],\n   interp[of x0 \"x0 - g x0\"], interp[of \"x0 - g x0\" x0],\n   interp[of \"x0 - g x0\" \"x0 - g x0 - g (x0 - g x0)\"],\n   interp[of \"x0 - g x0 - g (x0 - g x0)\" \"x0 - g x0\"],\n   interp[of x0 \"x0 - g x0 - g (x0 - g x0)\"],\n   interp[of \"x0 - g x0 - g (x0 - g x0)\" x0])"
+   },
+   "last_feedback": "PROOF_FAILED: Isabelle rechazó la demostración (errores literales):\n*** Failed to apply initial proof method (línea 1 de tu PROOF):\n*** goal (1 subgoal):\n***  1. f (gd g [1, 1] x0) - f xs\n***     ≤ 1 / 10 *\n***       (norm\n***         (x0 -\n***          xs))⇧2\n*** At command \"by\" (línea 1 de tu PROOF)",
+   "best_extra": "0 lemas verificados"
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "PROOF_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "by\n  let ?x1 = \"x0 - g x0\"\n  let ?x2 = \"?x1 - g ?x1\"\n  let ?d = \"x0 - xs\"\n  let ?u = \"g x0\"\n  let ?v = \"g ?x1\"\n  let ?w = \"g ?x2\"\n  note h0s = interp[of x0 xs]\n  note hs0 = interp[of xs x0]\n  note h1s = interp[of ?x1 xs]\n  note hs1 = interp[of xs ?x1]\n  note h2s = interp[of ?x2 xs]\n  note hs2 = interp[of xs ?x2]\n  note h01 = interp[of x0 ?x1]\n  note h10 = interp[of ?x1 x0]\n  note h12 = interp[of ?x1 ?x2]\n  note h21 = interp[of ?x2 ?x1]\n  note h02 = interp[of x0 ?x2]\n  note h20 = interp[of ?x2 x0]\n  have q1: \"0 \\<le> inner (?d - 5 *\\<^sub>R ?u) (?d - 5 *\\<^sub>R ?u)\"\n    by (rule inner_ge_zero)\n  have q2: \"0 \\<le> inner (?d - 5 *\\<^sub>R ?v) (?d - 5 *\\<^sub>R ?v)\"\n    by (rule inner_ge_zero)\n  have q3: \"0 \\<le> inner (?d - 5 *\\<^sub>R ?w) (?d - 5 *\\<^sub>R ?w)\"\n    by (rule inner_ge_zero)\n  have q4: \"0 \\<le> inner (?d - 3 *\\<^sub>R ?u - 2 *\\<^sub>R ?v)\n      (?d - 3 *\\<^sub>R ?u - 2 *\\<^sub>R ?v)\"\n    by (rule inner_ge_zero)\n  have q5: \"0 \\<le> inner (?d - 2 *\\<^sub>R ?u - 3 *\\<^sub>R ?v)\n      (?d - 2 *\\<^sub>R ?u - 3 *\\<^sub>R ?v)\"\n    by (rule inner_ge_zero)\n  have q6: \"0 \\<le> inner (?d - 3 *\\<^sub>R ?v - 2 *\\<^sub>R ?w)\n      (?d - 3 *\\<^sub>R ?v - 2 *\\<^sub>R ?w)\"\n    by (rule inner_ge_zero)\n  have q7: \"0 \\<le> inner (?d - 2 *\\<^sub>R ?v - 3 *\\<^sub>R ?w)\n      (?d - 2 *\\<^sub>R ?v - 3 *\\<^sub>R ?w)\"\n    by (rule inner_ge_zero)\n  have q8: \"0 \\<le> inner (?d - 2 *\\<^sub>R ?u - 2 *\\<^sub>R ?v - ?w)\n      (?d - 2 *\\<^sub>R ?u - 2 *\\<^sub>R ?v - ?w)\"\n    by (rule inner_ge_zero)\n  have q9: \"0 \\<le> inner (?d - ?u - 2 *\\<^sub>R ?v - 2 *\\<^sub>R ?w)\n      (?d - ?u - 2 *\\<^sub>R ?v - 2 *\\<^sub>R ?w)\"\n    by (rule inner_ge_zero)\n  have q10: \"0 \\<le> inner (?u - ?v) (?u - ?v)\"\n    by (rule inner_ge_zero)\n  have q11: \"0 \\<le> inner (?v - ?w) (?v - ?w)\"\n    by (rule inner_ge_zero)\n  have q12: \"0 \\<le> inner (?u - ?w) (?u - ?w)\"\n    by (rule inner_ge_zero)\n  have q13: \"0 \\<le> inner (?u - 2 *\\<^sub>R ?v + ?w) (?u - 2 *\\<^sub>R ?v + ?w)\"\n    by (rule inner_ge_zero)\n  have q14: \"0 \\<le> inner (2 *\\<^sub>R ?u - ?v) (2 *\\<^sub>R ?u - ?v)\"\n    by (rule inner_ge_zero)\n  have q15: \"0 \\<le> inner (2 *\\<^sub>R ?v - ?w) (2 *\\<^sub>R ?v - ?w)\"\n    by (rule inner_ge_zero)\n  have q16: \"0 \\<le> inner (?d - ?u) (?d - ?u)\"\n    by (rule inner_ge_zero)\n  have q17: \"0 \\<le> inner (?d - ?u - ?v) (?d - ?u - ?v)\"\n    by (rule inner_ge_zero)\n  have q18: \"0 \\<le> inner (?d - 2 *\\<^sub>R ?u) (?d - 2 *\\<^sub>R ?u)\"\n    by (rule inner_ge_zero)\n  have q19: \"0 \\<le> inner (?d - 3 *\\<^sub>R ?u) (?d - 3 *\\<^sub>R ?u)\"\n    by (rule inner_ge_zero)\n  have q20: \"0 \\<le> inner (?d - 4 *\\<^sub>R ?u) (?d - 4 *\\<^sub>R ?u)\"\n    by (rule inner_ge_zero)\n  simp_all [gd, opt, power2_norm_eq_inner, inner_add_left, inner_add_right,\n    inner_diff_left, inner_diff_right, inner_scaleR_left, inner_scaleR_right]\n  nlinarith"
+   },
+   "last_feedback": "PROOF_FAILED: Isabelle rechazó la demostración (errores literales):\n*** Undefined method: \"nlinarith\" (línea 100 de tu PROOF)\n*** At command \"by\" (línea 98 de tu PROOF)",
+   "best_extra": "0 lemas verificados"
+  }
+ ]
+}

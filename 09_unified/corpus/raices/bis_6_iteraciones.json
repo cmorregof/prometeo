@@ -1,0 +1,40 @@
+{
+ "id": "bis_6_iteraciones",
+ "name": "bis_6_iteraciones",
+ "kind": "theorem",
+ "metodo": "biseccion",
+ "peldano": 6,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "01_biseccion; artículo (iter = ⌈log₂((b − a)/tol)⌉)",
+ "dependencias": [
+  "bis_1_ancho"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec biseccion :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"biseccion f a b 0 = (a, b)\"\n| \"biseccion f a b (Suc n) = (case biseccion f a b n of (l, u) \\<Rightarrow>\n     (if f l * f ((l + u) / 2) \\<le> 0 then (l, (l + u) / 2) else ((l + u) / 2, u)))\"\n\ndefinition punto_medio :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"punto_medio f a b n = (fst (biseccion f a b n) + snd (biseccion f a b n)) / 2\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real and tol :: real and n :: nat",
+ "assumes": "ab: \"a < b\"\n    and tol: \"0 < tol\"",
+ "concl": "log 2 ((b - a) / tol) \\<le> real n \\<Longrightarrow> snd (biseccion f a b n) - fst (biseccion f a b n) \\<le> tol",
+ "statement_es": "Si n ≥ log₂((b − a)/tol), el intervalo mide a lo sumo tol.",
+ "supuestos_dudosos": "Es la condición suficiente con n real ≥ log₂(…); el artículo usa el techo exacto.",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "es la forma de libro: basta n ≥ log₂((b − a)/tol) (equivale a n ≥ ⌈log₂((b − a)/tol)⌉ porque n es natural)",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "2a4aaf1f50726074",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

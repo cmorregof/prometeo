@@ -1,0 +1,194 @@
+{
+ "bis_1_ancho": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "bis_2_encaje": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "bis_3_signo": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "bis_4_raiz": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "bis_5_cota": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "bis_5c_cota_uniforme": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "bis_6_iteraciones": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "bis_7_convergencia": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_1_paso": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_2_contraccion": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_2c_contraccion_local": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_3_decaimiento": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_4_convergencia": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_4c_convergencia_local": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_5_orden2": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_5c_orden2_local": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "newton_6c_q_orden2": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "orden_1_lineal": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "orden_2_cuadratico_lineal": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "orden_3_cuadratico": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_1_derivada": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_2_dentro": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_3_unicidad": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_4_decaimiento": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_5_a_priori": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_5c_a_priori_max": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_6_a_priori_x1": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_6p_a_posteriori": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_7_existencia": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_8_convergencia": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_9_cuadratico": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "pf_9c_cuadratico_medio": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "rf_1_punto": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "rf_2_signo": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "rf_3_encaje": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "rf_4_raiz": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "rf_5_limites": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "rf_6_convergencia": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "rf_6c_puntos_convergen": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_1_inyectiva": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_2_cociente": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_3_producto": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_4_contraccion": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_4c_contraccion_local": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_5_convergencia": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_5c_convergencia_local": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_6_fibonacci": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ },
+ "secante_6c_orden_phi": {
+  "exporta": true,
+  "skip_proof_detectado": true
+ }
+}

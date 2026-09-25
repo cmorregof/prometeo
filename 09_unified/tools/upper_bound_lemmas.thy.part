@@ -1,0 +1,63 @@
+lemma a_less_than_b: "a < b" using postive_tolerance sufficiently_small_tol by auto
+
+lemma ln2_g_0 [simp]: "\<lceil>log 2 ((b - a) / tol)\<rceil> > 0" using sufficiently_small_tol postive_tolerance by force
+
+lemma log_pos [simp]: "0 < log 2 ((b - a) / tol)" using ln2_g_0 zero_less_ceiling by simp
+
+lemma var_dec:
+  fixes k :: nat
+  shows "tol < (b - a) / 2 ^ k \<Longrightarrow> nat \<lceil>log 2 ((b - a) / tol)\<rceil> - Suc k < nat \<lceil>log 2 ((b - a) / tol)\<rceil> - k"
+  by (smt (verit, del_insts) Groups.add_ac(2) a_less_than_b divide_divide_eq_right divide_pos_pos frac_le le_diff_conv less_log_of_power linear linorder_not_le nonzero_mult_div_cancel_left not_less_eq_eq of_nat_Suc of_nat_add of_nat_diff of_nat_le_iff order_le_less postive_tolerance real_nat_ceiling_ge)
+
+lemma bisect_root_extract:
+  fixes lo hi p :: real and iter :: nat
+  assumes tol_pos: "0 < tol"
+    and small_tol: "tol < b - a"
+    and cont: "continuous_on {a..b} f"
+    and opp: "f a * f b < 0"
+    and a_lo: "a \<le> lo"
+    and hi_b: "hi \<le> b"
+    and sgn: "f lo * f hi \<le> 0"
+    and width: "hi - lo = (b - a) / 2 ^ iter"
+    and exitg: "\<not> tol < (b - a) / 2 ^ iter"
+    and prevg: "tol < 2 * hi - 2 * lo"
+    and p_in: "p = lo \<or> p = hi"
+  shows "\<exists>c. f c = 0 \<and> a < c \<and> c < b \<and> \<bar>c - p\<bar> \<le> (b - a) / 2 ^ iter
+           \<and> \<bar>c - p\<bar> \<le> tol \<and> int iter = \<lceil>log 2 ((b - a) / tol)\<rceil>"
+proof -
+  define L where "L = (b - a) / 2 ^ iter"
+  have L_pos: "0 < L"
+    using L_def width prevg tol_pos by linarith
+  have cont_sub: "continuous_on {lo..hi} f"
+    by (meson a_lo hi_b cont atLeastatMost_subset_iff continuous_on_subset)
+  obtain c where cI: "c \<in> {lo..hi}" and fc0: "f c = 0"
+    by (metis Bolzanos_theorem L_def L_pos sgn width antisym_conv1 atLeastAtMost_iff cont_sub
+        diff_gt_0_iff_gt nle_le no_zero_divisors not_less_iff_gr_or_eq)
+  have c_bounds: "a < c \<and> c < b"
+    using a_lo hi_b opp cI fc0 order_less_le by fastforce
+  have dist_L: "\<bar>c - p\<bar> \<le> (b - a) / 2 ^ iter"
+    using cI p_in width by (smt (verit) atLeastAtMost_iff)
+  have dist_tol: "\<bar>c - p\<bar> \<le> tol"
+    using dist_L exitg by linarith
+  have iter_pos: "iter \<ge> 1"
+    using small_tol exitg by (metis div_by_1 less_one not_le power_0)
+  have "int iter = \<lceil>log 2 ((b - a) / tol)\<rceil>"
+  proof -
+    have "1/2 < L / tol"
+      by (smt (verit, ccfv_SIG) L_def width prevg add_divide_distrib tol_pos less_divide_eq_1_pos)
+    then have "(2::real) ^ iter * (L / tol) > (2::real) ^ iter * (1/2)"
+      by (smt (verit) mult_strict_left_mono zero_less_power)
+    then have "(b - a) / tol > (2::real) ^ (iter - 1)"
+      by (smt (verit, del_insts) Groups.mult_ac(2) L_def iter_pos mult_cancel_left2
+          nonzero_divide_eq_eq power_diff power_one_right times_divide_eq_right)
+    moreover have "(b - a) / tol \<le> 2 ^ iter"
+      by (metis exitg linorder_not_le mult.commute one_le_power order_less_le_trans pos_divide_le_eq
+          tol_pos verit_comp_simplify(28) verit_comp_simplify(5))
+    ultimately show ?thesis
+      by (smt (verit) Groups.add_ac(2) exitg add_diff_inverse_nat ceiling_log_eq_powr_iff
+          int_ops(2) iter_pos linorder_not_le mult.commute of_nat_diff pos_divide_le_eq
+          tol_pos powr_realpow zero_less_power)
+  qed
+  then show ?thesis
+    using cI c_bounds dist_L dist_tol fc0 by auto
+qed

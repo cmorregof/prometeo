@@ -1,0 +1,13 @@
+{
+ "fase": "humo",
+ "modelo": "gpt-6-luna",
+ "inicio": "2026-09-25T07:23:57",
+ "tope_llamadas": 12,
+ "codigo": {
+  "unirl_sha256": "32799044dbcbbb01",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "peldano": "orden_1_lineal",
+ "config": "C"
+}

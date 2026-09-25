@@ -1,0 +1,9 @@
+name = ""
+judge = "lemma_graph"
+project = "05_secante secant_graph"
+provider = "openai"
+model = "gpt-5.4-mini"   # modelo barato para entornos juzgados por grafo
+effort = "low"
+budget = 6
+shaped = false
+seed = 0

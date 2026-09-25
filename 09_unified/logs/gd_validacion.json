@@ -1,0 +1,122 @@
+{
+ "inicio": "2026-09-24 06:09:57",
+ "no_vacuo": {
+  "ok": true,
+  "prueba": 0,
+  "s": 5.0,
+  "errores": []
+ },
+ "control_filtro_sorry": {
+  "ok": true,
+  "obtenido": "UNSOUND",
+  "esperado": "UNSOUND",
+  "s": 0.0
+ },
+ "control_kernel_sorry": {
+  "ok": true,
+  "obtenido": "UNSOUND",
+  "esperado": "UNSOUND",
+  "s": 5.0,
+  "errores": [
+   "*** Cheating requires quick_and_dirty mode!",
+   "*** At command \"sorry\" (línea 1 de tu PROOF)"
+  ]
+ },
+ "control_by_simp": {
+  "ok": true,
+  "obtenido": "PROOF_FAILED",
+  "esperado": "PROOF_FAILED",
+  "s": 4.9,
+  "errores": [
+   "*** Failed to finish proof (línea 1 de tu PROOF):",
+   "*** goal (1 subgoal):",
+   "***  1. f (x0 - (3 / 2) *⇩R g x0) * 8 - f xs * 8",
+   "***     ≤ (norm",
+   "***         (x0 -"
+  ]
+ },
+ "cota_superior": {
+  "gd_n1": {
+   "aceptada": true,
+   "intentos": [
+    {
+     "variante": "gd_n1.proof_A.txt",
+     "etiqueta": "PROOF_FAILED",
+     "s": 5.0,
+     "errores": [
+      "***        3 / 2 * inner (g x0) (g (x0 - (3 / 2) *⇩R g x0)))) +",
+      "***      1 / 2 *",
+      "***      (inner (g x0) (g x0) - inner (g x0) (g (x0 - (3 / 2) *⇩R g x0)) -",
+      "***       (inner (g x0) (g (x0 - (3 / 2) *⇩R g x0)) -",
+      "***        inner (g (x0 - (3 / 2) *⇩R g x0)) (g (x0 - (3 / 2) *⇩R g x0))))",
+      "***      ≤ f x0;",
+      "***      f x0 + (inner xs (g x0) - inner x0 (g x0)) +",
+      "***      1 / 2 * (0 - 0 - (0 - inner (g x0) (g x0)))"
+     ],
+     "motivo": "Isabelle rechazó la demostración"
+    },
+    {
+     "variante": "gd_n1.proof_B.txt",
+     "etiqueta": "PROOF_FAILED",
+     "s": 5.0,
+     "errores": [
+      "*** Failed to apply terminal proof method (línea 22 de tu PROOF):",
+      "*** goal:",
+      "*** No subgoals!",
+      "*** At command \"by\" (línea 22 de tu PROOF)"
+     ],
+     "motivo": "Isabelle rechazó la demostración"
+    },
+    {
+     "variante": "gd_n1.proof_C.txt",
+     "etiqueta": "ACCEPTED",
+     "s": 5.4,
+     "errores": [],
+     "motivo": "el kernel aceptó el enunciado congelado sin oráculos ni axiomas nuevos"
+    }
+   ]
+  },
+  "gd_const_n2": {
+   "aceptada": true,
+   "intentos": [
+    {
+     "variante": "gd_const_n2.proof_A.txt",
+     "etiqueta": "PROOF_FAILED",
+     "s": 5.0,
+     "errores": [
+      "***           inner (g x0) (g (x0 - 1 *⇩R g x0)) -",
+      "***           inner (g (x0 - 1 *⇩R g x0)) (g (x0 - 1 *⇩R g x0))) -",
+      "***          3 *",
+      "***          (inner x0 (g (x0 - 1 *⇩R g x0 - 1 *⇩R g (x0 - 1 *⇩R g x0))) -",
+      "***           inner xs (g (x0 - 1 *⇩R g x0 - 1 *⇩R g (x0 - 1 *⇩R g x0))) -",
+      "***           inner (g x0) (g (x0 - 1 *⇩R g x0 - 1 *⇩R g (x0 - 1 *⇩R g x0))) -",
+      "***           inner (g (x0 - 1 *⇩R g x0))",
+      "***            (g (x0 - 1 *⇩R g x0 - 1 *⇩R g (x0 - 1 *⇩R g x0)))) -"
+     ],
+     "motivo": "Isabelle rechazó la demostración"
+    },
+    {
+     "variante": "gd_const_n2.proof_B.txt",
+     "etiqueta": "PROOF_FAILED",
+     "s": 5.5,
+     "errores": [
+      "*** Failed to apply terminal proof method (línea 35 de tu PROOF):",
+      "*** goal:",
+      "*** No subgoals!",
+      "*** At command \"by\" (línea 35 de tu PROOF)"
+     ],
+     "motivo": "Isabelle rechazó la demostración"
+    },
+    {
+     "variante": "gd_const_n2.proof_C.txt",
+     "etiqueta": "ACCEPTED",
+     "s": 5.3,
+     "errores": [],
+     "motivo": "el kernel aceptó el enunciado congelado sin oráculos ni axiomas nuevos"
+    }
+   ]
+  }
+ },
+ "ok": true,
+ "fin": "2026-09-24 06:10:43"
+}

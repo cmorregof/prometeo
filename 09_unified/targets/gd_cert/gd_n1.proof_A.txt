@@ -1,0 +1,23 @@
+proof -
+  (* certificado exacto del PEP para h = ['3/2'], tau = 1/8 (targets/gd_cert/gd_n1.json) *)
+  define x1 where "x1 = x0 - (3/2) *\<^sub>R g x0"
+  have run: "gd g [3/2] x0 = x1"
+    by (simp add: x1_def)
+  (* lambda = 1/2: interp con x = x0, y = x1 *)
+  have i_0_1: "f x1 + inner (g x1) (x0 - x1) + (1/2) * (norm (g x0 - g x1))\<^sup>2 \<le> f x0"
+    by (rule interp)
+  (* lambda = 1/2: interp con x = xs, y = x0 *)
+  have i_2_0: "f x0 + inner (g x0) (xs - x0) + (1/2) * (norm (g xs - g x0))\<^sup>2 \<le> f xs"
+    by (rule interp)
+  (* lambda = 1/2: interp con x = xs, y = x1 *)
+  have i_2_1: "f x1 + inner (g x1) (xs - x1) + (1/2) * (norm (g xs - g x1))\<^sup>2 \<le> f xs"
+    by (rule interp)
+  (* d = 1/8: cuadrado de la descomposición exacta de M *)
+  have s_0: "0 \<le> (norm ((x0 - xs) - 2 *\<^sub>R g x0 - 2 *\<^sub>R g x1))\<^sup>2"
+    by simp
+  show ?thesis
+    unfolding run
+    using i_0_1 i_2_0 i_2_1 s_0 opt
+    unfolding x1_def
+    by (simp (no_asm_use) only: power2_norm_eq_inner inner_diff_left inner_diff_right inner_add_left inner_add_right inner_minus_left inner_minus_right inner_scaleR_left inner_scaleR_right inner_zero_left inner_zero_right opt inner_commute) linarith
+qed

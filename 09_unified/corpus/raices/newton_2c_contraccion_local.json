@@ -1,0 +1,42 @@
+{
+ "id": "newton_2c_contraccion_local",
+ "name": "newton_2c_contraccion_local",
+ "kind": "theorem",
+ "metodo": "newton",
+ "peldano": "2c",
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 4,
+ "fuente": "04_newton (forma clásica)",
+ "dependencias": [
+  "newton_2_contraccion"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_newton :: \"(real \\<Rightarrow> real) \\<Rightarrow> (real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_newton f f' x = x - f x / f' x\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<epsilon> :: real",
+ "assumes": "eps: \"0 < \\<epsilon>\"\n    and d1: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and c2: \"continuous_on {r - \\<epsilon><..<r + \\<epsilon>} f''\"\n    and raiz: \"f r = 0\" and simple: \"f' r \\<noteq> 0\"",
+ "concl": "\\<exists>\\<delta>>0. \\<forall>x. \\<bar>x - r\\<bar> \\<le> \\<delta> \\<longrightarrow> \\<bar>paso_newton f f' x - r\\<bar> \\<le> \\<bar>x - r\\<bar> / 2",
+ "statement_es": "Forma clásica local: existe δ > 0 tal que un paso de Newton reduce el error al menos a la mitad en [r − δ, r + δ].",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [
+  "newton_2_contraccion"
+ ],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "ba97c50bb24868c3",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

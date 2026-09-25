@@ -1,0 +1,42 @@
+{
+ "id": "pf_9c_cuadratico_medio",
+ "name": "pf_9c_cuadratico_medio",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": "9c",
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "02_punto_fijo; análogo de Taylor con |g''| ≤ L",
+ "dependencias": [
+  "pf_9_cuadratico"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g g' :: \"real \\<Rightarrow> real\" and a b p L x :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and hp: \"p \\<in> {a..b}\"\n    and fp: \"g p = p\"\n    and deriv: \"\\<And>t. t \\<in> {a..b} \\<Longrightarrow> (g has_real_derivative g' t) (at t)\"\n    and cota: \"\\<And>t. t \\<in> {a..b} \\<Longrightarrow> \\<bar>g' t\\<bar> \\<le> L * \\<bar>t - p\\<bar>\"\n    and hx: \"x \\<in> {a..b}\"",
+ "concl": "\\<bar>g x - p\\<bar> \\<le> L / 2 * (x - p)\\<^sup>2",
+ "statement_es": "Con la constante clásica: |g(x) − p| ≤ (L/2)(x − p)².",
+ "supuestos_dudosos": "Sale por monotonía de g(t) − p ∓ (L/2)(t − p)² (o integrando); el valor medio solo da L.",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [
+  "pf_9_cuadratico"
+ ],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "062c07466125b4cb",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

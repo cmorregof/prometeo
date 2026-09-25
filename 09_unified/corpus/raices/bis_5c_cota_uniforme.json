@@ -1,0 +1,43 @@
+{
+ "id": "bis_5c_cota_uniforme",
+ "name": "bis_5c_cota_uniforme",
+ "kind": "theorem",
+ "metodo": "biseccion",
+ "peldano": "5c",
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "01_biseccion (teorema del grafo, forma clásica)",
+ "dependencias": [
+  "bis_5_cota",
+  "bis_7_convergencia"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec biseccion :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"biseccion f a b 0 = (a, b)\"\n| \"biseccion f a b (Suc n) = (case biseccion f a b n of (l, u) \\<Rightarrow>\n     (if f l * f ((l + u) / 2) \\<le> 0 then (l, (l + u) / 2) else ((l + u) / 2, u)))\"\n\ndefinition punto_medio :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"punto_medio f a b n = (fst (biseccion f a b n) + snd (biseccion f a b n)) / 2\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and cont: \"continuous_on {a..b} f\"\n    and signo: \"f a * f b \\<le> 0\"",
+ "concl": "\\<exists>c. a \\<le> c \\<and> c \\<le> b \\<and> f c = 0 \\<and> (\\<forall>n. \\<bar>punto_medio f a b n - c\\<bar> \\<le> (b - a) / 2 ^ Suc n)",
+ "statement_es": "Existe una raíz c en [a, b] tal que, para todo n, |mₙ − c| ≤ (b − a)/2ⁿ⁺¹ (la misma c para todo n).",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [
+  "bis_5_cota"
+ ],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "d9c2492ebc4cc93e",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

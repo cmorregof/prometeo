@@ -1,0 +1,38 @@
+{
+ "id": "pf_3_unicidad",
+ "name": "pf_3_unicidad",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 3,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "02_punto_fijo (grafo)",
+ "dependencias": [],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g :: \"real \\<Rightarrow> real\" and a b k x0 :: real and p q :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and dentro: \"\\<And>x. x \\<in> {a..b} \\<Longrightarrow> g x \\<in> {a..b}\"\n    and contr: \"\\<And>x y. x \\<in> {a..b} \\<Longrightarrow> y \\<in> {a..b} \\<Longrightarrow> \\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>\"\n    and k0: \"0 \\<le> k\" and k1: \"k < 1\" and x0: \"x0 \\<in> {a..b}\"\n    and hp: \"p \\<in> {a..b}\"\n    and fp: \"g p = p\"\n    and hq: \"q \\<in> {a..b}\"\n    and fq: \"g q = q\"",
+ "concl": "p = q",
+ "statement_es": "Hay a lo sumo un punto fijo en [a, b].",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "arrastra hipótesis que no usa: x0 y la invariancia de [a, b] (dentro)",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "47498b0f668de5de",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

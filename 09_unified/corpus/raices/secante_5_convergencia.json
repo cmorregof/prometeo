@@ -1,0 +1,40 @@
+{
+ "id": "secante_5_convergencia",
+ "name": "secante_5_convergencia",
+ "kind": "theorem",
+ "metodo": "secante",
+ "peldano": 5,
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 4,
+ "fuente": "05_secante (teorema del grafo)",
+ "dependencias": [
+  "secante_4_contraccion"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_secante f x y = y - f y * (y - x) / (f y - f x)\"\n\nfun secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"secante f x0 x1 0 = x0\"\n| \"secante f x0 x1 (Suc 0) = x1\"\n| \"secante f x0 x1 (Suc (Suc n)) = paso_secante f (secante f x0 x1 n) (secante f x0 x1 (Suc n))\"\n\nfun fibo :: \"nat \\<Rightarrow> nat\" where\n  \"fibo 0 = 0\"\n| \"fibo (Suc 0) = 1\"\n| \"fibo (Suc (Suc n)) = fibo (Suc n) + fibo n\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<delta> m M :: real and x0 x1 :: real",
+ "assumes": "d1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and raiz: \"f r = 0\" and m_pos: \"0 < m\"\n    and cota1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> m \\<le> \\<bar>f' t\\<bar>\"\n    and cota2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> \\<bar>f'' t\\<bar> \\<le> M\"\n    and delta_pos: \"0 < \\<delta>\" and delta_chico: \"M * \\<delta> \\<le> m\"\n    and hx0: \"\\<bar>x0 - r\\<bar> \\<le> \\<delta>\"\n    and hx1: \"\\<bar>x1 - r\\<bar> \\<le> \\<delta>\"\n    and dist: \"x0 \\<noteq> x1\"",
+ "concl": "(\\<lambda>n. secante f x0 x1 n) \\<longlonglongrightarrow> r",
+ "statement_es": "La secante converge a r desde x0 ≠ x1 en I.",
+ "supuestos_dudosos": "Si un iterado cae en r, los siguientes quedan en r (en HOL, 0/0 = 0); el enunciado lo cubre.",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "δ fijo (M·δ ≤ m) y cotas dadas, en lugar de ∃δ",
+ "version_clasica": "secante_5c_convergencia_local",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "02eff1afa4180646",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

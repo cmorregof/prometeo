@@ -1,0 +1,38 @@
+{
+ "id": "pf_1_derivada",
+ "name": "pf_1_derivada",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 1,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "02_punto_fijo; artículo: contractive_deriv_bound_closed",
+ "dependencias": [],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g g' :: \"real \\<Rightarrow> real\" and a b k x y :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and deriv: \"\\<And>t. t \\<in> {a..b} \\<Longrightarrow> (g has_real_derivative g' t) (at t)\"\n    and cota: \"\\<And>t. t \\<in> {a..b} \\<Longrightarrow> \\<bar>g' t\\<bar> \\<le> k\"\n    and hx: \"x \\<in> {a..b}\"\n    and hy: \"y \\<in> {a..b}\"",
+ "concl": "\\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>",
+ "statement_es": "Si |g'| ≤ k en [a, b], g es k-Lipschitz en [a, b] (valor medio).",
+ "supuestos_dudosos": "",
+ "referencia_privada": "Verified_Numerical_Methods/Numerical_Methods/Fixed_Point_Method.thy: contractive_deriv_bound_closed",
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "9fc014edd38f84ee",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

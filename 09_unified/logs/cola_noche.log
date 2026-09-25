@@ -1,0 +1,295 @@
+[cola] 2026-09-23 22:44:59 inicio 00_esperar_astra_bisection.sh
+[cola] 2026-09-23 22:47:00 inicio 00_esperar_astra_bisection.sh
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+fin Thu Sep 24 04:44:57 -05 2026
+[cola] 2026-09-24 04:45:12 fin 00_esperar_astra_bisection.sh (rc=0)
+[cola] 2026-09-24 04:45:12 inicio 01_informes_bisection.sh
+[informe] programa: 1 corrida(s) (terminada) → /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/bisection_isabelle_lemas_mem-gpt-6-luna/informe.tex
+[informe] PDF: /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/bisection_isabelle_lemas_mem-gpt-6-luna/informe.pdf (cajas desbordadas: 5, > 10 pt: 4; referencias indefinidas: no; citas indefinidas: ninguna)
+[informe] programa: 1 corrida(s) (terminada) → /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/bisection_isabelle_lemas_mem-gpt-6-astra/informe.tex
+[informe] PDF: /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/bisection_isabelle_lemas_mem-gpt-6-astra/informe.pdf (cajas desbordadas: 3, > 10 pt: 2; referencias indefinidas: no; citas indefinidas: ninguna)
+[cola] 2026-09-24 04:45:34 fin 01_informes_bisection.sh (rc=0)
+[cola] 2026-09-24 04:45:34 inicio 05_gd_validacion_temprana.sh
+[cola] validación gd temprana rc=2 (detalle en logs/gd_validacion_temprana.log)
+[cola] 2026-09-24 04:45:34 fin 05_gd_validacion_temprana.sh (rc=0)
+[cola] 2026-09-24 04:45:34 inicio 10_pep_luna.sh
+entorno pep_gradnorm_n4 · juez pep · modelo gpt-6-luna · presupuesto 4 pasos · 3 episodios → runs/pep_gradnorm_n4/20260924-044535-gpt-6-luna-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 2.5 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_gradnorm_n6 · juez pep · modelo gpt-6-luna · presupuesto 4 pasos · 3 episodios → runs/pep_gradnorm_n6/20260924-044600-gpt-6-luna-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.2 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_gradnorm_n4_neg · juez pep · modelo gpt-6-luna · presupuesto 4 pasos · 3 episodios → runs/pep_gradnorm_n4_neg/20260924-044624-gpt-6-luna-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 2.1 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_fval_mu001_n4 · juez pep · modelo gpt-6-luna · presupuesto 4 pasos · 3 episodios → runs/pep_fval_mu001_n4/20260924-044647-gpt-6-luna-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.2 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 2.2 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_fval_mu01_n5 · juez pep · modelo gpt-6-luna · presupuesto 4 pasos · 3 episodios → runs/pep_fval_mu01_n5/20260924-044712-gpt-6-luna-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.2 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+[informe] pep: 5 corrida(s) (terminada, terminada, terminada, terminada, terminada) → /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/pep_variantes-gpt-6-luna/informe.tex
+[informe] PDF: /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/pep_variantes-gpt-6-luna/informe.pdf (cajas desbordadas: 1, > 10 pt: 1; referencias indefinidas: no; citas indefinidas: ninguna)
+[cola] 2026-09-24 04:47:48 fin 10_pep_luna.sh (rc=0)
+[cola] 2026-09-24 04:47:48 inicio 20_pep_astra.sh
+entorno pep_gradnorm_n4 · juez pep · modelo gpt-6-astra · presupuesto 4 pasos · 3 episodios → runs/pep_gradnorm_n4/20260924-044748-gpt-6-astra-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.1 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 2.5 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 2.2 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_gradnorm_n6 · juez pep · modelo gpt-6-astra · presupuesto 4 pasos · 3 episodios → runs/pep_gradnorm_n6/20260924-044813-gpt-6-astra-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 2.5 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 2.5 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 2.4 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 2.3 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 2.4 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 2.1 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 2.3 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 2.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 2.3 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_gradnorm_n4_neg · juez pep · modelo gpt-6-astra · presupuesto 4 pasos · 3 episodios → runs/pep_gradnorm_n4_neg/20260924-044842-gpt-6-astra-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_fval_mu001_n4 · juez pep · modelo gpt-6-astra · presupuesto 4 pasos · 3 episodios → runs/pep_fval_mu001_n4/20260924-044905-gpt-6-astra-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.1 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 2.1 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 2.0 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+entorno pep_fval_mu01_n5 · juez pep · modelo gpt-6-astra · presupuesto 4 pasos · 3 episodios → runs/pep_fval_mu01_n5/20260924-044929-gpt-6-astra-high
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 1] PROVIDER_ERROR  (llm 2.1 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 3] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 1 paso 4] PROVIDER_ERROR  (llm 2.2 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 1] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 2 paso 4] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 1.7 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 1.9 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+[informe] pep: 5 corrida(s) (terminada, terminada, terminada, terminada, terminada) → /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/pep_variantes-gpt-6-astra/informe.tex
+[informe] PDF: /Users/cmorregof/Personal/rl_metodos/09_unified/docs/informes/pep_variantes-gpt-6-astra/informe.pdf (cajas desbordadas: 3, > 10 pt: 2; referencias indefinidas: no; citas indefinidas: ninguna)
+[cola] 2026-09-24 04:50:03 fin 20_pep_astra.sh (rc=0)
+[cola] 2026-09-24 04:50:03 inicio 30_gd_validacion.sh
+[cola] validación gd FALLÓ; espero logs/cola/gd_listo (máx. 150 min)

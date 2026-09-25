@@ -1,0 +1,40 @@
+{
+ "id": "secante_6_fibonacci",
+ "name": "secante_6_fibonacci",
+ "kind": "theorem",
+ "metodo": "secante",
+ "peldano": 6,
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 4,
+ "fuente": "05_secante (orden φ)",
+ "dependencias": [
+  "secante_3_producto"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_secante f x y = y - f y * (y - x) / (f y - f x)\"\n\nfun secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"secante f x0 x1 0 = x0\"\n| \"secante f x0 x1 (Suc 0) = x1\"\n| \"secante f x0 x1 (Suc (Suc n)) = paso_secante f (secante f x0 x1 n) (secante f x0 x1 (Suc n))\"\n\nfun fibo :: \"nat \\<Rightarrow> nat\" where\n  \"fibo 0 = 0\"\n| \"fibo (Suc 0) = 1\"\n| \"fibo (Suc (Suc n)) = fibo (Suc n) + fibo n\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<delta> m M :: real and x0 x1 :: real and n :: nat",
+ "assumes": "d1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and raiz: \"f r = 0\" and m_pos: \"0 < m\"\n    and cota1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> m \\<le> \\<bar>f' t\\<bar>\"\n    and cota2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> \\<bar>f'' t\\<bar> \\<le> M\"\n    and delta_pos: \"0 < \\<delta>\" and delta_chico: \"M * \\<delta> \\<le> m\"\n    and hx0: \"\\<bar>x0 - r\\<bar> \\<le> \\<delta>\"\n    and hx1: \"\\<bar>x1 - r\\<bar> \\<le> \\<delta>\"\n    and dist: \"x0 \\<noteq> x1\"",
+ "concl": "M / (2 * m) * \\<bar>secante f x0 x1 n - r\\<bar> \\<le> (1 / 2) ^ fibo (Suc n)",
+ "statement_es": "Orden φ en forma explícita: M/(2m)|xₙ − r| ≤ (1/2)^F(n+1), con F de Fibonacci (F(n) ~ φⁿ/√5).",
+ "supuestos_dudosos": "Codifica el orden φ con exponentes de Fibonacci en lugar de un límite de cocientes. Fibonacci del preludio: fibo 0 = 0, fibo 1 = 1, fibo (n + 2) = fibo (n + 1) + fibo n; la cota de xₙ usa fibo (n + 1): 1, 1, 2, 3, 5, 8, … para n = 0, 1, 2, 3, 4, 5, …",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "δ fijo, y el orden φ como cota con exponentes de Fibonacci (R-orden) en lugar del límite del cociente |eₙ₊₁|/|eₙ|^φ (Q-orden)",
+ "version_clasica": "secante_6c_orden_phi",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "6c5dbec184863675",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

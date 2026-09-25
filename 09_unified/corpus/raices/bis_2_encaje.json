@@ -1,0 +1,40 @@
+{
+ "id": "bis_2_encaje",
+ "name": "bis_2_encaje",
+ "kind": "theorem",
+ "metodo": "biseccion",
+ "peldano": 2,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "01_biseccion (grafo)",
+ "dependencias": [
+  "bis_1_ancho"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec biseccion :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"biseccion f a b 0 = (a, b)\"\n| \"biseccion f a b (Suc n) = (case biseccion f a b n of (l, u) \\<Rightarrow>\n     (if f l * f ((l + u) / 2) \\<le> 0 then (l, (l + u) / 2) else ((l + u) / 2, u)))\"\n\ndefinition punto_medio :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"punto_medio f a b n = (fst (biseccion f a b n) + snd (biseccion f a b n)) / 2\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"",
+ "concl": "a \\<le> fst (biseccion f a b n) \\<and> fst (biseccion f a b n) \\<le> snd (biseccion f a b n) \\<and> snd (biseccion f a b n) \\<le> b \\<and> fst (biseccion f a b n) \\<le> fst (biseccion f a b (Suc n)) \\<and> snd (biseccion f a b (Suc n)) \\<le> snd (biseccion f a b n)",
+ "statement_es": "Los intervalos están contenidos en [a, b], son no vacíos y encajados: aₙ ≤ aₙ₊₁ y bₙ₊₁ ≤ bₙ.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "200d5924aa258282",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

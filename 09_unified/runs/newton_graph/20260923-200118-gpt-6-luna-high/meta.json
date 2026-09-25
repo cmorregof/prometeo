@@ -1,0 +1,111 @@
+{
+ "env": "newton_graph",
+ "judge": "lemma_graph",
+ "provider": "openai",
+ "model": "gpt-6-luna",
+ "effort": "high",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260923-200118-gpt-6-luna-high",
+ "config": {
+  "name": "newton_graph",
+  "judge": "lemma_graph",
+  "project": "04_newton",
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "budget": 4,
+  "shaped": false,
+  "seed": 0
+ },
+ "code": {
+  "unirl_sha256": "1028b6b7db86e0f7",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-23T20:01:18",
+ "target": {
+  "id": "04_newton:QED",
+  "statement": "Newton converge a r desde todo x₀ con |x₀ − r| ≤ δ, con orden cuadrático. ∎",
+  "goal_id": "L07",
+  "lemmas": [
+   {
+    "id": "L01",
+    "text": "Newton converge desde cualquier x₀."
+   },
+   {
+    "id": "L02",
+    "text": "De la cota cuadrática, |eₙ₊₁|/|eₙ|² ≤ C: la convergencia es de orden al menos 2 (los dígitos correctos se duplican)."
+   },
+   {
+    "id": "L03",
+    "text": "f ∈ C² en un entorno de r, f(r) = 0 y f'(r) ≠ 0 (raíz simple)."
+   },
+   {
+    "id": "L04",
+    "text": "Si f'(xₙ) = 0 se toma xₙ₊₁ = xₙ y se continúa."
+   },
+   {
+    "id": "L05",
+    "text": "Para xₙ ∈ I el paso xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ) está bien definido porque f'(xₙ) ≠ 0."
+   },
+   {
+    "id": "L06",
+    "text": "f es monótona, luego la sucesión de Newton es monótona y converge."
+   },
+   {
+    "id": "L07",
+    "text": "Newton converge a r desde todo x₀ con |x₀ − r| ≤ δ, con orden cuadrático. ∎"
+   },
+   {
+    "id": "L08",
+    "text": "Por el teorema de Taylor con resto de Lagrange en xₙ: 0 = f(r) = f(xₙ) + f'(xₙ)(r − xₙ) + ½f''(ξₙ)(r − xₙ)², con ξₙ entre xₙ y r."
+   },
+   {
+    "id": "L09",
+    "text": "Con eₙ = xₙ − r: |eₙ₊₁| ≤ (M / 2m)·|eₙ|² =: C·|eₙ|² mientras xₙ ∈ I."
+   },
+   {
+    "id": "L10",
+    "text": "Se conserva el subintervalo con cambio de signo (bisección)."
+   },
+   {
+    "id": "L11",
+    "text": "g(x) = x − f(x)/f'(x) tiene |g'(r)| < 1, luego converge linealmente y basta."
+   },
+   {
+    "id": "L12",
+    "text": "Tómese δ ≤ δ₀ con C·δ < 1. Si |e₀| ≤ δ entonces |e₁| ≤ C·δ·|e₀| < |e₀| ≤ δ."
+   },
+   {
+    "id": "L13",
+    "text": "Por inducción xₙ ∈ [r − δ, r + δ] para todo n y |eₙ₊₁| ≤ (C·δ)·|eₙ|."
+   },
+   {
+    "id": "L14",
+    "text": "|eₙ| ≤ (C·δ)ⁿ·|e₀| → 0 porque C·δ < 1, luego xₙ → r."
+   },
+   {
+    "id": "L15",
+    "text": "Dividiendo por f'(xₙ) y usando la definición: r − xₙ₊₁ = −f''(ξₙ)/(2f'(xₙ)) · (r − xₙ)²."
+   },
+   {
+    "id": "L16",
+    "text": "Por continuidad de f' y f'' existe δ₀ > 0 con |f'(x)| ≥ m > 0 y |f''(x)| ≤ M en I = [r − δ₀, r + δ₀]."
+   },
+   {
+    "id": "L17",
+    "text": "Por Bolzano existe una raíz r; luego Newton converge a ella."
+   },
+   {
+    "id": "L18",
+    "text": "Si f'(r) = 0 (raíz múltiple) la convergencia sigue siendo cuadrática."
+   }
+  ],
+  "n_lemmas": 18,
+  "n_distractors": 7,
+  "min_length": 11,
+  "hash": "2f2e6a5af96e8cb4"
+ }
+}

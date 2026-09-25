@@ -1,0 +1,6 @@
+[ventana] 06:09:00 sin compilaciones ajenas: arranco
+[gd_validar] no vacuidad (prueba 0): OK en 5.1 s
+[gd_validar] control filtro sorry: UNSOUND (esperado UNSOUND) OK en 0.0 s
+[gd_validar] control kernel sorry: UNSOUND (esperado UNSOUND) OK en 4.9 s
+[gd_validar] control by simp: PROOF_FAILED (esperado PROOF_FAILED) OK en 4.9 s
+[gd_validar] resultado global: OK (detalle en logs/gd_validacion.json)

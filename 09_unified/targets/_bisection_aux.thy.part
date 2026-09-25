@@ -1,0 +1,43 @@
+theorem Bolzanos_theorem:
+  fixes f :: "real \<Rightarrow> real"
+  assumes a_less_than_b: "\<alpha> < \<beta>"
+  assumes opposite_signs: "f(\<alpha>)*f(\<beta>) < 0"
+  assumes continuous_f: "continuous_on {\<alpha>..\<beta>} f"
+  shows "\<exists> \<gamma>. (f(\<gamma>) = 0 \<and> \<alpha> < \<gamma> \<and> \<gamma> < \<beta>)"
+proof -
+  have "f(\<alpha>) \<noteq> 0" and "f(\<beta>) \<noteq> 0"
+    using opposite_signs by (auto simp: mult_less_0_iff)
+  hence cases: "(f(\<alpha>) < 0 \<and> f(\<beta>) > 0) \<or> (f(\<alpha>) > 0 \<and> f(\<beta>) < 0)"
+    using opposite_signs by (auto simp: mult_less_0_iff)
+  have  "\<exists> \<gamma>. \<gamma> \<in> {\<alpha>..\<beta>} \<and> f(\<gamma>) = 0"
+  proof(cases "f(\<alpha>) < 0 \<and> f(\<beta>) > 0")
+    show "f \<alpha> < 0 \<and> 0 < f \<beta> \<Longrightarrow> \<exists>\<gamma>. \<gamma> \<in> {\<alpha>..\<beta>} \<and> f \<gamma> = 0"
+      by (metis IVT' a_less_than_b atLeastAtMost_iff continuous_f less_le_not_le)
+  next
+    assume "\<not> (f \<alpha> < 0 \<and> 0 < f \<beta>)"
+    then have "(f \<beta> < 0 \<and> 0 < f \<alpha>)"
+      using cases by linarith
+    with IVT2'[where f = "f", where b="\<beta>", where a = "\<alpha>", where y=0]
+    obtain \<gamma> where "\<gamma> \<in> {\<alpha>..\<beta>}" and "f \<gamma> = 0"
+      using  a_less_than_b continuous_f by auto
+    then show ?thesis
+      by blast
+  qed
+  then show ?thesis
+    by (smt (verit, best) \<open>f \<alpha> \<noteq> 0\<close> \<open>f \<beta> \<noteq> 0\<close> atLeastAtMost_iff)
+qed
+
+
+subsection \<open>Shared sign-propagation lemma (used by both paradigms)\<close>
+
+text \<open>Opposite signs propagate to the retained half: if the bracket straddles a
+  sign change (@{term \<open>A * C \<le> 0\<close>}) and the lower subinterval does not
+  (@{term \<open>0 < A * B\<close>}), then the upper subinterval does (@{term \<open>B * C \<le> 0\<close>}).
+  Used both by the VCG proof below and by the Lammich proof's else-branch.\<close>
+
+lemma sign_prop:
+  fixes A B C :: real
+  assumes "A * C \<le> 0" and "0 < A * B"
+  shows "B * C \<le> 0"
+  by (smt (verit) assms(1,2) zero_compare_simps(8))
+

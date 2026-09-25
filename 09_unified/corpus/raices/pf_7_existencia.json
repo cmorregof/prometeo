@@ -1,0 +1,38 @@
+{
+ "id": "pf_7_existencia",
+ "name": "pf_7_existencia",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 7,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "02_punto_fijo; biblioteca: banach_fix",
+ "dependencias": [],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g :: \"real \\<Rightarrow> real\" and a b k x0 :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and dentro: \"\\<And>x. x \\<in> {a..b} \\<Longrightarrow> g x \\<in> {a..b}\"\n    and contr: \"\\<And>x y. x \\<in> {a..b} \\<Longrightarrow> y \\<in> {a..b} \\<Longrightarrow> \\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>\"\n    and k0: \"0 \\<le> k\" and k1: \"k < 1\" and x0: \"x0 \\<in> {a..b}\"",
+ "concl": "\\<exists>p \\<in> {a..b}. g p = p",
+ "statement_es": "g tiene un punto fijo en [a, b].",
+ "supuestos_dudosos": "La biblioteca tiene banach_fix (espacios métricos completos); puede que el martillo lo cierre.",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "arrastra hipótesis que no usa: x0",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "b920faa6953648bf",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

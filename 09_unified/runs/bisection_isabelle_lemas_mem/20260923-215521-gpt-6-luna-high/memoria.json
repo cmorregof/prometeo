@@ -1,0 +1,46 @@
+{
+ "library": {
+  "nat_ceiling_log_le_one": "lemma nat_ceiling_log_le_one:\n  fixes x :: real\n  assumes \"0 < x\" \"x \\<le> 1\"\n  shows \"nat \\<lceil>log 2 x\\<rceil> = 0\"\nproof -\n  have \"log 2 x \\<le> 0\"\n    using assms by (simp add: log_le_iff)\n  then show ?thesis by simp\nqed",
+  "log2_positive": "lemma log2_positive:\n  fixes x :: real\n  assumes \"1 < x\"\n  shows \"0 < log 2 x\"\n  using assms by (simp add: log_le_iff)",
+  "int_nat_ceiling_log": "lemma int_nat_ceiling_log:\n  fixes x :: real\n  assumes \"1 < x\"\n  shows \"int (nat \\<lceil>log 2 x\\<rceil>) = \\<lceil>log 2 x\\<rceil>\"\nproof -\n  have p: \"0 < log 2 x\"\n    using assms by (rule log2_positive)\n  have c: \"0 < \\<lceil>log 2 x\\<rceil>\"\n  proof -\n    have \"\\<not> \\<lceil>log 2 x\\<rceil> \\<le> 0\"\n      using p by (simp add: ceiling_le)\n    then show ?thesis by linarith\n  qed\n  show ?thesis\n    using c by simp\nqed",
+  "nat_ceiling_log_positive": "lemma nat_ceiling_log_positive:\n  fixes x :: real\n  assumes \"1 < x\"\n  shows \"0 < nat \\<lceil>log 2 x\\<rceil>\"\nproof -\n  have lp: \"0 < log 2 x\"\n    using assms by (rule log2_positive)\n  have cp: \"0 < \\<lceil>log 2 x\\<rceil>\"\n  proof -\n    have \"\\<not> \\<lceil>log 2 x\\<rceil> \\<le> 0\"\n      using lp by (simp add: ceiling_le)\n    then show ?thesis by linarith\n  qed\n  show ?thesis\n    using cp by simp\nqed"
+ },
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "VC_OPEN",
+   "best_closed": 7,
+   "best_vcs": 10,
+   "best_proposal": {
+    "invariant": "a \\<le> l \\<and> u \\<le> b \\<and> l < u \\<and> fl = f l \\<and> fu = f u \\<and> fl * fu \\<le> 0 \\<and> xmid \\<in> {l..u} \\<and> u - l = (b - a) / 2^iter \\<and> iter + nat \\<lceil>log 2 ((u - l) / tol)\\<rceil> = nat \\<lceil>log 2 ((b - a) / tol)\\<rceil>",
+    "variant": "nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Undefined method: \"omega\" (line 129 of \"~/isabelle/scratch/lemmas-0rf_8fa1/Lemmas.thy\")\n*** At command \"by\" (line 129 of \"~/isabelle/scratch/lemmas-0rf_8fa1/Lemmas.thy\")"
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "invariant": "a \\<le> l \\<and> u \\<le> b \\<and> l < u \\<and> fl = f l \\<and> fu = f u \\<and> fl * fu \\<le> 0 \\<and> xmid \\<in> {l..u} \\<and> u - l = (b - a) / 2^iter \\<and> iter \\<le> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil>",
+    "variant": "nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Failed to finish proof (line 146 of \"~/isabelle/scratch/lemmas-w57ju491/Lemmas.thy\"):\n*** goal (1 subgoal):\n***  1. ⟦0 < x⟧\n***     ⟹ log 2 x =\n***        log 2 (x / 2) +\n***        1\n*** At command \"by\" (line 146 of \"~/isabelle/scratch/lemmas-w57ju491/Lemmas.thy\")"
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "invariant": "a \\<le> l \\<and> u \\<le> b \\<and> l < u \\<and> fl = f l \\<and> fu = f u \\<and> fl * fu \\<le> 0 \\<and> xmid \\<in> {l..u} \\<and> u - l = (b - a) / 2^iter \\<and> iter + nat \\<lceil>log 2 ((u - l) / tol)\\<rceil> = nat \\<lceil>log 2 ((b - a) / tol)\\<rceil>",
+    "variant": "nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Failed to finish proof (line 146 of \"~/isabelle/scratch/lemmas-k3_k3wue/Lemmas.thy\"):\n*** goal (1 subgoal):\n***  1. ⟦0 < x⟧\n***     ⟹ log 2 x =\n***        log 2 (x / 2) +\n***        1\n*** At command \"by\" (line 146 of \"~/isabelle/scratch/lemmas-k3_k3wue/Lemmas.thy\")"
+  }
+ ]
+}

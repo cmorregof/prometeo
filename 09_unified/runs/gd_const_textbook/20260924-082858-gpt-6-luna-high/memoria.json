@@ -1,0 +1,41 @@
+{
+ "library": {},
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "proof -\n  assume hn: \"0 < n\"\n  have h: \"2 * real n *\n      (f (gd g (replicate n 1) x0) - f xs) \\<le>\n      (norm (x0 - xs))\\<^sup>2\"\n    by (rule gd_rate_aux)\n  have p: \"0 < 2 * real n\"\n    using hn by simp\n  show ?thesis\n    using h p by (simp add: le_divide_eq; nlinarith)\nqed"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Undefined fact: \"aux_norm_sub_identity\" (lema gd_textbook_descent, línea 12)\n*** At command \"by\" (lema gd_textbook_descent, línea 12)",
+   "best_extra": "0 lemas verificados"
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "proof -\n  assume hn: \"0 < n\"\n  have h: \"2 * real n *\n      (f (gd g (replicate n 1) x0) - f xs) \\<le>\n      (norm (x0 - xs))\\<^sup>2\"\n    by (rule gd_replicate_rate)\n  have p: \"0 < 2 * real n\"\n    using hn by simp\n  show ?thesis\n    using h p by (simp add: le_divide_eq; nlinarith)\nqed"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Undefined method: \"nlinarith\" (lema textbook_norm_sub_identity, línea 9)\n*** At command \"by\" (lema textbook_norm_sub_identity, línea 9)",
+   "best_extra": "0 lemas verificados"
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "proof -\n  assume hn: \"0 < n\"\n  have inv: \"\\<And>k. 2 * real k *\n      (f (gd g (replicate k 1) x0) - f xs) +\n      (norm (gd g (replicate k 1) x0 - xs))\\<^sup>2\n      \\<le> (norm (x0 - xs))\\<^sup>2\"\n  proof -\n    fix k\n    show \"2 * real k *\n        (f (gd g (replicate k 1) x0) - f xs) +\n        (norm (gd g (replicate k 1) x0 - xs))\\<^sup>2\n        \\<le> (norm (x0 - xs))\\<^sup>2\"\n    proof (induction k)\n      case 0\n      then show ?case by simp\n    next\n      case (Suc k)\n      let ?x = \"gd g (replicate k 1) x0\"\n      let ?y = \"?x - g ?x\"\n      have rep: \"replicate (Suc k) (1::real) = replicate k 1 @ [1]\"\n        by (simp add: replicate_add)\n      have rec: \"gd g (replicate (Suc k) 1) x0 = ?y\"\n        using textbook_gd_append[of \"replicate k 1\" \"[1]\" x0] rep\n        by simp\n      have hdes: \"f ?y - f xs \\<le> f ?x - f xs\"\n        using textbook_step_descent[of ?x] by simp\n      have hpot: \"2 * (f ?x - f xs) +\n          (norm (?y - xs))\\<^sup>2 \\<le> (norm (?x - xs))\\<^sup>2\"\n        using textbook_step_potential[of ?x] by simp\n      have hm: \"(2 * real k) * (f ?y - f xs) \\<le>\n          (2 * real k) * (f ?x - f xs)\"\n        by (rule mult_left_mono[OF hdes]) simp\n      have hsmall: \"2 * (f ?y - f xs) +\n          (norm (?y - xs))\\<^sup>2 \\<le> (norm (?x - xs))\\<^sup>2\"\n        using hdes hpot by linarith\n      have hcomb: \"(2 * real k) * (f ?y - f xs) +\n          (2 * (f ?y - f xs) + (norm (?y - xs))\\<^sup>2)\n          \\<le> (2 * real k) * (f ?x - f xs) +\n          (norm (?x - xs))\\<^sup>2\"\n        by (rule add_mono[OF hm hsmall])\n      have hb: \"(2 * real k) * (f ?y - f xs) +\n          (norm (?y - xs))\\<^sup>2 \\<le> (norm (x0 - xs))\\<^sup>2\"\n        using hcomb Suc.IH by (rule order_trans)\n      have eq: \"2 * real (Suc k) * (f ?y - f xs) +\n          (norm (?y - xs))\\<^sup>2 =\n          (2 * real k) * (f ?y - f xs) +\n          (2 * (f ?y - f xs) + (norm (?y - xs))\\<^sup>2)\"\n        by (simp; ring)\n      have htarget: \"2 * real (Suc k) * (f ?y - f xs) +\n          (norm (?y - xs))\\<^sup>2 \\<le> (norm (x0 - xs))\\<^sup>2\"\n        using hb eq by simp\n      show ?case\n        using htarget rec by simp\n    qed\n  qed\n  have h_inv: \"2 * real n *\n      (f (gd g (replicate n 1) x0) - f xs) +\n      (norm (gd g (replicate n 1) x0 - xs))\\<^sup>2\n      \\<le> (norm (x0 - xs))\\<^sup>2\"\n    using inv[of n] .\n  have hnrm: \"0 \\<le>\n      (norm (gd g (replicate n 1) x0 - xs))\\<^sup>2\"\n    by (rule sq_nonneg)\n  have hbound: \"2 * real n *\n      (f (gd g (replicate n 1) x0) - f xs)\n      \\<le> (norm (x0 - xs))\\<^sup>2\"\n    using h_inv hnrm by linarith\n  have hmul: \"(f (gd g (replicate n 1) x0) - f xs) *\n      (2 * real n) \\<le> (norm (x0 - xs))\\<^sup>2\"\n    using hbound by (simp add: mult.commute)\n  have hpos: \"0 < 2 * real n\"\n    using hn by simp\n  show ?thesis\n    using hmul hpos by (simp add: le_divide_eq)\nqed"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Failed to apply initial proof method (lema textbook_norm_sub_identity, línea 5):\n*** goal (1 subgoal):\n***  1. (norm (u - v))⇧2 =\n***     (norm u)⇧2 + (norm v)⇧2 -\n***     2 *\n***     inner u\n***      v\n*** At command \"by\" (lema textbook_norm_sub_identity, línea 5)",
+   "best_extra": "0 lemas verificados"
+  }
+ ]
+}

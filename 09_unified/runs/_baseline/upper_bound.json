@@ -1,0 +1,185 @@
+{
+ "seconds": 214.5,
+ "outcome": {
+  "accepted": true,
+  "outcome_label": "ACCEPTED",
+  "partial_credit": 1.0,
+  "cost_s": 214.47057229200436,
+  "raw": {
+   "n_vcs": 15,
+   "n_closed_auto": 15,
+   "vcs": [
+    {
+     "index": 1,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> f ((xmid + u) / 2) * f u \\<le> 0",
+     "closed_by": "by (smt (verit, ccfv_threshold) zero_compare_simps(6))",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 16520,
+     "sh_outcome": "some",
+     "sh_message": "Try this: by (smt (verit, ccfv_threshold) zero_compare_simps(6)) (601 ms)"
+    },
+    {
+     "index": 2,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> u - (xmid + u) / 2 = (b - a) / (2 * 2 ^ iter)",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 13,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 3,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> tol < 2 * u - (2 * xmid + 2 * u) / 2",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 3,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 4,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": "using var_dec by blast",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 11687,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using var_dec by blast (4 ms)"
+    },
+    {
+     "index": 5,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> f ((l + xmid) / 2) * f xmid \\<le> 0",
+     "closed_by": "by (smt (verit, del_insts) zero_compare_simps(8))",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 7263,
+     "sh_outcome": "some",
+     "sh_message": "Try this: by (smt (verit, del_insts) zero_compare_simps(8)) (721 ms)"
+    },
+    {
+     "index": 6,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> xmid - (l + xmid) / 2 = (b - a) / (2 * 2 ^ iter)",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 14,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 7,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> tol < 2 * xmid - (2 * l + 2 * xmid) / 2",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 6,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 8,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": "using var_dec by blast",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 11759,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using var_dec by blast (2 ms)"
+    },
+    {
+     "index": 9,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>\\<not> 0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": "using var_dec by blast",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 11417,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using var_dec by blast (1 ms)"
+    },
+    {
+     "index": 10,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>\\<not> 0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": "using var_dec by blast",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 11474,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using var_dec by blast (3 ms)"
+    },
+    {
+     "index": 11,
+     "goal": "a < b",
+     "closed_by": "by (simp add: a_less_than_b)",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 2444,
+     "sh_outcome": "some",
+     "sh_message": "Try this: by (simp add: a_less_than_b) (0.3 ms)"
+    },
+    {
+     "index": 12,
+     "goal": "f a * f b \\<le> 0",
+     "closed_by": "using opposite_signs by auto",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 6920,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using opposite_signs by auto (1 ms)"
+    },
+    {
+     "index": 13,
+     "goal": "tol < 2 * b - 2 * a",
+     "closed_by": "using postive_tolerance sufficiently_small_tol by force",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 33894,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using postive_tolerance sufficiently_small_tol by force (1 ms)"
+    },
+    {
+     "index": 14,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>\\<not> tol < (b - a) / 2 ^ iter; a \\<le> xmid; u \\<le> b; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < 2 * u - 2 * xmid\\<rbrakk> \\<Longrightarrow> \\<exists>c. f c = 0 \\<and> a < c \\<and> c < b \\<and> \\<bar>c - xmid\\<bar> \\<le> (b - a) / 2 ^ iter \\<and> \\<bar>c - xmid\\<bar> \\<le> tol \\<and> int iter = \\<lceil>log 2 ((b - a) / tol)\\<rceil>",
+     "closed_by": "using bisect_root_extract continuous_f opposite_signs postive_tolerance sufficiently_small_tol by blast",
+     "source": "sledgehammer",
+     "prover": "vampire",
+     "ms": 27259,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using bisect_root_extract continuous_f opposite_signs postive_tolerance sufficiently_small_tol by blast (10 ms)"
+    },
+    {
+     "index": 15,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>\\<not> tol < (b - a) / 2 ^ iter; a \\<le> l; xmid \\<le> b; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < 2 * xmid - 2 * l\\<rbrakk> \\<Longrightarrow> \\<exists>c. f c = 0 \\<and> a < c \\<and> c < b \\<and> \\<bar>c - xmid\\<bar> \\<le> (b - a) / 2 ^ iter \\<and> \\<bar>c - xmid\\<bar> \\<le> tol \\<and> int iter = \\<lceil>log 2 ((b - a) / tol)\\<rceil>",
+     "closed_by": "using bisect_root_extract continuous_f opposite_signs postive_tolerance sufficiently_small_tol by blast",
+     "source": "sledgehammer",
+     "prover": "vampire",
+     "ms": 30436,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using bisect_root_extract continuous_f opposite_signs postive_tolerance sufficiently_small_tol by blast (12 ms)"
+    }
+   ],
+   "vcg_ms": 1771,
+   "driver_s": 182.6,
+   "provers": "cvc5 cvc5_proof verit z3 e spass vampire zipperposition",
+   "errors": [],
+   "same_program": "ok",
+   "n_lemmas": 5,
+   "lemmas_used": [
+    "a_less_than_b",
+    "bisect_root_extract",
+    "var_dec"
+   ],
+   "final": {
+    "rc": 0,
+    "errors": [],
+    "oracles": [],
+    "skip_proof": false,
+    "prop_ok": true,
+    "axioms_ok": true,
+    "prop": "H[True] bisection_ref (f, a, b, tol) [/<exists>c. f c = 0 /<and> c /<in> {a<..<b} /<and> u - l /<le> tol /<and> /<bar>c - xmid/<bar> /<le> (b - a) / 2 ^ st.iter /<and> /<bar>c - xmid/<bar> /<le> tol /<and> int st.iter = /<lceil>log 2 ((b - a) / tol)/<rceil>]"
+   }
+  }
+ }
+}

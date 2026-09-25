@@ -1,0 +1,33 @@
+inicio Wed Sep 23 15:59:24 -05 2026
+entorno bisection_isabelle · juez isabelle · modelo gpt-6-luna · presupuesto 4 pasos · 3 episodios → runs/bisection_isabelle/20260923-155924-gpt-6-luna-high
+[ep 1 paso 1] VC_OPEN  (llm 48.7 s, juez 599.2 s)
+[ep 1 paso 2] VC_OPEN  (llm 77.8 s, juez 642.7 s)
+[ep 1 paso 3] VC_OPEN  (llm 113.7 s, juez 729.4 s)
+[ep 1 paso 4] VC_OPEN  (llm 85.8 s, juez 731.4 s)
+[ep 2 paso 1] VC_OPEN  (llm 60.4 s, juez 585.9 s)
+[ep 2 paso 2] VC_OPEN  (llm 65.4 s, juez 604.5 s)
+[ep 2 paso 3] VC_OPEN  (llm 73.0 s, juez 707.1 s)
+[ep 2 paso 4] VC_OPEN  (llm 60.0 s, juez 553.3 s)
+[ep 3 paso 1] VC_OPEN  (llm 42.1 s, juez 742.8 s)
+[ep 3 paso 2] VC_OPEN  (llm 89.6 s, juez 570.6 s)
+[ep 3 paso 3] VC_OPEN  (llm 55.5 s, juez 662.7 s)
+[ep 3 paso 4] VC_OPEN  (llm 96.4 s, juez 651.7 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+luna fin Wed Sep 23 18:23:33 -05 2026
+entorno bisection_isabelle · juez isabelle · modelo gpt-5.4-mini · presupuesto 4 pasos · 3 episodios → runs/bisection_isabelle/20260923-182334-gpt-5.4-mini-low
+[ep 1 paso 1] VCG_FAILED  (llm 17.1 s, juez 9.8 s)
+[ep 1 paso 2] VC_OPEN  (llm 6.1 s, juez 220.7 s)
+[ep 1 paso 3] VC_OPEN  (llm 9.4 s, juez 417.4 s)
+[ep 1 paso 4] VCG_FAILED  (llm 5.7 s, juez 10.0 s)
+[ep 2 paso 1] VC_OPEN  (llm 9.6 s, juez 472.0 s)
+[ep 2 paso 2] VC_OPEN  (llm 6.7 s, juez 213.5 s)
+[ep 2 paso 3] VC_OPEN  (llm 7.0 s, juez 468.6 s)
+[ep 2 paso 4] VC_OPEN  (llm 7.0 s, juez 212.3 s)
+[ep 3 paso 1] VC_OPEN  (llm 37.7 s, juez 378.9 s)
+[ep 3 paso 2] VCG_FAILED  (llm 6.0 s, juez 9.7 s)
+[ep 3 paso 3] VCG_FAILED  (llm 3.4 s, juez 9.2 s)
+[ep 3 paso 4] VCG_FAILED  (llm 5.0 s, juez 9.1 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+fin Wed Sep 23 19:18:35 -05 2026

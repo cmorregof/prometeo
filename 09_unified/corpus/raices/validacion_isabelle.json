@@ -1,0 +1,98 @@
+{
+ "biseccion": {
+  "ok": true,
+  "peldanos": [
+   "bis_1_ancho",
+   "bis_2_encaje",
+   "bis_3_signo",
+   "bis_4_raiz",
+   "bis_5_cota",
+   "bis_5c_cota_uniforme",
+   "bis_6_iteraciones",
+   "bis_7_convergencia"
+  ],
+  "s": 15.7,
+  "errores": [],
+  "teoria": "/Users/cmorregof/isabelle/scratch/gd-corpus-biseccion-9m9djz3m/Corpus_biseccion.thy"
+ },
+ "punto_fijo": {
+  "ok": true,
+  "peldanos": [
+   "pf_1_derivada",
+   "pf_2_dentro",
+   "pf_3_unicidad",
+   "pf_4_decaimiento",
+   "pf_5_a_priori",
+   "pf_5c_a_priori_max",
+   "pf_6_a_priori_x1",
+   "pf_6p_a_posteriori",
+   "pf_7_existencia",
+   "pf_8_convergencia",
+   "pf_9_cuadratico",
+   "pf_9c_cuadratico_medio"
+  ],
+  "s": 19.2,
+  "errores": [],
+  "teoria": "/Users/cmorregof/isabelle/scratch/gd-corpus-punto_fijo-18cpw3hd/Corpus_punto_fijo.thy"
+ },
+ "newton": {
+  "ok": true,
+  "peldanos": [
+   "newton_1_paso",
+   "newton_2_contraccion",
+   "newton_2c_contraccion_local",
+   "newton_3_decaimiento",
+   "newton_4_convergencia",
+   "newton_4c_convergencia_local",
+   "newton_5_orden2",
+   "newton_5c_orden2_local",
+   "newton_6c_q_orden2"
+  ],
+  "s": 16.0,
+  "errores": [],
+  "teoria": "/Users/cmorregof/isabelle/scratch/gd-corpus-newton-0zdl0bye/Corpus_newton.thy"
+ },
+ "ordenes": {
+  "ok": true,
+  "peldanos": [
+   "orden_1_lineal",
+   "orden_2_cuadratico_lineal",
+   "orden_3_cuadratico"
+  ],
+  "s": 15.7,
+  "errores": [],
+  "teoria": "/Users/cmorregof/isabelle/scratch/gd-corpus-ordenes-06u2gsp8/Corpus_ordenes.thy"
+ },
+ "secante": {
+  "ok": true,
+  "peldanos": [
+   "secante_1_inyectiva",
+   "secante_2_cociente",
+   "secante_3_producto",
+   "secante_4_contraccion",
+   "secante_4c_contraccion_local",
+   "secante_5_convergencia",
+   "secante_5c_convergencia_local",
+   "secante_6_fibonacci",
+   "secante_6c_orden_phi"
+  ],
+  "s": 15.8,
+  "errores": [],
+  "teoria": "/Users/cmorregof/isabelle/scratch/gd-corpus-secante-i8tir1a0/Corpus_secante.thy"
+ },
+ "regula_falsi": {
+  "ok": true,
+  "peldanos": [
+   "rf_1_punto",
+   "rf_2_signo",
+   "rf_3_encaje",
+   "rf_4_raiz",
+   "rf_5_limites",
+   "rf_6_convergencia",
+   "rf_6c_puntos_convergen"
+  ],
+  "s": 15.7,
+  "errores": [],
+  "teoria": "/Users/cmorregof/isabelle/scratch/gd-corpus-regula_falsi-s_w2gyno/Corpus_regula_falsi.thy"
+ }
+}

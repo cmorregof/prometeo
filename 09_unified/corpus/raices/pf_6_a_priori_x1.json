@@ -1,0 +1,40 @@
+{
+ "id": "pf_6_a_priori_x1",
+ "name": "pf_6_a_priori_x1",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 6,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "02_punto_fijo (el grafo la llama «a posteriori»; en la terminología usual es a priori: solo usa x0 y x1)",
+ "dependencias": [
+  "pf_4_decaimiento"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g :: \"real \\<Rightarrow> real\" and a b k x0 :: real and p :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"\n    and dentro: \"\\<And>x. x \\<in> {a..b} \\<Longrightarrow> g x \\<in> {a..b}\"\n    and contr: \"\\<And>x y. x \\<in> {a..b} \\<Longrightarrow> y \\<in> {a..b} \\<Longrightarrow> \\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>\"\n    and k0: \"0 \\<le> k\" and k1: \"k < 1\" and x0: \"x0 \\<in> {a..b}\"\n    and hp: \"p \\<in> {a..b}\"\n    and fp: \"g p = p\"",
+ "concl": "\\<bar>(g ^^ n) x0 - p\\<bar> \\<le> k ^ n / (1 - k) * \\<bar>g x0 - x0\\<bar>",
+ "statement_es": "Cota a priori en función del primer paso: |xₙ − p| ≤ kⁿ/(1 − k)·|x1 − x0|.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "0184ccb814746f49",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

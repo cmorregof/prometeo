@@ -1,0 +1,42 @@
+{
+ "id": "secante_4c_contraccion_local",
+ "name": "secante_4c_contraccion_local",
+ "kind": "theorem",
+ "metodo": "secante",
+ "peldano": "4c",
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 4,
+ "fuente": "05_secante (forma clásica)",
+ "dependencias": [
+  "secante_4_contraccion"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_secante f x y = y - f y * (y - x) / (f y - f x)\"\n\nfun secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"secante f x0 x1 0 = x0\"\n| \"secante f x0 x1 (Suc 0) = x1\"\n| \"secante f x0 x1 (Suc (Suc n)) = paso_secante f (secante f x0 x1 n) (secante f x0 x1 (Suc n))\"\n\nfun fibo :: \"nat \\<Rightarrow> nat\" where\n  \"fibo 0 = 0\"\n| \"fibo (Suc 0) = 1\"\n| \"fibo (Suc (Suc n)) = fibo (Suc n) + fibo n\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<epsilon> :: real",
+ "assumes": "eps: \"0 < \\<epsilon>\"\n    and d1: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and c2: \"continuous_on {r - \\<epsilon><..<r + \\<epsilon>} f''\"\n    and raiz: \"f r = 0\" and simple: \"f' r \\<noteq> 0\"",
+ "concl": "\\<exists>\\<delta>>0. \\<forall>x y. \\<bar>x - r\\<bar> \\<le> \\<delta> \\<longrightarrow> \\<bar>y - r\\<bar> \\<le> \\<delta> \\<longrightarrow> x \\<noteq> y \\<longrightarrow> \\<bar>paso_secante f x y - r\\<bar> \\<le> \\<bar>y - r\\<bar> / 2",
+ "statement_es": "Forma clásica local: existe δ > 0 tal que un paso de la secante con x ≠ y en [r − δ, r + δ] reduce a la mitad el error del iterado actual.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [
+  "secante_4_contraccion"
+ ],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "baba05a3a8a62465",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

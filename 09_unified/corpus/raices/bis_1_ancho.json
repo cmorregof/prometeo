@@ -1,0 +1,38 @@
+{
+ "id": "bis_1_ancho",
+ "name": "bis_1_ancho",
+ "kind": "theorem",
+ "metodo": "biseccion",
+ "peldano": 1,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 1,
+ "fuente": "01_biseccion (grafo), paso de longitudes",
+ "dependencias": [],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec biseccion :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"biseccion f a b 0 = (a, b)\"\n| \"biseccion f a b (Suc n) = (case biseccion f a b n of (l, u) \\<Rightarrow>\n     (if f l * f ((l + u) / 2) \\<le> 0 then (l, (l + u) / 2) else ((l + u) / 2, u)))\"\n\ndefinition punto_medio :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"punto_medio f a b n = (fst (biseccion f a b n) + snd (biseccion f a b n)) / 2\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"",
+ "concl": "snd (biseccion f a b n) - fst (biseccion f a b n) = (b - a) / 2 ^ n",
+ "statement_es": "Tras n pasos, el intervalo mide (b − a)/2ⁿ.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "arrastra hipótesis que no usa: a ≤ b",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "72f3ced7066207f3",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

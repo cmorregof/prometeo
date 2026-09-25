@@ -1,0 +1,6 @@
+inicio Wed Sep 23 21:11:00 -05 2026
+entorno bisection_isabelle_lemas · juez isabelle · modelo gpt-6-luna · presupuesto 4 pasos · 3 episodios → runs/bisection_isabelle_lemas/20260923-211101-gpt-6-luna-high
+[ep 1 paso 1] VC_OPEN  (llm 86.7 s, juez 900.7 s)
+[ep 1 paso 2] VC_OPEN  (llm 92.0 s, juez 706.4 s)
+[ep 1 paso 3] LEMMA_FAILED  (llm 107.5 s, juez 18.7 s)
+[ep 1 paso 4] LEMMA_FAILED  (llm 97.0 s, juez 18.3 s)

@@ -1,0 +1,70 @@
+provers externos: {'E_HOME': True, 'VAMPIRE_HOME': True, 'Z3_SOLVER': True, 'CVC5_SOLVER': True, 'SPASS_HOME': True, 'ZIPPERPOSITION_HOME': True, 'ISABELLE_VERIT': True}
+build rc=1  9 s  vcg 0 ms  provers: 
+ERROR: el driver no escribió result.json (¿falló vcg o la teoría?)
+Started at Wed Sep 23 14:52:12 GMT-5 2026 (polyml-5.9.1_arm64_32-darwin on MacBook-Air-de-Carlos)
+ISABELLE_TOOL_JAVA_OPTIONS="-Djava.awt.headless=true -Xms512m -Xmx4g -Xss16m"
+ISABELLE_BUILD_OPTIONS=""
+
+ML_PLATFORM="arm64_32-darwin"
+ML_HOME="/Users/cmorregof/isabelle/Isabelle2025.app/contrib/polyml-5.9.1/arm64_32-darwin"
+ML_SYSTEM="polyml-5.9.1"
+ML_OPTIONS="--minheap 500"
+
+Session Pure/Pure
+Session FOL/FOL
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/Explorer
+Session HOL/HOL-Cardinals (timing)
+Session HOL/HOL-Library (main timing)
+Session AFP/Binomial-Heaps (AFP)
+Session AFP/Finger-Trees (AFP)
+Session HOL/HOL-Combinatorics (main timing)
+Session HOL/HOL-Computational_Algebra (main timing)
+Session HOL/HOL-Algebra (main timing)
+Session HOL/HOL-Decision_Procs (timing)
+Session HOL/HOL-Number_Theory (main timing)
+Session HOL/HOL-ex (timing)
+Session HOL/HOL-Imperative_HOL (timing)
+Session AFP/Trie (AFP)
+Session HOL/HOL-Real_Asymp
+Session HOL/HOL-Analysis (main timing)
+Session HOL/HOL-Eisbach
+Session AFP/Automatic_Refinement (AFP)
+Session AFP/Refine_Monadic (AFP)
+Session AFP/Optics (AFP)
+Session Unsorted/Shallow_Expressions
+Session Unsorted/Abstract_Prog_Syntax
+Session Unsorted/Z_Toolkit
+Session Unsorted/Circus_Toolkit
+Session Unsorted/Interaction_Trees
+Session Unsorted/Shallow_Expressions_Z
+Session Unsorted/ITree_UTP
+Session Unsorted/ITree_VCG
+Session AFP/Triangle (AFP)
+Session HOL/HOL-Types_To_Sets
+Session AFP/Smooth_Manifolds (AFP)
+Session Local/Higher_Diffs
+Session AFP/List-Index (AFP)
+Session AFP/Word_Lib (AFP)
+Session AFP/Native_Word (AFP)
+Session AFP/Collections (AFP)
+Session AFP/Deriving (AFP)
+Session AFP/Show (AFP)
+Session AFP/Affine_Arithmetic (AFP)
+Session AFP/Ordinary_Differential_Equations (AFP)
+Session AFP/Differential_Dynamic_Logic (AFP)
+Session Unsorted/Hybrid-Library
+Session Unsorted/ITree_Numeric_VCG
+Session Local/Numerical_Methods_Paper
+Session Unsorted/IsaRL_Scratch
+Running IsaRL_Scratch ...
+IsaRL_Scratch: theory IsaRL_Scratch.Driver
+IsaRL_Scratch FAILED (see also "isabelle build_log -H Error IsaRL_Scratch")
+*** SML lexical error: bad escape character in string (line 37 of "~/isabelle/scratch/driver-1790193132-12953/Driver.thy") at ∃ c::real. ...
+*** At command "ML" (line 20 of "~/isabelle/scratch/driver-1790193132-12953/Driver.thy")
+Unfinished session(s): IsaRL_Scratch
+
+Finished at Wed Sep 23 14:52:20 GMT-5 2026
+0:00:07 elapsed time
+

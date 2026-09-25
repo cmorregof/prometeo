@@ -1,0 +1,23 @@
+% Estado de la nota: preliminar (con avisos) o final. Cambiar \PreliminarTrue/\PreliminarFalse.
+\newif\ifPreliminar
+\Preliminarfalse
+\ifPreliminar
+  \newcommand{\VersionNota}{borrador v0.2 \textbf{preliminar}}
+  \newcommand{\AvisoPreliminar}{\begin{center}\fbox{\parbox{0.92\textwidth}{\small\textbf{Versión preliminar.}
+    Falta la repetición de \texttt{gpt-5.4-mini} bajo $V_I$ (en curso; las tablas muestran lo que había al compilar). Lo marcado \EnCurso{} está en implementación
+    tras una revisión adversarial del juez: la demostración en el kernel de que el programa anotado es el
+    congelado, una lista blanca de símbolos para las anotaciones y el aislamiento del programa propuesto en $V_P$.}}\end{center}}
+  \newcommand{\EnCurso}{\textsuperscript{[en curso]}}
+  \newcommand{\EtapaCero}{\EnCurso{} Comprueba la anotación con una lista blanca de símbolos y demuestra en el kernel que el programa anotado es igual al congelado con anotaciones fijas (\texttt{simp only} con \texttt{while\_inv\_var\_def}); si no lo es, \lab{Statement\_Drift}.}
+  \newcommand{\PostHocApC}{}
+  \newcommand{\PostHocMontaje}{}
+  \newcommand{\AvisoSandboxVP}{\noindent\EnCurso{} La revisión adversarial mostró que el programa propuesto, que 06 ejecuta en su propio proceso con los \emph{builtins} restringidos, puede alcanzar por introspección los módulos del juez y sustituir las funciones de puntuación y certificación. En $V_P$ el programa pasará a ejecutarse en un intérprete aparte, y el juez puntuará la sucesión literal que devuelva. No hay corridas de $V_P$ afectadas.}
+\else
+  \newcommand{\VersionNota}{borrador v0.2 (con primeros resultados)}
+  \newcommand{\AvisoPreliminar}{}
+  \newcommand{\EnCurso}{}
+  \newcommand{\EtapaCero}{Comprueba la anotación con una lista blanca de símbolos y demuestra en el kernel que el programa anotado es igual al congelado con anotaciones fijas (\texttt{simp only} con \texttt{while\_inv\_var\_def}); si no lo es, \lab{Statement\_Drift}. La compilación usa pruebas secuenciales y debe terminar sin errores: con pruebas en paralelo, Isabelle sigue ejecutando la teoría aunque una prueba falle, y un test mostró que así un programa alterado pasaba por igual.}
+  \newcommand{\PostHocApC}{Las corridas de $V_I$ son anteriores a este cambio; la comprobación a posteriori de la §\ref{sec:montaje} muestra que ninguna etiqueta publicada cambia.}
+  \newcommand{\PostHocMontaje}{\paragraph{Versión del juez.} Las corridas de $V_I$ se hicieron antes de añadir la etapa~0 (lista blanca e igualdad de programas en el kernel). A posteriori se pasó esa etapa sobre las \R{PostH}{n} propuestas registradas: \R{PostH}{allowfail} fallan la lista blanca, \R{PostH}{drift} dan \lab{Statement\_Drift}, y en \R{PostH}{consistent} de \R{PostH}{n} el resultado es el que su etiqueta implica (se analiza y es el programa congelado si la etiqueta no es \lab{VCG\_Failed}; no se analiza si lo es). Ninguna etiqueta publicada cambia (\texttt{runs/\_baseline/posthoc\_stage0.json}).}
+  \newcommand{\AvisoSandboxVP}{\noindent 06 ejecuta el programa propuesto en su propio proceso con los \emph{builtins} restringidos. Dos rondas de revisión adversarial mostraron que así el programa puede alcanzar por introspección los módulos del juez y sustituir la puntuación y el certificado, y que, aun en otro proceso, puede escribir en disco con numpy y subir $\tau_{\mathrm{ref}}$ en el archivo de referencias. Por eso $V_P$ ejecuta el programa en un intérprete aparte, bajo el sandbox de macOS sin escritura en disco ni red; lee las referencias una sola vez al empezar; puntúa la sucesión literal que devuelve el programa; y al proponente sólo le devuelve el tipo de una excepción, no su texto. Protege el estado del juez; no es un aislamiento completo de la máquina, porque el programa aún puede leer archivos.}
+\fi

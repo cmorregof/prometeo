@@ -1,0 +1,47 @@
+{
+ "fuente": "/Users/cmorregof/isabelle/scratch/driver-1790194055-19878",
+ "nota": "Comprobación de 08 (23 sep 2026 ~15:08): la línea smt del artículo (Bisection.thy@0e7830d l.218-221, 18 hechos) aplicada con  a las VCs 4, 8, 9 y 10 del objetivo de 08 (teoría completa del artículo + los 3 hechos previos de su demostración). Sledgehammer con 15 s en esta corrida.",
+ "vcs": [
+  {
+   "index": 4,
+   "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+   "given": {
+    "method": "(smt (verit, del_insts) Groups.add_ac(2) a_less_than_b divide_divide_eq_right divide_pos_pos frac_le le_diff_conv less_log_of_power linear linorder_not_le nonzero_mult_div_cancel_left not_less_eq_eq of_nat_Suc of_nat_add of_nat_diff of_nat_le_iff order_le_less postive_tolerance real_nat_ceiling_ge)",
+    "closed": true,
+    "ms": 183
+   },
+   "sh_outcome": "timeout"
+  },
+  {
+   "index": 8,
+   "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+   "given": {
+    "method": "(smt (verit, del_insts) Groups.add_ac(2) a_less_than_b divide_divide_eq_right divide_pos_pos frac_le le_diff_conv less_log_of_power linear linorder_not_le nonzero_mult_div_cancel_left not_less_eq_eq of_nat_Suc of_nat_add of_nat_diff of_nat_le_iff order_le_less postive_tolerance real_nat_ceiling_ge)",
+    "closed": true,
+    "ms": 184
+   },
+   "sh_outcome": "timeout"
+  },
+  {
+   "index": 9,
+   "goal": "\\<And>iter u xmid. \\<lbrakk>\\<not> 0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+   "given": {
+    "method": "(smt (verit, del_insts) Groups.add_ac(2) a_less_than_b divide_divide_eq_right divide_pos_pos frac_le le_diff_conv less_log_of_power linear linorder_not_le nonzero_mult_div_cancel_left not_less_eq_eq of_nat_Suc of_nat_add of_nat_diff of_nat_le_iff order_le_less postive_tolerance real_nat_ceiling_ge)",
+    "closed": true,
+    "ms": 208
+   },
+   "sh_outcome": "timeout"
+  },
+  {
+   "index": 10,
+   "goal": "\\<And>iter l xmid. \\<lbrakk>\\<not> 0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+   "given": {
+    "method": "(smt (verit, del_insts) Groups.add_ac(2) a_less_than_b divide_divide_eq_right divide_pos_pos frac_le le_diff_conv less_log_of_power linear linorder_not_le nonzero_mult_div_cancel_left not_less_eq_eq of_nat_Suc of_nat_add of_nat_diff of_nat_le_iff order_le_less postive_tolerance real_nat_ceiling_ge)",
+    "closed": true,
+    "ms": 210
+   },
+   "sh_outcome": "timeout"
+  }
+ ],
+ "driver_thy_sha256": "50d6ff495aa756c7700e6f1c89ffe235def531a079dd0f09e2a2a087e4d86898"
+}

@@ -1,0 +1,2 @@
+episodio_id,peldano,metodo,split,dificultad,version,config,aceptado,intento_exito,intentos,llamadas,consultas,r_V_max,usd
+orden_1_lineal#1,orden_1_lineal,ordenes,train,1,clasica,C,True,4,4,4,0,2.0,0.003848

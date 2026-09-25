@@ -1,0 +1,40 @@
+{
+ "id": "secante_2_cociente",
+ "name": "secante_2_cociente",
+ "kind": "theorem",
+ "metodo": "secante",
+ "peldano": 2,
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "05_secante (grafo)",
+ "dependencias": [
+  "secante_1_inyectiva"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_secante f x y = y - f y * (y - x) / (f y - f x)\"\n\nfun secante :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"secante f x0 x1 0 = x0\"\n| \"secante f x0 x1 (Suc 0) = x1\"\n| \"secante f x0 x1 (Suc (Suc n)) = paso_secante f (secante f x0 x1 n) (secante f x0 x1 (Suc n))\"\n\nfun fibo :: \"nat \\<Rightarrow> nat\" where\n  \"fibo 0 = 0\"\n| \"fibo (Suc 0) = 1\"\n| \"fibo (Suc (Suc n)) = fibo (Suc n) + fibo n\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<delta> m M :: real and x y :: real",
+ "assumes": "d1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and raiz: \"f r = 0\" and m_pos: \"0 < m\"\n    and cota1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> m \\<le> \\<bar>f' t\\<bar>\"\n    and cota2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> \\<bar>f'' t\\<bar> \\<le> M\"\n    and delta_pos: \"0 < \\<delta>\" and delta_chico: \"M * \\<delta> \\<le> m\"\n    and hx: \"\\<bar>x - r\\<bar> \\<le> \\<delta>\"\n    and hy: \"\\<bar>y - r\\<bar> \\<le> \\<delta>\"\n    and dist: \"x \\<noteq> y\"",
+ "concl": "m \\<le> \\<bar>(f y - f x) / (y - x)\\<bar>",
+ "statement_es": "El cociente de diferencias en I está acotado por abajo por m.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "arrastra hipótesis que no usa: f'' y su cota, M·δ ≤ m",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "74c64b83dea2bcae",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

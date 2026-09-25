@@ -1,0 +1,35 @@
+{
+ "library": {},
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "NOT_IMPROVED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "import math\nimport numpy as np\n\ndef schedule(n: int) -> list[float]:\n    a = 0.65\n    nodes = [\n        0.5 * (1.0 + a) + 0.5 * (1.0 - a) * math.cos((2 * j + 1) * math.pi / (2 * n))\n        for j in range(n)\n    ]\n    return [float(1.0 / r) for r in reversed(nodes)]",
+   "last_feedback": "NOT_IMPROVED: τ = 0.0177305 vs τ_ref = 0.0072223; h = [1.18, 1.14, 1.1, 1.06, 1.03, 1.0]",
+   "best_extra": "τ = 0.0140314 frente a τ_ref = 0.0072223; h = [1.5245, 1.426, 1.2825, 1.149, 1.054, 1.006]"
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "NOT_IMPROVED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "import math\nimport numpy as np\n\ndef schedule(n: int) -> list[float]:\n    if n <= 0:\n        return []\n    base = np.array([1.90, 1.75, 1.60, 1.45, 1.25, 1.00], dtype=float)\n    if n == 6:\n        return base.tolist()\n    return np.interp(\n        np.linspace(0.0, 5.0, n),\n        np.arange(6, dtype=float),\n        base,\n    ).tolist()",
+   "last_feedback": "NOT_IMPROVED: τ = 0.0291971 vs τ_ref = 0.0072223; h = [2.0, 2.0, 2.0, 1.5, 1.0, 1.0]",
+   "best_extra": "τ = 0.0124995 frente a τ_ref = 0.0072223; h = [1.9, 1.75, 1.6, 1.45, 1.25, 1.0]"
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "NOT_IMPROVED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "import math\nimport numpy as np\n\ndef schedule(n: int) -> list[float]:\n    if n <= 0:\n        return []\n\n    a = 0.5\n    nodes = [\n        0.5 * (1.0 + a) + 0.5 * (1.0 - a) * math.cos((2 * j + 1) * math.pi / (2 * n))\n        for j in range(n)\n    ]\n    return [float(1.0 / r) for r in reversed(nodes)]",
+   "last_feedback": "NOT_IMPROVED: τ = 269.3312989 vs τ_ref = 0.0072223; h = [17.4605, 4.6303, 2.2741, 1.4764, 1.1438, 1.0147]",
+   "best_extra": "τ = 0.0165236 frente a τ_ref = 0.0072223; h = [1.9665, 1.7445, 1.4592, 1.2274, 1.079, 1.0086]"
+  }
+ ]
+}

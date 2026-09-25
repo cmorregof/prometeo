@@ -1,0 +1,833 @@
+{
+ "version": 1,
+ "sembrado": "2026-09-25T07:28:23",
+ "errores": [
+  {
+   "id": "E001",
+   "clase": "glosario",
+   "lean": "nlinarith",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "linarith"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "smt"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "argo"
+    }
+   ],
+   "nota": "No existe en Isabelle. Da a linarith los productos como hechos explícitos (p. ej. mult_nonneg_nonneg, zero_le_power2) o usa smt.",
+   "origen": "glosario (Luna, stepsize (6 veces))",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "linarith": true,
+     "smt": true,
+     "argo": true
+    }
+   },
+   "contadores": {
+    "apariciones": 1,
+    "ultimo_episodio": "bis_5c_cota_uniforme#1"
+   }
+  },
+  {
+   "id": "E002",
+   "clase": "glosario",
+   "lean": "ring",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "algebra"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "algebra_simps"
+    }
+   ],
+   "nota": "No existe. Para identidades de anillos: `by algebra` o `by (simp add: algebra_simps)`.",
+   "origen": "glosario (Luna, stepsize (3 veces))",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "algebra": true,
+     "algebra_simps": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E003",
+   "clase": "glosario",
+   "lean": "ring_nf",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "algebra_simps"
+    }
+   ],
+   "nota": "No existe. Normaliza con `simp add: algebra_simps`.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "algebra_simps": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E004",
+   "clase": "glosario",
+   "lean": "field_simp",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "field_simps"
+    }
+   ],
+   "nota": "No existe como método; en Isabelle es una colección de reglas: `simp add: field_simps`.",
+   "origen": "glosario (Luna y Astra, bisección (3 veces))",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "field_simps": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E005",
+   "clase": "glosario",
+   "lean": "omega",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "presburger"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "arith"
+    }
+   ],
+   "nota": "No existe. Aritmética lineal entera o natural: presburger, arith, linarith.",
+   "origen": "glosario (Luna, bisección)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "presburger": true,
+     "arith": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E006",
+   "clase": "glosario",
+   "lean": "positivity",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "simp"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "mult_pos_pos"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "zero_le_power2"
+    }
+   ],
+   "nota": "No existe. Prueba la positividad con simp y reglas como mult_pos_pos, add_pos_pos, zero_le_power2.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "simp": true,
+     "mult_pos_pos": true,
+     "zero_le_power2": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E007",
+   "clase": "glosario",
+   "lean": "norm_num",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "simp"
+    }
+   ],
+   "nota": "No existe. Los cálculos con numerales los hace simp.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "simp": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E008",
+   "clase": "glosario",
+   "lean": "linear_combination",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "linarith"
+    }
+   ],
+   "nota": "No existe. Pasa a linarith los hechos que combinarías.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "linarith": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E009",
+   "clase": "glosario",
+   "lean": "gcongr",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_left_mono"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "add_mono"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "power_mono"
+    }
+   ],
+   "nota": "No existe. Usa reglas de monotonía explícitas.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "mult_left_mono": true,
+     "add_mono": true,
+     "power_mono": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E010",
+   "clase": "glosario",
+   "lean": "aesop",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "auto"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "blast"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "force"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "fastforce"
+    }
+   ],
+   "nota": "No existe. Búsqueda automática: auto, blast, force, fastforce.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "auto": true,
+     "blast": true,
+     "force": true,
+     "fastforce": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E011",
+   "clase": "glosario",
+   "lean": "sq_nonneg",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "zero_le_power2"
+    }
+   ],
+   "nota": "0 ≤ x² se llama zero_le_power2.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "zero_le_power2": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E012",
+   "clase": "glosario",
+   "lean": "inner_self_eq_norm_sq",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "dot_square_norm"
+    }
+   ],
+   "nota": "‖x‖² = ⟨x, x⟩ es power2_norm_eq_inner (y dot_square_norm en el otro sentido).",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_norm_eq_inner": true,
+     "dot_square_norm": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E013",
+   "clase": "glosario",
+   "lean": "inner_self_eq_norm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    }
+   ],
+   "nota": "Nombre inventado; el hecho es power2_norm_eq_inner.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_norm_eq_inner": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E014",
+   "clase": "glosario",
+   "lean": "norm_sq_eq_inner",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    }
+   ],
+   "nota": "Nombre inventado; el hecho es power2_norm_eq_inner.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_norm_eq_inner": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E015",
+   "clase": "glosario",
+   "lean": "abs_inner_le_norm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "Cauchy_Schwarz_ineq2"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "norm_cauchy_schwarz"
+    }
+   ],
+   "nota": "Cauchy–Schwarz: Cauchy_Schwarz_ineq2 (con valor absoluto) y norm_cauchy_schwarz.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "Cauchy_Schwarz_ineq2": true,
+     "norm_cauchy_schwarz": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E016",
+   "clase": "glosario",
+   "lean": "inner_le_norm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "norm_cauchy_schwarz"
+    }
+   ],
+   "nota": "Nombre inventado; ⟨x, y⟩ ≤ ‖x‖‖y‖ es norm_cauchy_schwarz.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "norm_cauchy_schwarz": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E017",
+   "clase": "glosario",
+   "lean": "inner_neg_right",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "inner_minus_right"
+    }
+   ],
+   "nota": "En Isabelle es inner_minus_right.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "inner_minus_right": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E018",
+   "clase": "glosario",
+   "lean": "div_le_iff",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "divide_le_eq"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "pos_divide_le_eq"
+    }
+   ],
+   "nota": "División y desigualdad: divide_le_eq, pos_divide_le_eq.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "divide_le_eq": true,
+     "pos_divide_le_eq": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E019",
+   "clase": "glosario",
+   "lean": "divide_less_iff",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "divide_less_eq"
+    }
+   ],
+   "nota": "Nombre inventado; usa divide_less_eq.",
+   "origen": "glosario (Luna, bisección)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "divide_less_eq": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E020",
+   "clase": "glosario",
+   "lean": "mul_pos",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_pos_pos"
+    }
+   ],
+   "nota": "Producto de positivos: mult_pos_pos.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "mult_pos_pos": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E021",
+   "clase": "glosario",
+   "lean": "mul_le_mul_of_nonneg_left",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_left_mono"
+    }
+   ],
+   "nota": "Monotonía del producto: mult_left_mono.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "mult_left_mono": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E022",
+   "clase": "glosario",
+   "lean": "log_div",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "log_divide"
+    }
+   ],
+   "nota": "El logaritmo de un cociente es log_divide.",
+   "origen": "glosario (Luna, bisección)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "log_divide": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E023",
+   "clase": "glosario",
+   "lean": "abs_sub_comm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "abs_minus_commute"
+    }
+   ],
+   "nota": "|a − b| = |b − a| es abs_minus_commute.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "abs_minus_commute": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E024",
+   "clase": "glosario",
+   "lean": "pow_le_pow_left",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power_mono"
+    }
+   ],
+   "nota": "Monotonía de la potencia: power_mono.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power_mono": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E025",
+   "clase": "glosario",
+   "lean": "add_pow_two",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_sum"
+    }
+   ],
+   "nota": "(a + b)² es power2_sum.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_sum": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "A026",
+   "clase": "aprendido",
+   "texto": "La automatización no cerró directamente las cotas del punto medio con división por 2; ese obstáculo se repitió al probar invariantes de la bisección.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260925-073216-gpt-6-luna",
+    "fecha": "2026-09-25T08:33:52"
+   }
+  },
+  {
+   "id": "A027",
+   "clase": "aprendido",
+   "texto": "`smt` no dedujo en varios pasos el signo del producto a partir de las hipótesis sobre los factores.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260925-073216-gpt-6-luna",
+    "fecha": "2026-09-25T08:33:52"
+   }
+  },
+  {
+   "id": "A028",
+   "clase": "aprendido",
+   "texto": "Se invocó un hecho no disponible con el nombre `mult_commute`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_commute",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260925-073216-gpt-6-luna",
+    "fecha": "2026-09-25T08:34:00"
+   }
+  },
+  {
+   "id": "A029",
+   "clase": "aprendido",
+   "texto": "Se intentó usar el caso `left_negative`, que no estaba disponible en esa prueba.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260925-073216-gpt-6-luna",
+    "fecha": "2026-09-25T08:34:00"
+   }
+  },
+  {
+   "id": "A030",
+   "clase": "aprendido",
+   "texto": "Isabelle rechazó el método `nlinarith` como indefinido.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "nlinarith",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260925-073216-gpt-6-luna",
+    "fecha": "2026-09-25T08:34:07"
+   }
+  }
+ ]
+}

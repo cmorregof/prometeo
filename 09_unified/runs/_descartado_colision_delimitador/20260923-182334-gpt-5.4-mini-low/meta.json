@@ -1,0 +1,42 @@
+{
+ "env": "bisection_isabelle",
+ "judge": "isabelle",
+ "provider": "openai",
+ "model": "gpt-5.4-mini",
+ "effort": "low",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260923-182334-gpt-5.4-mini-low",
+ "config": {
+  "name": "bisection_isabelle",
+  "judge": "isabelle",
+  "target": "bisection",
+  "provider": "openai",
+  "model": "gpt-5.4-mini",
+  "effort": "low",
+  "budget": 4,
+  "sh_timeout": 60,
+  "build_timeout_s": 1800,
+  "shaped": false
+ },
+ "code": {
+  "unirl_sha256": "6e76c3d459b1e09f",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-23T18:23:34",
+ "target": {
+  "id": "isabelle:bisection",
+  "statement_es": "Bisección sobre [a,b] con tolerancia tol > 0, tol < b−a, f continua en [a,b] y f(a)·f(b) < 0. El programa termina y al terminar existe una raíz c ∈ (a,b) con u−l ≤ tol, |c−xmid| ≤ (b−a)/2^iter ≤ tol, y iter = ⌈log₂((b−a)/tol)⌉.",
+  "program_template": "zstore st =\n  iter :: \"nat\"\n  fl   :: \"real\"\n  fu   :: \"real\"\n  l    :: \"real\"\n  u    :: \"real\"\n  xmid :: \"real\"\n  ymid :: \"real\"\n\nprogram bisection \"(f :: real \\<Rightarrow> real, a :: real, b :: real, tol :: real)\" over st\n = \"iter := 0; fl := f(a); fu := f(b); l := a; u := b; xmid := l;\n    while u - l > tol\n    invariant __INVARIANT__\n    variant __VARIANT__\n    do iter := iter + 1; xmid := (l + u)/2; ymid := f(xmid);\n       if fl*ymid > 0 then l := xmid; fl := ymid else u := xmid; fu := ymid fi od\"",
+  "fixes": "f :: \"real \\<Rightarrow> real\" and a b tol :: real",
+  "assumes": "postive_tolerance: \"0 < tol\"\n    and sufficiently_small_tol: \"tol < b-a\"\n    and continuous_f: \"continuous_on {a..b} f\"\n    and opposite_signs: \"f(a)*f(b)<0\"",
+  "concl": "H[True] bisection(f,a,b,tol) [\\<exists> c::real. f(c) = 0 \\<and> c \\<in> {a<..<b} \\<and> u-l \\<le> tol \\<and> \\<bar>c-xmid\\<bar> \\<le> (b-a)/2^iter \\<and> \\<bar>c-xmid\\<bar> \\<le> tol \\<and> iter = \\<lceil>log 2 ((b-a) / tol)\\<rceil>]",
+  "borrowed_lemmas": [
+   "Bolzanos_theorem (Bisection.thy 22-53, copiado literal)",
+   "sign_prop (Bisection.thy 60-64, copiado literal)"
+  ],
+  "hash": "974945f4c4df07ee"
+ }
+}

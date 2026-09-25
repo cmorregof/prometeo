@@ -1,0 +1,38 @@
+{
+ "id": "orden_1_lineal",
+ "name": "orden_1_lineal",
+ "kind": "theorem",
+ "metodo": "ordenes",
+ "peldano": 1,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 1,
+ "fuente": "estándar",
+ "dependencias": [],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "e :: \"nat \\<Rightarrow> real\" and c :: real and n :: nat",
+ "assumes": "c0: \"0 \\<le> c\"\n    and paso: \"\\<And>j. \\<bar>e (Suc j)\\<bar> \\<le> c * \\<bar>e j\\<bar>\"",
+ "concl": "\\<bar>e n\\<bar> \\<le> c ^ n * \\<bar>e 0\\<bar>",
+ "statement_es": "Recurrencia lineal: |eₙ| ≤ cⁿ|e₀|.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "70d4ebc924a91b2c",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

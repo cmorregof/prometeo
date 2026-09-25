@@ -1,0 +1,172 @@
+{
+ "target": "bisection",
+ "hash": "974945f4c4df07ee",
+ "sh_timeout": 60,
+ "seconds": 423.5,
+ "outcome": {
+  "accepted": false,
+  "outcome_label": "VC_OPEN",
+  "partial_credit": 0.6,
+  "cost_s": 423.4676387920008,
+  "raw": {
+   "n_vcs": 15,
+   "n_closed_auto": 9,
+   "vcs": [
+    {
+     "index": 1,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> f ((xmid + u) / 2) * f u \\<le> 0",
+     "closed_by": "by (smt (verit) zero_compare_simps(6))",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 18311,
+     "sh_outcome": "some",
+     "sh_message": "Try this: by (smt (verit) zero_compare_simps(6)) (1.4 s)"
+    },
+    {
+     "index": 2,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> u - (xmid + u) / 2 = (b - a) / (2 * 2 ^ iter)",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 16,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 3,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> tol < 2 * u - (2 * xmid + 2 * u) / 2",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 5,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 4,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": null,
+     "source": null,
+     "prover": null,
+     "ms": 57901,
+     "sh_outcome": "timeout",
+     "sh_message": "Timed out"
+    },
+    {
+     "index": 5,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> f ((l + xmid) / 2) * f xmid \\<le> 0",
+     "closed_by": "by (smt (verit, ccfv_SIG) zero_compare_simps(6))",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 8051,
+     "sh_outcome": "some",
+     "sh_message": "Try this: by (smt (verit, ccfv_SIG) zero_compare_simps(6)) (503 ms)"
+    },
+    {
+     "index": 6,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> xmid - (l + xmid) / 2 = (b - a) / (2 * 2 ^ iter)",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 12,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 7,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> tol < 2 * xmid - (2 * l + 2 * xmid) / 2",
+     "closed_by": "by argo",
+     "source": "try0",
+     "prover": "argo",
+     "ms": 6,
+     "sh_outcome": "skipped",
+     "sh_message": ""
+    },
+    {
+     "index": 8,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": null,
+     "source": null,
+     "prover": null,
+     "ms": 57837,
+     "sh_outcome": "timeout",
+     "sh_message": "Timed out"
+    },
+    {
+     "index": 9,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>\\<not> 0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": null,
+     "source": null,
+     "prover": null,
+     "ms": 58117,
+     "sh_outcome": "timeout",
+     "sh_message": "Timed out"
+    },
+    {
+     "index": 10,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>\\<not> 0 < f l * f ((l + xmid) / 2); a \\<le> l; xmid \\<le> b; l < xmid; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+     "closed_by": null,
+     "source": null,
+     "prover": null,
+     "ms": 58265,
+     "sh_outcome": "timeout",
+     "sh_message": "Timed out"
+    },
+    {
+     "index": 11,
+     "goal": "a < b",
+     "closed_by": "using postive_tolerance sufficiently_small_tol by force",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 12439,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using postive_tolerance sufficiently_small_tol by force (2 ms)"
+    },
+    {
+     "index": 12,
+     "goal": "f a * f b \\<le> 0",
+     "closed_by": "using opposite_signs by auto",
+     "source": "sledgehammer",
+     "prover": "e",
+     "ms": 7108,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using opposite_signs by auto (1 ms)"
+    },
+    {
+     "index": 13,
+     "goal": "tol < 2 * b - 2 * a",
+     "closed_by": "using postive_tolerance sufficiently_small_tol by linarith",
+     "source": "sledgehammer",
+     "prover": "cvc5",
+     "ms": 16347,
+     "sh_outcome": "some",
+     "sh_message": "Try this: using postive_tolerance sufficiently_small_tol by linarith (2 ms)"
+    },
+    {
+     "index": 14,
+     "goal": "\\<And>iter u xmid. \\<lbrakk>\\<not> tol < (b - a) / 2 ^ iter; a \\<le> xmid; u \\<le> b; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < 2 * u - 2 * xmid\\<rbrakk> \\<Longrightarrow> \\<exists>c. f c = 0 \\<and> a < c \\<and> c < b \\<and> \\<bar>c - xmid\\<bar> \\<le> (b - a) / 2 ^ iter \\<and> \\<bar>c - xmid\\<bar> \\<le> tol \\<and> int iter = \\<lceil>log 2 ((b - a) / tol)\\<rceil>",
+     "closed_by": null,
+     "source": null,
+     "prover": null,
+     "ms": 58883,
+     "sh_outcome": "timeout",
+     "sh_message": "Timed out"
+    },
+    {
+     "index": 15,
+     "goal": "\\<And>iter l xmid. \\<lbrakk>\\<not> tol < (b - a) / 2 ^ iter; a \\<le> l; xmid \\<le> b; f l * f xmid \\<le> 0; xmid - l = (b - a) / 2 ^ iter; tol < 2 * xmid - 2 * l\\<rbrakk> \\<Longrightarrow> \\<exists>c. f c = 0 \\<and> a < c \\<and> c < b \\<and> \\<bar>c - xmid\\<bar> \\<le> (b - a) / 2 ^ iter \\<and> \\<bar>c - xmid\\<bar> \\<le> tol \\<and> int iter = \\<lceil>log 2 ((b - a) / tol)\\<rceil>",
+     "closed_by": null,
+     "source": null,
+     "prover": null,
+     "ms": 58497,
+     "sh_outcome": "timeout",
+     "sh_message": "Timed out"
+    }
+   ],
+   "vcg_ms": 1768,
+   "driver_s": 423.5,
+   "provers": "cvc5 cvc5_proof verit z3 e spass vampire zipperposition",
+   "errors": []
+  }
+ }
+}

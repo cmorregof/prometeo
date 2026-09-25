@@ -1,0 +1,40 @@
+{
+ "id": "pf_4_decaimiento",
+ "name": "pf_4_decaimiento",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 4,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "02_punto_fijo; artículo: fpm_err_decay",
+ "dependencias": [
+  "pf_2_dentro"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g :: \"real \\<Rightarrow> real\" and a b k x0 :: real and p :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"\n    and dentro: \"\\<And>x. x \\<in> {a..b} \\<Longrightarrow> g x \\<in> {a..b}\"\n    and contr: \"\\<And>x y. x \\<in> {a..b} \\<Longrightarrow> y \\<in> {a..b} \\<Longrightarrow> \\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>\"\n    and k0: \"0 \\<le> k\" and k1: \"k < 1\" and x0: \"x0 \\<in> {a..b}\"\n    and hp: \"p \\<in> {a..b}\"\n    and fp: \"g p = p\"",
+ "concl": "\\<bar>(g ^^ n) x0 - p\\<bar> \\<le> k ^ n * \\<bar>x0 - p\\<bar>",
+ "statement_es": "|xₙ − p| ≤ kⁿ|x0 − p|.",
+ "supuestos_dudosos": "",
+ "referencia_privada": "Fixed_Point_Method.thy: fpm_err_decay",
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "c4527a0b170707da",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

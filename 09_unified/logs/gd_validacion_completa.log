@@ -1,0 +1,28 @@
+[ventana] 06:09:57 sin compilaciones ajenas: arranco
+[gd_validar] no vacuidad (prueba 0): OK en 5.0 s
+[gd_validar] control filtro sorry: UNSOUND (esperado UNSOUND) OK en 0.0 s
+[gd_validar] control kernel sorry: UNSOUND (esperado UNSOUND) OK en 5.0 s
+[gd_validar] control by simp: PROOF_FAILED (esperado PROOF_FAILED) OK en 4.9 s
+[gd_validar] cota superior gd_n1 gd_n1.proof_A.txt: PROOF_FAILED en 5.0 s
+[gd_validar]     ***        3 / 2 * inner (g x0) (g (x0 - (3 / 2) *⇩R g x0)))) +
+[gd_validar]     ***      1 / 2 *
+[gd_validar]     ***      (inner (g x0) (g x0) - inner (g x0) (g (x0 - (3 / 2) *⇩R g x0)) -
+[gd_validar]     ***       (inner (g x0) (g (x0 - (3 / 2) *⇩R g x0)) -
+[gd_validar] cota superior gd_n1 gd_n1.proof_B.txt: PROOF_FAILED en 5.0 s
+[gd_validar]     *** Failed to apply terminal proof method (línea 22 de tu PROOF):
+[gd_validar]     *** goal:
+[gd_validar]     *** No subgoals!
+[gd_validar]     *** At command "by" (línea 22 de tu PROOF)
+[gd_validar] cota superior gd_n1 gd_n1.proof_C.txt: ACCEPTED en 5.4 s
+[gd_validar] cota superior gd_const_n2 gd_const_n2.proof_A.txt: PROOF_FAILED en 5.0 s
+[gd_validar]     ***           inner (g x0) (g (x0 - 1 *⇩R g x0)) -
+[gd_validar]     ***           inner (g (x0 - 1 *⇩R g x0)) (g (x0 - 1 *⇩R g x0))) -
+[gd_validar]     ***          3 *
+[gd_validar]     ***          (inner x0 (g (x0 - 1 *⇩R g x0 - 1 *⇩R g (x0 - 1 *⇩R g x0))) -
+[gd_validar] cota superior gd_const_n2 gd_const_n2.proof_B.txt: PROOF_FAILED en 5.5 s
+[gd_validar]     *** Failed to apply terminal proof method (línea 35 de tu PROOF):
+[gd_validar]     *** goal:
+[gd_validar]     *** No subgoals!
+[gd_validar]     *** At command "by" (línea 35 de tu PROOF)
+[gd_validar] cota superior gd_const_n2 gd_const_n2.proof_C.txt: ACCEPTED en 5.3 s
+[gd_validar] resultado global: OK (detalle en logs/gd_validacion.json)

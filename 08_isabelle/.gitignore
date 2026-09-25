@@ -1,0 +1,6 @@
+# 08_isabelle: el .gitignore raíz ignora runs/; aquí se reincluye porque sus registros son livianos (JSON de la
+# reproducción de la Tabla 1) y son la fuente de las cifras del informe.
+!runs/
+
+__pycache__/
+.venv/

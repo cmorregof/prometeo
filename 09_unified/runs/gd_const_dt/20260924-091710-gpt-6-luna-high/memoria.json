@@ -1,0 +1,44 @@
+{
+ "library": {
+  "gd_iter_step": "lemma gd_iter_step:\n  \"gd g (replicate (Suc n) 1) x =\n    gd g (replicate n 1) (x - g x)\"\n  by (simp add: gd.simps replicate_Suc)",
+  "gd_cocoercive": "lemma gd_cocoercive:\n  fixes x y :: 'a\n  shows \"inner (g x - g y) (x - y) \\<ge> (norm (g x - g y))\\<^sup>2\"\nproof -\n  have h1:\n    \"f y + inner (g y) (x - y) +\n       (1/2) * (norm (g x - g y))\\<^sup>2 \\<le> f x\"\n    using interp[where x=x and y=y] .\n  have h2:\n    \"f x + inner (g x) (y - x) +\n       (1/2) * (norm (g y - g x))\\<^sup>2 \\<le> f y\"\n    using interp[where x=y and y=x] .\n  have h3:\n    \"inner (g y) (x - y) + inner (g x) (y - x) +\n       (norm (g x - g y))\\<^sup>2 \\<le> 0\"\n    using h1 h2\n    by (simp add: norm_minus_commute; linarith)\n  from h3 show ?thesis\n    by (simp add: inner_diff_left inner_diff_right; linarith)\nqed"
+ },
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "PROOF_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "by (induction n arbitrary: x0) (simp_all only: gd.simps replicate_Suc; smt (verit) interp opt)"
+   },
+   "last_feedback": "TIMEOUT: la compilación de la teoría final superó el límite de tiempo",
+   "best_extra": "0 lemas verificados"
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "by (induction n arbitrary: x0)\n     (simp_all add: gd_iter_step;\n      smt (verit) interp opt gd_cocoercive gd_gap_bound)"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Undefined method: \"positivity\" (lema gd_gap_bound, línea 19)\n*** At command \"by\" (lema gd_gap_bound, línea 19)\nLemas sin errores que Isabelle sí verificó: gd_iter_step, gd_cocoercive",
+   "best_extra": "2 lemas verificados"
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "PROOF_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "proof": "by (induction n arbitrary: x0)\n   (simp_all add: gd_iter_step;\n    smt (z3) interp opt gd_cocoercive)"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Undefined fact: \"sq_nonneg\" (lema gd_gap_bound, línea 14)\n*** At command \"by\" (lema gd_gap_bound, línea 14)\nLemas sin errores que Isabelle sí verificó: gd_iter_step, gd_cocoercive",
+   "best_extra": "2 lemas verificados"
+  }
+ ]
+}

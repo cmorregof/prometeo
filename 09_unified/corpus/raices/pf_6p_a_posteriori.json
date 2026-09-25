@@ -1,0 +1,40 @@
+{
+ "id": "pf_6p_a_posteriori",
+ "name": "pf_6p_a_posteriori",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": "6p",
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "terminología usual de la iteración de punto fijo; 02 no la incluye",
+ "dependencias": [
+  "pf_2_dentro"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g :: \"real \\<Rightarrow> real\" and a b k x0 :: real and p :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"\n    and dentro: \"\\<And>x. x \\<in> {a..b} \\<Longrightarrow> g x \\<in> {a..b}\"\n    and contr: \"\\<And>x y. x \\<in> {a..b} \\<Longrightarrow> y \\<in> {a..b} \\<Longrightarrow> \\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>\"\n    and k0: \"0 \\<le> k\" and k1: \"k < 1\" and x0: \"x0 \\<in> {a..b}\"\n    and hp: \"p \\<in> {a..b}\"\n    and fp: \"g p = p\"",
+ "concl": "\\<bar>(g ^^ Suc n) x0 - p\\<bar> \\<le> k / (1 - k) * \\<bar>(g ^^ Suc n) x0 - (g ^^ n) x0\\<bar>",
+ "statement_es": "Cota a posteriori (terminología usual): |xₙ − p| ≤ k/(1 − k)·|xₙ − xₙ₋₁| para n ≥ 1.",
+ "supuestos_dudosos": "Se escribe con Suc n para que valga desde n = 1 (xₙ₋₁ debe existir).",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "6feb8e8f5110ca65",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

@@ -1,0 +1,36 @@
+proof -
+  (* certificado exacto del PEP para h = ['1', '1'], tau = 1/10 (targets/gd_cert/gd_const_n2.json) *)
+  define x1 where "x1 = x0 - 1 *\<^sub>R g x0"
+  define x2 where "x2 = x1 - 1 *\<^sub>R g x1"
+  have run: "gd g [1, 1] x0 = x2"
+    by (simp add: x2_def x1_def)
+  (* lambda = 1/4: interp con x = x0, y = x1 *)
+  have i_0_1: "f x1 + inner (g x1) (x0 - x1) + (1/2) * (norm (g x0 - g x1))\<^sup>2 \<le> f x0"
+    by (rule interp)
+  (* lambda = 2/3: interp con x = x1, y = x2 *)
+  have i_1_2: "f x2 + inner (g x2) (x1 - x2) + (1/2) * (norm (g x1 - g x2))\<^sup>2 \<le> f x1"
+    by (rule interp)
+  (* lambda = 1/4: interp con x = xs, y = x0 *)
+  have i_3_0: "f x0 + inner (g x0) (xs - x0) + (1/2) * (norm (g xs - g x0))\<^sup>2 \<le> f xs"
+    by (rule interp)
+  (* lambda = 5/12: interp con x = xs, y = x1 *)
+  have i_3_1: "f x1 + inner (g x1) (xs - x1) + (1/2) * (norm (g xs - g x1))\<^sup>2 \<le> f xs"
+    by (rule interp)
+  (* lambda = 1/3: interp con x = xs, y = x2 *)
+  have i_3_2: "f x2 + inner (g x2) (xs - x2) + (1/2) * (norm (g xs - g x2))\<^sup>2 \<le> f xs"
+    by (rule interp)
+  (* d = 1/18: cuadrado de la descomposición exacta de M *)
+  have s_0: "0 \<le> (norm ((x0 - xs) - g x0 - g x1 - 3 *\<^sub>R g x2))\<^sup>2"
+    by simp
+  (* d = 11/288: cuadrado de la descomposición exacta de M *)
+  have s_1: "0 \<le> (norm ((x0 - xs) - g x0 - 4 *\<^sub>R g x1))\<^sup>2"
+    by simp
+  (* d = 1/160: cuadrado de la descomposición exacta de M *)
+  have s_2: "0 \<le> (norm ((x0 - xs) - 5 *\<^sub>R g x0))\<^sup>2"
+    by simp
+  show ?thesis
+    unfolding run
+    using i_0_1 i_1_2 i_3_0 i_3_1 i_3_2 s_0 s_1 s_2 opt
+    unfolding x2_def x1_def
+    by (simp (no_asm_use) only: power2_norm_eq_inner inner_diff_left inner_diff_right inner_add_left inner_add_right inner_minus_left inner_minus_right inner_scaleR_left inner_scaleR_right inner_zero_left inner_zero_right opt inner_commute) argo
+qed

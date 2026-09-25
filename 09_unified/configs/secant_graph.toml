@@ -1,0 +1,9 @@
+name = "secant_graph"
+judge = "lemma_graph"
+project = "05_secante"
+provider = "openai"
+model = "gpt-6-luna"      # proponente único de v0.2 (decisión del autor)
+effort = "high"
+budget = 4
+shaped = false
+seed = 0

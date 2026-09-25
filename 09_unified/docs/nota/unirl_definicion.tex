@@ -1,0 +1,340 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[spanish,es-tabla,es-noshorthands,es-nodecimaldot]{babel}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}
+\theoremstyle{remark}
+\newtheorem{remark}{Observación}
+
+\lstset{basicstyle=\ttfamily\footnotesize, breaklines=true, columns=fullflexible, keepspaces=true,
+        frame=single, rulecolor=\color{black!30}, xleftmargin=0.5em, xrightmargin=0.5em}
+
+\newcommand{\lab}[1]{\textsc{#1}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\VG}{\texorpdfstring{$V_G$}{V\_G}}
+\newcommand{\VP}{\texorpdfstring{$V_P$}{V\_P}}
+\newcommand{\VI}{\texorpdfstring{$V_I$}{V\_I}}
+\newcommand{\id}[1]{\texttt{\detokenize{#1}}}
+
+\input{estado.tex}
+\input{resultados_auto.tex}
+\input{comentarios.tex}
+
+\title{Aprendizaje por refuerzo con verificación certificada\\como única recompensa:\\definición formal del entorno \texttt{unirl}\\[0.4em]\large Nota técnica del proyecto \texttt{rl\_metodos}}
+\author{Carlos Manuel Orrego Franco\\Universidad Nacional de Colombia, Sede Manizales}
+\date{Septiembre de 2026 --- \VersionNota}
+
+\begin{document}
+\maketitle
+
+\AvisoPreliminar
+
+\section{Propósito}
+
+Esta nota fija el lenguaje común de los subproyectos de \texttt{rl\_metodos}. Todos comparten una misma estructura: un \emph{proponente} produce un objeto de prueba y un \emph{juez} independiente decide si lo acepta. La recompensa proviene únicamente del juez; el proponente nunca se evalúa a sí mismo. Lo que varía entre subproyectos es el juez, y con él el residuo de confianza que la aceptación deja sin certificar. Esa variación es deliberada: es el experimento.
+
+La nota define el proceso de decisión de Markov (MDP) común (§\ref{sec:mdp}), la interfaz de verificador y sus tres instancias (§\ref{sec:jueces}), las funciones de recompensa (§\ref{sec:recompensa}), las métricas (§\ref{sec:metricas}) y la jerarquía de confianza entre jueces (§\ref{sec:confianza}). Los entornos concretos aparecen en la Tabla~\ref{tab:envs}. La versión v0.2 añade los primeros resultados (§\ref{sec:resultados}) y corrige el borrador v0.1 donde no coincidía con la implementación; el Apéndice~\ref{app:cambios} enumera los cambios y su motivo. Todo lo descrito está implementado en el subproyecto \texttt{09\_unified} (paquete \texttt{unirl}), salvo lo que se marca explícitamente como previsto.
+
+\section{El MDP común}\label{sec:mdp}
+
+\begin{definition}[Entorno de demostración verificada]
+Un entorno es una tupla $\mathcal{E} = (T, \mathcal{A}, V, B)$ donde $T$ es un \emph{objetivo} inmutable (un enunciado y su contexto), $\mathcal{A}$ es un espacio de \emph{propuestas}, $V$ es un \emph{verificador} y $B \in \mathbb{N}$ es un presupuesto de pasos. El MDP asociado es $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$ con:
+\begin{itemize}
+  \item \textbf{Estado} $s_t = (T, \mathcal{C}_t, h_t)$: el objetivo, el \emph{contexto observable} $\mathcal{C}_t$ que el juez devuelve tras el último intento (el paso donde falló la cadena y por qué, las obligaciones abiertas con su texto literal, o el peor caso numérico $\tau$ de la propuesta frente a la referencia), y el historial $h_t$ de propuestas y resultados anteriores. En la implementación, $s_t$ se presenta al proponente como un único texto: la descripción del objetivo seguida de cada intento anterior y de su retroalimentación.
+  \item \textbf{Acción} $a_t \in \mathcal{A}$: una propuesta completa (una cadena de lemas, una anotación de invariante y variante, o un programa de tamaños de paso). El proponente es un modelo de lenguaje; la acción es su salida tras una extracción determinista (§\ref{sec:VI} describe la de $V_I$).
+  \item \textbf{Transición} $P(s_{t+1} \mid s_t, a_t)$: $s_{t+1}$ incorpora el resultado $V(T, a_t)$ y actualiza $\mathcal{C}_{t+1}$ y $h_{t+1}$. Es determinista para $V_G$ y, salvo tolerancias numéricas del solver, para $V_P$. Para $V_I$ no lo es en sentido estricto: Sledgehammer ejecuta varios demostradores en paralelo con un límite de tiempo real, y lo que encuentra puede variar con la carga de la máquina. Por eso las corridas de $V_I$ no se solapan entre sí. Fuera de eso, la estocasticidad vive en el proponente.
+  \item \textbf{Recompensa} $R(s_t, a_t) = r(V(T, a_t))$, función únicamente del resultado del juez (§\ref{sec:recompensa}).
+  \item \textbf{Terminación}: el episodio termina en el primer $t$ con $o.\texttt{accepted} = 1$, o cuando $t = B$. Si la llamada al modelo falla tras los reintentos, el paso se registra como \lab{Provider\_Error}, sin juez, y consume presupuesto; en las corridas de esta nota no ocurrió.
+\end{itemize}
+\end{definition}
+
+\begin{remark}[El objetivo es inmutable]\label{obs:inmutable}
+$T$ no forma parte del espacio de acciones. Una propuesta no puede modificar el enunciado, sus hipótesis ni su tipo, y esto se impone en código, no por convención, de forma distinta en cada juez. En $V_G$ el proponente sólo puede nombrar pasos del grafo; un identificador ajeno es \lab{Unknown\_Lemma}. En $V_P$ la instancia $(n,\mu,\text{criterio})$ la fija el entorno y la propuesta sólo produce una sucesión de pasos. En $V_I$ el proponente escribe dos huecos del programa (invariante y variante); programa, triple de Hoare y lemas prestados forman una plantilla fija, y toda propuesta que intente salir de su hueco se rechaza con la etiqueta \lab{Statement\_Drift} (§\ref{sec:deriva}). La garantía de fondo la da el kernel: en Isabelle/ITrees la construcción \id{while_inv_var B I V P} (guarda, invariante, variante y cuerpo) está definida como \id{iterate B P}, así que las anotaciones no cambian la semántica, y $V_I$ demuestra en el kernel que el programa anotado es igual al programa congelado antes de aceptar \EnCurso. Es la \emph{frontera semántica} del proyecto: el lugar donde la confianza no puede delegarse al juez.
+\end{remark}
+
+\section{La interfaz de verificador y sus tres instancias}\label{sec:jueces}
+
+\begin{definition}[Verificador]
+Un verificador es una función $V : \mathcal{T} \times \mathcal{A} \to \mathcal{O}$ que devuelve un \emph{resultado}
+\[
+  o = (\texttt{accepted},\ \texttt{label},\ \texttt{partial},\ \texttt{cost\_s},\ \texttt{raw}),
+\]
+con $\texttt{accepted}\in\{0,1\}$, $\texttt{label}\in \mathcal{L}_V$ y $\texttt{partial}\in[0,1]$,
+donde $\mathcal{L}_V$ es un conjunto finito de etiquetas de resultado propio de cada juez, \texttt{partial} es una medida de progreso que sólo se usa bajo recompensa moldeada, y \texttt{raw} es la salida íntegra del juez para auditoría.
+\end{definition}
+
+\subsection{Juez de grafo de lemas (\VG)}\label{sec:VG}
+
+Proviene de los subproyectos 01--05 (su ``fase 2''). Un objetivo $T$ es un grafo dirigido acíclico $G = (\Lambda, D)$ de pasos $\lambda \in \Lambda$, cada uno con dependencias $D(\lambda) \subseteq \Lambda$, un subconjunto $\Delta \subset \Lambda$ de \emph{distractores} (pasos falsos o inaplicables, tomados de errores reales de estudiantes) y un paso distinguido \lab{Qed}. Una propuesta es una secuencia $a = (\lambda_1, \dots, \lambda_k)$. El juez la recorre y acepta si existe $j \le k$ con $\lambda_j = \lab{Qed}$ tal que, para todo $i \le j$,
+\[
+  \lambda_i \notin \Delta,\qquad \lambda_i \notin \{\lambda_1,\dots,\lambda_{i-1}\},\qquad D(\lambda_i) \subseteq \{\lambda_1,\dots,\lambda_{i-1}\};
+\]
+lo que venga después de \lab{Qed} se ignora. Etiquetas, asignadas en el primer paso que falla: \lab{Accepted}, \lab{Invalid\_Step} (dependencia no establecida o paso repetido), \lab{Distractor}, \lab{Unknown\_Lemma}, \lab{Incomplete} (todos los pasos son válidos pero la cadena termina sin llegar a \lab{Qed}). Progreso parcial: si $E(a)$ es el conjunto de pasos establecidos antes del primer fallo y $\cl(\lab{Qed})$ el cierre de dependencias de \lab{Qed},
+\[
+  \texttt{partial}_G(a) = \frac{|E(a) \cap \cl(\lab{Qed})|}{|\cl(\lab{Qed})|}.
+\]
+Al proponente se le muestran el enunciado de \lab{Qed}, el texto de cada paso con un identificador anónimo (\texttt{L01}, \texttt{L02}, \dots, barajados con semilla fija) y la longitud mínima de una cadena válida. No se le muestran los títulos de los pasos, porque en 01--05 el título delata al distractor (``Distractor'', ``Non sequitur''). Tampoco se muestra la refutación que el profesor añadió entre paréntesis al final de 7 de los 36 distractores, por ejemplo ``(¡falso: el orden es $\varphi < 2$!)'': delata igual que el título. El resto del texto del distractor sí se muestra, porque es el error de estudiante.
+
+\subsection{Juez PEP (\VP)}\label{sec:VP}
+
+Proviene del subproyecto 06, que se usa sin modificaciones. El objetivo es una instancia: la clase de funciones $L$-suaves ($\mu$-fuertemente) convexas, un horizonte $n$ y un criterio; una propuesta es un programa \texttt{schedule(n)} que genera pasos $(h_0,\dots,h_{n-1})$. El juez ejecuta el programa, resuelve el problema de estimación de desempeño (PEP) como un programa semidefinido y obtiene el peor caso $\tau(h) = \sup_f\, f(x_n) - f^*$ con $L = 1$ y $\|x_0 - x^*\| \le 1$; el certificado dual es la demostración de la cota \citep{DroriTeboulle2014,TaylorHendrickxGlineur2017}. La referencia $\tau_{\mathrm{ref}}$ es el mínimo entre los óptimos numéricos publicados \citep{DasGuptaVanParysRyu2024}, tal como los tabula \citet{GrimmerShuWang2024}, y lo mejor que encontró la búsqueda propia de 06. Toda mejora afirmada ($\log(\tau_{\mathrm{ref}}/\tau) > 10^{-5}$) se recalcula con tolerancias finas, $\tau_{\mathrm{fina}}$, y se certifica en aritmética racional exacta, lo que da una cota $\tau_{\mathrm{cert}} \ge \tau_{\mathrm{fina}}$; sin certificado, no hay aceptación. Etiquetas: \lab{Certified} (aceptada), \lab{Invalid\_Schedule}, \lab{Not\_Improved}, \lab{Certification\_Failed}. La aceptación es
+\[
+  \mathbf{1}\big[\log(\tau_{\mathrm{ref}}/\tau_{\mathrm{fina}}) > 10^{-5}\ \wedge\ \text{certificado exacto válido}\ \wedge\ \tau_{\mathrm{cert}} < \tau_{\mathrm{ref}}\big].
+\]
+Para ensayos existe un modo \texttt{match} que acepta además $\tau \le \tau_{\mathrm{ref}}(1+10^{-4})$ con la etiqueta \lab{Matched}; esa aceptación se apoya en el valor numérico del SDP, no en un certificado exacto, y no es el modo por defecto. Progreso parcial: $\min\{1, \max\{0,\ 1 + r_P\}\}$, con $r_P$ la recompensa continua de 06 (§\ref{sec:moldeada}).
+
+\AvisoSandboxVP
+
+\subsection{Juez Isabelle (\VI)}\label{sec:VI}
+
+Proviene del subproyecto 08, que usa el marco Isabelle/ITrees \citep{FosterHurWoodcock2024} tal como lo emplean \citet{BryantHuertaFoster2026}; se usa el controlador de 08 sin modificaciones. Un objetivo es un programa imperativo junto con un triple de Hoare de corrección total $H[P]\,C\,[Q]$, ambos congelados; una propuesta es una anotación $a = (\mathit{inv}, \mathit{var})$ de invariante y variante de bucle (en una etapa posterior, además una selección de premisas y pruebas Isar para obligaciones abiertas). El proponente responde con las marcas \texttt{INVARIANT: <{}<{}< \dots\ >{}>{}>} y \texttt{VARIANT: <{}<{}< \dots\ >{}>{}>}; la extracción toma el texto entre ellas y, si termina en un símbolo de Isabelle sin cerrar (\texttt{\textbackslash<rceil}), lo cierra, porque el cierre \texttt{>{}>{}>} puede comerse el \texttt{>} final del símbolo. El juez procede en etapas:
+\begin{enumerate}
+  \setcounter{enumi}{-1}
+  \item \EtapaCero
+  \item Inserta la anotación en la plantilla y ejecuta el generador de condiciones de verificación \texttt{vcg}.
+  \item Intenta cerrar cada obligación (VC) por separado con automatización de una línea: \texttt{try0} con 5\,s y, si falla, Sledgehammer con 60\,s. Una sugerencia de Sledgehammer sólo cuenta si su reconstrucción (\emph{preplay}) terminó dentro del tiempo; el controlador de 08, por sí solo, también contaría las que no terminaron.
+  \item Si todas las VCs tienen una prueba de una línea, ensambla el teorema completo en una teoría nueva (\texttt{apply vcg}, un \texttt{subgoal} con su prueba por VC, \texttt{done}) y lo compila con \texttt{isabelle build}.
+  \item Comprueba que el teorema compilado no dependa de ningún oráculo ni de \texttt{skip\_proof} (\id{Thm_Deps.all_oracles}).
+\end{enumerate}
+Etiquetas: \lab{Accepted} (todas las etapas pasan: el teorema está en el kernel), \lab{VC\_Open} (alguna VC sin prueba de una línea), \lab{VCG\_Failed} (la anotación no se analiza o no tipa, o \texttt{vcg} falla), \lab{Assembly\_Failed} (las VCs se cierran por separado pero el teorema ensamblado no compila), \lab{Unsound} (\texttt{sorry}, \texttt{oops} u oráculos), \lab{Statement\_Drift}, \lab{Timeout} e \lab{Invalid\_Proposal} (falta el invariante o el variante). Progreso parcial: fracción de VCs cerradas en \lab{VC\_Open} y \lab{Assembly\_Failed}, y $0$ en las demás etiquetas. El denominador depende de la anotación (entre \R{BisILuna}{vcsmin} y \R{BisILuna}{vcsmax} VCs en las corridas de \texttt{gpt-6-luna}), así que la fracción no es comparable entre propuestas y, con recompensa moldeada, es manipulable añadiendo conjunciones triviales.
+
+El único objetivo del artículo congelado hasta ahora es \id{bisection_error_bound}: el programa \texttt{bisection} y el triple, con el invariante y el variante vaciados. Se toman del commit \texttt{0e7830d} de \texttt{isabelle-utp/Verified\_Numerical\_Methods}. El artículo enlaza otro repositorio, \texttt{brydustin/Verification\_Of\_One\_Dim\_Optimization}, en el commit \texttt{036eea3} (27 de junio de 2026); allí el programa y el triple son idénticos, pero el invariante termina en $(\mathit{iter} = 0 \vee 2(u-l) > \mathit{tol})$. El invariante de \texttt{0e7830d}, que termina en $2(u-l) > \mathit{tol}$, es el que imprime el artículo, y por eso se usa como línea base. Se prestan, copiados literalmente con sus demostraciones, dos lemas de matemática general: \id{Bolzanos_theorem} y \id{sign_prop}. No se presta \id{bisect_root_extract}, un lema de 52 líneas que los autores escribieron para cerrar la postcondición: no es matemática auxiliar sino la prueba manual de dos VCs empaquetada como lema. Tampoco se dan los tres hechos que la demostración del repositorio establece antes de \texttt{proof (vcg)} (\id{a_less_than_b} y dos desigualdades sobre $\log_2((b-a)/\mathit{tol})$ declaradas \texttt{[simp]}). Un segundo objetivo, trivial, sirve de control del juez: una cuenta regresiva. Con la anotación correcta produce \lab{Accepted}; con un variante que no decrece, \lab{VC\_Open}; y una prueba de una línea tramposa (\id{Skip_Proof.cheat_tac}) queda detectada como oráculo en la etapa 4.
+
+\begin{remark}[Existencia frente a descubrimiento]\label{obs:existencia}
+El artículo afirma que \texttt{vcg} genera 15 VCs, ``13 of which can be proven directly with Isabelle's Sledgehammer''; la columna ``Auto.'' de su Tabla~1 cuenta las VCs cerradas por una llamada directa a un demostrador, es decir, las que tienen una prueba de una línea. No dice con qué límite de tiempo ni en qué máquina. Al reproducir la fila de bisección de su Tabla~1 con sus propios invariantes (§\ref{sec:repro}), el conjunto de obligaciones coincide: 15 VCs. Para 13 existe una prueba de una línea que el kernel acepta, pero en esta máquina, con 60\,s, la automatización sólo encuentra 9. Las cuatro VCs del decrecimiento del variante se cierran en unos 0,2\,s con la única línea \texttt{smt} que escribieron los autores (18 hechos, reutilizada para las cuatro con \texttt{thus}). Sledgehammer no la redescubre en 60\,s sobre las siete premisas que produce \texttt{vcg}, ni en 240\,s para la primera. En la demostración del repositorio esas VCs se enuncian con una sola premisa, y cabía pensar que adelgazar las premisas bastaba. \RespuestaAdelgazar\ Las dos VCs restantes (la postcondición) los autores las prueban a mano; en 60\,s, Sledgehammer sólo las cierra en una línea cuando se importa \id{bisect_root_extract}. Por eso $V_I$ distingue tres líneas base: (i) automatización sobre todas las premisas de \texttt{vcg}, (ii) automatización con un filtro de relevancia estándar sobre las premisas locales y (iii) selección de premisas como acción explícita del agente. Hoy sólo (i) está implementada; (ii) y (iii) son trabajo futuro. Nunca se mezclan.
+\end{remark}
+
+\section{Funciones de recompensa}\label{sec:recompensa}
+
+\subsection{Recompensa base (todos los jueces)}
+\[
+  r(o) = \begin{cases} 1 & \text{si } o.\texttt{accepted} = 1,\\ 0 & \text{en otro caso.}\end{cases}
+\]
+Es la única recompensa activa por defecto. Es binaria a propósito: cualquier señal intermedia introduce un juicio sobre qué es ``progreso'', y ese juicio debe declararse, no esconderse.
+
+\subsection{Recompensa moldeada (opcional, tras bandera)}\label{sec:moldeada}
+\[
+  r_\beta(o) = r(o) + \beta \cdot o.\texttt{partial} \cdot \mathbf{1}[o.\texttt{accepted}=0],\qquad \beta \in [0, 0.5].
+\]
+Se activa con \texttt{-{}-shaped} y \texttt{-{}-beta}; el código rechaza $\beta$ fuera de $[0,0.5]$. Para $V_P$ se conserva además la recompensa original del subproyecto 06, que es continua por naturaleza: $r_P(o) = \max\{-2,\ \log(\tau_{\mathrm{ref}}/\tau)\}$ si el programa es válido y $-3$ en otro caso, donde $\tau$ es el valor del SDP; si se afirma una mejora, se usa $\tau_{\mathrm{fina}}$ y, con certificado, $\tau_{\mathrm{cert}}$, y sin certificado la recompensa se acota en $0$. Se registra en \texttt{raw} y define el progreso parcial de $V_P$. La aceptación de $V_P$ en el modo por defecto es una binarización de $r_P$ con certificado exacto (§\ref{sec:VP}), lo que la hace comparable con los otros jueces; la binarización numérica de v0.1, $\mathbf{1}[\tau(h) < \tau_{\mathrm{ref}}]$, no se reporta aparte.
+
+\subsection{Penalización por deriva del enunciado}\label{sec:deriva}
+\lab{Statement\_Drift} recibe recompensa $0$, no negativa, en la configuración base. La razón es metodológica: queremos \emph{contar} cuántas veces el proponente intenta cambiar la pregunta, y una penalización alteraría la frecuencia que se pretende medir. Una variante con penalización $-\delta$ queda disponible tras bandera (\id{drift_penalty} en la configuración) para experimentos de control.
+
+\section{Métricas}\label{sec:metricas}
+
+Para cada entorno, juez y proponente se registran en JSONL todos los intentos (propuesta, respuesta del modelo, resultado, salida del juez, tiempos) y se calculan:
+\begin{enumerate}
+  \item \textbf{Intentos hasta aceptación}: mediana y distribución de $t^*$ sobre episodios, con $t^* = B$ si no hay aceptación. Se informa además el número de episodios aceptados, porque la censura en $B$ confunde ``aceptado en el último paso'' con ``no aceptado''.
+  \item \textbf{Distribución de etiquetas}: conteo de cada $\ell \in \mathcal{L}_V$ sobre todos los intentos.
+  \item \textbf{Razón de deriva}: para $V_I$, el cociente entre el número de resultados \lab{Statement\_Drift} y el de \lab{VC\_Open}; para $V_G$, el cociente entre \lab{Distractor} e \lab{Invalid\_Step}. Compara cuántas veces el proponente ``resuelve'' cambiando la pregunta o cayendo en un error de estudiante con cuántas falla de otra forma. En $V_I$, por construcción (Observación~\ref{obs:inmutable}), la deriva sólo puede manifestarse como un intento de salir del hueco.
+  \item \textbf{Transferencia}: reducción de $t^*$ en el objetivo $T_2$ cuando el proponente ha sido entrenado (o condicionado con ejemplos aceptados) sobre $T_1$, frente a partir de cero. \emph{Prevista; no implementada.}
+  \item \textbf{Comparación entre jueces}: para un mismo método y un mismo proponente, $t^*$ y etiquetas bajo $V_G$ frente a $V_I$. Es una medida indirecta de cuánto de la ``facilidad'' de un juez proviene del trabajo humano incorporado en él. Sólo sería directa si ambos jueces juzgaran el mismo enunciado con la misma información, y hoy no es así (§\ref{sec:amenazas}).
+  \item \textbf{Costo}: segundos de juez y de modelo por intento; determina el cuello de botella real.
+\end{enumerate}
+
+\section{Jerarquía de confianza entre jueces}\label{sec:confianza}
+
+Los tres jueces aceptan objetos distintos y dejan residuos de confianza distintos. Ordenados de menor a mayor independencia respecto del humano:
+
+\begin{center}
+\small
+\begin{tabular}{@{}lp{4.6cm}p{7.4cm}@{}}
+\toprule
+juez & qué certifica & en qué reposa la confianza \\
+\midrule
+$V_G$ & validez de una cadena en un grafo dado & el grafo, escrito por el profesor \\
+$V_P$ & una cota numérica de peor caso & la formulación del PEP; para una mejora, el certificado racional exacto; para una igualación (modo \texttt{match}), la tolerancia del solver \\
+$V_I$ & un teorema en el kernel de Isabelle/HOL & el kernel; la adecuación del triple congelado; la elección de la matemática importada; el modelo del programa en números reales \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ningún juez elimina la confianza; cada uno la desplaza. $V_G$ la desplaza al autor del grafo. $V_P$ la desplaza a la formulación del PEP y a la implementación del certificador. $V_I$ la desplaza a lugares que el kernel no puede inspeccionar. El primero es la correspondencia entre el triple de Hoare y el enunciado informal que se pretendía probar. El segundo es la elección de la matemática auxiliar: el kernel comprueba las demostraciones de los lemas prestados, pero no decide si un lema ``auxiliar'' ya contiene la prueba pedida, como \id{bisect_root_extract}. El tercero es el modelo del programa: el programa verificado opera con números reales exactos, no con aritmética de punto flotante. La automatización (Sledgehammer, los demostradores externos) no está en la base de confianza: sus pruebas se reconstruyen en el kernel, y por eso $V_I$ reensambla y recompila el teorema completo antes de aceptar. La Observación~\ref{obs:existencia} muestra que incluso lo que el artículo de referencia reporta como ``automático'' contiene decisiones humanas en esa frontera. El objetivo del proyecto es medir ese residuo, no negarlo.
+
+\section{Entornos}\label{sec:entornos}
+
+La Tabla~\ref{tab:envs} lista los entornos, su juez y el estado de cada uno.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\begin{tabular}{@{}l>{\raggedright}p{2.0cm}>{\raggedright}p{4.0cm}>{\raggedright}p{3.3cm}rrr@{}}
+\toprule
+sub. & método & teorema del grafo & juez & pasos & distr. & cad.\ mín. \tabularnewline
+\midrule
+01 & bisección & $m_n \to c$, $f(c)=0$, $|m_n - c| \le (b-a)/2^{n+1}$ & $V_G$; $V_I$ & 21 & 7 & 14 \tabularnewline
+02 & punto fijo & Banach en $[a,b]$: unicidad, convergencia, cotas & $V_G$; $V_I$ previsto & 20 & 7 & 13 \tabularnewline
+03 & Taylor & resto de Lagrange; convergencia con derivadas acotadas & $V_G$ & 20 & 7 & 13 \tabularnewline
+04 & Newton & convergencia local cuadrática & $V_G$ & 18 & 7 & 11 \tabularnewline
+05 & secante & convergencia local de orden $\varphi$ & $V_G$ & 21 & 8 & 13 \tabularnewline
+06 & pasos de GD & cota de peor caso $f(x_n)-f^*$ & $V_P$ (implementado, sin corridas) & --- & --- & --- \tabularnewline
+08 & GD (suave/PL/cuad.) & convergencia con cota de iteraciones & $V_I$ previsto & --- & --- & --- \tabularnewline
+\bottomrule
+\end{tabular}
+\caption{Entornos de \texttt{unirl}. ``Pasos'' cuenta todos los pasos del grafo, incluidos distractores y \lab{Qed}; ``cad.\ mín.'' es $|\cl(\lab{Qed})|$. Los objetivos formales de $V_I$ son los teoremas de \citet{BryantHuertaFoster2026}; hoy sólo el de bisección (\id{bisection_error_bound}) está congelado. El enunciado formal no coincide con el del grafo. En bisección, el grafo de $V_G$ concluye que la sucesión infinita $m_n$ converge a una raíz $c$ con $|m_n - c| \le (b-a)/2^{n+1}$, sin tolerancia; $V_I$ exige la terminación de un programa con una raíz a distancia $\le \mathit{tol}$ y exactamente $\lceil \log_2((b-a)/\mathit{tol}) \rceil$ iteraciones. En punto fijo, el grafo de 02 es Banach global en $[a,b]$ y el teorema formal (\texttt{fpm\_iter\_bnd\_\allowbreak{}local\_leq}) es local en una bola alrededor del punto fijo. Taylor, Newton y secante sólo disponen de juez de grafo hasta que exista una formalización. v0.1 preveía un proponente económico para $V_G$ y uno de frontera para $V_P$ y $V_I$; en v0.2 se usa \texttt{gpt-6-luna} en todos (§\ref{sec:montaje}).}
+\label{tab:envs}
+\end{table}
+
+\section{Resultados}\label{sec:resultados}
+
+\subsection{Montaje}\label{sec:montaje}
+
+\paragraph{Qué no se hace.} En v0.2 el proponente no aprende de la recompensa: el modelo está congelado, cada episodio empieza sin historial y la única adaptación ocurre dentro del episodio, a través de $h_t$. La recompensa se registra para los experimentos de entrenamiento y transferencia previstos (§\ref{sec:metricas}). Los resultados miden, por tanto, lo que un modelo fijo logra con la retroalimentación de cada juez.
+
+\paragraph{Proponente.} Uno solo, en todos los entornos: \texttt{gpt-6-luna} de OpenAI con esfuerzo de razonamiento \texttt{high}, llamado a través del módulo de proveedores de 06 el 23 de septiembre de 2026. Es una decisión del autor: v0.1 preveía un modelo económico para $V_G$, y las corridas que se hicieron con \texttt{gpt-5.4-mini} quedan archivadas fuera de la nota (\texttt{runs/\_excluido\_solo\_luna}). El mensaje de sistema es el mismo para los tres jueces. La API no fija una instantánea del modelo, así que las corridas no son reproducibles bit a bit.
+
+\paragraph{Presupuesto y episodios.} $B = 4$ en todos los entornos. $V_G$: 20 episodios por entorno; la anonimización (semilla 0) es la misma en todos los episodios. $V_I$: 3 episodios, porque cada intento cuesta minutos de juez.
+
+\paragraph{Juez Isabelle.} MacBook Air (Apple M5, 24\,GiB), macOS~26.5.2, Isabelle2025. Sesión del artículo en el commit \texttt{0e7830d}; los repositorios de Isabelle/UTP en su último commit hasta el 16 de enero de 2026, inclusive (Apéndice~\ref{app:repro} explica por qué). Compilar desde cero: HOL-Analysis 5\,min~9\,s (según el registro de la primera compilación; la base de datos del heap guarda 281\,s de sesión, sin la escritura del heap), \id{ITree_Numeric_VCG} 1\,min~50\,s, sesión del artículo 36\,s. Demostradores de Sledgehammer: cvc5, veriT, Z3, E, SPASS, Vampire y Zipperposition, los del paquete de Isabelle2025. Cinco de ellos (SPASS, Vampire, veriT, Z3 y Zipperposition) son binarios x86-64 que corren bajo Rosetta, lo que puede hacer que 60\,s rindan menos que en la máquina de los autores. \texttt{try0}: 5\,s; Sledgehammer: 60\,s por VC. Durante todas las corridas un proceso del sistema (\texttt{mediaanalysisd}) ocupó unos dos núcleos. El primer intento bajo $V_I$ se solapó con unas corridas de $V_G$ que luego se repitieron; éstas sólo esperan a la red.
+
+\PostHocMontaje
+
+\subsection{Reproducción de la fila de bisección de la Tabla~1 del artículo}\label{sec:repro}
+
+Antes de usar $V_I$ como juez se reprodujo la fila de bisección de \citet{BryantHuertaFoster2026} con los invariantes del propio artículo (subproyecto 08). La tabla resume los recuentos; la Observación~\ref{obs:existencia} los interpreta.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+criterio & VCs & cerradas en una línea \\
+\midrule
+artículo, Tabla~1 & 15 & 13 (87\,\%) \\
+08: teoría completa del artículo y los 3 hechos previos de su demostración & \R{Repro}{nvcs} & \R{Repro}{closed} \\
+\quad sin contar las 2 que usan \id{bisect_root_extract} & 15 & 9 \\
+\quad más la línea \texttt{smt} del artículo en las 4 VCs del variante, en el kernel & 15 & 13 \\
+$V_I$ de 09 (objetivo congelado: sin \id{bisect_root_extract} ni esos 3 hechos) & \R{BaseI}{nvcs} & \R{BaseI}{closed} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\BaseIComentario
+
+\subsection{Juez de grafo en los cinco métodos}\label{sec:resgrafo}
+
+La Tabla~\ref{tab:resumen} resume todas las corridas y la Tabla~\ref{tab:etiquetasG} desglosa las etiquetas de $V_G$.
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\TablaResumen
+\caption{Resumen por entorno, juez y proponente. $t^*$ es el número de intentos hasta \lab{Accepted}, con $t^* = B = 4$ si no hubo aceptación; la distribución se da como $t^*$:episodios. Los segundos son medias por intento.}
+\label{tab:resumen}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\TablaEtiquetasG
+\caption{Etiquetas de $V_G$ sobre todos los intentos. La razón de deriva de $V_G$ es \lab{Distractor}/\lab{Invalid\_Step}.}
+\label{tab:etiquetasG}
+\end{table}
+
+\ComentarioGrafo
+
+\subsection{Bisección bajo \VG\ y bajo \VI}\label{sec:comparacion}
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\TablaEtiquetasI
+\caption{Etiquetas de $V_I$ sobre todos los intentos. La razón de deriva de $V_I$ es \lab{Statement\_Drift}/\lab{VC\_Open}.}
+\label{tab:etiquetasI}
+\end{table}
+
+{\scriptsize
+\TablaIntentosI
+}
+
+\ComentarioComparacion
+
+\subsection{Amenazas a la validez}\label{sec:amenazas}
+
+\begin{itemize}
+  \item \textbf{Muestras pequeñas y un solo proponente.} Tres episodios en $V_I$ bastan para describir, no para estimar tasas, y con un solo modelo no se puede separar el efecto del juez del efecto del modelo.
+  \item \textbf{Enunciados distintos.} $V_G$ y $V_I$ no juzgan el mismo teorema de la bisección (Tabla~\ref{tab:envs}); la comparación mide dos formas de ``demostrar la bisección'', no dos jueces sobre un mismo enunciado.
+  \item \textbf{Lo que ve el proponente en $V_G$.} Los textos de los pasos revelan buena parte de sus dependencias, y el mensaje dice la longitud mínima de la cadena; la tarea se parece más a ordenar que a demostrar. La semilla de anonimización es la misma en los 20 episodios.
+  \item \textbf{Contaminación.} El invariante y el variante del artículo son públicos (arXiv y GitHub desde 2025). Un modelo de frontera puede recordarlos, y un acierto bajo $V_I$ podría ser recuerdo y no descubrimiento; las propuestas se comparan con las del artículo en el Apéndice~\ref{app:propuestas}.
+  \item \textbf{No determinismo de $V_I$.} Sledgehammer depende del tiempo real y de la carga; cinco demostradores corren bajo Rosetta y un proceso del sistema ocupó dos núcleos. Otra máquina puede cerrar VCs distintas con los mismos 60\,s.
+  \item \textbf{Versiones y defectos corregidos.} Las versiones de Isabelle/UTP no son las que fija CyPhyAssure, y los modelos de la API no tienen instantánea fija. Se descartaron y repitieron las corridas de $V_G$ porque las refutaciones del profesor eran visibles en 7 distractores, un defecto del entorno y no del proponente; quedan archivadas con su explicación. Un defecto del formato de respuesta de $V_I$ (el cierre \texttt{>{}>{}>} choca con \texttt{\textbackslash<rceil>}) sólo afectó a corridas con \texttt{gpt-5.4-mini}, hoy excluidas; en las de \texttt{gpt-6-luna} no cambia ninguna propuesta.
+\end{itemize}
+
+\section{Experimentos previstos}
+
+\begin{enumerate}
+  \item \emph{Hecho} (§\ref{sec:resgrafo}). Bisección bajo $V_G$, 20 episodios: primera medición de $t^*$ y de la razón de deriva, extendida a los cinco métodos. Con \texttt{gpt-6-luna} en lugar del proponente económico previsto.
+  \item \emph{Hecho} (§\ref{sec:comparacion}). Bisección bajo $V_I$ con el mismo proponente y el mismo presupuesto $B=4$.
+  \item Punto fijo bajo ambos jueces; transferencia desde bisección. Requiere congelar el teorema \texttt{fpm\_iter\_bnd\_\allowbreak{}local\_leq} del artículo.
+  \item Descenso de gradiente: puente entre $V_P$ y $V_I$. Para el paso constante $1/L$, comparar la cota que calcula $V_P$ (numérica; certificada sólo si mejora $\tau_{\mathrm{ref}}$) con la cota de iteraciones que garantiza el teorema formal. Hay que armonizar antes las hipótesis: el teorema formal es para funciones $L$-suaves no necesariamente convexas, mide $\|\nabla f\|$ y parte de $f(x_0) - f^*$; el PEP de 06 es convexo y parte de $\|x_0 - x^*\|$.
+  \item \emph{Nuevo.} Líneas base (ii) y (iii) de la Observación~\ref{obs:existencia} para $V_I$, y pruebas Isar para las VCs que la automatización deja abiertas.
+\end{enumerate}
+
+\appendix
+
+\section{Reproducción}\label{app:repro}
+
+\begin{lstlisting}
+cd 09_unified && source .venv/bin/activate
+sh logs/run_graph_luna.sh            # V_G con gpt-6-luna en 02-05, en paralelo
+python -m unirl run --config configs/bisection_graph.toml --episodes 20      # V_G biseccion
+python -m unirl run --config configs/bisection_isabelle.toml --episodes 3    # V_I (en serie)
+python tools/posthoc_stage0.py       # etapa 0 sobre las propuestas registradas
+python tools/baseline_paper.py       # invariante del articulo bajo V_I
+python tools/sh_goal.py --timeout 60 # VC del variante con 7 premisas y con 1
+python -m unirl summary runs/
+python -m unirl tables runs/ --out docs/nota
+cd docs/nota && latexmk -pdf unirl_definicion.tex
+\end{lstlisting}
+
+Cada corrida guarda el archivo \texttt{attempts.jsonl} en la carpeta \nolinkurl{runs/<entorno>/<fecha>-<modelo>-<esfuerzo>/}, junto a un \texttt{meta.json} con la configuración, el objetivo presentado (con su hash) y la huella del código de \texttt{unirl}. Las carpetas que empiezan por ``\_'' son pilotos, corridas descartadas (con un \texttt{LEEME.md}) y líneas base; no entran en las tablas.
+
+\paragraph{Versiones.} Isabelle2025; artículo en \texttt{isabelle-utp/Verified\_Numerical\_Methods@0e7830d}; Isabelle/UTP en el meta-repositorio \texttt{CyPhyAssure@a41662b}, con los submódulos \texttt{interaction-\allowbreak trees}, \texttt{Abstract\_\allowbreak Prog\_\allowbreak Syntax}, \texttt{Optics} y \texttt{Z\_\allowbreak Toolkit} movidos a su último commit hasta el 16 de enero de 2026 (\texttt{d3bc22c}, \texttt{b97410d}, \texttt{6c3e513}, \texttt{a081e1e}); el resto, incluido el espejo del AFP 2025, en el commit que fija CyPhyAssure. Motivos: con los submódulos de CyPhyAssure, \id{ITree_VCG} no compila (su \id{interaction-trees} es anterior a la sintaxis $H[P]\,C\,[Q]$ y usa una constante que ya no existe); con los commits del 23 de julio de 2026 falla \id{ITree_CSP} por el cambio a la sintaxis IsaCircus; con los del 16 de enero compila todo y los cuatro teoremas del artículo pasan sin avisos ni \texttt{sorry}. El repositorio del artículo declara \texttt{root.tex} sin versionarlo; se crearon dos mínimos. La lista completa está en \texttt{\textasciitilde/isabelle/PINS.md}.
+
+\section{Anotaciones propuestas por el agente bajo \VI}\label{app:propuestas}
+
+Anotación del artículo (línea base):
+\begin{lstlisting}
+INVARIANT: fl = f(l) \<and> fu = f(u) \<and> (l = xmid \<or> u = xmid) \<and> a \<le> l \<and> u \<le> b
+    \<and> l < u \<and> fl * fu \<le> 0 \<and> u - l = (b - a) / 2^iter \<and> (2 * (u - l) > tol)
+VARIANT:   nat(\<lceil>log 2 ((b - a) / tol)\<rceil>) - iter
+\end{lstlisting}
+
+Las del agente, tal como quedaron tras la extracción:
+
+\input{propuestas_isabelle.tex}
+
+\section{Cambios respecto al borrador v0.1}\label{app:cambios}
+
+\begin{enumerate}
+  \item \textbf{Transición (§\ref{sec:mdp}).} v0.1 la declaraba determinista para todos los jueces; $V_I$ no lo es en sentido estricto. Se documenta \lab{Provider\_Error}.
+  \item \textbf{Inmutabilidad (Observación~\ref{obs:inmutable}).} \lab{Statement\_Drift} es una etiqueta de $V_I$; en $V_G$ y $V_P$ la inmutabilidad se impone de otro modo. Se añade el hecho semántico \id{while_inv_var B I V P = iterate B P}.
+  \item \textbf{$V_G$.} \lab{Incomplete} es un resultado por intento (la cadena no llega a \lab{Qed}), no por presupuesto; \lab{Invalid\_Step} incluye el paso repetido; los pasos posteriores a \lab{Qed} se ignoran. Se documenta qué ve el proponente.
+  \item \textbf{$V_P$.} La aceptación por defecto es mejora estricta con certificado exacto, como pedía v0.1; se escribe su condición exacta. El programa propuesto se ejecuta en un intérprete aparte y sin escritura en disco, y las referencias se fijan al empezar, porque la revisión adversarial mostró dos formas de falsear un certificado. El modo \texttt{match}, añadido para ensayos, no es un certificado exacto. La binarización numérica $\mathbf{1}[\tau(h) < \tau_{\mathrm{ref}}]$ ya no se reporta aparte, y $r_P$ se escribe como la calcula 06.
+  \item \textbf{$V_I$.} v0.1 pedía ``teorema en el heap'' sin decir cómo se construye; ahora \lab{Accepted} exige reensamblar el teorema completo con las pruebas de una línea en una teoría nueva, compilarlo y comprobar que no haya oráculos. A diferencia del controlador de 08, una sugerencia de Sledgehammer sin \emph{preplay} terminado no cuenta. Se añaden las etiquetas \lab{VCG\_Failed}, \lab{Assembly\_Failed} e \lab{Invalid\_Proposal}. Tras una revisión adversarial del juez, la deriva deja de depender de una expresión regular: la anotación pasa una lista blanca y el kernel demuestra que el programa anotado es el congelado (etapa~0), y el teorema aceptado se enuncia sobre el programa congelado. \PostHocApC \lab{Unsound} ya no menciona ``axiomas adicionales'': la plantilla fija impide añadirlos, y la etapa 4 detecta oráculos, no axiomas. Se documentan la extracción y la procedencia del objetivo.
+  \item \textbf{Observación~\ref{obs:existencia}.} v0.1 decía que ``las cuatro restantes requieren adelgazar las premisas o dependen de un lema de 40 líneas''. Son dos grupos distintos: las cuatro del variante tienen una prueba de una línea que Sledgehammer no redescubre, y las dos de la postcondición dependen del lema (52 líneas). El efecto de adelgazar las premisas se comprobó con \texttt{tools/sh\_goal.py}. v0.1 presentaba las líneas base (ii) y (iii) como existentes; son trabajo futuro.
+  \item \textbf{Confianza (§\ref{sec:confianza}).} Se añaden el modelo del programa en números reales y la no confianza en la automatización; ``la matemática importada'' pasa a ``la elección de la matemática importada''; para $V_P$ se distingue mejora (certificado exacto) de igualación (tolerancia del solver).
+  \item \textbf{Métricas.} Se añade el número de episodios aceptados; la comparación entre jueces pasa de ``medida directa'' a ``medida indirecta''; la transferencia queda marcada como prevista; el costo incluye el tiempo del modelo.
+  \item \textbf{Entornos (Tabla~\ref{tab:envs}).} Se marca qué está implementado, se corrige la cota del grafo de bisección a $(b-a)/2^{n+1}$ y se advierte que los enunciados formales difieren de los del grafo.
+  \item \textbf{Experimentos y proponente.} Los experimentos 1 y 2 están hechos, con un solo proponente de frontera (\texttt{gpt-6-luna}) en lugar del económico previsto para $V_G$, por decisión del autor. Se añade el experimento 5.
+  \item \textbf{Forma.} El conjunto de etiquetas pasa a $\mathcal{L}_V$ para no confundirlo con la constante $L$; $\mathbb{1}$ pasa a $\mathbf{1}$; se añaden la cita del marco Isabelle/ITrees y una sección de montaje y amenazas a la validez.
+\end{enumerate}
+
+\bibliography{unirl_definicion}
+
+\end{document}

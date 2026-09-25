@@ -1,0 +1,41 @@
+{
+ "id": "bis_4_raiz",
+ "name": "bis_4_raiz",
+ "kind": "theorem",
+ "metodo": "biseccion",
+ "peldano": 4,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "01_biseccion (grafo); artículo: Bolzanos_theorem",
+ "dependencias": [
+  "bis_2_encaje",
+  "bis_3_signo"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec biseccion :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"biseccion f a b 0 = (a, b)\"\n| \"biseccion f a b (Suc n) = (case biseccion f a b n of (l, u) \\<Rightarrow>\n     (if f l * f ((l + u) / 2) \\<le> 0 then (l, (l + u) / 2) else ((l + u) / 2, u)))\"\n\ndefinition punto_medio :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"punto_medio f a b n = (fst (biseccion f a b n) + snd (biseccion f a b n)) / 2\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"\n    and cont: \"continuous_on {a..b} f\"\n    and signo: \"f a * f b \\<le> 0\"",
+ "concl": "\\<exists>c. fst (biseccion f a b n) \\<le> c \\<and> c \\<le> snd (biseccion f a b n) \\<and> f c = 0",
+ "statement_es": "Con f continua y f(a)·f(b) ≤ 0, cada intervalo [aₙ, bₙ] contiene una raíz (Bolzano).",
+ "supuestos_dudosos": "",
+ "referencia_privada": "Verified_Numerical_Methods/Numerical_Methods/Bisection.thy: Bolzanos_theorem",
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "dbcbd93d1d29a9b8",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

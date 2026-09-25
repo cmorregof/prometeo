@@ -1,0 +1,15 @@
+# Variante abierta del PEP (06): valor de la función, fuertemente convexo μ = 0,1, n = 5; τ_ref de nuestra búsqueda.
+# Se acepta solo una mejora estricta de τ_ref con certificado racional exacto (CERTIFIED).
+name = "pep_fval_mu01_n5"
+judge = "pep"
+n = 5
+mu = 0.1
+objective = "fval"
+negative = false
+mode = "improve"
+memory = "run"          # memoria entre episodios: mejor τ de cada episodio y su programa
+provider = "openai"
+model = "gpt-6-luna"
+effort = "high"
+budget = 4
+shaped = false

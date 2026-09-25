@@ -1,0 +1,4 @@
+inicio Wed Sep 23 19:34:30 -05 2026
+entorno bisection_isabelle · juez isabelle · modelo gpt-5.4-mini · presupuesto 4 pasos · 3 episodios → runs/bisection_isabelle/20260923-193430-gpt-5.4-mini-low
+[ep 1 paso 1] VCG_FAILED  (llm 9.0 s, juez 9.2 s)
+[ep 1 paso 2] VC_OPEN  (llm 12.9 s, juez 1276.7 s)

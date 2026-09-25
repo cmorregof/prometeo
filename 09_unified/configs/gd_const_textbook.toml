@@ -1,0 +1,11 @@
+# Stepsize en Isabelle (juez de teorema, docs/diseno_gd_isabelle.md): todo n ≥ 1, pasos h = 1, cota de libro ‖x₀ − x*‖²/(2n). Luna demuestra, Isabelle verifica.
+name = "gd_const_textbook"
+judge = "isabelle_theorem"
+target = "gd_const_textbook"
+memory = "run"          # biblioteca de lemas que el agente demostró y que Isabelle verificó + resumen de episodios
+provider = "openai"
+model = "gpt-6-luna"
+effort = "high"
+budget = 4
+build_timeout_s = 300
+shaped = false

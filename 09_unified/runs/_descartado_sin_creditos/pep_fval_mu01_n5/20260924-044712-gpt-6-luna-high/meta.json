@@ -1,0 +1,45 @@
+{
+ "env": "pep_fval_mu01_n5",
+ "judge": "pep",
+ "provider": "openai",
+ "model": "gpt-6-luna",
+ "effort": "high",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260924-044712-gpt-6-luna-high",
+ "memory": "run",
+ "memory_prompt": "v2",
+ "config": {
+  "name": "pep_fval_mu01_n5",
+  "judge": "pep",
+  "n": 5,
+  "mu": 0.1,
+  "objective": "fval",
+  "negative": false,
+  "mode": "improve",
+  "memory": "run",
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "budget": 4,
+  "shaped": false
+ },
+ "code": {
+  "unirl_sha256": "50a7a35e5e8b72ad",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-24T04:47:12",
+ "target": {
+  "id": "pep:fval|mu=0.1|n=5",
+  "n": 5,
+  "mu": 0.1,
+  "objective": "fval",
+  "negative": false,
+  "tau_ref": 0.007605478615231825,
+  "ref_source": "ce",
+  "mode": "improve",
+  "hash": "8f8620b97bd07298"
+ }
+}

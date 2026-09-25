@@ -1,0 +1,23 @@
+{
+ "name": "bisection",
+ "source": "isabelle-utp/Verified_Numerical_Methods@0e7830d, Numerical_Methods/Bisection.thy: program bisection (l. 80-96) y theorem bisection_error_bound (l. 167-174). El artículo enlaza brydustin/Verification_Of_One_Dim_Optimization@036eea3, con el mismo programa y la misma tripleta pero otro invariante; el de 0e7830d es el que imprime el artículo.",
+ "statement_es": "Bisección sobre [a,b] con tolerancia tol > 0, tol < b−a, f continua en [a,b] y f(a)·f(b) < 0. El programa termina y al terminar existe una raíz c ∈ (a,b) con u−l ≤ tol, |c−xmid| ≤ (b−a)/2^iter ≤ tol, y iter = ⌈log₂((b−a)/tol)⌉.",
+ "imports": "\"ITree_Numeric_VCG.ITree_Numeric_VCG\"",
+ "aux_file": "_bisection_aux.thy.part",
+ "borrowed_lemmas": [
+  "Bolzanos_theorem (Bisection.thy l. 22-49, copiado literal)",
+  "sign_prop (Bisection.thy l. 59-63, copiado literal)"
+ ],
+ "excluded_lemmas": [
+  "bisect_root_extract (Bisection.thy l. 111-162): empaqueta la prueba manual de la postcondición; NO se presta",
+  "los tres hechos que la demostración establece antes de proof (vcg) (a_less_than_b y dos desigualdades [simp] sobre log 2 ((b-a)/tol)); NO se dan"
+ ],
+ "program_template": "zstore st =\n  iter :: \"nat\"\n  fl   :: \"real\"\n  fu   :: \"real\"\n  l    :: \"real\"\n  u    :: \"real\"\n  xmid :: \"real\"\n  ymid :: \"real\"\n\nprogram bisection \"(f :: real \\<Rightarrow> real, a :: real, b :: real, tol :: real)\" over st\n = \"iter := 0; fl := f(a); fu := f(b); l := a; u := b; xmid := l;\n    while u - l > tol\n    invariant __INVARIANT__\n    variant __VARIANT__\n    do iter := iter + 1; xmid := (l + u)/2; ymid := f(xmid);\n       if fl*ymid > 0 then l := xmid; fl := ymid else u := xmid; fu := ymid fi od\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b tol :: real",
+ "assumes": "postive_tolerance: \"0 < tol\"\n    and sufficiently_small_tol: \"tol < b-a\"\n    and continuous_f: \"continuous_on {a..b} f\"\n    and opposite_signs: \"f(a)*f(b)<0\"",
+ "concl": "H[True] bisection(f,a,b,tol) [\\<exists> c::real. f(c) = 0 \\<and> c \\<in> {a<..<b} \\<and> u-l \\<le> tol \\<and> \\<bar>c-xmid\\<bar> \\<le> (b-a)/2^iter \\<and> \\<bar>c-xmid\\<bar> \\<le> tol \\<and> iter = \\<lceil>log 2 ((b-a) / tol)\\<rceil>]",
+ "prelude": "",
+ "paper_invariant": "fl = f(l) \\<and> fu = f(u) \\<and> (l = xmid \\<or> u = xmid) \\<and> a \\<le> l \\<and> u \\<le> b \\<and> l < u \\<and> fl * fu \\<le> 0 \\<and> u - l = (b - a) / 2^iter \\<and> (2 * (u - l) > tol)",
+ "paper_variant": "nat(\\<lceil>log 2 ((b - a) / tol)\\<rceil>) - iter",
+ "frozen_hash": "974945f4c4df07ee"
+}

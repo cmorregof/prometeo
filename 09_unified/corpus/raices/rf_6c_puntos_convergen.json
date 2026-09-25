@@ -1,0 +1,42 @@
+{
+ "id": "rf_6c_puntos_convergen",
+ "name": "rf_6c_puntos_convergen",
+ "kind": "theorem",
+ "metodo": "regula_falsi",
+ "peldano": "6c",
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 5,
+ "fuente": "estándar (regula falsi, forma clásica)",
+ "dependencias": [
+  "rf_6_convergencia"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition punto_rf :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"punto_rf f l u = (l * f u - u * f l) / (f u - f l)\"\n\nprimrec regula_falsi :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"regula_falsi f a b 0 = (a, b)\"\n| \"regula_falsi f a b (Suc n) = (case regula_falsi f a b n of (l, u) \\<Rightarrow>\n     (if f l * f (punto_rf f l u) \\<le> 0 then (l, punto_rf f l u) else (punto_rf f l u, u)))\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real",
+ "assumes": "ab: \"a < b\" and fa: \"f a < 0\" and fb: \"0 < f b\" and cont: \"continuous_on {a..b} f\"\n    and unica: \"\\<And>c d. c \\<in> {a..b} \\<Longrightarrow> d \\<in> {a..b} \\<Longrightarrow> f c = 0 \\<Longrightarrow> f d = 0 \\<Longrightarrow> c = d\"",
+ "concl": "\\<exists>c. a \\<le> c \\<and> c \\<le> b \\<and> f c = 0 \\<and> (\\<lambda>n. case regula_falsi f a b n of (l, u) \\<Rightarrow> punto_rf f l u) \\<longlonglongrightarrow> c",
+ "statement_es": "Forma clásica: si la raíz en [a, b] es única, los puntos de falsa posición cₙ convergen a ella.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [
+  "rf_6_convergencia"
+ ],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "5a973432f8e0abe7",
+ "comprobacion_numerica": {
+  "casos": 392,
+  "cumplen": 392
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "id": "rf_3_encaje",
+ "name": "rf_3_encaje",
+ "kind": "theorem",
+ "metodo": "regula_falsi",
+ "peldano": 3,
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "estándar (regula falsi)",
+ "dependencias": [
+  "rf_1_punto",
+  "rf_2_signo"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition punto_rf :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"punto_rf f l u = (l * f u - u * f l) / (f u - f l)\"\n\nprimrec regula_falsi :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"regula_falsi f a b 0 = (a, b)\"\n| \"regula_falsi f a b (Suc n) = (case regula_falsi f a b n of (l, u) \\<Rightarrow>\n     (if f l * f (punto_rf f l u) \\<le> 0 then (l, punto_rf f l u) else (punto_rf f l u, u)))\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real and n :: nat",
+ "assumes": "ab: \"a < b\"\n    and fa: \"f a < 0\"\n    and fb: \"0 < f b\"",
+ "concl": "a \\<le> fst (regula_falsi f a b n) \\<and> fst (regula_falsi f a b n) < snd (regula_falsi f a b n) \\<and> snd (regula_falsi f a b n) \\<le> b \\<and> fst (regula_falsi f a b n) \\<le> fst (regula_falsi f a b (Suc n)) \\<and> snd (regula_falsi f a b (Suc n)) \\<le> snd (regula_falsi f a b n)",
+ "statement_es": "Horquillas encajadas no degeneradas: a ≤ lₙ < uₙ ≤ b, lₙ ≤ lₙ₊₁, uₙ₊₁ ≤ uₙ.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "98f605c6c2f5bc4d",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

@@ -1,0 +1,23 @@
+entorno fixedpoint_graph · juez lemma_graph · modelo gpt-6-luna · presupuesto 4 pasos · 20 episodios → runs/fixedpoint_graph/20260923-200114-gpt-6-luna-high
+[ep 1 paso 1] ACCEPTED  (llm 10.7 s, juez 0.0 s)
+[ep 2 paso 1] ACCEPTED  (llm 9.5 s, juez 0.0 s)
+[ep 3 paso 1] ACCEPTED  (llm 10.5 s, juez 0.0 s)
+[ep 4 paso 1] ACCEPTED  (llm 10.1 s, juez 0.0 s)
+[ep 5 paso 1] ACCEPTED  (llm 6.5 s, juez 0.0 s)
+[ep 6 paso 1] ACCEPTED  (llm 11.1 s, juez 0.0 s)
+[ep 7 paso 1] ACCEPTED  (llm 8.8 s, juez 0.0 s)
+[ep 8 paso 1] ACCEPTED  (llm 8.1 s, juez 0.0 s)
+[ep 9 paso 1] ACCEPTED  (llm 9.1 s, juez 0.0 s)
+[ep 10 paso 1] ACCEPTED  (llm 15.9 s, juez 0.0 s)
+[ep 11 paso 1] ACCEPTED  (llm 13.9 s, juez 0.0 s)
+[ep 12 paso 1] ACCEPTED  (llm 10.3 s, juez 0.0 s)
+[ep 13 paso 1] ACCEPTED  (llm 10.6 s, juez 0.0 s)
+[ep 14 paso 1] ACCEPTED  (llm 11.7 s, juez 0.0 s)
+[ep 15 paso 1] ACCEPTED  (llm 15.8 s, juez 0.0 s)
+[ep 16 paso 1] ACCEPTED  (llm 8.4 s, juez 0.0 s)
+[ep 17 paso 1] ACCEPTED  (llm 6.1 s, juez 0.0 s)
+[ep 18 paso 1] ACCEPTED  (llm 9.6 s, juez 0.0 s)
+[ep 19 paso 1] ACCEPTED  (llm 10.1 s, juez 0.0 s)
+[ep 20 paso 1] ACCEPTED  (llm 8.0 s, juez 0.0 s)
+
+aceptados 20/20; t* (mediana, censurada en B = 4): 1

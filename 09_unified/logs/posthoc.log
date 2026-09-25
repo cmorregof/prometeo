@@ -1,0 +1,14 @@
+gpt-6-luna 1 1 VC_OPEN → ok OK
+gpt-6-luna 1 2 VC_OPEN → ok OK
+gpt-6-luna 1 3 VC_OPEN → ok OK
+gpt-6-luna 1 4 VC_OPEN → ok OK
+gpt-6-luna 2 1 VC_OPEN → ok OK
+gpt-6-luna 2 2 VC_OPEN → ok OK
+gpt-6-luna 2 3 VC_OPEN → ok OK
+gpt-6-luna 2 4 VC_OPEN → ok OK
+gpt-6-luna 3 1 VC_OPEN → ok OK
+gpt-6-luna 3 2 VC_OPEN → ok OK
+gpt-6-luna 3 3 VC_OPEN → ok OK
+gpt-6-luna 3 4 VC_OPEN → ok OK
+12/12 coherentes → /Users/cmorregof/Personal/rl_metodos/09_unified/runs/_baseline/posthoc_stage0.json
+fin Wed Sep 23 20:15:34 -05 2026

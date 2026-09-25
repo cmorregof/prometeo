@@ -1,0 +1,38 @@
+{
+ "id": "pf_9_cuadratico",
+ "name": "pf_9_cuadratico",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 9,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "02_punto_fijo; artículo: fpm_iter_quadratic_convergence (otra forma)",
+ "dependencias": [],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g g' :: \"real \\<Rightarrow> real\" and a b p L x :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and hp: \"p \\<in> {a..b}\"\n    and fp: \"g p = p\"\n    and deriv: \"\\<And>t. t \\<in> {a..b} \\<Longrightarrow> (g has_real_derivative g' t) (at t)\"\n    and cota: \"\\<And>t. t \\<in> {a..b} \\<Longrightarrow> \\<bar>g' t\\<bar> \\<le> L * \\<bar>t - p\\<bar>\"\n    and hx: \"x \\<in> {a..b}\"",
+ "concl": "\\<bar>g x - p\\<bar> \\<le> L * (x - p)\\<^sup>2",
+ "statement_es": "Si |g'(t)| ≤ L|t − p| (en particular g'(p) = 0), un paso es cuadrático: |g(x) − p| ≤ L(x − p)².",
+ "supuestos_dudosos": "Constante L y no L/2: la versión con L/2 necesita integrar; con el valor medio sale L.",
+ "referencia_privada": "Fixed_Point_Method.thy: fpm_iter_quadratic_convergence (forma distinta)",
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "constante L en lugar de L/2: con el valor medio sale L; L/2 necesita un argumento de monotonía o integrar",
+ "version_clasica": "pf_9c_cuadratico_medio",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "7af30f59331129c7",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

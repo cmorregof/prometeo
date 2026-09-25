@@ -1,0 +1,17 @@
+ACCEPTED 15 / 15 lemas usados: ['a_less_than_b', 'bisect_root_extract', 'var_dec'] final: {'rc': 0, 'oracles': [], 'skip_proof': False}
+  VC  1 sledgehammer by (smt (verit, ccfv_threshold) zero_compare_simps(6))
+  VC  2         try0 by argo
+  VC  3         try0 by argo
+  VC  4 sledgehammer using var_dec by blast
+  VC  5 sledgehammer by (smt (verit, del_insts) zero_compare_simps(8))
+  VC  6         try0 by argo
+  VC  7         try0 by argo
+  VC  8 sledgehammer using var_dec by blast
+  VC  9 sledgehammer using var_dec by blast
+  VC 10 sledgehammer using var_dec by blast
+  VC 11 sledgehammer by (simp add: a_less_than_b)
+  VC 12 sledgehammer using opposite_signs by auto
+  VC 13 sledgehammer using postive_tolerance sufficiently_small_tol by force
+  VC 14 sledgehammer using bisect_root_extract continuous_f opposite_signs postive_tolerance sufficiently_small
+  VC 15 sledgehammer using bisect_root_extract continuous_f opposite_signs postive_tolerance sufficiently_small
+[]

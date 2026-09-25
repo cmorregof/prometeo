@@ -1,0 +1,28 @@
+{
+ "objetivo": "gd_n1",
+ "concl": "f (gd g [3/2] x0) - f xs \\<le> 1/8 * (norm (x0 - xs))\\<^sup>2",
+ "h": ["3/2"],
+ "tau": "1/8",
+ "L": "1/1",
+ "mu": "0/1",
+ "criterio": "f(x_n) - f*",
+ "convencion": "Puntos 0..n = x_0..x_n (iterados de gd, x_0 = x0) y punto n+1 = xs (x*, g(xs) = 0 por opt). Base del Gram: e_0 = x0 - xs, e_{k+1} = g_k = g(x_k) para k = 0..n (la de steprl.certify._vectors_exact con x* = 0); x_{k+1} = x_k - h_k g_k. lambda_ij multiplica holgura_ij = f(x_i) - f(x_j) - <g_j, x_i - x_j> - (1/2)||g_i - g_j||^2 >= 0, que es interp[of x_i x_j] (en interp, x = x_i, y = x_j). Flujo: para k = 0..n, sum_j lambda_kj - sum_i lambda_ik = -[k = n]. M = sum lambda_ij A_ij + tau e_0 e_0^T (steprl.certify.assemble) = sum_k d_k w_k w_k^T, con w_k = sum_b w_k[b] e_b. Identidad exacta: tau ||x0 - xs||^2 - (f(x_n) - f(xs)) = sum lambda_ij holgura_ij + sum_k d_k ||w_k||^2.",
+ "puntos": ["x0", "x1", "xs"],
+ "base": ["x0 - xs", "g0", "g1"],
+ "lambda": [
+  {"i": 0, "j": 1, "lambda": "1/2", "isabelle": "interp[of x0 x1]"},
+  {"i": 2, "j": 0, "lambda": "1/2", "isabelle": "interp[of xs x0]"},
+  {"i": 2, "j": 1, "lambda": "1/2", "isabelle": "interp[of xs x1]"}
+ ],
+ "cuadrados": [
+  {"d": "1/8", "w": ["1", "-2", "-2"]}
+ ],
+ "M": [
+  ["1/8", "-1/4", "-1/4"],
+  ["-1/4", "1/2", "1/2"],
+  ["-1/4", "1/2", "1/2"]
+ ],
+ "metodo": "dual numérico con tau fijo (mínima suma de lambda) y limit_denominator(12)",
+ "tau_sdp": 0.1249999981,
+ "verificacion": {"matrices": "certificado válido", "identidad": "identidad exacta en 20 pruebas aleatorias (Q^5)"}
+}

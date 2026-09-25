@@ -1,0 +1,45 @@
+{
+ "env": "pep_gradnorm_n4",
+ "judge": "pep",
+ "provider": "openai",
+ "model": "gpt-6-astra",
+ "effort": "high",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260924-044748-gpt-6-astra-high",
+ "memory": "run",
+ "memory_prompt": "v2",
+ "config": {
+  "name": "pep_gradnorm_n4",
+  "judge": "pep",
+  "n": 4,
+  "mu": 0.0,
+  "objective": "gradnorm",
+  "negative": false,
+  "mode": "improve",
+  "memory": "run",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "effort": "high",
+  "budget": 4,
+  "shaped": false
+ },
+ "code": {
+  "unirl_sha256": "50a7a35e5e8b72ad",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-24T04:47:48",
+ "target": {
+  "id": "pep:gradnorm|mu=0|n=4",
+  "n": 4,
+  "mu": 0.0,
+  "objective": "gradnorm",
+  "negative": false,
+  "tau_ref": 0.016985992329852307,
+  "ref_source": "ce",
+  "mode": "improve",
+  "hash": "b74aa15da8fa7bcc"
+ }
+}

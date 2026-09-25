@@ -1,0 +1,22 @@
+inicio Wed Sep 23 19:20:10 -05 2026
+VC_OPEN 9 / 15 → /Users/cmorregof/Personal/rl_metodos/09_unified/runs/_baseline/bisection.json
+  VC  1 sledgehammer       cvc5 by (smt (verit) zero_compare_simps(6))
+  VC  2         try0       argo by argo
+  VC  3         try0       argo by argo
+  VC  4      ABIERTA            
+  VC  5 sledgehammer       cvc5 by (smt (verit, ccfv_SIG) zero_compare_simps(6))
+  VC  6         try0       argo by argo
+  VC  7         try0       argo by argo
+  VC  8      ABIERTA            
+  VC  9      ABIERTA            
+  VC 10      ABIERTA            
+  VC 11 sledgehammer       cvc5 using postive_tolerance sufficiently_small_tol by force
+  VC 12 sledgehammer          e using opposite_signs by auto
+  VC 13 sledgehammer       cvc5 using postive_tolerance sufficiently_small_tol by linarith
+  VC 14      ABIERTA            
+  VC 15      ABIERTA            
+baseline fin Wed Sep 23 19:27:14 -05 2026
+sin_prelude None None None ['*** ML error (line 30 of "~/isabelle/scratch/shgoal-sin_prelude-1790209634/Driver.thy"):', '*** <identifier> expected but , was found', '*** ', '*** At comman
+con_prelude_del_paper None None None ['*** ML error (line 32 of "~/isabelle/scratch/shgoal-con_prelude_del_paper-1790209642/Driver.thy"):', '*** <identifier> expected but , was found', '*** ', '***
+→ /Users/cmorregof/Personal/rl_metodos/09_unified/runs/_baseline/sh_goals.json
+fin Wed Sep 23 19:27:29 -05 2026

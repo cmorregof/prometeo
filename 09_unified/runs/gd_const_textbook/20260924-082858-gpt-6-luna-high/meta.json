@@ -1,0 +1,43 @@
+{
+ "env": "gd_const_textbook",
+ "judge": "isabelle_teorema",
+ "provider": "openai",
+ "model": "gpt-6-luna",
+ "effort": "high",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260924-082858-gpt-6-luna-high",
+ "memory": "run",
+ "memory_prompt": "v2",
+ "config": {
+  "name": "gd_const_textbook",
+  "judge": "isabelle_theorem",
+  "target": "gd_const_textbook",
+  "memory": "run",
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "budget": 4,
+  "build_timeout_s": 300,
+  "shaped": false
+ },
+ "code": {
+  "unirl_sha256": "6786e6748894a378",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-24T08:28:58",
+ "target": {
+  "id": "isabelle_teorema:gd_const_textbook",
+  "kind": "theorem",
+  "statement_es": "Para todo n ≥ 1, n pasos de tamaño 1 (L = 1): f(xₙ) − f(x*) ≤ ‖x₀ − x*‖²/(2n). Es la cota clásica de libro de texto para el descenso de gradiente con paso 1/L.",
+  "imports": "\"HOL-Analysis.Inner_Product\"",
+  "prelude": "primrec gd :: \"('a::real_inner \\<Rightarrow> 'a) \\<Rightarrow> real list \\<Rightarrow> 'a \\<Rightarrow> 'a\" where\n  \"gd g [] x = x\"\n| \"gd g (h # hs) x = gd g hs (x - h *\\<^sub>R g x)\"",
+  "fixes": "f :: \"'a::real_inner \\<Rightarrow> real\" and g :: \"'a \\<Rightarrow> 'a\" and x0 xs :: 'a and n :: nat",
+  "assumes": "interp: \"\\<And>x y. f y + inner (g y) (x - y) + (1/2) * (norm (g x - g y))\\<^sup>2 \\<le> f x\"\n    and opt: \"g xs = 0\"",
+  "concl": "0 < n \\<Longrightarrow> f (gd g (replicate n 1) x0) - f xs \\<le> (norm (x0 - xs))\\<^sup>2 / (2 * real n)",
+  "borrowed_lemmas": [],
+  "hash": "f4147ea80e7e6c69"
+ }
+}

@@ -1,0 +1,2 @@
+{"de": "20260923-224900-gpt-6-astra-high", "episodio": 3,
+ "motivo": "la corrida original perdió el episodio 3 porque la API de OpenAI se quedó sin créditos (4 intentos PROVIDER_ERROR); esta corrida lo repite desde la memoria del final del episodio 2 (logs/astra_ep3_memoria.json), con el mismo código congelado (.snap_astra_bis)"}

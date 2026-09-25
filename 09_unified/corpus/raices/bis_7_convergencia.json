@@ -1,0 +1,42 @@
+{
+ "id": "bis_7_convergencia",
+ "name": "bis_7_convergencia",
+ "kind": "theorem",
+ "metodo": "biseccion",
+ "peldano": 7,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 4,
+ "fuente": "01_biseccion (teorema del grafo)",
+ "dependencias": [
+  "bis_1_ancho",
+  "bis_2_encaje",
+  "bis_3_signo"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec biseccion :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"biseccion f a b 0 = (a, b)\"\n| \"biseccion f a b (Suc n) = (case biseccion f a b n of (l, u) \\<Rightarrow>\n     (if f l * f ((l + u) / 2) \\<le> 0 then (l, (l + u) / 2) else ((l + u) / 2, u)))\"\n\ndefinition punto_medio :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"punto_medio f a b n = (fst (biseccion f a b n) + snd (biseccion f a b n)) / 2\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and cont: \"continuous_on {a..b} f\"\n    and signo: \"f a * f b \\<le> 0\"",
+ "concl": "\\<exists>c. a \\<le> c \\<and> c \\<le> b \\<and> f c = 0 \\<and> (\\<lambda>k. punto_medio f a b k) \\<longlonglongrightarrow> c",
+ "statement_es": "Los puntos medios convergen a una raíz c de f en [a, b].",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "6dc8d99eb7f0ac82",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

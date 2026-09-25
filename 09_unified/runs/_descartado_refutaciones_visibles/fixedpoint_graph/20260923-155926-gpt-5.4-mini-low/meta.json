@@ -1,0 +1,119 @@
+{
+ "env": "fixedpoint_graph",
+ "judge": "lemma_graph",
+ "provider": "openai",
+ "model": "gpt-5.4-mini",
+ "effort": "low",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260923-155926-gpt-5.4-mini-low",
+ "config": {
+  "name": "fixedpoint_graph",
+  "judge": "lemma_graph",
+  "project": "02_punto_fijo",
+  "provider": "openai",
+  "model": "gpt-5.4-mini",
+  "effort": "low",
+  "budget": 4,
+  "shaped": false,
+  "seed": 0
+ },
+ "code": {
+  "unirl_sha256": "a053f2d4c8ea43bd",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-23T15:59:26",
+ "target": {
+  "id": "02_punto_fijo:QED",
+  "statement": "Existe un único punto fijo p, xₙ → p para todo x₀ ∈ [a, b] y valen las cotas a priori y a posteriori. ∎",
+  "goal_id": "L20",
+  "lemmas": [
+   {
+    "id": "L01",
+    "text": "|xₙ₊₁ − xₙ| = |g(xₙ) − g(xₙ₋₁)| ≤ k·|xₙ − xₙ₋₁| ≤ kⁿ·|x₁ − x₀|."
+   },
+   {
+    "id": "L02",
+    "text": "Iteramos xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ) (Newton)."
+   },
+   {
+    "id": "L03",
+    "text": "g es creciente, luego (xₙ) es monótona y converge a p."
+   },
+   {
+    "id": "L04",
+    "text": "Por Bolzano existe un punto fijo p; luego xₙ → p."
+   },
+   {
+    "id": "L05",
+    "text": "g es continua en [a, b] y g([a, b]) ⊆ [a, b]."
+   },
+   {
+    "id": "L06",
+    "text": "Basta con k = 1: si |g(x) − g(y)| ≤ |x − y| la iteración converge."
+   },
+   {
+    "id": "L07",
+    "text": "|xₙ − p| ≤ Σᵢ₌ₙ^∞ |xᵢ₊₁ − xᵢ| ≤ kⁿ·|x₁ − x₀|·Σⱼ kʲ = kⁿ/(1 − k)·|x₁ − x₀| (serie geométrica y xₙ → p)."
+   },
+   {
+    "id": "L08",
+    "text": "h(x) = g(x) − x es continua, h(a) = g(a) − a ≥ 0 y h(b) = g(b) − b ≤ 0."
+   },
+   {
+    "id": "L09",
+    "text": "Por Bolzano aplicado a h existe p ∈ [a, b] con h(p) = 0, es decir g(p) = p."
+   },
+   {
+    "id": "L10",
+    "text": "p ∈ [a, b] ⇒ |x₀ − p| ≤ max(x₀ − a, b − x₀), luego |xₙ − p| ≤ kⁿ·max(x₀ − a, b − x₀)."
+   },
+   {
+    "id": "L11",
+    "text": "Sea x₀ ∈ [a, b] y xₙ₊₁ = g(xₙ). Por H1 e inducción, xₙ ∈ [a, b] para todo n."
+   },
+   {
+    "id": "L12",
+    "text": "Por inducción sobre n: |xₙ − p| ≤ kⁿ·|x₀ − p|."
+   },
+   {
+    "id": "L13",
+    "text": "Si p y q son puntos fijos, |p − q| = |g(p) − g(q)| ≤ k·|p − q| con k < 1, luego p = q."
+   },
+   {
+    "id": "L14",
+    "text": "Supongamos g derivable con g'(p) = 0."
+   },
+   {
+    "id": "L15",
+    "text": "|xₙ₊₁ − p| = |g(xₙ) − g(p)| ≤ k·|xₙ − p|."
+   },
+   {
+    "id": "L16",
+    "text": "La sucesión (xₙ) está acotada en [a, b], luego converge."
+   },
+   {
+    "id": "L17",
+    "text": "Como 0 ≤ k < 1, kⁿ → 0, así que xₙ → p."
+   },
+   {
+    "id": "L18",
+    "text": "g es contracción: existe k ∈ [0, 1) con |g(x) − g(y)| ≤ k·|x − y| para todo x, y ∈ [a, b]."
+   },
+   {
+    "id": "L19",
+    "text": "|g'(p)| < 1, luego la iteración converge desde cualquier x₀.  (¡solo garantiza convergencia local!)"
+   },
+   {
+    "id": "L20",
+    "text": "Existe un único punto fijo p, xₙ → p para todo x₀ ∈ [a, b] y valen las cotas a priori y a posteriori. ∎"
+   }
+  ],
+  "n_lemmas": 20,
+  "n_distractors": 7,
+  "min_length": 13,
+  "hash": "d73ede651432c961"
+ }
+}

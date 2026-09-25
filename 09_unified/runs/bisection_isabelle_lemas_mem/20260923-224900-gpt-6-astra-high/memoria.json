@@ -1,0 +1,38 @@
+{
+ "library": {},
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "invariant": "a \\<le> l \\<and> l < u \\<and> u \\<le> b \\<and>\n  fl = f l \\<and> fu = f u \\<and> fl * fu \\<le> 0 \\<and>\n  l \\<le> xmid \\<and> xmid \\<le> u \\<and>\n  u - l = (b - a) / (2::real)^iter \\<and>\n  int iter \\<le> \\<lceil>log 2 ((b - a) / tol)\\<rceil> \\<and>\n  (tol < u - l \\<longleftrightarrow>\n   int iter < \\<lceil>log 2 ((b - a) / tol)\\<rceil>)",
+    "variant": "nat (\\<lceil>log 2 ((b - a) / tol)\\<rceil> - int iter)"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Failed to finish proof (line 132 of \"~/isabelle/scratch/lemmas-wp3_6ds6/Lemmas.thy\"):\n*** goal (1 subgoal):\n***  1. int k\n***     ≤ n\n*** At command \"by\" (line 132 of \"~/isabelle/scratch/lemmas-wp3_6ds6/Lemmas.thy\")"
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "LEMMA_FAILED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": {
+    "invariant": "a \\<le> l \\<and> l < u \\<and> u \\<le> b \\<and>\n  fl = f l \\<and> fu = f u \\<and> fl * fu \\<le> 0 \\<and>\n  l \\<le> xmid \\<and> xmid \\<le> u \\<and>\n  u - l = (b - a) / (2::real)^iter \\<and>\n  int iter \\<le> \\<lceil>log 2 ((b - a) / tol)\\<rceil> \\<and>\n  (tol < u - l \\<longleftrightarrow>\n   int iter < \\<lceil>log 2 ((b - a) / tol)\\<rceil>)",
+    "variant": "nat (\\<lceil>log 2 ((b - a) / tol)\\<rceil> - int iter)"
+   },
+   "last_feedback": "LEMMA_FAILED: Isabelle rechazó los lemas (errores literales):\n*** Undefined method: \"field_simp\" (line 156 of \"~/isabelle/scratch/lemmas-iylms6b_/Lemmas.thy\")\n*** At command \"by\" (line 156 of \"~/isabelle/scratch/lemmas-iylms6b_/Lemmas.thy\")"
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "PROVIDER_ERROR",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": null,
+   "last_feedback": "PROVIDER_ERROR: la llamada al modelo falló; este intento no se juzgó."
+  }
+ ]
+}

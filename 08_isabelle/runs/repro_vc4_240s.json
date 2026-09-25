@@ -1,0 +1,41 @@
+{
+ "env": {
+  "E_HOME": "/Users/cmorregof/isabelle/Isabelle2025.app/contrib/e-3.1-1/arm64-darwin",
+  "VAMPIRE_HOME": "/Users/cmorregof/isabelle/Isabelle2025.app/contrib/vampire-4.8/x86_64-darwin",
+  "Z3_SOLVER": "/Users/cmorregof/isabelle/Isabelle2025.app/contrib/z3-4.4.0pre-4/x86_64-darwin/z3",
+  "CVC5_SOLVER": "/Users/cmorregof/isabelle/Isabelle2025.app/contrib/cvc5-1.2.0-1/arm64-darwin/cvc5",
+  "SPASS_HOME": "/Users/cmorregof/isabelle/Isabelle2025.app/contrib/spass-3.8ds-2/x86_64-darwin",
+  "ZIPPERPOSITION_HOME": "/Users/cmorregof/isabelle/Isabelle2025.app/contrib/zipperposition-2.1-1/x86_64-darwin",
+  "ISABELLE_VERIT": "/Users/cmorregof/isabelle/Isabelle2025.app/contrib/verit-2021.06.2-rmx-1/x86_64-darwin/veriT"
+ },
+ "result": {
+  "ok": false,
+  "n_vcs": 15,
+  "vcg_ms": 2271,
+  "vcs": [
+   {
+    "index": 4,
+    "goal": "\\<And>iter u xmid. \\<lbrakk>0 < f xmid * f ((xmid + u) / 2); a \\<le> xmid; u \\<le> b; xmid < u; f xmid * f u \\<le> 0; u - xmid = (b - a) / 2 ^ iter; tol < (b - a) / 2 ^ iter\\<rbrakk> \\<Longrightarrow> nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - Suc iter < nat \\<lceil>log 2 ((b - a) / tol)\\<rceil> - iter",
+    "try0": null,
+    "try0_ms": 0,
+    "try0_without_assms": false,
+    "sh_found": false,
+    "sh_outcome": "timeout",
+    "sh_message": "Timed out",
+    "sh_messages": [
+     "No proof found"
+    ],
+    "sh_ms": 243574,
+    "one_liner": null,
+    "method": "open"
+   }
+  ],
+  "provers": "cvc5 cvc5_proof verit z3 e spass vampire zipperposition",
+  "elapsed_s": 254.59170007705688,
+  "build_rc": 1,
+  "raw_log": "Started at Wed Sep 23 15:01:38 GMT-5 2026 (polyml-5.9.1_arm64_32-darwin on MacBook-Air-de-Carlos)\nISABELLE_TOOL_JAVA_OPTIONS=\"-Djava.awt.headless=true -Xms512m -Xmx4g -Xss16m\"\nISABELLE_BUILD_OPTIONS=\"\"\n\nML_PLATFORM=\"arm64_32-darwin\"\nML_HOME=\"/Users/cmorregof/isabelle/Isabelle2025.app/contrib/polyml-5.9.1/arm64_32-darwin\"\nML_SYSTEM=\"polyml-5.9.1\"\nML_OPTIONS=\"--minheap 500\"\n\nSession Pure/Pure\nSession FOL/FOL\nSession Misc/Tools\nSession HOL/HOL (main)\nSession Unsorted/Explorer\nSession HOL/HOL-Cardinals (timing)\nSession HOL/HOL-Library (main timing)\nSession AFP/Binomial-Heaps (AFP)\nSession AFP/Finger-Trees (AFP)\nSession HOL/HOL-Combinatorics (main timing)\nSession HOL/HOL-Computational_Algebra (main timing)\nSession HOL/HOL-Algebra (main timing)\nSession HOL/HOL-Decision_Procs (timing)\nSession HOL/HOL-Number_Theory (main timing)\nSession HOL/HOL-ex (timing)\nSession HOL/HOL-Imperative_HOL (timing)\nSession AFP/Trie (AFP)\nSession HOL/HOL-Real_Asymp\nSession HOL/HOL-Analysis (main timing)\nSession HOL/HOL-Eisbach\nSession AFP/Automatic_Refinement (AFP)\nSession AFP/Refine_Monadic (AFP)\nSession AFP/Optics (AFP)\nSession Unsorted/Shallow_Expressions\nSession Unsorted/Abstract_Prog_Syntax\nSession Unsorted/Z_Toolkit\nSession Unsorted/Circus_Toolkit\nSession Unsorted/Interaction_Trees\nSession Unsorted/Shallow_Expressions_Z\nSession Unsorted/ITree_UTP\nSession Unsorted/ITree_VCG\nSession AFP/Triangle (AFP)\nSession HOL/HOL-Types_To_Sets\nSession AFP/Smooth_Manifolds (AFP)\nSession Local/Higher_Diffs\nSession AFP/List-Index (AFP)\nSession AFP/Word_Lib (AFP)\nSession AFP/Native_Word (AFP)\nSession AFP/Collections (AFP)\nSession AFP/Deriving (AFP)\nSession AFP/Show (AFP)\nSession AFP/Affine_Arithmetic (AFP)\nSession AFP/Ordinary_Differential_Equations (AFP)\nSession AFP/Differential_Dynamic_Logic (AFP)\nSession Unsorted/Hybrid-Library\nSession Unsorted/ITree_Numeric_VCG\nSession Local/Numerical_Methods_Paper\nSession Unsorted/IsaRL_Scratch\nRunning IsaRL_Scratch ...\nIsaRL_Scratch: theory IsaRL_Scratch.Driver\nIsaRL_Scratch FAILED (see also \"isabelle build_log -H Error IsaRL_Scratch\")\n*** ML error (line 59 of \"~/isabelle/scratch/driver-1790193698-18088/Driver.thy\"):\n*** Handler catches all exceptions.\n*** ML error (line 75 of \"~/isabelle/scratch/driver-1790193698-18088/Driver.thy\"):\n*** Handler catches all exceptions.\n*** At command \"ML\" (line 20 of \"~/isabelle/scratch/driver-1790193698-18088/Driver.thy\")\nUnfinished session(s): IsaRL_Scratch\n\nFinished at Wed Sep 23 15:05:52 GMT-5 2026\n0:04:13 elapsed time, 0:00:21 cpu time, factor 0.09\n",
+  "error": "",
+  "n_closed_auto": 0
+ },
+ "seconds": 254.59286785125732
+}

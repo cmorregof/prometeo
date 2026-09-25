@@ -1,0 +1,41 @@
+{
+ "id": "newton_5_orden2",
+ "name": "newton_5_orden2",
+ "kind": "theorem",
+ "metodo": "newton",
+ "peldano": 5,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "04_newton (orden cuadrático)",
+ "dependencias": [
+  "newton_1_paso",
+  "newton_3_decaimiento"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_newton :: \"(real \\<Rightarrow> real) \\<Rightarrow> (real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_newton f f' x = x - f x / f' x\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<delta> m M :: real and x0 :: real and n :: nat",
+ "assumes": "d1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and raiz: \"f r = 0\" and m_pos: \"0 < m\"\n    and cota1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> m \\<le> \\<bar>f' t\\<bar>\"\n    and cota2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> \\<bar>f'' t\\<bar> \\<le> M\"\n    and delta_pos: \"0 < \\<delta>\" and delta_chico: \"M * \\<delta> \\<le> m\"\n    and hx0: \"\\<bar>x0 - r\\<bar> \\<le> \\<delta>\"",
+ "concl": "M / (2 * m) * \\<bar>(paso_newton f f' ^^ n) x0 - r\\<bar> \\<le> (M / (2 * m) * \\<bar>x0 - r\\<bar>) ^ (2 ^ n)",
+ "statement_es": "Orden 2: con εₙ = M/(2m)|xₙ − r|, εₙ ≤ ε₀^(2ⁿ).",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "δ fijo; forma explícita εₙ ≤ ε₀^(2ⁿ) en lugar de ∃δ ∃C con |eₙ₊₁| ≤ C eₙ²",
+ "version_clasica": "newton_5c_orden2_local",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "95bfa59d75f3a404",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

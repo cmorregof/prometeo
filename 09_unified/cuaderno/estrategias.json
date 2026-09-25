@@ -1,0 +1,30 @@
+{
+ "estrategias": [
+  {
+   "texto": "Prueba por separado las cotas del intervalo actual y el encaje con el siguiente, y combina luego las dos propiedades para cerrar la meta.",
+   "topico": "invariantes",
+   "origen": "bis_2_encaje#1",
+   "contadores": {
+    "intentos": 0,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260925-073216-gpt-6-luna",
+    "fecha": "2026-09-25T08:34:07"
+   }
+  },
+  {
+   "texto": "Para las cotas del punto medio, expresa explícitamente las desigualdades tras multiplicar por 2, añade la identidad que cancela la división y aplica `linarith`.",
+   "topico": "aritmética",
+   "origen": "bis_2_encaje#1",
+   "contadores": {
+    "intentos": 0,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260925-073216-gpt-6-luna",
+    "fecha": "2026-09-25T08:34:07"
+   }
+  }
+ ]
+}

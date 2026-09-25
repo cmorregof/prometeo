@@ -1,0 +1,41 @@
+{
+ "id": "newton_6c_q_orden2",
+ "name": "newton_6c_q_orden2",
+ "kind": "theorem",
+ "metodo": "newton",
+ "peldano": "6c",
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 5,
+ "fuente": "04_newton (orden cuadrático, forma clásica del límite)",
+ "dependencias": [
+  "newton_5c_orden2_local",
+  "newton_4c_convergencia_local"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_newton :: \"(real \\<Rightarrow> real) \\<Rightarrow> (real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_newton f f' x = x - f x / f' x\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<epsilon> :: real",
+ "assumes": "eps: \"0 < \\<epsilon>\"\n    and d1: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and c2: \"continuous_on {r - \\<epsilon><..<r + \\<epsilon>} f''\"\n    and raiz: \"f r = 0\" and simple: \"f' r \\<noteq> 0\"",
+ "concl": "\\<exists>\\<delta>>0. \\<forall>x0. \\<bar>x0 - r\\<bar> \\<le> \\<delta> \\<longrightarrow> (\\<forall>n. (paso_newton f f' ^^ n) x0 \\<noteq> r) \\<longrightarrow> (\\<lambda>n. \\<bar>(paso_newton f f' ^^ Suc n) x0 - r\\<bar> / ((paso_newton f f' ^^ n) x0 - r)\\<^sup>2) \\<longlonglongrightarrow> \\<bar>f'' r / (2 * f' r)\\<bar>",
+ "statement_es": "Q-orden 2 clásico: si ningún iterado cae en r, |eₙ₊₁|/eₙ² → |f''(r)/(2f'(r))| (análogo de secante_6c; si f''(r) = 0 el límite es 0).",
+ "supuestos_dudosos": "Peldaño de dificultad 5 para train, propuesto a pedido de Carlos; sin f''(r) ≠ 0 el enunciado sigue siendo cierto con límite 0.",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": "secante_6c_orden_phi",
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "7982410512a6e2da",
+ "comprobacion_numerica": {
+  "casos": 20,
+  "cumplen": 20
+ }
+}

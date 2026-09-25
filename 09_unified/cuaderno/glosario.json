@@ -1,0 +1,361 @@
+{
+ "fuente": "errores reales de Luna y Astra (23–24 sep 2026) y nombres usuales de Lean/Mathlib",
+ "entradas": [
+  {
+   "lean": "nlinarith",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "metodo",
+     "nombre": "linarith"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "smt"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "argo"
+    }
+   ],
+   "nota": "No existe en Isabelle. Da a linarith los productos como hechos explícitos (p. ej. mult_nonneg_nonneg, zero_le_power2) o usa smt.",
+   "visto_en": "Luna, stepsize (6 veces)"
+  },
+  {
+   "lean": "ring",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "metodo",
+     "nombre": "algebra"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "algebra_simps"
+    }
+   ],
+   "nota": "No existe. Para identidades de anillos: `by algebra` o `by (simp add: algebra_simps)`.",
+   "visto_en": "Luna, stepsize (3 veces)"
+  },
+  {
+   "lean": "ring_nf",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "algebra_simps"
+    }
+   ],
+   "nota": "No existe. Normaliza con `simp add: algebra_simps`.",
+   "visto_en": ""
+  },
+  {
+   "lean": "field_simp",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "field_simps"
+    }
+   ],
+   "nota": "No existe como método; en Isabelle es una colección de reglas: `simp add: field_simps`.",
+   "visto_en": "Luna y Astra, bisección (3 veces)"
+  },
+  {
+   "lean": "omega",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "metodo",
+     "nombre": "presburger"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "arith"
+    }
+   ],
+   "nota": "No existe. Aritmética lineal entera o natural: presburger, arith, linarith.",
+   "visto_en": "Luna, bisección"
+  },
+  {
+   "lean": "positivity",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "metodo",
+     "nombre": "simp"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "mult_pos_pos"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "zero_le_power2"
+    }
+   ],
+   "nota": "No existe. Prueba la positividad con simp y reglas como mult_pos_pos, add_pos_pos, zero_le_power2.",
+   "visto_en": "Luna, stepsize"
+  },
+  {
+   "lean": "norm_num",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "metodo",
+     "nombre": "simp"
+    }
+   ],
+   "nota": "No existe. Los cálculos con numerales los hace simp.",
+   "visto_en": ""
+  },
+  {
+   "lean": "linear_combination",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "metodo",
+     "nombre": "linarith"
+    }
+   ],
+   "nota": "No existe. Pasa a linarith los hechos que combinarías.",
+   "visto_en": ""
+  },
+  {
+   "lean": "gcongr",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_left_mono"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "add_mono"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "power_mono"
+    }
+   ],
+   "nota": "No existe. Usa reglas de monotonía explícitas.",
+   "visto_en": ""
+  },
+  {
+   "lean": "aesop",
+   "tipo": "metodo",
+   "isabelle": [
+    {
+     "tipo": "metodo",
+     "nombre": "auto"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "blast"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "force"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "fastforce"
+    }
+   ],
+   "nota": "No existe. Búsqueda automática: auto, blast, force, fastforce.",
+   "visto_en": ""
+  },
+  {
+   "lean": "sq_nonneg",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "zero_le_power2"
+    }
+   ],
+   "nota": "0 ≤ x² se llama zero_le_power2.",
+   "visto_en": "Luna, stepsize"
+  },
+  {
+   "lean": "inner_self_eq_norm_sq",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "dot_square_norm"
+    }
+   ],
+   "nota": "‖x‖² = ⟨x, x⟩ es power2_norm_eq_inner (y dot_square_norm en el otro sentido).",
+   "visto_en": ""
+  },
+  {
+   "lean": "inner_self_eq_norm",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    }
+   ],
+   "nota": "Nombre inventado; el hecho es power2_norm_eq_inner.",
+   "visto_en": "Luna, stepsize"
+  },
+  {
+   "lean": "norm_sq_eq_inner",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    }
+   ],
+   "nota": "Nombre inventado; el hecho es power2_norm_eq_inner.",
+   "visto_en": "Luna, stepsize"
+  },
+  {
+   "lean": "abs_inner_le_norm",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "Cauchy_Schwarz_ineq2"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "norm_cauchy_schwarz"
+    }
+   ],
+   "nota": "Cauchy–Schwarz: Cauchy_Schwarz_ineq2 (con valor absoluto) y norm_cauchy_schwarz.",
+   "visto_en": ""
+  },
+  {
+   "lean": "inner_le_norm",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "norm_cauchy_schwarz"
+    }
+   ],
+   "nota": "Nombre inventado; ⟨x, y⟩ ≤ ‖x‖‖y‖ es norm_cauchy_schwarz.",
+   "visto_en": "Luna, stepsize"
+  },
+  {
+   "lean": "inner_neg_right",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "inner_minus_right"
+    }
+   ],
+   "nota": "En Isabelle es inner_minus_right.",
+   "visto_en": "Luna, stepsize"
+  },
+  {
+   "lean": "div_le_iff",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "divide_le_eq"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "pos_divide_le_eq"
+    }
+   ],
+   "nota": "División y desigualdad: divide_le_eq, pos_divide_le_eq.",
+   "visto_en": ""
+  },
+  {
+   "lean": "divide_less_iff",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "divide_less_eq"
+    }
+   ],
+   "nota": "Nombre inventado; usa divide_less_eq.",
+   "visto_en": "Luna, bisección"
+  },
+  {
+   "lean": "mul_pos",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_pos_pos"
+    }
+   ],
+   "nota": "Producto de positivos: mult_pos_pos.",
+   "visto_en": ""
+  },
+  {
+   "lean": "mul_le_mul_of_nonneg_left",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_left_mono"
+    }
+   ],
+   "nota": "Monotonía del producto: mult_left_mono.",
+   "visto_en": ""
+  },
+  {
+   "lean": "log_div",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "log_divide"
+    }
+   ],
+   "nota": "El logaritmo de un cociente es log_divide.",
+   "visto_en": "Luna, bisección"
+  },
+  {
+   "lean": "abs_sub_comm",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "abs_minus_commute"
+    }
+   ],
+   "nota": "|a − b| = |b − a| es abs_minus_commute.",
+   "visto_en": ""
+  },
+  {
+   "lean": "pow_le_pow_left",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "power_mono"
+    }
+   ],
+   "nota": "Monotonía de la potencia: power_mono.",
+   "visto_en": ""
+  },
+  {
+   "lean": "add_pow_two",
+   "tipo": "hecho",
+   "isabelle": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_sum"
+    }
+   ],
+   "nota": "(a + b)² es power2_sum.",
+   "visto_en": ""
+  }
+ ]
+}

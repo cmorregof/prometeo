@@ -1,0 +1,115 @@
+% Generado por `python -m unirl tables`. No editar a mano.
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 1, paso 1:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l < u \<and> u \<le> b \<and> fl = f l \<and> fu = f u \<and> fl
+    * fu \<le> 0 \<and> u-l = (b-a)/2^iter \<and> iter + nat \<lceil>log 2
+    ((u-l)/tol)\<rceil> = nat \<lceil>log 2 ((b-a)/tol)\<rceil> \<and> (\<exists>c::real.
+    f(c) = 0 \<and> a < c \<and> c < b \<and> l \<le> c \<and> c \<le> u \<and>
+    \<bar>c-xmid\<bar> \<le> (b-a)/2^iter)
+VARIANT:   nat \<lceil>log 2 ((u-l)/tol)\<rceil>
+\end{lstlisting}
+% VC_OPEN, 5/12 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 1, paso 2:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l < u \<and> u \<le> b \<and> fl = f l \<and> fu = f u \<and> fl
+    * fu \<le> 0 \<and> u - l = (b-a)/2^iter \<and> tol/2 < u-l \<and> iter + nat
+    \<lceil>log 2 ((u-l)/tol)\<rceil> = nat \<lceil>log 2 ((b-a)/tol)\<rceil> \<and>
+    (\<exists>c::real. f(c) = 0 \<and> a < c \<and> c < b \<and> l \<le> c \<and> c \<le> u
+    \<and> \<bar>c-xmid\<bar> \<le> (b-a)/2^iter)
+VARIANT:   nat \<lceil>log 2 ((b-a)/tol)\<rceil> - iter
+\end{lstlisting}
+% VC_OPEN, 7/14 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 1, paso 3:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l < u \<and> u \<le> b \<and> fl = f l \<and> fu = f u \<and> fl
+    * fu \<le> 0 \<and> u - l = (b-a)/2^iter \<and> tol/2 < u-l \<and> (xmid = l \<or> xmid
+    = u) \<and> f a \<noteq> 0 \<and> f b \<noteq> 0 \<and> log 2 ((u-l)/tol) = log 2
+    ((b-a)/tol) - real iter \<and> int iter + \<lceil>log 2 ((b-a)/tol) - real iter\<rceil>
+    = \<lceil>log 2 ((b-a)/tol)\<rceil>
+VARIANT:   nat (\<lceil>log 2 ((b-a)/tol) - real iter\<rceil>)
+\end{lstlisting}
+% VC_OPEN, 15/25 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 1, paso 4:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l < u \<and> u \<le> b \<and> fl = f l \<and> fu = f u \<and> fl
+    * fu \<le> 0 \<and> f a \<noteq> 0 \<and> f b \<noteq> 0 \<and> u - l = (b-a)/2^iter
+    \<and> tol/2 < u-l \<and> (xmid = l \<or> xmid = u) \<and> iter + nat \<lceil>log 2
+    ((u-l)/tol)\<rceil> = nat \<lceil>log 2 ((b-a)/tol)\<rceil>
+VARIANT:   nat \<lceil>log 2 ((u-l)/tol)\<rceil>
+\end{lstlisting}
+% VC_OPEN, 11/21 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 2, paso 1:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l \<le> u \<and> u \<le> b \<and> fl = f l \<and> fu = f u
+    \<and> fl * fu \<le> 0 \<and> (\<exists>c::real. f c = 0 \<and> c \<in> {a<..<b} \<and>
+    c \<in> {l..u}) \<and> xmid \<in> {l..u} \<and> u-l = (b-a)/2^iter \<and> iter + nat
+    \<lceil>log 2 ((u-l)/tol)\<rceil> = nat \<lceil>log 2 ((b-a)/tol)\<rceil>
+VARIANT:   nat \<lceil>log 2 ((u-l)/tol)\<rceil>
+\end{lstlisting}
+% VC_OPEN, 6/13 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 2, paso 2:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: continuous_on {a..b} f \<and> a \<le> l \<and> l \<le> u \<and> u \<le> b \<and>
+    fl = f l \<and> fu = f u \<and> fl * fu \<le> 0 \<and> (\<exists>c::real. f c = 0 \<and>
+    c \<in> {a<..<b} \<and> c \<in> {l..u}) \<and> xmid \<in> {l..u} \<and> u-l =
+    (b-a)/2^iter \<and> iter + nat \<lceil>log 2 ((u-l)/tol)\<rceil> = nat \<lceil>log 2
+    ((b-a)/tol)\<rceil>
+VARIANT:   nat \<lceil>log 2 ((b-a)/tol)\<rceil> - iter
+\end{lstlisting}
+% VC_OPEN, 7/14 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 2, paso 3:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: continuous_on {a..b} f \<and> a \<le> l \<and> l \<le> u \<and> u \<le> b \<and>
+    fl = f l \<and> fu = f u \<and> fl * fu \<le> 0 \<and> (\<exists>c::real. f c = 0 \<and>
+    c \<in> {a<..<b} \<and> c \<in> {l..u}) \<and> xmid \<in> {l..u} \<and> u-l =
+    (b-a)/2^iter \<and> iter + nat \<lceil>log 2 ((u-l)/tol)\<rceil> = nat \<lceil>log 2
+    ((b-a)/tol)\<rceil> \<and> iter \<le> nat \<lceil>log 2 ((b-a)/tol)\<rceil> \<and> (tol
+    < u-l \<longrightarrow> iter < nat \<lceil>log 2 ((b-a)/tol)\<rceil>)
+VARIANT:   nat \<lceil>log 2 ((b-a)/tol)\<rceil> - iter
+\end{lstlisting}
+% VC_OPEN, 8/16 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 2, paso 4:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: continuous_on {a..b} f \<and> a \<le> l \<and> l \<le> u \<and> u \<le> b \<and>
+    fl = f l \<and> fu = f u \<and> fl * fu \<le> 0 \<and> (\<exists>c::real. f c = 0 \<and>
+    c \<in> {a<..<b} \<and> c \<in> {l..u}) \<and> xmid \<in> {l..u} \<and> u-l =
+    (b-a)/2^iter \<and> tol/2 < u-l \<and> int iter + \<lceil>log 2 ((u-l)/tol)\<rceil> =
+    \<lceil>log 2 ((b-a)/tol)\<rceil>
+VARIANT:   nat \<lceil>log 2 ((u-l)/tol)\<rceil>
+\end{lstlisting}
+% VC_OPEN, 9/16 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 3, paso 1:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l \<le> u \<and> u \<le> b \<and> fl = f l \<and> fu = f u
+    \<and> fl * fu \<le> 0 \<and> (xmid = l \<or> xmid = u) \<and> u-l = (b-a) / 2^iter
+    \<and> int iter \<le> \<lceil>log 2 ((b-a)/tol)\<rceil>
+VARIANT:   nat (\<lceil>log 2 ((b-a)/tol)\<rceil> - int iter)
+\end{lstlisting}
+% VC_OPEN, 7/17 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 3, paso 2:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l \<le> u \<and> u \<le> b \<and> fl = f l \<and> fu = f u
+    \<and> fl * fu \<le> 0 \<and> (xmid = l \<or> xmid = u) \<and> u-l = (b-a) / 2^iter
+    \<and> int iter \<le> \<lceil>log 2 ((b-a)/tol)\<rceil> \<and> (tol < u-l
+    \<longrightarrow> int iter < \<lceil>log 2 ((b-a)/tol)\<rceil>)
+VARIANT:   nat (\<lceil>log 2 ((b-a)/tol)\<rceil> - int iter)
+\end{lstlisting}
+% VC_OPEN, 8/16 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 3, paso 3:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l \<le> u \<and> u \<le> b \<and> fl = f l \<and> fu = f u
+    \<and> fl * fu \<le> 0 \<and> (xmid = l \<or> xmid = u) \<and> u-l = (b-a) / 2^iter
+    \<and> tol/2 < u-l \<and> int iter + \<lceil>log 2 ((u-l)/tol)\<rceil> = \<lceil>log 2
+    ((b-a)/tol)\<rceil>
+VARIANT:   nat (\<lceil>log 2 ((u-l)/tol)\<rceil>)
+\end{lstlisting}
+% VC_OPEN, 9/19 VCs
+\par\medskip\noindent\textbf{\texttt{gpt-6-luna} (high), episodio 3, paso 4:} \textsc{VC\_Open}\par\nopagebreak
+\begin{lstlisting}
+INVARIANT: a \<le> l \<and> l \<le> u \<and> u \<le> b \<and> fl = f l \<and> fu = f u
+    \<and> fl * fu \<le> 0 \<and> (xmid = l \<or> xmid = u) \<and> u-l = (b-a) / 2^iter
+    \<and> tol/2 < u-l \<and> int iter + \<lceil>log 2 ((u-l)/tol)\<rceil> = \<lceil>log 2
+    ((b-a)/tol)\<rceil>
+VARIANT:   nat (\<lceil>log 2 ((u-l)/tol)\<rceil>)
+\end{lstlisting}
+% VC_OPEN, 9/19 VCs

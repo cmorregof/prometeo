@@ -1,0 +1,288 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\newtheorem{definition}{Definición}
+\newtheorem{remark}{Observación}
+
+\title{Aprendizaje por refuerzo con verificación certificada\\como única recompensa:\\variantes del PEP bajo $V_P$\\[0.4em]\large Informe de corrida del proyecto \texttt{rl\_metodos}}
+\author{Carlos Manuel Orrego Franco\\Universidad Nacional de Colombia, Sede Manizales}
+\date{Septiembre de 2026 --- informe de las corridas \texttt{20260924-\allowbreak{}060113-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high} a \texttt{20260924-\allowbreak{}075941-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}}
+
+\begin{document}
+\maketitle
+
+\section{Propósito}
+
+Esta nota fija el lenguaje común de los subproyectos de \texttt{rl\_metodos}. Todos comparten una misma estructura: un \emph{proponente} produce un objeto de prueba y un \emph{juez} independiente decide si lo acepta. La recompensa proviene únicamente del juez; el proponente nunca se evalúa a sí mismo. Lo que varía entre subproyectos es el juez, y con él el residuo de confianza que la aceptación deja sin certificar. Esa variación es deliberada: es el experimento.
+
+{\sloppy Este informe agrupa 5 corridas del proponente \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) bajo $V_P$, una por objetivo: (1) \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4}, \texttt{20260924-\allowbreak{}060113-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos; (2) \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6}, \texttt{20260924-\allowbreak{}061836-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos; (3) \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg}, \texttt{20260924-\allowbreak{}072359-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos; (4) \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4}, \texttt{20260924-\allowbreak{}074351-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos; (5) \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5}, \texttt{20260924-\allowbreak{}075941-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos. Presupuesto $B = 4$ intentos por episodio. Memoria entre episodios: sí (\texttt{run}). Pregunta que responde: ¿mejora \texttt{gpt-\allowbreak{}6-\allowbreak{}luna}, con certificado racional exacto, la mejor referencia conocida $\tau_{\mathrm{ref}}$ en cada instancia?\par}
+
+Este informe sigue la estructura de la nota técnica: el MDP común (§2), la interfaz de verificador y sus tres instancias (§3), las funciones de recompensa (§4), las métricas (§5), la jerarquía de confianza entre jueces (§6) y los entornos (§7, Tabla~\ref{tab:envs}); cierra con los experimentos realizados y previstos (§8), y reporta en §5 los valores medidos.
+
+\section{El MDP común}
+
+\begin{definition}[Entorno de demostración verificada]
+Un entorno es una tupla $\mathcal{E} = (T, \mathcal{A}, V, B)$ donde $T$ es un \emph{objetivo} inmutable (un enunciado y su contexto), $\mathcal{A}$ es un espacio de \emph{propuestas}, $V$ es un \emph{verificador} y $B \in \mathbb{N}$ es un presupuesto de pasos. El MDP asociado es $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$ con:
+\begin{itemize}
+  \item \textbf{Estado} $s_t = (T, \mathcal{C}_t, h_t, M_t)$: el objetivo, el \emph{contexto observable} $\mathcal{C}_t$ que el juez devuelve tras el último intento (lemas disponibles, obligaciones abiertas con su texto literal, o el valor certificado vigente), y el historial $h_t$ de resultados anteriores.
+  \item \textbf{Memoria} $M_t$: resumen del mejor intento de cada episodio anterior (su $\tau$ frente a $\tau_{\mathrm{ref}}$ y sus pasos). Persiste entre episodios de la corrida. El modelo está congelado: la memoria es contexto, no entrenamiento.
+  \item \textbf{Acción} $a_t \in \mathcal{A}$: una propuesta completa (una cadena de lemas, una anotación de invariantes y variantes, o un programa de tamaños de paso). El proponente es un modelo de lenguaje; la acción es su salida tras una extracción determinista.
+  \item \textbf{Transición} $P(s_{t+1} \mid s_t, a_t)$: determinista dado el juez; $s_{t+1}$ incorpora el resultado $V(T, a_t)$ y actualiza $\mathcal{C}_{t+1}$ y $h_{t+1}$. La estocasticidad del sistema vive en el proponente, no en la transición.
+  \item \textbf{Recompensa} $R(s_t, a_t) = r(V(T, a_t))$, función únicamente del resultado del juez (§4).
+  \item \textbf{Terminación}: el episodio termina en el primer $t$ con resultado \textsc{Accepted}, o cuando $t = B$.
+\end{itemize}
+\end{definition}
+
+\begin{remark}[El objetivo es inmutable]
+$T$ no forma parte del espacio de acciones. Cualquier propuesta que modifique el enunciado, sus hipótesis o su tipo se rechaza con etiqueta \textsc{Statement\_Drift} (§4.3). Esta restricción se impone en código mediante un hash del enunciado congelado, no por convención. Es la \emph{frontera semántica} del proyecto: el lugar donde la confianza no puede delegarse al juez.
+\sloppy En este informe, los hashes de los objetivos son: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4}: \texttt{b74aa15da8fa7bcc}; \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6}: \texttt{83112c00da746f87}; \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg}: \texttt{cdda3a2a12ac66fa}; \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4}: \texttt{ad5fae0d992a90b3}; \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5}: \texttt{8f8620b97bd07298}. En $V_P$ no existe la etiqueta \textsc{Statement\_Drift}: la instancia $(n, \mu, \text{criterio})$ la fija el entorno y la propuesta sólo produce la sucesión de pasos; el hash es el de la etiqueta de la instancia.
+\end{remark}
+
+\section{La interfaz de verificador y sus tres instancias}
+
+\begin{definition}[Verificador]
+Un verificador es una función $V : \mathcal{T} \times \mathcal{A} \to \mathcal{O}$ que devuelve un \emph{resultado}
+\[
+  o = (\texttt{accepted},\ \texttt{label},\ \texttt{partial},\ \texttt{cost\_s},\ \texttt{raw}),
+\]
+con $\texttt{accepted}\in\{0,1\}$, $\texttt{label}\in L$ y $\texttt{partial}\in[0,1]$,
+donde $L$ es un conjunto finito de etiquetas de resultado propio de cada juez, \texttt{partial} es una medida de progreso que sólo se usa bajo recompensa moldeada, y \texttt{raw} es la salida íntegra del juez para auditoría.
+\end{definition}
+
+\subsection{Juez de grafo de lemas ($V_G$)}
+
+Proviene de los subproyectos 01--05. Un objetivo $T$ es un grafo dirigido acíclico $G = (\Lambda, D)$ de pasos $\lambda \in \Lambda$, cada uno con dependencias $D(\lambda) \subseteq \Lambda$, un subconjunto $\Delta \subset \Lambda$ de \emph{distractores} (pasos falsos o inaplicables, tomados de errores reales de estudiantes) y un paso distinguido \textsc{Qed}. Una propuesta es una secuencia $a = (\lambda_1, \dots, \lambda_k)$ de identificadores anónimos (\texttt{L01}, \texttt{L02}, \dots, barajados con semilla fija); no se muestran los títulos de los pasos ni las refutaciones del profesor, que delatan al distractor. El juez acepta si existe $j \le k$ con $\lambda_j = \textsc{Qed}$ tal que, para todo $i \le j$,
+\[
+  \lambda_i \notin \Delta,\quad \lambda_i \notin \{\lambda_1,\dots,\lambda_{i-1}\},\quad D(\lambda_i) \subseteq \{\lambda_1,\dots,\lambda_{i-1}\};
+\]
+lo que venga después de \textsc{Qed} se ignora. Etiquetas, asignadas en el primer paso que falla: \textsc{Accepted} (la cadena llega a \textsc{Qed}), \textsc{Invalid\_Step} (dependencia no establecida o paso repetido), \textsc{Distractor} (el paso es un distractor), \textsc{Unknown\_Lemma} (identificador ajeno al grafo) y \textsc{Incomplete} (todos los pasos son válidos pero la cadena no llega a \textsc{Qed}; es un resultado por intento, no por presupuesto). Progreso parcial: fracción del cierre de dependencias de \textsc{Qed} establecida antes del primer fallo.
+
+\subsection{Juez PEP ($V_P$)}
+
+Proviene del subproyecto 06, que se usa sin modificaciones. El objetivo es una instancia: la clase de funciones $L$-suaves ($\mu$-fuertemente) convexas con $L = 1$, un horizonte $n$, un criterio ($f(x_n) - f^*$ o $\|\nabla f(x_n)\|^2$, con $\|x_0 - x^*\| \le 1$) y si se admiten pasos negativos; una propuesta es un programa \texttt{schedule(n)} que genera pasos $(h_0,\dots,h_{n-1})$. El programa se ejecuta en un intérprete aparte (en macOS, bajo un \emph{sandbox} sin red ni escritura en disco) y el juez puntúa, en un proceso que el programa no tocó, la sucesión literal que devuelve; las referencias se leen una sola vez al empezar. El juez resuelve el problema de estimación de desempeño (PEP) como un programa semidefinido y obtiene el peor caso $\tau(h)$; el certificado dual es la demostración de la cota \citep{DroriTeboulle2014,TaylorHendrickxGlineur2017}. En el modo por defecto, \texttt{improve}, toda mejora afirmada se recalcula con tolerancias finas y se certifica en aritmética racional exacta; se acepta sólo si la cota certificada es estrictamente menor que $\tau_{\mathrm{ref}}$. La referencia $\tau_{\mathrm{ref}}$ es el mínimo entre la tabla publicada de óptimos numéricos, que sólo cubre $f(x_n) - f^*$ con $\mu = 0$ \citep{DasGuptaVanParysRyu2024,GrimmerShuWang2024}, y la búsqueda propia de 06 por entropía cruzada; en las variantes abiertas (norma del gradiente, fuertemente convexo, pasos negativos) sólo hay búsqueda propia. Etiquetas: \textsc{Certified} (mejora estricta de $\tau_{\mathrm{ref}}$ con certificado racional exacto; es la aceptación), \textsc{Matched} (sólo en modo \texttt{match}: iguala $\tau_{\mathrm{ref}}$ con tolerancia relativa $10^{-4}$, sin certificado exacto), \textsc{Invalid\_Schedule} (el programa falla, se agota su tiempo o no devuelve $n$ números finitos válidos), \textsc{Not\_Improved} (programa válido que no mejora $\tau_{\mathrm{ref}}$) y \textsc{Certification\_Failed} (mejora numérica cuyo certificado exacto falla).
+
+\textbf{En esta corrida.} Instancias: \texttt{pep:\allowbreak{}gradnorm|\allowbreak{}mu=\allowbreak{}0|\allowbreak{}n=\allowbreak{}4} (modo \texttt{improve}, $\tau_{\mathrm{ref}} = 0{,}0169860$, fuente: búsqueda propia de 06 (entropía cruzada); \emph{sandbox}: sí); \texttt{pep:\allowbreak{}gradnorm|\allowbreak{}mu=\allowbreak{}0|\allowbreak{}n=\allowbreak{}6} (modo \texttt{improve}, $\tau_{\mathrm{ref}} = 0{,}0072223$, fuente: búsqueda propia de 06 (entropía cruzada); \emph{sandbox}: sí); \texttt{pep:\allowbreak{}gradnorm|\allowbreak{}mu=\allowbreak{}0|\allowbreak{}n=\allowbreak{}4|\allowbreak{}neg} (modo \texttt{improve}, $\tau_{\mathrm{ref}} = 0{,}0169860$, fuente: búsqueda propia de 06 (entropía cruzada); \emph{sandbox}: sí); \texttt{pep:\allowbreak{}fval|\allowbreak{}mu=\allowbreak{}0.01|\allowbreak{}n=\allowbreak{}4} (modo \texttt{improve}, $\tau_{\mathrm{ref}} = 0{,}0295431$, fuente: búsqueda propia de 06 (entropía cruzada); \emph{sandbox}: sí); \texttt{pep:\allowbreak{}fval|\allowbreak{}mu=\allowbreak{}0.1|\allowbreak{}n=\allowbreak{}5} (modo \texttt{improve}, $\tau_{\mathrm{ref}} = 0{,}0076055$, fuente: búsqueda propia de 06 (entropía cruzada); \emph{sandbox}: sí).
+
+\subsection{Juez Isabelle ($V_I$)}
+
+Proviene del subproyecto 08 y del marco Isabelle/ITrees \citep{BryantHuertaFoster2026}. Un objetivo es un programa imperativo junto con un triple de Hoare de corrección total $H[P]\,C\,[Q]$, ambos congelados; una propuesta es una anotación $a = (\mathit{inv}, \mathit{var})$ de invariante y variante de bucle y, en fase 2, además lemas auxiliares con su demostración, escritos por el agente y verificados en el kernel antes de usarse. El juez procede por etapas: (0) la anotación pasa una lista blanca de símbolos y el kernel demuestra que el programa anotado es igual al congelado con anotaciones fijas; (0b) si hay lemas, pasan un filtro léxico (sólo enunciados con su demostración: nada de \texttt{sorry}, definiciones, notación ni ML) y se compilan en el contexto de las hipótesis, comprobando que el enunciado congelado se lee igual y que no aparecen axiomas nuevos; (1) inserta la anotación y ejecuta el generador de condiciones de verificación \texttt{vcg}; (2) intenta cerrar cada obligación con automatización de una línea (\texttt{try0} y, si falla, Sledgehammer con tiempo límite fijo), y sólo cuenta una sugerencia de Sledgehammer si su reconstrucción (\emph{preplay}) terminó; (3) si todas cierran, ensambla el teorema completo, lo compila y lo traslada al programa congelado; (4) comprueba que no dependa de oráculos, de \texttt{skip\_proof} ni de axiomas nuevos. Etiquetas: \textsc{Accepted} (todas las etapas pasan: el teorema está en el kernel), \textsc{VC\_Open} (alguna obligación sin prueba de una línea), \textsc{VCG\_Failed} (la anotación no se analiza o no tipa, o \texttt{vcg} falla), \textsc{Lemma\_Failed} (el kernel rechaza la demostración de algún lema del agente), \textsc{Assembly\_Failed} (las obligaciones se cierran por separado pero el teorema ensamblado no compila), \textsc{Unsound} (\texttt{sorry}, \texttt{oops}, oráculos, \texttt{skip\_proof} o axiomas nuevos), \textsc{Statement\_Drift} (la propuesta sale de su hueco o el kernel no prueba que el programa anotado sea el congelado), \textsc{Timeout} (se agota el tiempo de compilación) y \textsc{Invalid\_Proposal} (falta el invariante o el variante, o hay símbolos o comandos no admitidos). Progreso parcial: fracción de obligaciones cerradas en \textsc{VC\_Open} y \textsc{Assembly\_Failed}, y $0$ en las demás.
+
+\begin{remark}[Existencia frente a descubrimiento]
+Con la anotación del propio artículo (su invariante y su variante), $V_I$ genera 15 obligaciones y la automatización de una línea cierra 9 en esta máquina, con Sledgehammer limitado a 60\,s por obligación: \textsc{VC\_Open}, 424\,s de juez (\texttt{runs/\_baseline/bisection.json}). Quedan abiertas 4 de variante, 2 de postcondición (clasificación heurística por la conclusión y las premisas de cada obligación). Adelgazar las premisas no basta: sobre una obligación del variante, con todas sus premisas o con una sola, y con o sin los hechos previos de la demostración del artículo, Sledgehammer encuentra prueba en 0 de 4 ensayos de 60\,s (\texttt{sh\_goals.json}). Con la misma anotación y, como lemas del agente, las demostraciones manuales de los autores (los hechos previos, la línea \texttt{smt} del variante y \texttt{bisect\_root\_extract}), el juez da \textsc{Accepted}: 15 de 15 obligaciones cerradas, 5 lemas verificados en el kernel, de los que las pruebas de una línea usan \texttt{a\_\allowbreak{}less\_\allowbreak{}than\_\allowbreak{}b}, \texttt{bisect\_\allowbreak{}root\_\allowbreak{}extract}, \texttt{var\_\allowbreak{}dec}; 214\,s de juez (\texttt{upper\_bound.json}). Existe, pues, una demostración que $V_I$ acepta; lo que la automatización no descubre es justamente la parte que los autores escribieron a mano. Por eso $V_I$ distingue tres líneas base: automatización sobre todas las premisas de \texttt{vcg}, automatización con un filtro de relevancia estándar, y selección de premisas como acción explícita del agente. Nunca se mezclan. Hoy están implementadas la primera y la acción de lemas auxiliares del agente; el filtro de relevancia y la selección de premisas son trabajo futuro.
+\end{remark}
+
+\section{Funciones de recompensa}
+
+\subsection{Recompensa base (todos los jueces)}
+\[
+  r(o) = \begin{cases} 1 & \text{si } o.\texttt{accepted} = 1,\\ 0 & \text{en otro caso.}\end{cases}
+\]
+Es la única recompensa activa por defecto. Es binaria a propósito: cualquier señal intermedia introduce un juicio sobre qué es ``progreso'', y ese juicio debe declararse, no esconderse.
+
+\subsection{Recompensa moldeada (opcional, tras bandera)}
+\[
+  r_\beta(o) = r(o) + \beta \cdot o.\texttt{partial} \cdot \mathbb{1}[o.\texttt{accepted}=0],\qquad \beta \in [0, 0.5].
+\]
+Para $V_P$ se conserva la recompensa original del subproyecto 06, que es continua por naturaleza: $r_P(o) = \max\{-2,\ \log(\tau_{\mathrm{ref}}/\tau(h))\}$ si el programa es válido y $-3$ en otro caso, donde $\tau_{\mathrm{ref}}$ es la mejor cota certificada conocida. Se reporta también su binarización $\mathbb{1}[\tau(h) < \tau_{\mathrm{ref}}]$ para hacerla comparable con los otros jueces.
+
+\subsection{Penalización por deriva del enunciado}
+\textsc{Statement\_Drift} recibe recompensa $0$, no negativa, en la configuración base. La razón es metodológica: queremos \emph{contar} cuántas veces el proponente intenta cambiar la pregunta, y una penalización alteraría la frecuencia que se pretende medir. Una variante con penalización $-\delta$ queda disponible tras bandera para experimentos de control.
+
+\medskip\noindent\textbf{En esta corrida:} recompensa base binaria $r(o)$; la moldeada está desactivada ($\beta = 0$); penalización de deriva $\delta = 0$ (\textsc{Statement\_Drift} recibe $0$). La recompensa continua $r_P$ de 06 se registra en cada intento (\texttt{raw.reward06}) y sus valores se reportan en §5; no entra en la recompensa del MDP. En el modo \texttt{improve} la aceptación es la binarización de $r_P$ con certificado exacto: mejora estricta de $\tau_{\mathrm{ref}}$ certificada.
+
+\section{Métricas}
+
+
+
+Para cada entorno, juez y proponente se registran:
+
+\begin{enumerate}
+
+  \item \textbf{Intentos hasta aceptación}: mediana y distribución de $t^*$ sobre episodios, con $t^* = B$ si no hay aceptación.
+
+  \emph{En esta corrida:} (1) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. (2) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. (3) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. (4) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. (5) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. En conjunto, $t^*$ mediana $4$ sobre 15 episodios completos.
+
+  \item \textbf{Distribución de etiquetas}: conteo de cada $\ell \in L$ sobre todos los intentos.
+
+  \emph{En esta corrida:} Tabla~\ref{tab:etiquetas}: 60 intentos en total.
+
+  \item \textbf{Razón de deriva}: para $V_I$, el cociente entre el número de resultados \textsc{Statement\_Drift} y el de \textsc{VC\_Open}; para $V_G$, el cociente entre \textsc{Distractor} e \textsc{Invalid\_Step}. Mide cuán a menudo el proponente ``resuelve'' cambiando la pregunta o cayendo en un error de estudiante.
+
+  \emph{En esta corrida:} $V_P$ no tiene etiqueta de deriva (la instancia la fija el entorno); se reporta el conteo de \textsc{Invalid\_Schedule}: 1 de 60 intentos.
+
+  \item \textbf{Transferencia}: reducción de $t^*$ en el objetivo $T_2$ cuando el proponente ha sido entrenado (o condicionado con ejemplos aceptados) sobre $T_1$, frente a partir de cero.
+
+  \emph{En esta corrida:} No aplica: la memoria de esta corrida recuerda entre episodios del \emph{mismo} objetivo; no es transferencia entre objetivos, y no se midió ninguna.
+
+  \item \textbf{Comparación entre jueces}: para un mismo método y un mismo proponente, $t^*$ y etiquetas bajo $V_G$ frente a $V_I$. Es la medida directa de cuánto de la ``facilidad'' de un juez proviene del trabajo humano incorporado en él.
+
+  \emph{En esta corrida:} Tabla~\ref{tab:comparacion}. Los enunciados de $V_G$ y $V_I$ no coinciden, así que la comparación es indirecta.
+
+  \item \textbf{Costo}: segundos de juez por intento; determina el cuello de botella real.
+
+  \emph{En esta corrida:} Segundos de juez por intento: media 0{,}5, mediana 0{,}5, máximo 0{,}7; segundos de modelo: media 111{,}6, mediana 85{,}6, máximo 1398{,}8. Suma: 31\,s de juez y 6693\,s de modelo. Duración desde el inicio hasta el último intento registrado: (1) 17\,min~22\,s; (2) 1\,h~5\,min; (3) 19\,min~52\,s; (4) 15\,min~50\,s; (5) 16\,min~31\,s.
+
+\end{enumerate}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+etiqueta & (1) & (2) & (3) & (4) & (5) & total \\
+\midrule
+\textsc{Invalid\_Schedule} & 0 & 0 & 1 & 0 & 0 & 1 \\
+\textsc{Not\_Improved} & 12 & 12 & 11 & 12 & 12 & 59 \\
+intentos & 12 & 12 & 12 & 12 & 12 & 60 \\
+\bottomrule
+\end{tabular}
+\caption{Etiquetas del juez sobre todos los intentos; las columnas siguen la numeración de las corridas en §1.}
+\label{tab:etiquetas}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llllrrrrrr@{}}
+\toprule
+entorno & juez & proponente & ep. & acept. & $B$ & $t^*$ med. & intentos & s juez & s LLM \\
+\midrule
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & $V_I$ (teorema) & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 2 & 0 & 4 & 4 & 10 & 4{,}9 & 218{,}2 \\
+\texttt{gd\_\allowbreak{}n1} & $V_I$ (teorema) & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 11{,}6 & 252{,}1 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 4 & 1{,}1 & 134{,}2 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4}$^\ast$ & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 78{,}6 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 273{,}2 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5}$^\ast$ & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 82{,}1 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 55{,}0 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4}$^\ast$ & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 86{,}3 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 83{,}0 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg}$^\ast$ & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 98{,}7 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 69{,}5 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6}$^\ast$ & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}6 & 212{,}1 \\
+\bottomrule
+\end{tabular}
+\caption{Corridas del mismo método (pasos de GD) en \texttt{runs/} (se ignoran las carpetas que empiezan por ``\_''), agrupadas por entorno, juez y proponente como en \texttt{python -m unirl summary}. ``ep.'' cuenta episodios completos; los segundos son medias por intento evaluado; ``intentos'' no cuenta los \textsc{Provider\_Error} (sin respuesta del modelo). $^\ast$: entornos y proponente de este informe.}
+\label{tab:comparacion}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrlcrrrcrr@{}}
+\toprule
+& $n$ & $\mu$ & criterio & neg. & $\tau_{\mathrm{ref}}$ (fuente) & mejor $\tau$ & mejor $r_P$ & \textsc{Certified} & acept. & $t^*$ med. \\
+\midrule
+(1) & 4 & 0 & $\|\nabla f(x_n)\|^2$ & no & 0{,}0169860 (ce) & 0{,}0204082 & -0{,}1835 & no & 0/3 & 4 \\
+(2) & 6 & 0 & $\|\nabla f(x_n)\|^2$ & no & 0{,}0072223 (ce) & 0{,}0124995 & -0{,}5485 & no & 0/3 & 4 \\
+(3) & 4 & 0 & $\|\nabla f(x_n)\|^2$ & sí & 0{,}0169860 (ce) & 0{,}0182615 & -0{,}0724 & no & 0/3 & 4 \\
+(4) & 4 & 0{,}01 & $f(x_n) - f^*$ & no & 0{,}0295431 (ce) & 0{,}0318308 & -0{,}0746 & no & 0/3 & 4 \\
+(5) & 5 & 0{,}1 & $f(x_n) - f^*$ & no & 0{,}0076055 (ce) & 0{,}0087266 & -0{,}1375 & no & 0/3 & 4 \\
+\bottomrule
+\end{tabular}
+\caption{Por instancia: $\tau_{\mathrm{ref}}$ y su fuente (\texttt{ce}: búsqueda propia de 06 por entropía cruzada; \texttt{tabla}: óptimos publicados), el mejor peor caso $\tau$ entre los programas válidos (el certificado si lo hay), el mayor $r_P$ registrado (\texttt{raw.reward06}), si hubo \textsc{Certified}, episodios aceptados sobre completos y $t^*$ mediano (censurado en $B$).}
+\label{tab:instancias}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ll@{}}
+\toprule
+& mejores pasos $h$ (en unidades de $1/L$) \\
+\midrule
+(1) & 1{,}3000, 1{,}4000, 1{,}6000, 1{,}7000 \\
+(2) & 1{,}9000, 1{,}7500, 1{,}6000, 1{,}4500, 1{,}2500, 1{,}0000 \\
+(3) & 1{,}5500, 1{,}6500, 1{,}6500, 1{,}5500 \\
+(4) & 1{,}3500, 2{,}0500, 1{,}3500, 2{,}0500 \\
+(5) & 1{,}3500, 1{,}9500, 1{,}9900, 1{,}9500, 1{,}3500 \\
+\bottomrule
+\end{tabular}
+\caption{Pasos del programa con el mejor $\tau$ de cada instancia, redondeados a cuatro decimales.}
+\label{tab:pasos}
+\end{table}
+
+\section{Jerarquía de confianza entre jueces}
+
+Los tres jueces aceptan objetos distintos y dejan residuos de confianza distintos. Ordenados de menor a mayor independencia respecto del humano:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+juez & qué certifica & en qué reposa la confianza \\
+\midrule
+$V_G$ & validez de una cadena en un grafo dado & el grafo, escrito por el profesor \\
+$V_P$ & una cota numérica de peor caso & el SDP, la certificación racional exacta \\
+$V_I$ & un teorema en el kernel de Isabelle/HOL & el kernel; la adecuación del triple congelado \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ningún juez elimina la confianza; cada uno la desplaza. $V_G$ la desplaza al autor del grafo. $V_P$ la desplaza a la formulación del PEP y a la implementación del certificador. $V_I$ la desplaza a dos lugares que el kernel no puede inspeccionar: la correspondencia entre el triple de Hoare y el enunciado informal que se pretendía probar, y la matemática auxiliar importada. La Observación 2 muestra que incluso lo que el artículo de referencia reporta como ``automático'' contiene decisiones humanas en esa frontera. El objetivo del proyecto es medir ese residuo, no negarlo.
+
+\textbf{Residuo en esta corrida:} la formulación del PEP de 06 y la implementación de su certificador exacto. En 5 de 5 instancias $\tau_{\mathrm{ref}}$ viene de nuestra búsqueda (entropía cruzada), no de la literatura: \textsc{Certified} significa mejorar nuestra referencia con certificado exacto, no mejorar lo publicado. El \emph{sandbox} protege el estado del juez, no aísla por completo la máquina: el programa aún puede leer archivos.
+
+\section{Entornos}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\begin{tabular}{@{}llp{5.0cm}lrrr@{}}
+\toprule
+sub. & método & objetivo de fase 2 & juez & lemas & distr. & cad.\ mín. \\
+\midrule
+01 & bisección & $m_n \to c$, $f(c)=0$, error $\le (b-a)/2^{n+1}$ & $V_G$, $V_I$ & 21 & 7 & 14 \\
+02 & punto fijo & Banach en $[a,b]$: unicidad, convergencia, cotas & $V_G$ & 20 & 7 & 13 \\
+03 & Taylor & resto de Lagrange; convergencia con derivadas acotadas & $V_G$ & 20 & 7 & 13 \\
+04 & Newton & convergencia local cuadrática & $V_G$ & 18 & 7 & 11 \\
+05 & secante & convergencia local de orden $\varphi$ & $V_G$ & 21 & 8 & 13 \\
+06$^\ast$ & pasos de GD & cota de peor caso $f(x_n)-f^*$ o $\|\nabla f(x_n)\|^2$ (PEP) & $V_P$ & --- & --- & --- \\
+08 & bisección & triple de Hoare de corrección total del programa \texttt{bisection} & $V_I$ (programa) & --- & --- & --- \\
+09 & pasos de GD & 4 teoremas de cota: \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, \texttt{gd\_\allowbreak{}n1} & $V_I$ (teorema) & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\caption{Entornos de \texttt{unirl}. En 01--05 los números se recalculan de los grafos (\texttt{proof\_kb}): ``lemas'' cuenta todos los pasos, incluidos distractores y \textsc{Qed}; ``cad.\ mín.'' es el cierre de dependencias de \textsc{Qed}. Objetivos de $V_I$ disponibles: \texttt{bisection} (variante de programa) y 4 cotas de GD (variante de teorema). El punto fijo aún no tiene objetivo formal; Taylor, Newton y secante sólo disponen de juez de grafo. Proponentes: \texttt{gpt-6-luna} y \texttt{gpt-6-astra}, ambos con esfuerzo \texttt{high}, para todos los jueces (corridas en \texttt{runs/}: \texttt{gpt-\allowbreak{}6-\allowbreak{}luna}: 15, \texttt{gpt-\allowbreak{}6-\allowbreak{}astra}: 7). $^\ast$: filas de este informe.}
+\label{tab:envs}
+\end{table}
+
+\section{Experimentos realizados y previstos}
+
+{\raggedright
+\begin{enumerate}
+  \item \emph{Este informe}: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}060113-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0204082$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item \emph{Este informe}: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}061836-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0124995$ frente a $\tau_{\mathrm{ref}} = 0{,}0072223$.
+  \item \emph{Este informe}: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}072359-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 11, \textsc{Invalid\_Schedule} 1; mejor $\tau = 0{,}0182615$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item \emph{Este informe}: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}074351-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0318308$ frente a $\tau_{\mathrm{ref}} = 0{,}0295431$.
+  \item \emph{Este informe}: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}075941-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0087266$ frente a $\tau_{\mathrm{ref}} = 0{,}0076055$.
+  \item Relacionada: \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} bajo $V_I$ (teorema) con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}073842-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; \textbf{en curso}: 2 episodios completos de 3 previstos al generar este informe). 0 aceptados de 2 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Proof\_Failed} 10.
+  \item Relacionada: \texttt{gd\_\allowbreak{}n1} bajo $V_I$ (teorema) con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}062122-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Proof\_Failed} 8, \textsc{Invalid\_Proposal} 4.
+  \item Relacionada: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}061156-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3, \textsc{Invalid\_Schedule} 1; mejor $\tau = 0{,}0293248$ frente a $\tau_{\mathrm{ref}} = 0{,}0295431$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}062058-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0075285$ frente a $\tau_{\mathrm{ref}} = 0{,}0076055$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}060127-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0169094$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}060745-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0169094$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}060414-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0071538$ frente a $\tau_{\mathrm{ref}} = 0{,}0072223$.
+  \item Prevista: transferencia entre objetivos (métrica 4), no implementada.
+\end{enumerate}
+\par}
+
+\begin{remark}[Interpretación]
+Esta interpretación la redactó Claude a partir de los registros de las corridas; no es del autor.
+
+Luna no obtuvo \textsc{Certified} en ninguno de los 15 episodios: casi todos sus programas fueron válidos, pero ninguno bajó de $\tau_{\mathrm{ref}}$. Su mejor peor caso quedó entre un 7{,}5\,\% y un 73\,\% por encima de la referencia según la variante (el peor, norma del gradiente con $n = 6$). Sus mejores programas son sucesiones sin paso largo (el mayor de sus mejores pasos es 2{,}05). Luna sí probó pasos largos, en 10 de sus 59 programas válidos, pero como sucesiones que crecen casi geométricamente hasta pasos de 8 a 17{,}5, con peores casos cientos o miles de veces por encima de la referencia. Con las mismas instancias y el mismo juez, Astra propuso composiciones con bloques de paso $\sqrt{2}$ y un único paso moderadamente largo, entre 2{,}26 y 2{,}98, y mejoró la referencia en las cinco variantes. En este juez la diferencia entre modelos parece de conocimiento: saber que los mejores programas conocidos intercalan un paso largo, pero no demasiado, entre bloques de pasos cortos.
+
+La memoria no cambió el resultado de Luna: le mostró su mejor programa de cada episodio anterior, que no mejoraba la referencia, y con eso no bastó. En la variante con pasos negativos permitidos, Luna no los usó en su mejor programa; su único intento con un paso fuera de rango devolvió un paso del orden de $10^{32}$ y el juez lo rechazó por inválido.
+\end{remark}
+
+\bibliography{unirl_definicion}
+
+\end{document}

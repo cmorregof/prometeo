@@ -1,0 +1,41 @@
+{
+ "timeout": 60,
+ "results": {
+  "sin_prelude": [
+   {
+    "name": "full",
+    "found": false,
+    "outcome": "timeout",
+    "message": "Timed out",
+    "messages": "No proof found",
+    "ms": 62440
+   },
+   {
+    "name": "thin",
+    "found": false,
+    "outcome": "timeout",
+    "message": "Timed out",
+    "messages": "No proof found",
+    "ms": 62455
+   }
+  ],
+  "con_prelude_del_paper": [
+   {
+    "name": "full",
+    "found": false,
+    "outcome": "timeout",
+    "message": "Timed out",
+    "messages": "No proof found",
+    "ms": 62458
+   },
+   {
+    "name": "thin",
+    "found": false,
+    "outcome": "timeout",
+    "message": "Timed out",
+    "messages": "No proof found",
+    "ms": 62623
+   }
+  ]
+ }
+}

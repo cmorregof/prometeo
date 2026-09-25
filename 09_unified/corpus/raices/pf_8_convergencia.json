@@ -1,0 +1,41 @@
+{
+ "id": "pf_8_convergencia",
+ "name": "pf_8_convergencia",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 8,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 4,
+ "fuente": "02_punto_fijo (teorema del grafo)",
+ "dependencias": [
+  "pf_7_existencia",
+  "pf_4_decaimiento"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g :: \"real \\<Rightarrow> real\" and a b k x0 :: real",
+ "assumes": "ab: \"a \\<le> b\"\n    and dentro: \"\\<And>x. x \\<in> {a..b} \\<Longrightarrow> g x \\<in> {a..b}\"\n    and contr: \"\\<And>x y. x \\<in> {a..b} \\<Longrightarrow> y \\<in> {a..b} \\<Longrightarrow> \\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>\"\n    and k0: \"0 \\<le> k\" and k1: \"k < 1\" and x0: \"x0 \\<in> {a..b}\"",
+ "concl": "\\<exists>p \\<in> {a..b}. g p = p \\<and> (\\<lambda>n. (g ^^ n) x0) \\<longlonglongrightarrow> p",
+ "statement_es": "La iteración converge al punto fijo.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "63018e59d510d346",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "id": "bis_5_cota",
+ "name": "bis_5_cota",
+ "kind": "theorem",
+ "metodo": "biseccion",
+ "peldano": 5,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 3,
+ "fuente": "01_biseccion (teorema del grafo)",
+ "dependencias": [
+  "bis_1_ancho",
+  "bis_4_raiz"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec biseccion :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"biseccion f a b 0 = (a, b)\"\n| \"biseccion f a b (Suc n) = (case biseccion f a b n of (l, u) \\<Rightarrow>\n     (if f l * f ((l + u) / 2) \\<le> 0 then (l, (l + u) / 2) else ((l + u) / 2, u)))\"\n\ndefinition punto_medio :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real\" where\n  \"punto_medio f a b n = (fst (biseccion f a b n) + snd (biseccion f a b n)) / 2\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"\n    and cont: \"continuous_on {a..b} f\"\n    and signo: \"f a * f b \\<le> 0\"",
+ "concl": "\\<exists>c. a \\<le> c \\<and> c \\<le> b \\<and> f c = 0 \\<and> \\<bar>punto_medio f a b n - c\\<bar> \\<le> (b - a) / 2 ^ Suc n",
+ "statement_es": "Existe una raíz c en [a, b] con |mₙ − c| ≤ (b − a)/2ⁿ⁺¹ (la cota del teorema de 01).",
+ "supuestos_dudosos": "",
+ "referencia_privada": "Verified_Numerical_Methods/Numerical_Methods/Bisection.thy: bisect_root_extract (forma parecida)",
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "la raíz c puede depender de n; en la forma clásica es la misma c (el límite) para todo n",
+ "version_clasica": "bis_5c_cota_uniforme",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "667b74708f44cc0f",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

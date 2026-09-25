@@ -1,0 +1,42 @@
+{
+ "id": "rf_6_convergencia",
+ "name": "rf_6_convergencia",
+ "kind": "theorem",
+ "metodo": "regula_falsi",
+ "peldano": 6,
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 5,
+ "fuente": "estándar (regula falsi)",
+ "dependencias": [
+  "rf_2_signo",
+  "rf_3_encaje",
+  "rf_5_limites"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition punto_rf :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"punto_rf f l u = (l * f u - u * f l) / (f u - f l)\"\n\nprimrec regula_falsi :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"regula_falsi f a b 0 = (a, b)\"\n| \"regula_falsi f a b (Suc n) = (case regula_falsi f a b n of (l, u) \\<Rightarrow>\n     (if f l * f (punto_rf f l u) \\<le> 0 then (l, punto_rf f l u) else (punto_rf f l u, u)))\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and a b :: real",
+ "assumes": "ab: \"a < b\" and fa: \"f a < 0\" and fb: \"0 < f b\" and cont: \"continuous_on {a..b} f\"",
+ "concl": "\\<exists>c. a \\<le> c \\<and> c \\<le> b \\<and> f c = 0 \\<and> ((\\<lambda>n. fst (regula_falsi f a b n)) \\<longlonglongrightarrow> c \\<or> (\\<lambda>n. snd (regula_falsi f a b n)) \\<longlonglongrightarrow> c)",
+ "statement_es": "Al menos un extremo converge a una raíz (el otro puede quedarse fijo).",
+ "supuestos_dudosos": "No se afirma que los dos extremos converjan a la raíz: en general uno se queda quieto.",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "solo afirma que un extremo converge a una raíz; la forma clásica, con raíz única, afirma que los puntos cₙ convergen a ella",
+ "version_clasica": "rf_6c_puntos_convergen",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "47d4ce911880dafd",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

@@ -1,0 +1,284 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\newtheorem{definition}{Definición}
+\newtheorem{remark}{Observación}
+
+\title{Aprendizaje por refuerzo con verificación certificada\\como única recompensa:\\bisección bajo $V_I$ con lemas y memoria\\[0.4em]\large Informe de corrida del proyecto \texttt{rl\_metodos}}
+\author{Carlos Manuel Orrego Franco\\Universidad Nacional de Colombia, Sede Manizales}
+\date{Septiembre de 2026 --- informe de la corrida \texttt{20260923-\allowbreak{}224900-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}}
+
+\begin{document}
+\maketitle
+
+\section{Propósito}
+
+Esta nota fija el lenguaje común de los subproyectos de \texttt{rl\_metodos}. Todos comparten una misma estructura: un \emph{proponente} produce un objeto de prueba y un \emph{juez} independiente decide si lo acepta. La recompensa proviene únicamente del juez; el proponente nunca se evalúa a sí mismo. Lo que varía entre subproyectos es el juez, y con él el residuo de confianza que la aceptación deja sin certificar. Esa variación es deliberada: es el experimento.
+
+{\sloppy Esta corrida (\texttt{20260923-\allowbreak{}224900-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}, en \texttt{runs/} bajo \texttt{bisection\_\allowbreak{}isabelle\_\allowbreak{}lemas\_\allowbreak{}mem}) usa el juez $V_I$ en su variante de programa (anotación de un bucle en Isabelle/ITrees) sobre el objetivo \texttt{isabelle:\allowbreak{}bisection} (hash \texttt{974945f4c4df07ee}), con el proponente \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} y esfuerzo de razonamiento \texttt{high}. Presupuesto $B = 4$ intentos por episodio; estado: terminada; 3 episodios completos; el episodio 3 se repitió en la corrida \texttt{20260924-\allowbreak{}060102-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}, que parte de la memoria del final del episodio 2 (la corrida original lo perdió: 4 intentos \textsc{Provider\_Error}, sin respuesta del modelo, que se apartan). Memoria entre episodios: sí (\texttt{run}; encabezado de la biblioteca en su redacción v1, que atribuye los lemas a Isabelle; la redacción v2 atribuye bien: el agente demuestra, Isabelle verifica. Se conserva v1 para comparar modelos con el mismo mensaje). Lemas auxiliares del agente: sí. Pregunta que responde: ¿basta que \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} escriba lemas auxiliares propios, cuya demostración verifica el kernel antes de usarlos, para cerrar las obligaciones que la automatización de una línea deja abiertas? ¿Y ayuda recordar entre episodios los lemas ya verificados y el mejor intento?\par}
+
+{\sloppy Nota de la carpeta \texttt{20260923-\allowbreak{}224900-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high} (\texttt{LEEME.md}): «\# Astra, bisección con lemas y memoria: el episodio 3 se repitió en otra carpeta Episodios 1 y 2 (8 intentos) son válidos. En el episodio 3 la API de OpenAI primero agotó el tiempo varias veces y después se quedó sin créditos (`429 insufficient\_quota`{}, 24 sep 2026 \textasciitilde{}04:44): sus 4 intentos son PROVIDER\_ERROR, no evaluaciones del juez. Ese episodio se repitió el 24 sep desde las 06:01 en 20260924-060102-gpt-6-astra-high, que parte de la memoria del final del episodio 2 (logs/astra\_ep3\_memoria.json) y corre con el mismo código congelado. Los informes fusionan ambas carpetas (continuacion.json).»\par}
+
+Este informe sigue la estructura de la nota técnica: el MDP común (§2), la interfaz de verificador y sus tres instancias (§3), las funciones de recompensa (§4), las métricas (§5), la jerarquía de confianza entre jueces (§6) y los entornos (§7, Tabla~\ref{tab:envs}); cierra con los experimentos realizados y previstos (§8), y reporta en §5 los valores medidos.
+
+\section{El MDP común}
+
+\begin{definition}[Entorno de demostración verificada]
+Un entorno es una tupla $\mathcal{E} = (T, \mathcal{A}, V, B)$ donde $T$ es un \emph{objetivo} inmutable (un enunciado y su contexto), $\mathcal{A}$ es un espacio de \emph{propuestas}, $V$ es un \emph{verificador} y $B \in \mathbb{N}$ es un presupuesto de pasos. El MDP asociado es $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$ con:
+\begin{itemize}
+  \item \textbf{Estado} $s_t = (T, \mathcal{C}_t, h_t, M_t)$: el objetivo, el \emph{contexto observable} $\mathcal{C}_t$ que el juez devuelve tras el último intento (lemas disponibles, obligaciones abiertas con su texto literal, o el valor certificado vigente), y el historial $h_t$ de resultados anteriores.
+  \item \textbf{Memoria} $M_t$: biblioteca de lemas que el agente demostró y que Isabelle verificó (se añaden solos a cada intento) y resumen del mejor intento de cada episodio anterior. Persiste entre episodios de la corrida. El modelo está congelado: la memoria es contexto, no entrenamiento.
+  \item \textbf{Acción} $a_t \in \mathcal{A}$: una propuesta completa (una cadena de lemas, una anotación de invariantes y variantes, o un programa de tamaños de paso). El proponente es un modelo de lenguaje; la acción es su salida tras una extracción determinista.
+  \item \textbf{Transición} $P(s_{t+1} \mid s_t, a_t)$: determinista dado el juez; $s_{t+1}$ incorpora el resultado $V(T, a_t)$ y actualiza $\mathcal{C}_{t+1}$ y $h_{t+1}$. La estocasticidad del sistema vive en el proponente, no en la transición.
+  \item \textbf{Recompensa} $R(s_t, a_t) = r(V(T, a_t))$, función únicamente del resultado del juez (§4).
+  \item \textbf{Terminación}: el episodio termina en el primer $t$ con resultado \textsc{Accepted}, o cuando $t = B$.
+\end{itemize}
+\end{definition}
+
+\begin{remark}[El objetivo es inmutable]
+$T$ no forma parte del espacio de acciones. Cualquier propuesta que modifique el enunciado, sus hipótesis o su tipo se rechaza con etiqueta \textsc{Statement\_Drift} (§4.3). Esta restricción se impone en código mediante un hash del enunciado congelado, no por convención. Es la \emph{frontera semántica} del proyecto: el lugar donde la confianza no puede delegarse al juez.
+En esta corrida, el hash del objetivo es \texttt{974945f4c4df07ee}. En $V_I$ el hash cubre las importaciones, la matemática auxiliar, la plantilla del programa, las hipótesis y la conclusión; se recalcula desde disco en cada verificación.
+\end{remark}
+
+\section{La interfaz de verificador y sus tres instancias}
+
+\begin{definition}[Verificador]
+Un verificador es una función $V : \mathcal{T} \times \mathcal{A} \to \mathcal{O}$ que devuelve un \emph{resultado}
+\[
+  o = (\texttt{accepted},\ \texttt{label},\ \texttt{partial},\ \texttt{cost\_s},\ \texttt{raw}),
+\]
+con $\texttt{accepted}\in\{0,1\}$, $\texttt{label}\in L$ y $\texttt{partial}\in[0,1]$,
+donde $L$ es un conjunto finito de etiquetas de resultado propio de cada juez, \texttt{partial} es una medida de progreso que sólo se usa bajo recompensa moldeada, y \texttt{raw} es la salida íntegra del juez para auditoría.
+\end{definition}
+
+\subsection{Juez de grafo de lemas ($V_G$)}
+
+Proviene de los subproyectos 01--05. Un objetivo $T$ es un grafo dirigido acíclico $G = (\Lambda, D)$ de pasos $\lambda \in \Lambda$, cada uno con dependencias $D(\lambda) \subseteq \Lambda$, un subconjunto $\Delta \subset \Lambda$ de \emph{distractores} (pasos falsos o inaplicables, tomados de errores reales de estudiantes) y un paso distinguido \textsc{Qed}. Una propuesta es una secuencia $a = (\lambda_1, \dots, \lambda_k)$ de identificadores anónimos (\texttt{L01}, \texttt{L02}, \dots, barajados con semilla fija); no se muestran los títulos de los pasos ni las refutaciones del profesor, que delatan al distractor. El juez acepta si existe $j \le k$ con $\lambda_j = \textsc{Qed}$ tal que, para todo $i \le j$,
+\[
+  \lambda_i \notin \Delta,\quad \lambda_i \notin \{\lambda_1,\dots,\lambda_{i-1}\},\quad D(\lambda_i) \subseteq \{\lambda_1,\dots,\lambda_{i-1}\};
+\]
+lo que venga después de \textsc{Qed} se ignora. Etiquetas, asignadas en el primer paso que falla: \textsc{Accepted} (la cadena llega a \textsc{Qed}), \textsc{Invalid\_Step} (dependencia no establecida o paso repetido), \textsc{Distractor} (el paso es un distractor), \textsc{Unknown\_Lemma} (identificador ajeno al grafo) y \textsc{Incomplete} (todos los pasos son válidos pero la cadena no llega a \textsc{Qed}; es un resultado por intento, no por presupuesto). Progreso parcial: fracción del cierre de dependencias de \textsc{Qed} establecida antes del primer fallo.
+
+\subsection{Juez PEP ($V_P$)}
+
+Proviene del subproyecto 06, que se usa sin modificaciones. El objetivo es una instancia: la clase de funciones $L$-suaves ($\mu$-fuertemente) convexas con $L = 1$, un horizonte $n$, un criterio ($f(x_n) - f^*$ o $\|\nabla f(x_n)\|^2$, con $\|x_0 - x^*\| \le 1$) y si se admiten pasos negativos; una propuesta es un programa \texttt{schedule(n)} que genera pasos $(h_0,\dots,h_{n-1})$. El programa se ejecuta en un intérprete aparte (en macOS, bajo un \emph{sandbox} sin red ni escritura en disco) y el juez puntúa, en un proceso que el programa no tocó, la sucesión literal que devuelve; las referencias se leen una sola vez al empezar. El juez resuelve el problema de estimación de desempeño (PEP) como un programa semidefinido y obtiene el peor caso $\tau(h)$; el certificado dual es la demostración de la cota \citep{DroriTeboulle2014,TaylorHendrickxGlineur2017}. En el modo por defecto, \texttt{improve}, toda mejora afirmada se recalcula con tolerancias finas y se certifica en aritmética racional exacta; se acepta sólo si la cota certificada es estrictamente menor que $\tau_{\mathrm{ref}}$. La referencia $\tau_{\mathrm{ref}}$ es el mínimo entre la tabla publicada de óptimos numéricos, que sólo cubre $f(x_n) - f^*$ con $\mu = 0$ \citep{DasGuptaVanParysRyu2024,GrimmerShuWang2024}, y la búsqueda propia de 06 por entropía cruzada; en las variantes abiertas (norma del gradiente, fuertemente convexo, pasos negativos) sólo hay búsqueda propia. Etiquetas: \textsc{Certified} (mejora estricta de $\tau_{\mathrm{ref}}$ con certificado racional exacto; es la aceptación), \textsc{Matched} (sólo en modo \texttt{match}: iguala $\tau_{\mathrm{ref}}$ con tolerancia relativa $10^{-4}$, sin certificado exacto), \textsc{Invalid\_Schedule} (el programa falla, se agota su tiempo o no devuelve $n$ números finitos válidos), \textsc{Not\_Improved} (programa válido que no mejora $\tau_{\mathrm{ref}}$) y \textsc{Certification\_Failed} (mejora numérica cuyo certificado exacto falla).
+
+\subsection{Juez Isabelle ($V_I$)}
+
+Proviene del subproyecto 08 y del marco Isabelle/ITrees \citep{BryantHuertaFoster2026}. Un objetivo es un programa imperativo junto con un triple de Hoare de corrección total $H[P]\,C\,[Q]$, ambos congelados; una propuesta es una anotación $a = (\mathit{inv}, \mathit{var})$ de invariante y variante de bucle y, en fase 2, además lemas auxiliares con su demostración, escritos por el agente y verificados en el kernel antes de usarse. El juez procede por etapas: (0) la anotación pasa una lista blanca de símbolos y el kernel demuestra que el programa anotado es igual al congelado con anotaciones fijas; (0b) si hay lemas, pasan un filtro léxico (sólo enunciados con su demostración: nada de \texttt{sorry}, definiciones, notación ni ML) y se compilan en el contexto de las hipótesis, comprobando que el enunciado congelado se lee igual y que no aparecen axiomas nuevos; (1) inserta la anotación y ejecuta el generador de condiciones de verificación \texttt{vcg}; (2) intenta cerrar cada obligación con automatización de una línea (\texttt{try0} y, si falla, Sledgehammer con tiempo límite fijo), y sólo cuenta una sugerencia de Sledgehammer si su reconstrucción (\emph{preplay}) terminó; (3) si todas cierran, ensambla el teorema completo, lo compila y lo traslada al programa congelado; (4) comprueba que no dependa de oráculos, de \texttt{skip\_proof} ni de axiomas nuevos. Etiquetas: \textsc{Accepted} (todas las etapas pasan: el teorema está en el kernel), \textsc{VC\_Open} (alguna obligación sin prueba de una línea), \textsc{VCG\_Failed} (la anotación no se analiza o no tipa, o \texttt{vcg} falla), \textsc{Lemma\_Failed} (el kernel rechaza la demostración de algún lema del agente), \textsc{Assembly\_Failed} (las obligaciones se cierran por separado pero el teorema ensamblado no compila), \textsc{Unsound} (\texttt{sorry}, \texttt{oops}, oráculos, \texttt{skip\_proof} o axiomas nuevos), \textsc{Statement\_Drift} (la propuesta sale de su hueco o el kernel no prueba que el programa anotado sea el congelado), \textsc{Timeout} (se agota el tiempo de compilación) y \textsc{Invalid\_Proposal} (falta el invariante o el variante, o hay símbolos o comandos no admitidos). Progreso parcial: fracción de obligaciones cerradas en \textsc{VC\_Open} y \textsc{Assembly\_Failed}, y $0$ en las demás.
+
+\textbf{En esta corrida.} Objetivo \texttt{isabelle:\allowbreak{}bisection} (hash \texttt{974945f4c4df07ee}); lemas prestados: \texttt{Bolzanos\_\allowbreak{}theorem}, \texttt{sign\_\allowbreak{}prop}. \texttt{try0}: 5\,s; Sledgehammer: 60\,s por obligación; límite de compilación: 1800\,s. Lemas del agente: sí; memoria: sí. Código de \texttt{unirl}: huella \texttt{61c5c2b8649611f6}, commit \texttt{dcb8f7b} con cambios sin versionar.
+
+\begin{remark}[Existencia frente a descubrimiento]
+Con la anotación del propio artículo (su invariante y su variante), $V_I$ genera 15 obligaciones y la automatización de una línea cierra 9 en esta máquina, con Sledgehammer limitado a 60\,s por obligación: \textsc{VC\_Open}, 424\,s de juez (\texttt{runs/\_baseline/bisection.json}). Quedan abiertas 4 de variante, 2 de postcondición (clasificación heurística por la conclusión y las premisas de cada obligación). Adelgazar las premisas no basta: sobre una obligación del variante, con todas sus premisas o con una sola, y con o sin los hechos previos de la demostración del artículo, Sledgehammer encuentra prueba en 0 de 4 ensayos de 60\,s (\texttt{sh\_goals.json}). Con la misma anotación y, como lemas del agente, las demostraciones manuales de los autores (los hechos previos, la línea \texttt{smt} del variante y \texttt{bisect\_root\_extract}), el juez da \textsc{Accepted}: 15 de 15 obligaciones cerradas, 5 lemas verificados en el kernel, de los que las pruebas de una línea usan \texttt{a\_\allowbreak{}less\_\allowbreak{}than\_\allowbreak{}b}, \texttt{bisect\_\allowbreak{}root\_\allowbreak{}extract}, \texttt{var\_\allowbreak{}dec}; 214\,s de juez (\texttt{upper\_bound.json}). Existe, pues, una demostración que $V_I$ acepta; lo que la automatización no descubre es justamente la parte que los autores escribieron a mano. Por eso $V_I$ distingue tres líneas base: automatización sobre todas las premisas de \texttt{vcg}, automatización con un filtro de relevancia estándar, y selección de premisas como acción explícita del agente. Nunca se mezclan. Hoy están implementadas la primera y la acción de lemas auxiliares del agente; el filtro de relevancia y la selección de premisas son trabajo futuro.
+\end{remark}
+
+\section{Funciones de recompensa}
+
+\subsection{Recompensa base (todos los jueces)}
+\[
+  r(o) = \begin{cases} 1 & \text{si } o.\texttt{accepted} = 1,\\ 0 & \text{en otro caso.}\end{cases}
+\]
+Es la única recompensa activa por defecto. Es binaria a propósito: cualquier señal intermedia introduce un juicio sobre qué es ``progreso'', y ese juicio debe declararse, no esconderse.
+
+\subsection{Recompensa moldeada (opcional, tras bandera)}
+\[
+  r_\beta(o) = r(o) + \beta \cdot o.\texttt{partial} \cdot \mathbb{1}[o.\texttt{accepted}=0],\qquad \beta \in [0, 0.5].
+\]
+Para $V_P$ se conserva la recompensa original del subproyecto 06, que es continua por naturaleza: $r_P(o) = \max\{-2,\ \log(\tau_{\mathrm{ref}}/\tau(h))\}$ si el programa es válido y $-3$ en otro caso, donde $\tau_{\mathrm{ref}}$ es la mejor cota certificada conocida. Se reporta también su binarización $\mathbb{1}[\tau(h) < \tau_{\mathrm{ref}}]$ para hacerla comparable con los otros jueces.
+
+\subsection{Penalización por deriva del enunciado}
+\textsc{Statement\_Drift} recibe recompensa $0$, no negativa, en la configuración base. La razón es metodológica: queremos \emph{contar} cuántas veces el proponente intenta cambiar la pregunta, y una penalización alteraría la frecuencia que se pretende medir. Una variante con penalización $-\delta$ queda disponible tras bandera para experimentos de control.
+
+\medskip\noindent\textbf{En esta corrida:} recompensa base binaria $r(o)$; la moldeada está desactivada ($\beta = 0$); penalización de deriva $\delta = 0$ (\textsc{Statement\_Drift} recibe $0$). En esta corrida el proponente no aprende de la recompensa: el modelo está congelado y la recompensa se registra.
+
+\section{Métricas}
+
+
+
+Para cada entorno, juez y proponente se registran:
+
+\begin{enumerate}
+
+  \item \textbf{Intentos hasta aceptación}: mediana y distribución de $t^*$ sobre episodios, con $t^* = B$ si no hay aceptación.
+
+  \emph{En esta corrida:} $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3.
+
+  \item \textbf{Distribución de etiquetas}: conteo de cada $\ell \in L$ sobre todos los intentos.
+
+  \emph{En esta corrida:} Tabla~\ref{tab:etiquetas}: 12 intentos en total.
+
+  \item \textbf{Razón de deriva}: para $V_I$, el cociente entre el número de resultados \textsc{Statement\_Drift} y el de \textsc{VC\_Open}; para $V_G$, el cociente entre \textsc{Distractor} e \textsc{Invalid\_Step}. Mide cuán a menudo el proponente ``resuelve'' cambiando la pregunta o cayendo en un error de estudiante.
+
+  \emph{En esta corrida:} \textsc{Statement\_Drift}/\textsc{VC\_Open} $= 0/0$.
+
+  \item \textbf{Transferencia}: reducción de $t^*$ en el objetivo $T_2$ cuando el proponente ha sido entrenado (o condicionado con ejemplos aceptados) sobre $T_1$, frente a partir de cero.
+
+  \emph{En esta corrida:} No aplica: la memoria de esta corrida recuerda entre episodios del \emph{mismo} objetivo; no es transferencia entre objetivos, y no se midió ninguna.
+
+  \item \textbf{Comparación entre jueces}: para un mismo método y un mismo proponente, $t^*$ y etiquetas bajo $V_G$ frente a $V_I$. Es la medida directa de cuánto de la ``facilidad'' de un juez proviene del trabajo humano incorporado en él.
+
+  \emph{En esta corrida:} Tabla~\ref{tab:comparacion}. Los enunciados de $V_G$ y $V_I$ no coinciden, así que la comparación es indirecta.
+
+  \item \textbf{Costo}: segundos de juez por intento; determina el cuello de botella real.
+
+  \emph{En esta corrida:} Segundos de juez por intento: media 35{,}4, mediana 28{,}1, máximo 116{,}7; segundos de modelo: media 1960{,}7, mediana 1490{,}1, máximo 8922{,}3. Suma: 424\,s de juez y 23529\,s de modelo. Duración desde el inicio hasta el último intento registrado: 8\,h~28\,min (desde el inicio de la corrida original hasta el último intento de la continuación; incluye la pausa entre ambas carpetas).
+
+\end{enumerate}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lr@{}}
+\toprule
+etiqueta & intentos \\
+\midrule
+\textsc{Lemma\_Failed} & 12 \\
+total & 12 \\
+\bottomrule
+\end{tabular}
+\caption{Etiquetas del juez sobre todos los intentos de la corrida.}
+\label{tab:etiquetas}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llllrrrrrr@{}}
+\toprule
+entorno & juez & proponente & ep. & acept. & $B$ & $t^*$ med. & intentos & s juez & s LLM \\
+\midrule
+\texttt{bisection\_\allowbreak{}isabelle} & $V_I$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 648{,}4 & 72{,}4 \\
+\texttt{bisection\_\allowbreak{}isabelle\_\allowbreak{}lemas} & $V_I$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 1 & 0 & 4 & 4 & 4 & 411{,}0 & 95{,}8 \\
+\texttt{bisection\_\allowbreak{}isabelle\_\allowbreak{}lemas\_\allowbreak{}mem}$^\ast$ & $V_I$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 0 & 4 & 4 & 12 & 35{,}4 & 1960{,}7 \\
+\texttt{bisection\_\allowbreak{}isabelle\_\allowbreak{}lemas\_\allowbreak{}mem} & $V_I$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 179{,}5 & 87{,}4 \\
+\texttt{bisection\_\allowbreak{}graph} & $V_G$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 20 & 20 & 4 & 1 & 20 & 0{,}0 & 8{,}4 \\
+\bottomrule
+\end{tabular}
+\caption{Corridas del mismo método (bisección) en \texttt{runs/} (se ignoran las carpetas que empiezan por ``\_''), agrupadas por entorno, juez y proponente como en \texttt{python -m unirl summary}. ``ep.'' cuenta episodios completos; los segundos son medias por intento evaluado; ``intentos'' no cuenta los \textsc{Provider\_Error} (sin respuesta del modelo). $^\ast$: entornos y proponente de este informe.}
+\label{tab:comparacion}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}rrlrlrrrr@{}}
+\toprule
+ep. & paso & etiqueta & VCs cerradas & abiertas (tipo) & lemas prop. & lemas verif. & s juez & s LLM \\
+\midrule
+1 & 1 & \textsc{Lemma\_Failed} & --- & --- & 6 & 0 & 28 & 2161 \\
+1 & 2 & \textsc{Lemma\_Failed} & --- & --- & 4 & 0 & 29 & 758 \\
+1 & 3 & \textsc{Lemma\_Failed} & --- & --- & 7 & 0 & 27 & 812 \\
+1 & 4 & \textsc{Lemma\_Failed} & --- & --- & 8 & 0 & 27 & 2096 \\
+2 & 1 & \textsc{Lemma\_Failed} & --- & --- & 6 & 0 & 28 & 2192 \\
+2 & 2 & \textsc{Lemma\_Failed} & --- & --- & 8 & 0 & 28 & 8922 \\
+2 & 3 & \textsc{Lemma\_Failed} & --- & --- & 6 & 0 & 28 & 1487 \\
+2 & 4 & \textsc{Lemma\_Failed} & --- & --- & 11 & 0 & 27 & 2096 \\
+3 & 1 & \textsc{Lemma\_Failed} & --- & --- & 8 & 0 & 29 & 899 \\
+3 & 2 & \textsc{Lemma\_Failed} & --- & --- & 9 & 0 & 28 & 278 \\
+3 & 3 & \textsc{Lemma\_Failed} & --- & --- & 9 & 0 & 117 & 1493 \\
+3 & 4 & \textsc{Lemma\_Failed} & --- & --- & 11 & 0 & 28 & 334 \\
+\bottomrule
+\end{tabular}
+\caption{Intentos en orden. ``VCs cerradas'' cuenta las obligaciones con prueba de una línea; el tipo de cada VC abierta (invariante, variante, postcondición, inicialización) se asigna por su conclusión y sus premisas (heurística de \texttt{unirl/report.py}). ``Lemas prop.'' son los que el agente escribió en ese intento; ``lemas verif.'', los que el kernel verificó en ese intento, incluidos los de la biblioteca de la memoria; --- indica que el registro de la corrida no lo guarda.}
+\label{tab:intentos-bisection_isabelle_lemas_mem-0}
+\end{table}
+
+Biblioteca de la memoria al generar el informe (0 lemas, que \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} demostró y cuya demostración Isabelle verificó): vacía.
+
+Primer error de Isabelle (o motivo del juez) en los intentos que no llegaron a las obligaciones, saneado y recortado:
+
+\begin{itemize}
+  \item ep.~1, paso 1, \textsc{Lemma\_Failed}: Failed to finish proof (línea 102): goal (1 subgoal): 1. [|0 < (b - a) / tol|] ==> (real k < log 2 ((b - a) / tol)) =
+  \item ep.~1, paso 2, \textsc{Lemma\_Failed}: Failed to apply initial proof method (línea 128): using this: int k < ceiling(log 2 ((b - a) / tol)) goal (1 subgoal):
+  \item ep.~1, paso 3, \textsc{Lemma\_Failed}: Failed to finish proof (línea 142): goal (1 subgoal): 1. [|(if 1 + int k <= n then n - (1 + int k) else 0) < (if int k <= n then n - int k else 0)|]
+  \item ep.~1, paso 4, \textsc{Lemma\_Failed}: Failed to finish proof (línea 132): goal (1 subgoal): 1. int k <= n
+  \item ep.~2, paso 1, \textsc{Lemma\_Failed}: Failed to apply initial proof method (línea 133): using this: q - p = (b - a) / 2 \textasciicircum{} k (b - a) / 2 \textasciicircum{} (k + 1) = (b - a) / 2 \textasciicircum{} k / 2
+  \item ep.~2, paso 2, \textsc{Lemma\_Failed}: Failed to finish proof (línea 147): goal (1 subgoal): 1. [|(if 1 + int k <= n then n - (1 + int k) else 0) < (if int k <= n then n - int k else 0)|]
+  \item ep.~2, paso 3, \textsc{Lemma\_Failed}: Failed to apply initial proof method (línea 133): goal (1 subgoal): 1. (p + q) / 2 - p = (q - p) /
+  \item ep.~2, paso 4, \textsc{Lemma\_Failed}: Undefined method: "field\_simp" (línea 156)
+  \item ep.~3, paso 1, \textsc{Lemma\_Failed}: Failed to finish proof (línea 102): goal (1 subgoal): 1. [|0 < (b - a) / tol|] ==> (2 \textasciicircum{} k < (b - a) / tol) =
+  \item ep.~3, paso 2, \textsc{Lemma\_Failed}: Outer syntax error (línea 123): proposition expected, but end-of-input (línea 123) was found
+  \item ep.~3, paso 3, \textsc{Lemma\_Failed}: exception Interrupt\_Breakdown raised
+  \item ep.~3, paso 4, \textsc{Lemma\_Failed}: Failed to finish proof (línea 156): goal (1 subgoal): 1. [|(if 1 + int k <= n then n - (1 + int k) else 0) < (if int k <= n then n - int k else 0)|]
+\end{itemize}
+
+\section{Jerarquía de confianza entre jueces}
+
+Los tres jueces aceptan objetos distintos y dejan residuos de confianza distintos. Ordenados de menor a mayor independencia respecto del humano:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+juez & qué certifica & en qué reposa la confianza \\
+\midrule
+$V_G$ & validez de una cadena en un grafo dado & el grafo, escrito por el profesor \\
+$V_P$ & una cota numérica de peor caso & el SDP, la certificación racional exacta \\
+$V_I$ & un teorema en el kernel de Isabelle/HOL & el kernel; la adecuación del triple congelado \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ningún juez elimina la confianza; cada uno la desplaza. $V_G$ la desplaza al autor del grafo. $V_P$ la desplaza a la formulación del PEP y a la implementación del certificador. $V_I$ la desplaza a dos lugares que el kernel no puede inspeccionar: la correspondencia entre el triple de Hoare y el enunciado informal que se pretendía probar, y la matemática auxiliar importada. La Observación 2 muestra que incluso lo que el artículo de referencia reporta como ``automático'' contiene decisiones humanas en esa frontera. El objetivo del proyecto es medir ese residuo, no negarlo.
+
+\textbf{Residuo en esta corrida:} los lemas prestados (\texttt{Bolzanos\_\allowbreak{}theorem}, \texttt{sign\_\allowbreak{}prop}), copiados con sus demostraciones: el kernel comprueba esas demostraciones, pero su elección es humana; la adecuación de la tripleta congelada al enunciado informal de la bisección; y el modelo del programa en números reales, no en punto flotante. Los lemas del agente no añaden residuo de corrección, porque el kernel verifica sus demostraciones antes de usarlos; sí lo añaden a la interpretación: el juez no decide si un lema ``auxiliar'' ya contiene la prueba pedida, como muestra la cota superior de la Observación~2.
+
+\section{Entornos}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\begin{tabular}{@{}llp{5.0cm}lrrr@{}}
+\toprule
+sub. & método & objetivo de fase 2 & juez & lemas & distr. & cad.\ mín. \\
+\midrule
+01 & bisección & $m_n \to c$, $f(c)=0$, error $\le (b-a)/2^{n+1}$ & $V_G$, $V_I$ & 21 & 7 & 14 \\
+02 & punto fijo & Banach en $[a,b]$: unicidad, convergencia, cotas & $V_G$ & 20 & 7 & 13 \\
+03 & Taylor & resto de Lagrange; convergencia con derivadas acotadas & $V_G$ & 20 & 7 & 13 \\
+04 & Newton & convergencia local cuadrática & $V_G$ & 18 & 7 & 11 \\
+05 & secante & convergencia local de orden $\varphi$ & $V_G$ & 21 & 8 & 13 \\
+06 & pasos de GD & cota de peor caso $f(x_n)-f^*$ o $\|\nabla f(x_n)\|^2$ (PEP) & $V_P$ & --- & --- & --- \\
+08$^\ast$ & bisección & triple de Hoare de corrección total del programa \texttt{bisection} & $V_I$ (programa) & --- & --- & --- \\
+09 & pasos de GD & 4 teoremas de cota: \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, \texttt{gd\_\allowbreak{}n1} & $V_I$ (teorema) & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\caption{Entornos de \texttt{unirl}. En 01--05 los números se recalculan de los grafos (\texttt{proof\_kb}): ``lemas'' cuenta todos los pasos, incluidos distractores y \textsc{Qed}; ``cad.\ mín.'' es el cierre de dependencias de \textsc{Qed}. Objetivos de $V_I$ disponibles: \texttt{bisection} (variante de programa) y 4 cotas de GD (variante de teorema). El punto fijo aún no tiene objetivo formal; Taylor, Newton y secante sólo disponen de juez de grafo. Proponentes: \texttt{gpt-6-luna} y \texttt{gpt-6-astra}, ambos con esfuerzo \texttt{high}, para todos los jueces (corridas en \texttt{runs/}: \texttt{gpt-\allowbreak{}6-\allowbreak{}luna}: 11, \texttt{gpt-\allowbreak{}6-\allowbreak{}astra}: 7). $^\ast$: filas de este informe.}
+\label{tab:envs}
+\end{table}
+
+\section{Experimentos realizados y previstos}
+
+{\raggedright
+\begin{enumerate}
+  \item \emph{Este informe}: \texttt{bisection\_\allowbreak{}isabelle\_\allowbreak{}lemas\_\allowbreak{}mem} con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260923-\allowbreak{}224900-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}; terminada; 3 episodios completos; el episodio 3 se repitió en la corrida \texttt{20260924-\allowbreak{}060102-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}, que parte de la memoria del final del episodio 2 (la corrida original lo perdió: 4 intentos \textsc{Provider\_Error}, sin respuesta del modelo, que se apartan)). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Lemma\_Failed} 12; biblioteca final de 0 lemas verificados.
+  \item Relacionada: \texttt{bisection\_\allowbreak{}graph} bajo $V_G$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260923-\allowbreak{}193740-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 20 aceptados de 20 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Accepted} 20.
+  \item Relacionada: \texttt{bisection\_\allowbreak{}isabelle} bajo $V_I$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260923-\allowbreak{}155924-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{VC\_Open} 12; mejor intento 15/25 obligaciones cerradas.
+  \item Relacionada: \texttt{bisection\_\allowbreak{}isabelle\_\allowbreak{}lemas} bajo $V_I$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260923-\allowbreak{}211101-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; \textbf{detenida} antes de terminar; 1 episodio completo). 0 aceptados de 1 episodio completo, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{VC\_Open} 2, \textsc{Lemma\_Failed} 2; mejor intento 7/12 obligaciones cerradas.
+  \item Relacionada: \texttt{bisection\_\allowbreak{}isabelle\_\allowbreak{}lemas\_\allowbreak{}mem} bajo $V_I$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260923-\allowbreak{}215521-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Lemma\_Failed} 10, \textsc{VC\_Open} 2; mejor intento 7/10 obligaciones cerradas; biblioteca final de 4 lemas verificados.
+  \item Prevista: transferencia entre objetivos (métrica 4), no implementada.
+\end{enumerate}
+\par}
+
+\begin{remark}[Interpretación]
+Esta interpretación la redactó Claude a partir de los registros de la corrida; no es del autor.
+
+Astra no llegó nunca a las obligaciones: en los 12 intentos evaluados (episodios 1 y 2 de la corrida original y el episodio 3 repetido) Isabelle rechazó algún lema, y ningún lema quedó verificado, así que la biblioteca de la memoria terminó vacía. La estrategia fue opuesta a la de Luna: en cada intento Astra escribió entre 4 y 11 lemas, casi la demostración completa del teorema partida en piezas (cota del contador, paso del variante, mitad del ancho, signo en el subintervalo, raíz en el interior), en lugar de avanzar lema por lema. Como el juez exige que todos los lemas del bloque se verifiquen antes de mirar las obligaciones, un solo error bastó para perder cada intento. Los primeros errores fueron, sobre todo, demostraciones que no cierran (6) o cuyo método inicial no aplica (3); una vez usó \texttt{field\_simp}, método de otro asistente de prueba, como Luna.
+
+Las llamadas a Astra fueron muy lentas: entre 5 minutos y dos horas y media por intento, parte por tiempos agotados de la API. En el episodio~3 original la cuenta de OpenAI se quedó sin créditos; ese episodio se repitió desde la memoria del final del episodio~2 con el mismo código congelado, y sus 4 intentos sin respuesta del modelo se apartan de todas las métricas.
+
+Frente a Luna con el mismo juez, la misma configuración y el mismo mensaje de memoria, ninguno de los dos aceptó un episodio. Luna verificó 4 lemas y llegó dos veces a las obligaciones; Astra, ninguna. En este objetivo la diferencia entre modelos no está en la matemática del enunciado sino en cuánto arriesga cada intento frente a un juez que no perdona un lema fallido.
+\end{remark}
+
+\bibliography{unirl_definicion}
+
+\end{document}

@@ -1,0 +1,15 @@
+# Variante abierta del PEP (06): norma del gradiente, convexo, n = 6; τ_ref de nuestra búsqueda.
+# Se acepta solo una mejora estricta de τ_ref con certificado racional exacto (CERTIFIED).
+name = "pep_gradnorm_n6"
+judge = "pep"
+n = 6
+mu = 0.0
+objective = "gradnorm"
+negative = false
+mode = "improve"
+memory = "run"          # memoria entre episodios: mejor τ de cada episodio y su programa
+provider = "openai"
+model = "gpt-6-luna"
+effort = "high"
+budget = 4
+shaped = false

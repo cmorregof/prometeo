@@ -1,0 +1,13 @@
+{
+ "name": "gd_const_dt",
+ "kind": "theorem",
+ "imports": "\"HOL-Analysis.Inner_Product\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec gd :: \"('a::real_inner \\<Rightarrow> 'a) \\<Rightarrow> real list \\<Rightarrow> 'a \\<Rightarrow> 'a\" where\n  \"gd g [] x = x\"\n| \"gd g (h # hs) x = gd g hs (x - h *\\<^sub>R g x)\"",
+ "fixes": "f :: \"'a::real_inner \\<Rightarrow> real\" and g :: \"'a \\<Rightarrow> 'a\" and x0 xs :: 'a and n :: nat",
+ "assumes": "interp: \"\\<And>x y. f y + inner (g y) (x - y) + (1/2) * (norm (g x - g y))\\<^sup>2 \\<le> f x\"\n    and opt: \"g xs = 0\"",
+ "concl": "f (gd g (replicate n 1) x0) - f xs \\<le> (norm (x0 - xs))\\<^sup>2 / (4 * real n + 2)",
+ "statement_es": "Para todo n, n pasos de tamaño 1 (L = 1): f(xₙ) − f(x*) ≤ ‖x₀ − x*‖²/(4n + 2). Es la cota exacta de Drori y Teboulle (2014), que ningún análisis puede mejorar para este método.",
+ "borrowed_lemmas": [],
+ "frozen_hash": "fe2f1ffb6b45a25f"
+}

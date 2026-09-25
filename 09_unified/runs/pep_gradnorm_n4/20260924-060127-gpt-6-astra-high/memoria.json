@@ -1,0 +1,35 @@
+{
+ "library": {},
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": true,
+   "best_label": "CERTIFIED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "import math\n\ndef schedule(n: int) -> list[float]:\n    if n <= 0:\n        return []\n\n    k = (n - 1) // 2\n    left = schedule(k)\n    right = schedule(n - 1 - k)\n\n    a = 1.0 + sum(left)\n    b = 1.0 + sum(right)\n    bridge = 1.0 + 2.0 * a * b / (\n        math.sqrt(a * a + 6.0 * a * b + b * b) + a + b\n    )\n\n    return left + [bridge] + right",
+   "last_feedback": "CERTIFIED: τ = 0.0169091 vs τ_ref = 0.0169860; h = [1.4142, 2.2606, 1.6012, 1.4142]",
+   "best_extra": "τ = 0.0169091 frente a τ_ref = 0.0169860; h = [1.4142, 2.2606, 1.6012, 1.4142]"
+  },
+  {
+   "episode": 2,
+   "accepted": true,
+   "best_label": "CERTIFIED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "import math\n\ndef schedule(n: int) -> list[float]:\n    if n <= 0:\n        return []\n\n    k = (n - 1) // 2\n    left = schedule(k)\n    right = schedule(n - 1 - k)\n\n    a = 1.0 + sum(left)\n    b = 1.0 + sum(right)\n    bridge = 1.0 + 2.0 * a * b / (\n        math.sqrt(a * a + 6.0 * a * b + b * b) + a + b\n    )\n\n    return left + [bridge] + right",
+   "last_feedback": "CERTIFIED: τ = 0.0169091 vs τ_ref = 0.0169860; h = [1.4142, 2.2606, 1.6012, 1.4142]",
+   "best_extra": "τ = 0.0169091 frente a τ_ref = 0.0169860; h = [1.4142, 2.2606, 1.6012, 1.4142]"
+  },
+  {
+   "episode": 3,
+   "accepted": true,
+   "best_label": "CERTIFIED",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": "import math\n\ndef schedule(n: int) -> list[float]:\n    if n <= 0:\n        return []\n\n    k = (n - 1) // 2\n    left = schedule(k)\n    right = schedule(n - 1 - k)\n\n    a = 1.0 + sum(left)\n    b = 1.0 + sum(right)\n    bridge = 1.0 + 2.0 * a * b / (\n        math.sqrt(a * a + 6.0 * a * b + b * b) + a + b\n    )\n\n    return left + [bridge] + right",
+   "last_feedback": "CERTIFIED: τ = 0.0169091 vs τ_ref = 0.0169860; h = [1.4142, 2.2606, 1.6012, 1.4142]",
+   "best_extra": "τ = 0.0169091 frente a τ_ref = 0.0169860; h = [1.4142, 2.2606, 1.6012, 1.4142]"
+  }
+ ]
+}

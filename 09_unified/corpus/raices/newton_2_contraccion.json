@@ -1,0 +1,40 @@
+{
+ "id": "newton_2_contraccion",
+ "name": "newton_2_contraccion",
+ "kind": "theorem",
+ "metodo": "newton",
+ "peldano": 2,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "04_newton",
+ "dependencias": [
+  "newton_1_paso"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_newton :: \"(real \\<Rightarrow> real) \\<Rightarrow> (real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_newton f f' x = x - f x / f' x\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<delta> m M :: real and x :: real",
+ "assumes": "d1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and raiz: \"f r = 0\" and m_pos: \"0 < m\"\n    and cota1: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> m \\<le> \\<bar>f' t\\<bar>\"\n    and cota2: \"\\<And>t. \\<bar>t - r\\<bar> \\<le> \\<delta> \\<Longrightarrow> \\<bar>f'' t\\<bar> \\<le> M\"\n    and delta_pos: \"0 < \\<delta>\" and delta_chico: \"M * \\<delta> \\<le> m\"\n    and hx: \"\\<bar>x - r\\<bar> \\<le> \\<delta>\"",
+ "concl": "\\<bar>paso_newton f f' x - r\\<bar> \\<le> \\<bar>x - r\\<bar> / 2",
+ "statement_es": "Con M·δ ≤ m, un paso reduce el error al menos a la mitad (y el iterado se queda en I).",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "δ fijo por M·δ ≤ m y cotas m, M dadas como hipótesis, en lugar de ∃δ a partir de f ∈ C² y f'(r) ≠ 0",
+ "version_clasica": "newton_2c_contraccion_local",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "da20b8a35d3ee5f1",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

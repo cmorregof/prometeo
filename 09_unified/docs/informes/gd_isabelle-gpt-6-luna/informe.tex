@@ -1,0 +1,417 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\newtheorem{definition}{Definición}
+\newtheorem{remark}{Observación}
+
+\title{Aprendizaje por refuerzo con verificación certificada\\como única recompensa:\\cotas de GD en Isabelle ($V_I$, teorema)\\[0.4em]\large Informe de corrida del proyecto \texttt{rl\_metodos}}
+\author{Carlos Manuel Orrego Franco\\Universidad Nacional de Colombia, Sede Manizales}
+\date{Septiembre de 2026 --- informe de las corridas \texttt{20260924-\allowbreak{}062122-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high} a \texttt{20260924-\allowbreak{}091710-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}}
+
+\begin{document}
+\maketitle
+
+\section{Propósito}
+
+Esta nota fija el lenguaje común de los subproyectos de \texttt{rl\_metodos}. Todos comparten una misma estructura: un \emph{proponente} produce un objeto de prueba y un \emph{juez} independiente decide si lo acepta. La recompensa proviene únicamente del juez; el proponente nunca se evalúa a sí mismo. Lo que varía entre subproyectos es el juez, y con él el residuo de confianza que la aceptación deja sin certificar. Esa variación es deliberada: es el experimento.
+
+{\sloppy Este informe agrupa 4 corridas del proponente \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) bajo $V_I$ (variante de teorema), una por objetivo: (1) \texttt{gd\_\allowbreak{}n1}, \texttt{20260924-\allowbreak{}062122-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos; (2) \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, \texttt{20260924-\allowbreak{}073842-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos; (3) \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, \texttt{20260924-\allowbreak{}082858-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos; (4) \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, \texttt{20260924-\allowbreak{}091710-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}, terminada; 3 episodios completos. Presupuesto $B = 4$ intentos por episodio. Memoria entre episodios: sí (\texttt{run}; encabezado de la biblioteca en su redacción v2). Pregunta que responde: ¿escribe \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} una demostración Isar de cada cota que el kernel acepte? El proponente demuestra; Isabelle verifica.\par}
+
+{\sloppy Nota de la carpeta \texttt{20260924-\allowbreak{}062122-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high} (\texttt{LEEME.md}): «\# Luna, gd\_n1: corrida con el analizador de respuestas anterior Esta corrida empezó el 24 sep 2026 a las 06:21, antes de que se corrigiera `TheoremVerifier.parse` (06:50), y cada proceso carga el código al empezar. Con el analizador anterior, una respuesta con `LEMMAS: <{}<{}<{}>{}>{}` (dos '{}>{}' en vez de tres, para decir «sin lemas») hacía que el bloque de lemas se comiera la demostración: el intento salía INVALID\_PROPOSAL con el motivo «el bloque de lemas debe empezar con `lemma`», y la demostración nunca llegaba a Isabelle. Le pasó a Luna en 4 de sus 12 intentos. Los otros 8 son PROOF\_FAILED genuinos (Isabelle rechazó la demostración). Astra corre gd con el analizador corregido; en gd\_n1 la compa...»\par}
+
+Este informe sigue la estructura de la nota técnica: el MDP común (§2), la interfaz de verificador y sus tres instancias (§3), las funciones de recompensa (§4), las métricas (§5), la jerarquía de confianza entre jueces (§6) y los entornos (§7, Tabla~\ref{tab:envs}); cierra con los experimentos realizados y previstos (§8), y reporta en §5 los valores medidos.
+
+\section{El MDP común}
+
+\begin{definition}[Entorno de demostración verificada]
+Un entorno es una tupla $\mathcal{E} = (T, \mathcal{A}, V, B)$ donde $T$ es un \emph{objetivo} inmutable (un enunciado y su contexto), $\mathcal{A}$ es un espacio de \emph{propuestas}, $V$ es un \emph{verificador} y $B \in \mathbb{N}$ es un presupuesto de pasos. El MDP asociado es $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$ con:
+\begin{itemize}
+  \item \textbf{Estado} $s_t = (T, \mathcal{C}_t, h_t, M_t)$: el objetivo, el \emph{contexto observable} $\mathcal{C}_t$ que el juez devuelve tras el último intento (lemas disponibles, obligaciones abiertas con su texto literal, o el valor certificado vigente), y el historial $h_t$ de resultados anteriores.
+  \item \textbf{Memoria} $M_t$: biblioteca de lemas que el agente demostró y que Isabelle verificó (se añaden solos a cada intento) y resumen del mejor intento de cada episodio anterior. Persiste entre episodios de la corrida. El modelo está congelado: la memoria es contexto, no entrenamiento.
+  \item \textbf{Acción} $a_t \in \mathcal{A}$: una propuesta completa (una cadena de lemas, una anotación de invariantes y variantes, o un programa de tamaños de paso). El proponente es un modelo de lenguaje; la acción es su salida tras una extracción determinista.
+  \item \textbf{Transición} $P(s_{t+1} \mid s_t, a_t)$: determinista dado el juez; $s_{t+1}$ incorpora el resultado $V(T, a_t)$ y actualiza $\mathcal{C}_{t+1}$ y $h_{t+1}$. La estocasticidad del sistema vive en el proponente, no en la transición.
+  \item \textbf{Recompensa} $R(s_t, a_t) = r(V(T, a_t))$, función únicamente del resultado del juez (§4).
+  \item \textbf{Terminación}: el episodio termina en el primer $t$ con resultado \textsc{Accepted}, o cuando $t = B$.
+\end{itemize}
+\end{definition}
+
+\begin{remark}[El objetivo es inmutable]
+$T$ no forma parte del espacio de acciones. Cualquier propuesta que modifique el enunciado, sus hipótesis o su tipo se rechaza con etiqueta \textsc{Statement\_Drift} (§4.3). Esta restricción se impone en código mediante un hash del enunciado congelado, no por convención. Es la \emph{frontera semántica} del proyecto: el lugar donde la confianza no puede delegarse al juez.
+\sloppy En este informe, los hashes de los objetivos son: \texttt{gd\_\allowbreak{}n1}: \texttt{469e6d77bc588f4a}; \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}: \texttt{d0639dda521234f4}; \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}: \texttt{f4147ea80e7e6c69}; \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}: \texttt{fe2f1ffb6b45a25f}.
+\end{remark}
+
+\section{La interfaz de verificador y sus tres instancias}
+
+\begin{definition}[Verificador]
+Un verificador es una función $V : \mathcal{T} \times \mathcal{A} \to \mathcal{O}$ que devuelve un \emph{resultado}
+\[
+  o = (\texttt{accepted},\ \texttt{label},\ \texttt{partial},\ \texttt{cost\_s},\ \texttt{raw}),
+\]
+con $\texttt{accepted}\in\{0,1\}$, $\texttt{label}\in L$ y $\texttt{partial}\in[0,1]$,
+donde $L$ es un conjunto finito de etiquetas de resultado propio de cada juez, \texttt{partial} es una medida de progreso que sólo se usa bajo recompensa moldeada, y \texttt{raw} es la salida íntegra del juez para auditoría.
+\end{definition}
+
+\subsection{Juez de grafo de lemas ($V_G$)}
+
+Proviene de los subproyectos 01--05. Un objetivo $T$ es un grafo dirigido acíclico $G = (\Lambda, D)$ de pasos $\lambda \in \Lambda$, cada uno con dependencias $D(\lambda) \subseteq \Lambda$, un subconjunto $\Delta \subset \Lambda$ de \emph{distractores} (pasos falsos o inaplicables, tomados de errores reales de estudiantes) y un paso distinguido \textsc{Qed}. Una propuesta es una secuencia $a = (\lambda_1, \dots, \lambda_k)$ de identificadores anónimos (\texttt{L01}, \texttt{L02}, \dots, barajados con semilla fija); no se muestran los títulos de los pasos ni las refutaciones del profesor, que delatan al distractor. El juez acepta si existe $j \le k$ con $\lambda_j = \textsc{Qed}$ tal que, para todo $i \le j$,
+\[
+  \lambda_i \notin \Delta,\quad \lambda_i \notin \{\lambda_1,\dots,\lambda_{i-1}\},\quad D(\lambda_i) \subseteq \{\lambda_1,\dots,\lambda_{i-1}\};
+\]
+lo que venga después de \textsc{Qed} se ignora. Etiquetas, asignadas en el primer paso que falla: \textsc{Accepted} (la cadena llega a \textsc{Qed}), \textsc{Invalid\_Step} (dependencia no establecida o paso repetido), \textsc{Distractor} (el paso es un distractor), \textsc{Unknown\_Lemma} (identificador ajeno al grafo) y \textsc{Incomplete} (todos los pasos son válidos pero la cadena no llega a \textsc{Qed}; es un resultado por intento, no por presupuesto). Progreso parcial: fracción del cierre de dependencias de \textsc{Qed} establecida antes del primer fallo.
+
+\subsection{Juez PEP ($V_P$)}
+
+Proviene del subproyecto 06, que se usa sin modificaciones. El objetivo es una instancia: la clase de funciones $L$-suaves ($\mu$-fuertemente) convexas con $L = 1$, un horizonte $n$, un criterio ($f(x_n) - f^*$ o $\|\nabla f(x_n)\|^2$, con $\|x_0 - x^*\| \le 1$) y si se admiten pasos negativos; una propuesta es un programa \texttt{schedule(n)} que genera pasos $(h_0,\dots,h_{n-1})$. El programa se ejecuta en un intérprete aparte (en macOS, bajo un \emph{sandbox} sin red ni escritura en disco) y el juez puntúa, en un proceso que el programa no tocó, la sucesión literal que devuelve; las referencias se leen una sola vez al empezar. El juez resuelve el problema de estimación de desempeño (PEP) como un programa semidefinido y obtiene el peor caso $\tau(h)$; el certificado dual es la demostración de la cota \citep{DroriTeboulle2014,TaylorHendrickxGlineur2017}. En el modo por defecto, \texttt{improve}, toda mejora afirmada se recalcula con tolerancias finas y se certifica en aritmética racional exacta; se acepta sólo si la cota certificada es estrictamente menor que $\tau_{\mathrm{ref}}$. La referencia $\tau_{\mathrm{ref}}$ es el mínimo entre la tabla publicada de óptimos numéricos, que sólo cubre $f(x_n) - f^*$ con $\mu = 0$ \citep{DasGuptaVanParysRyu2024,GrimmerShuWang2024}, y la búsqueda propia de 06 por entropía cruzada; en las variantes abiertas (norma del gradiente, fuertemente convexo, pasos negativos) sólo hay búsqueda propia. Etiquetas: \textsc{Certified} (mejora estricta de $\tau_{\mathrm{ref}}$ con certificado racional exacto; es la aceptación), \textsc{Matched} (sólo en modo \texttt{match}: iguala $\tau_{\mathrm{ref}}$ con tolerancia relativa $10^{-4}$, sin certificado exacto), \textsc{Invalid\_Schedule} (el programa falla, se agota su tiempo o no devuelve $n$ números finitos válidos), \textsc{Not\_Improved} (programa válido que no mejora $\tau_{\mathrm{ref}}$) y \textsc{Certification\_Failed} (mejora numérica cuyo certificado exacto falla).
+
+\subsection{Juez Isabelle ($V_I$)}
+
+Proviene del subproyecto 08 y del marco Isabelle/ITrees \citep{BryantHuertaFoster2026}. Un objetivo es un programa imperativo junto con un triple de Hoare de corrección total $H[P]\,C\,[Q]$, ambos congelados; una propuesta es una anotación $a = (\mathit{inv}, \mathit{var})$ de invariante y variante de bucle y, en fase 2, además lemas auxiliares con su demostración, escritos por el agente y verificados en el kernel antes de usarse. El juez procede por etapas: (0) la anotación pasa una lista blanca de símbolos y el kernel demuestra que el programa anotado es igual al congelado con anotaciones fijas; (0b) si hay lemas, pasan un filtro léxico (sólo enunciados con su demostración: nada de \texttt{sorry}, definiciones, notación ni ML) y se compilan en el contexto de las hipótesis, comprobando que el enunciado congelado se lee igual y que no aparecen axiomas nuevos; (1) inserta la anotación y ejecuta el generador de condiciones de verificación \texttt{vcg}; (2) intenta cerrar cada obligación con automatización de una línea (\texttt{try0} y, si falla, Sledgehammer con tiempo límite fijo), y sólo cuenta una sugerencia de Sledgehammer si su reconstrucción (\emph{preplay}) terminó; (3) si todas cierran, ensambla el teorema completo, lo compila y lo traslada al programa congelado; (4) comprueba que no dependa de oráculos, de \texttt{skip\_proof} ni de axiomas nuevos. Etiquetas: \textsc{Accepted} (todas las etapas pasan: el teorema está en el kernel), \textsc{VC\_Open} (alguna obligación sin prueba de una línea), \textsc{VCG\_Failed} (la anotación no se analiza o no tipa, o \texttt{vcg} falla), \textsc{Lemma\_Failed} (el kernel rechaza la demostración de algún lema del agente), \textsc{Assembly\_Failed} (las obligaciones se cierran por separado pero el teorema ensamblado no compila), \textsc{Unsound} (\texttt{sorry}, \texttt{oops}, oráculos, \texttt{skip\_proof} o axiomas nuevos), \textsc{Statement\_Drift} (la propuesta sale de su hueco o el kernel no prueba que el programa anotado sea el congelado), \textsc{Timeout} (se agota el tiempo de compilación) y \textsc{Invalid\_Proposal} (falta el invariante o el variante, o hay símbolos o comandos no admitidos). Progreso parcial: fracción de obligaciones cerradas en \textsc{VC\_Open} y \textsc{Assembly\_Failed}, y $0$ en las demás.
+
+\textbf{Variante de teorema.} El objetivo es un teorema puro de Isabelle/HOL sobre un espacio con producto interno; la acción del agente es la demostración (texto Isar) más lemas auxiliares opcionales, y el juez sólo compila: no añade automatización. Hipótesis congeladas, con $L = 1$: $f(y) + \langle g(y), x - y\rangle + \tfrac12\|g(x) - g(y)\|^2 \le f(x)$ para todo $x, y$ (\texttt{interp}) y $g(x_s) = 0$ (\texttt{opt}); $\mathrm{gd}\ g\ hs\ x_0$ aplica $x_{k+1} = x_k - h_k\, g(x_k)$ con los pasos de la lista $hs$. El enunciado leído antes y después del texto del agente debe coincidir término a término, y el teorema se exporta al contexto global usando sólo \texttt{interp} y \texttt{opt}. Etiquetas: \textsc{Accepted} (compila sin oráculos, sin \texttt{skip\_proof} ni axiomas nuevos y el teorema es el enunciado congelado), \textsc{Proof\_Failed} (errores en la demostración del teorema), \textsc{Lemma\_Failed} (errores en los lemas del agente), \textsc{Unsound} (oráculos, \texttt{skip\_proof}, axiomas nuevos, o \texttt{sorry}/\texttt{oops} en el texto), \textsc{Statement\_Drift} (el teorema probado no es el congelado, el objetivo cambió en disco o hay comandos que cambian el significado), \textsc{Timeout} (se agota el tiempo de compilación) y \textsc{Invalid\_Proposal} (comandos o nombres no admitidos). Enunciados de este informe:
+\begin{itemize}
+  \item \texttt{gd\_\allowbreak{}n1} ($n = 1$ fijo; cota exacta del paso óptimo; hash \texttt{469e6d77bc588f4a}):
+  \[ f(\mathrm{gd}\ g\ [3/2]\ x_0) - f(x_s) \le \tfrac{1}{8}\,\|x_0 - x_s\|^2 \]
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} ($n = 2$ fijo; cota exacta de Drori--Teboulle; hash \texttt{d0639dda521234f4}):
+  \[ f(\mathrm{gd}\ g\ [1, 1]\ x_0) - f(x_s) \le \tfrac{1}{10}\,\|x_0 - x_s\|^2 \]
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} (todo $n$; cota clásica; hash \texttt{f4147ea80e7e6c69}):
+  \[ 0 < n \Longrightarrow f(\mathrm{gd}\ g\ (1,\dots,1)_n\ x_0) - f(x_s) \le \frac{\|x_0 - x_s\|^2}{2n} \]
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} (todo $n$; cota exacta de Drori--Teboulle; hash \texttt{fe2f1ffb6b45a25f}):
+  \[ f(\mathrm{gd}\ g\ (1,\dots,1)_n\ x_0) - f(x_s) \le \frac{\|x_0 - x_s\|^2}{4n + 2} \]
+\end{itemize}
+
+\begin{remark}[Existencia frente a descubrimiento]
+Para los objetivos con $n$ fijo existe una demostración que $V_I$ acepta: la que se genera desde un certificado racional exacto del PEP (multiplicadores $\lambda_{ij} \ge 0$ de las desigualdades de interpolación y una suma de cuadrados, comprobados en aritmética racional; \texttt{targets/gd\_cert/}), escrita en Isar como instancias de \texttt{interp}, cuadrados no negativos y aritmética lineal. Con el juez real, con todos sus filtros: \texttt{gd\_\allowbreak{}n1}: variante \texttt{C}, \textsc{Accepted} en 5{,}4\,s; \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}: variante \texttt{C}, \textsc{Accepted} en 5{,}3\,s (validación del \texttt{2026-\allowbreak{}09-\allowbreak{}24 06:\allowbreak{}10}, \texttt{logs/gd\_validacion.json}). La misma validación comprobó que las hipótesis son satisfacibles ($f(x) = x^2/2$, $g = \mathrm{id}$, $x_s = 0$ en $\mathbb{R}$), que \texttt{sorry} lo detienen el filtro y el kernel, y que \texttt{by simp} no demuestra el objetivo de un paso. Para los objetivos ``para todo $n$'' no hay cota superior en este juez: los teoremas son ciertos (la cota de libro de texto y la de \citet{DroriTeboulle2014}), pero no tenemos su demostración formal. Lo que el proponente no ve es el certificado: descubrir qué desigualdades combinar, y con qué pesos, es justamente la parte difícil.
+\end{remark}
+
+\section{Funciones de recompensa}
+
+\subsection{Recompensa base (todos los jueces)}
+\[
+  r(o) = \begin{cases} 1 & \text{si } o.\texttt{accepted} = 1,\\ 0 & \text{en otro caso.}\end{cases}
+\]
+Es la única recompensa activa por defecto. Es binaria a propósito: cualquier señal intermedia introduce un juicio sobre qué es ``progreso'', y ese juicio debe declararse, no esconderse.
+
+\subsection{Recompensa moldeada (opcional, tras bandera)}
+\[
+  r_\beta(o) = r(o) + \beta \cdot o.\texttt{partial} \cdot \mathbb{1}[o.\texttt{accepted}=0],\qquad \beta \in [0, 0.5].
+\]
+Para $V_P$ se conserva la recompensa original del subproyecto 06, que es continua por naturaleza: $r_P(o) = \max\{-2,\ \log(\tau_{\mathrm{ref}}/\tau(h))\}$ si el programa es válido y $-3$ en otro caso, donde $\tau_{\mathrm{ref}}$ es la mejor cota certificada conocida. Se reporta también su binarización $\mathbb{1}[\tau(h) < \tau_{\mathrm{ref}}]$ para hacerla comparable con los otros jueces.
+
+\subsection{Penalización por deriva del enunciado}
+\textsc{Statement\_Drift} recibe recompensa $0$, no negativa, en la configuración base. La razón es metodológica: queremos \emph{contar} cuántas veces el proponente intenta cambiar la pregunta, y una penalización alteraría la frecuencia que se pretende medir. Una variante con penalización $-\delta$ queda disponible tras bandera para experimentos de control.
+
+\medskip\noindent\textbf{En esta corrida:} recompensa base binaria $r(o)$; la moldeada está desactivada ($\beta = 0$); penalización de deriva $\delta = 0$ (\textsc{Statement\_Drift} recibe $0$). En esta corrida el proponente no aprende de la recompensa: el modelo está congelado y la recompensa se registra.
+
+\section{Métricas}
+
+
+
+Para cada entorno, juez y proponente se registran:
+
+\begin{enumerate}
+
+  \item \textbf{Intentos hasta aceptación}: mediana y distribución de $t^*$ sobre episodios, con $t^* = B$ si no hay aceptación.
+
+  \emph{En esta corrida:} (1) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. (2) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. (3) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. (4) $t^*$ mediana $4$ sobre 3 episodios completos, censurada en $B = 4$; por episodio: ep.~1: 4 (sin aceptar), ep.~2: 4 (sin aceptar), ep.~3: 4 (sin aceptar); aceptados 0 de 3. En conjunto, $t^*$ mediana $4$ sobre 12 episodios completos.
+
+  \item \textbf{Distribución de etiquetas}: conteo de cada $\ell \in L$ sobre todos los intentos.
+
+  \emph{En esta corrida:} Tabla~\ref{tab:etiquetas}: 48 intentos en total.
+
+  \item \textbf{Razón de deriva}: para $V_I$, el cociente entre el número de resultados \textsc{Statement\_Drift} y el de \textsc{VC\_Open}; para $V_G$, el cociente entre \textsc{Distractor} e \textsc{Invalid\_Step}. Mide cuán a menudo el proponente ``resuelve'' cambiando la pregunta o cayendo en un error de estudiante.
+
+  \emph{En esta corrida:} En la variante de teorema el análogo de \textsc{VC\_Open} es \textsc{Proof\_Failed}: \textsc{Statement\_Drift}/\textsc{Proof\_Failed} $= 1/24$ $= 0{,}04$.
+
+  \item \textbf{Transferencia}: reducción de $t^*$ en el objetivo $T_2$ cuando el proponente ha sido entrenado (o condicionado con ejemplos aceptados) sobre $T_1$, frente a partir de cero.
+
+  \emph{En esta corrida:} No aplica: la memoria de esta corrida recuerda entre episodios del \emph{mismo} objetivo; no es transferencia entre objetivos, y no se midió ninguna.
+
+  \item \textbf{Comparación entre jueces}: para un mismo método y un mismo proponente, $t^*$ y etiquetas bajo $V_G$ frente a $V_I$. Es la medida directa de cuánto de la ``facilidad'' de un juez proviene del trabajo humano incorporado en él.
+
+  \emph{En esta corrida:} Tabla~\ref{tab:comparacion}. Los enunciados de $V_G$ y $V_I$ no coinciden, así que la comparación es indirecta.
+
+  \item \textbf{Costo}: segundos de juez por intento; determina el cuello de botella real.
+
+  \emph{En esta corrida:} Segundos de juez por intento: media 27{,}3, mediana 5{,}1, máximo 309{,}3; segundos de modelo: media 217{,}4, mediana 193{,}7, máximo 748{,}5. Suma: 1312\,s de juez y 10437\,s de modelo. Duración desde el inicio hasta el último intento registrado: (1) 1\,h~17\,min; (2) 50\,min~16\,s; (3) 48\,min~12\,s; (4) 1\,h~1\,min.
+
+\end{enumerate}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+etiqueta & (1) & (2) & (3) & (4) & total \\
+\midrule
+\textsc{Invalid\_Proposal} & 4 & 0 & 0 & 0 & 4 \\
+\textsc{Lemma\_Failed} & 0 & 0 & 11 & 5 & 16 \\
+\textsc{Proof\_Failed} & 8 & 12 & 0 & 4 & 24 \\
+\textsc{Statement\_Drift} & 0 & 0 & 1 & 0 & 1 \\
+\textsc{Timeout} & 0 & 0 & 0 & 3 & 3 \\
+intentos & 12 & 12 & 12 & 12 & 48 \\
+\bottomrule
+\end{tabular}
+\caption{Etiquetas del juez sobre todos los intentos; las columnas siguen la numeración de las corridas en §1.}
+\label{tab:etiquetas}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llllrrrrrr@{}}
+\toprule
+entorno & juez & proponente & ep. & acept. & $B$ & $t^*$ med. & intentos & s juez & s LLM \\
+\midrule
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}$^\ast$ & $V_I$ (teorema) & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 83{,}5 & 207{,}8 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}$^\ast$ & $V_I$ (teorema) & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 5{,}0 & 236{,}0 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}$^\ast$ & $V_I$ (teorema) & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 9{,}2 & 173{,}8 \\
+\texttt{gd\_\allowbreak{}n1}$^\ast$ & $V_I$ (teorema) & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 11{,}6 & 252{,}1 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 4 & 1{,}1 & 134{,}2 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 78{,}6 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 273{,}2 \\
+\texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 82{,}1 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 55{,}0 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 86{,}3 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 83{,}0 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}5 & 98{,}7 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) & 3 & 3 & 4 & 1 & 3 & 0{,}6 & 69{,}5 \\
+\texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6} & $V_P$ & \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) & 3 & 0 & 4 & 4 & 12 & 0{,}6 & 212{,}1 \\
+\bottomrule
+\end{tabular}
+\caption{Corridas del mismo método (pasos de GD) en \texttt{runs/} (se ignoran las carpetas que empiezan por ``\_''), agrupadas por entorno, juez y proponente como en \texttt{python -m unirl summary}. ``ep.'' cuenta episodios completos; los segundos son medias por intento evaluado; ``intentos'' no cuenta los \textsc{Provider\_Error} (sin respuesta del modelo). $^\ast$: entornos y proponente de este informe.}
+\label{tab:comparacion}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcrrp{4.6cm}r@{}}
+\toprule
+objetivo & aceptado & ep. acept. & $t^*$ med. & etiquetas & lemas verif. (máx.) \\
+\midrule
+\texttt{gd\_\allowbreak{}n1} & no & 0/3 & 4 & \textsc{Invalid\_Proposal} 4, \textsc{Proof\_Failed} 8 & 0 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & no & 0/3 & 4 & \textsc{Proof\_Failed} 12 & 0 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & no & 0/3 & 4 & \textsc{Lemma\_Failed} 11, \textsc{Statement\_Drift} 1 & 0 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & no & 0/3 & 4 & \textsc{Lemma\_Failed} 5, \textsc{Proof\_Failed} 4, \textsc{Timeout} 3 & 2 \\
+\bottomrule
+\end{tabular}
+\caption{Por objetivo: episodios aceptados sobre completos, $t^*$ mediano (censurado en $B$), etiquetas de todos los intentos y el mayor número de lemas verificados en un intento.}
+\label{tab:objetivos}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrlrrrr@{}}
+\toprule
+objetivo & ep. & paso & etiqueta & lemas prop. & lemas verif. & s juez & s LLM \\
+\midrule
+\texttt{gd\_\allowbreak{}n1} & 1 & 1 & \textsc{Invalid\_Proposal} & 0 & 0 & 0 & 736 \\
+\texttt{gd\_\allowbreak{}n1} & 1 & 2 & \textsc{Proof\_Failed} & 0 & 0 & 6 & 748 \\
+\texttt{gd\_\allowbreak{}n1} & 1 & 3 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 104 \\
+\texttt{gd\_\allowbreak{}n1} & 1 & 4 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 103 \\
+\texttt{gd\_\allowbreak{}n1} & 2 & 1 & \textsc{Invalid\_Proposal} & 0 & 0 & 0 & 270 \\
+\texttt{gd\_\allowbreak{}n1} & 2 & 2 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 145 \\
+\texttt{gd\_\allowbreak{}n1} & 2 & 3 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 114 \\
+\texttt{gd\_\allowbreak{}n1} & 2 & 4 & \textsc{Invalid\_Proposal} & 0 & 0 & 0 & 202 \\
+\texttt{gd\_\allowbreak{}n1} & 3 & 1 & \textsc{Invalid\_Proposal} & 0 & 0 & 0 & 147 \\
+\texttt{gd\_\allowbreak{}n1} & 3 & 2 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 215 \\
+\texttt{gd\_\allowbreak{}n1} & 3 & 3 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 131 \\
+\texttt{gd\_\allowbreak{}n1} & 3 & 4 & \textsc{Proof\_Failed} & 0 & 0 & 104 & 110 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 1 & 1 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 435 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 1 & 2 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 200 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 1 & 3 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 219 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 1 & 4 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 154 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 2 & 1 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 204 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 2 & 2 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 181 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 2 & 3 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 164 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 2 & 4 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 133 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 3 & 1 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 274 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 3 & 2 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 217 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 3 & 3 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 405 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} & 3 & 4 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 245 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 1 & 1 & \textsc{Lemma\_Failed} & 6 & 0 & 10 & 197 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 1 & 2 & \textsc{Lemma\_Failed} & 5 & 0 & 10 & 194 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 1 & 3 & \textsc{Lemma\_Failed} & 7 & 0 & 10 & 250 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 1 & 4 & \textsc{Lemma\_Failed} & 4 & 0 & 10 & 199 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 2 & 1 & \textsc{Lemma\_Failed} & 6 & 0 & 10 & 206 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 2 & 2 & \textsc{Statement\_Drift} & 7 & 0 & 0 & 172 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 2 & 3 & \textsc{Lemma\_Failed} & 7 & 0 & 10 & 127 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 2 & 4 & \textsc{Lemma\_Failed} & 7 & 0 & 10 & 122 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 3 & 1 & \textsc{Lemma\_Failed} & 4 & 0 & 11 & 257 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 3 & 2 & \textsc{Lemma\_Failed} & 5 & 0 & 11 & 90 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 3 & 3 & \textsc{Lemma\_Failed} & 5 & 0 & 10 & 123 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} & 3 & 4 & \textsc{Lemma\_Failed} & 6 & 0 & 10 & 150 \\
+\bottomrule
+\end{tabular}
+\caption{Intentos en orden. Parte 1.}
+\label{tab:intentos-0}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrlrrrr@{}}
+\toprule
+objetivo & ep. & paso & etiqueta & lemas prop. & lemas verif. & s juez & s LLM \\
+\midrule
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 1 & 1 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 164 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 1 & 2 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 169 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 1 & 3 & \textsc{Proof\_Failed} & 0 & 0 & 5 & 223 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 1 & 4 & \textsc{Timeout} & 1 & 0 & 309 & 188 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 2 & 1 & \textsc{Lemma\_Failed} & 2 & 0 & 10 & 176 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 2 & 2 & \textsc{Lemma\_Failed} & 2 & 1 & 10 & 194 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 2 & 3 & \textsc{Lemma\_Failed} & 2 & 2 & 10 & 213 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 2 & 4 & \textsc{Lemma\_Failed} & 1 & 2 & 10 & 143 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 3 & 1 & \textsc{Timeout} & 0 & 0 & 309 & 383 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 3 & 2 & \textsc{Timeout} & 0 & 0 & 309 & 213 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 3 & 3 & \textsc{Proof\_Failed} & 0 & 2 & 10 & 181 \\
+\texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} & 3 & 4 & \textsc{Lemma\_Failed} & 1 & 2 & 10 & 247 \\
+\bottomrule
+\end{tabular}
+\caption{Intentos en orden. Parte 2.}
+\label{tab:intentos-1}
+\end{table}
+
+{\raggedright\sloppy Primer error de Isabelle (o motivo del juez) en los intentos no aceptados, saneado y recortado:
+\begin{itemize}
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~1, paso 1, \textsc{Invalid\_Proposal}: el bloque de lemas debe empezar con `lemma`
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~1, paso 2, \textsc{Proof\_Failed}: Undefined method: "nlinarith" (línea 21 de tu PROOF)
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~1, paso 3, \textsc{Proof\_Failed}: Failed to apply initial proof method (línea 21 de tu PROOF): using this: f xs + inner (g xs) (x0 - xs) + 1 / 2 * (nor...
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~1, paso 4, \textsc{Proof\_Failed}: Failed to apply initial proof method (línea 31 de tu PROOF): using this: f (x0 - (3 / 2) *R g x0) + inner (g (x0 - (3...
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~2, paso 1, \textsc{Invalid\_Proposal}: el bloque de lemas debe empezar con `lemma`
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~2, paso 2, \textsc{Proof\_Failed}: Failed to finish proof (línea 20 de tu PROOF): goal (1 subgoal): 1. [|f xs + (norm (g x0))2 / 2 <= f x0; g xs = 0|] =...
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~2, paso 3, \textsc{Proof\_Failed}: Undefined fact: "inner\_neg\_right" (línea 24 de tu PROOF)
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~2, paso 4, \textsc{Invalid\_Proposal}: el bloque de lemas debe empezar con `lemma`
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~3, paso 1, \textsc{Invalid\_Proposal}: el bloque de lemas debe empezar con `lemma`
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~3, paso 2, \textsc{Proof\_Failed}: Failed to finish proof (línea 20 de tu PROOF): goal (1 subgoal): 1. [|f xs + (norm (g x0))2 / 2 <= f x0; g xs = 0|] =...
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~3, paso 3, \textsc{Proof\_Failed}: Failed to finish proof (línea 23 de tu PROOF): goal (1 subgoal): 1. [|f xs + (norm (g x0))2 / 2 <= f x0; g xs = 0|] =...
+  \item \texttt{gd\_\allowbreak{}n1}, ep.~3, paso 4, \textsc{Proof\_Failed}: exception Interrupt\_Breakdown raised
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~1, paso 1, \textsc{Proof\_Failed}: Undefined method: "nlinarith" (línea 1 de tu PROOF)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~1, paso 2, \textsc{Proof\_Failed}: Bad arguments for method "HOL.simp" (línea 1 de tu PROOF): [ gd , opt ]
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~1, paso 3, \textsc{Proof\_Failed}: Bad arguments for method "linarith" (línea 1 de tu PROOF): [ interp [ of xs x0 ] , interp [ of x0 xs ] , interp [ of...
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~1, paso 4, \textsc{Proof\_Failed}: Outer syntax error (línea 1 de tu PROOF): keyword ")" expected, but end-of-input (línea 21 de tu PROOF) was found
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~2, paso 1, \textsc{Proof\_Failed}: Outer syntax error (línea 2 de tu PROOF): keyword "]" expected, but keyword ) (línea 10 de tu PROOF) was found
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~2, paso 2, \textsc{Proof\_Failed}: Undefined method: "nlinarith" (línea 1 de tu PROOF)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~2, paso 3, \textsc{Proof\_Failed}: Undefined fact: "gd" (línea 1 de tu PROOF)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~2, paso 4, \textsc{Proof\_Failed}: Failed to apply initial proof method (línea 1 de tu PROOF): goal (1 subgoal): 1. f (gd g [1, 1] x0) - f xs <= 1 / 10 *
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~3, paso 1, \textsc{Proof\_Failed}: Outer syntax error (línea 1 de tu PROOF): keyword "(" expected, but end-of-input (línea 1 de tu PROOF) was found
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~3, paso 2, \textsc{Proof\_Failed}: Failed to apply initial proof method: using this: f x0 + inner (g x0) (xs - x0) + 1 / 2 * (norm (g xs - g x0))2 <= f...
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~3, paso 3, \textsc{Proof\_Failed}: Outer syntax error (línea 98 de tu PROOF): command expected, but keyword [ (línea 98 de tu PROOF) was found
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, ep.~3, paso 4, \textsc{Proof\_Failed}: Undefined method: "nlinarith" (línea 100 de tu PROOF)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~1, paso 1, \textsc{Lemma\_Failed}: Undefined method: "ring" (lema norm\_sub\_identity\_aux, línea 5)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~1, paso 2, \textsc{Lemma\_Failed}: Undefined method: "nlinarith" (lema aux\_norm\_sub\_identity, línea 16)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~1, paso 3, \textsc{Lemma\_Failed}: Failed to apply initial proof method: using this: f x + inner (g x) (y - x) + 1 / 2 * (norm (g y - g x))2 <= f y goal...
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~1, paso 4, \textsc{Lemma\_Failed}: Undefined fact: "aux\_norm\_sub\_identity" (lema gd\_textbook\_descent, línea 12)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~2, paso 1, \textsc{Lemma\_Failed}: Undefined fact: "inner\_self\_eq\_norm" (lema aux\_norm\_sq\_inner, línea 4)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~2, paso 2, \textsc{Statement\_Drift}: el bloque de lemas no se admite: cadena sin cerrar
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~2, paso 3, \textsc{Lemma\_Failed}: Undefined method: "ring" (lema textbook\_norm\_sub\_identity, línea 9)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~2, paso 4, \textsc{Lemma\_Failed}: Undefined method: "nlinarith" (lema textbook\_norm\_sub\_identity, línea 9)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~3, paso 1, \textsc{Lemma\_Failed}: Undefined method: "ring" (lema textbook\_inner\_norm\_sub, línea 6)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~3, paso 2, \textsc{Lemma\_Failed}: Inner syntax error (lema textbook\_norm\_sub\_identity, línea 2) at "2 = norm u 2 + norm v 2 - 2 * inner u v" Failed to...
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~3, paso 3, \textsc{Lemma\_Failed}: Undefined fact: "norm\_sq\_eq\_inner" (lema textbook\_norm\_sub\_identity, línea 5)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, ep.~3, paso 4, \textsc{Lemma\_Failed}: Failed to apply initial proof method (lema textbook\_norm\_sub\_identity, línea 5): goal (1 subgoal): 1. (norm (u - v))2...
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, ep.~1, paso 1, \textsc{Proof\_Failed}: Failed to apply terminal proof method (línea 1 de tu PROOF): goal (2 subgoals): 1. !{}!x0. f (gd g (replicate 0 1) x0)...
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, ep.~1, paso 2, \textsc{Proof\_Failed}: Undefined fact: "inner\_le\_norm" (línea 3 de tu PROOF)
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, ep.~1, paso 3, \textsc{Proof\_Failed}: Failed to apply terminal proof method (línea 2 de tu PROOF): goal (2 subgoals): 1. !{}!x0. f (gd g (replicate 0 1) x0)...
+  \item \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, ep.~1, paso 4, \textsc{Timeout}: la compilación de la teoría final superó el límite de tiempo
+\end{itemize}
+\par}
+
+\section{Jerarquía de confianza entre jueces}
+
+Los tres jueces aceptan objetos distintos y dejan residuos de confianza distintos. Ordenados de menor a mayor independencia respecto del humano:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+juez & qué certifica & en qué reposa la confianza \\
+\midrule
+$V_G$ & validez de una cadena en un grafo dado & el grafo, escrito por el profesor \\
+$V_P$ & una cota numérica de peor caso & el SDP, la certificación racional exacta \\
+$V_I$ & un teorema en el kernel de Isabelle/HOL & el kernel; la adecuación del triple congelado \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ningún juez elimina la confianza; cada uno la desplaza. $V_G$ la desplaza al autor del grafo. $V_P$ la desplaza a la formulación del PEP y a la implementación del certificador. $V_I$ la desplaza a dos lugares que el kernel no puede inspeccionar: la correspondencia entre el triple de Hoare y el enunciado informal que se pretendía probar, y la matemática auxiliar importada. La Observación 2 muestra que incluso lo que el artículo de referencia reporta como ``automático'' contiene decisiones humanas en esa frontera. El objetivo del proyecto es medir ese residuo, no negarlo.
+
+\textbf{Residuo en esta corrida:} la equivalencia entre la hipótesis \texttt{interp} y ``$f$ convexa y $1$-suave con gradiente $g$'' no está formalizada en Isabelle: es matemática de libro aceptada \citep{Nesterov2018}, como los lemas prestados de la bisección. También la adecuación del enunciado congelado a la cota que se pretende (la de Drori--Teboulle en los objetivos exactos) \citep{DroriTeboulle2014}.
+
+\section{Entornos}
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\begin{tabular}{@{}llp{5.0cm}lrrr@{}}
+\toprule
+sub. & método & objetivo de fase 2 & juez & lemas & distr. & cad.\ mín. \\
+\midrule
+01 & bisección & $m_n \to c$, $f(c)=0$, error $\le (b-a)/2^{n+1}$ & $V_G$, $V_I$ & 21 & 7 & 14 \\
+02 & punto fijo & Banach en $[a,b]$: unicidad, convergencia, cotas & $V_G$ & 20 & 7 & 13 \\
+03 & Taylor & resto de Lagrange; convergencia con derivadas acotadas & $V_G$ & 20 & 7 & 13 \\
+04 & Newton & convergencia local cuadrática & $V_G$ & 18 & 7 & 11 \\
+05 & secante & convergencia local de orden $\varphi$ & $V_G$ & 21 & 8 & 13 \\
+06 & pasos de GD & cota de peor caso $f(x_n)-f^*$ o $\|\nabla f(x_n)\|^2$ (PEP) & $V_P$ & --- & --- & --- \\
+08 & bisección & triple de Hoare de corrección total del programa \texttt{bisection} & $V_I$ (programa) & --- & --- & --- \\
+09$^\ast$ & pasos de GD & 4 teoremas de cota: \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt}, \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2}, \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook}, \texttt{gd\_\allowbreak{}n1} & $V_I$ (teorema) & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\caption{Entornos de \texttt{unirl}. En 01--05 los números se recalculan de los grafos (\texttt{proof\_kb}): ``lemas'' cuenta todos los pasos, incluidos distractores y \textsc{Qed}; ``cad.\ mín.'' es el cierre de dependencias de \textsc{Qed}. Objetivos de $V_I$ disponibles: \texttt{bisection} (variante de programa) y 4 cotas de GD (variante de teorema). El punto fijo aún no tiene objetivo formal; Taylor, Newton y secante sólo disponen de juez de grafo. Proponentes: \texttt{gpt-6-luna} y \texttt{gpt-6-astra}, ambos con esfuerzo \texttt{high}, para todos los jueces (corridas en \texttt{runs/}: \texttt{gpt-\allowbreak{}6-\allowbreak{}luna}: 17, \texttt{gpt-\allowbreak{}6-\allowbreak{}astra}: 7). $^\ast$: filas de este informe.}
+\label{tab:envs}
+\end{table}
+
+\section{Experimentos realizados y previstos}
+
+{\raggedright
+\begin{enumerate}
+  \item \emph{Este informe}: \texttt{gd\_\allowbreak{}n1} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}062122-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Proof\_Failed} 8, \textsc{Invalid\_Proposal} 4.
+  \item \emph{Este informe}: \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}073842-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Proof\_Failed} 12.
+  \item \emph{Este informe}: \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}082858-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Lemma\_Failed} 11, \textsc{Statement\_Drift} 1.
+  \item \emph{Este informe}: \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}091710-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}; terminada; 3 episodios completos). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Lemma\_Failed} 5, \textsc{Proof\_Failed} 4, \textsc{Timeout} 3.
+  \item Relacionada: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}061156-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3, \textsc{Invalid\_Schedule} 1; mejor $\tau = 0{,}0293248$ frente a $\tau_{\mathrm{ref}} = 0{,}0295431$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu001\_\allowbreak{}n4} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}074351-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0318308$ frente a $\tau_{\mathrm{ref}} = 0{,}0295431$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}062058-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0075285$ frente a $\tau_{\mathrm{ref}} = 0{,}0076055$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}fval\_\allowbreak{}mu01\_\allowbreak{}n5} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}075941-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0087266$ frente a $\tau_{\mathrm{ref}} = 0{,}0076055$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}060113-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0204082$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}060127-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0169094$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}060745-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0169094$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n4\_\allowbreak{}neg} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}072359-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 11, \textsc{Invalid\_Schedule} 1; mejor $\tau = 0{,}0182615$ frente a $\tau_{\mathrm{ref}} = 0{,}0169860$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (high) (\texttt{20260924-\allowbreak{}060414-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}astra-\allowbreak{}high}). 3 aceptados de 3 episodios completos, $t^*$ mediana $1$ ($B = 4$); etiquetas: \textsc{Certified} 3; mejor $\tau = 0{,}0071538$ frente a $\tau_{\mathrm{ref}} = 0{,}0072223$.
+  \item Relacionada: \texttt{pep\_\allowbreak{}gradnorm\_\allowbreak{}n6} bajo $V_P$ con \texttt{gpt-\allowbreak{}6-\allowbreak{}luna} (high) (\texttt{20260924-\allowbreak{}061836-\allowbreak{}gpt-\allowbreak{}6-\allowbreak{}luna-\allowbreak{}high}). 0 aceptados de 3 episodios completos, $t^*$ mediana $4$ ($B = 4$); etiquetas: \textsc{Not\_Improved} 12; mejor $\tau = 0{,}0124995$ frente a $\tau_{\mathrm{ref}} = 0{,}0072223$.
+  \item Prevista: \texttt{gd\_\allowbreak{}n1} con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (\texttt{high}), misma configuración; aún sin corrida en \texttt{runs/}.
+  \item Prevista: \texttt{gd\_\allowbreak{}const\_\allowbreak{}n2} con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (\texttt{high}), misma configuración; aún sin corrida en \texttt{runs/}.
+  \item Prevista: \texttt{gd\_\allowbreak{}const\_\allowbreak{}textbook} con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (\texttt{high}), misma configuración; aún sin corrida en \texttt{runs/}.
+  \item Prevista: \texttt{gd\_\allowbreak{}const\_\allowbreak{}dt} con \texttt{gpt-\allowbreak{}6-\allowbreak{}astra} (\texttt{high}), misma configuración; aún sin corrida en \texttt{runs/}.
+  \item Prevista: transferencia entre objetivos (métrica 4), no implementada.
+\end{enumerate}
+\par}
+
+\begin{remark}[Interpretación]
+Esta interpretación la redactó Claude a partir de los registros de las corridas; no es del autor.
+
+Luna no aceptó ninguno de los 12 episodios de los cuatro objetivos (48 intentos). No es que el juez sea inalcanzable: para los dos objetivos con $n$ fijo, la demostración generada desde el certificado exacto del PEP es \textsc{Accepted} en unos 5\,s (Observación~2). Lo que falta es escribirla. En \texttt{gd\_n1}, 4 de los 12 intentos se perdieron por el analizador de respuestas anterior (nota de la carpeta); los otros 8 son demostraciones rechazadas. En \texttt{gd\_const\_textbook}, el único \textsc{Statement\_Drift} es una comilla sin cerrar en el bloque de lemas: el filtro trata todo texto que no puede leer como un intento de salir del hueco, pero aquí se trata de un error de sintaxis, no de un intento de cambiar el enunciado. Los tres \textsc{Timeout} de \texttt{gd\_const\_dt} son compilaciones que pasaron de 300\,s.
+
+Los errores repiten el patrón de la bisección: métodos de Lean y Mathlib que Isabelle no tiene (\texttt{nlinarith} 6 veces, \texttt{ring} 3, \texttt{positivity} 1) y nombres de hechos inexistentes, casi todos con forma de nombres de Mathlib (\texttt{sq\_nonneg}, \texttt{inner\_self\_eq\_norm}, \texttt{inner\_le\_norm}); el hecho que Luna buscaba en Isabelle se llama \texttt{power2\_norm\_eq\_inner}.
+
+Hay un resultado positivo. En la cota de Drori y Teboulle, Luna demostró e Isabelle verificó dos lemas propios: el desdoblamiento de la iteración,
+\[ \mathrm{gd}\ g\ (\mathrm{replicate}\ (n+1)\ 1)\ x = \mathrm{gd}\ g\ (\mathrm{replicate}\ n\ 1)\ (x - g(x)), \] y la co-coercividad, $\langle g(x) - g(y), x - y\rangle \ge \|g(x) - g(y)\|^2$, obtenida sumando las dos instancias de \texttt{interp} con una demostración Isar estructurada. La co-coercividad es un paso estándar de las demostraciones de libro de las cotas del descenso de gradiente, y es el primer lema verificado en las corridas de stepsize (en la bisección, los lemas verificados de Luna eran hechos auxiliares sobre logaritmos y techos). No bastó: la cota exacta para todo $n$ necesita la combinación completa de desigualdades con los multiplicadores de Drori y Teboulle.
+
+Aquí el juez cuesta unos 5\,s por intento y el modelo unos 3\,min: a diferencia de la bisección, el cuello de botella es el proponente.
+\end{remark}
+
+\bibliography{unirl_definicion}
+
+\end{document}

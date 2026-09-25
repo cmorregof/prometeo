@@ -1,0 +1,123 @@
+{
+ "env": "bisection_graph",
+ "judge": "lemma_graph",
+ "provider": "openai",
+ "model": "gpt-5.4-mini",
+ "effort": "low",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260923-193739-gpt-5.4-mini-low",
+ "config": {
+  "name": "bisection_graph",
+  "judge": "lemma_graph",
+  "project": "01_biseccion",
+  "provider": "openai",
+  "model": "gpt-5.4-mini",
+  "effort": "low",
+  "budget": 4,
+  "shaped": false,
+  "seed": 0
+ },
+ "code": {
+  "unirl_sha256": "dff30ac55387001b",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-23T19:37:39",
+ "target": {
+  "id": "01_biseccion:QED",
+  "statement": "Por tanto mₙ → c, f(c) = 0 y el error decrece geométricamente. ∎",
+  "goal_id": "L20",
+  "lemmas": [
+   {
+    "id": "L01",
+    "text": "Por continuidad de f: f(aₙ) · f(bₙ) → f(c) · f(c) = f(c)²."
+   },
+   {
+    "id": "L02",
+    "text": "La sucesión (aₙ) diverge a +∞."
+   },
+   {
+    "id": "L03",
+    "text": "Por el teorema del valor medio existe ξ con f'(ξ) = 0."
+   },
+   {
+    "id": "L04",
+    "text": "Por Bolzano existe c con f(c) = 0; luego mₙ → c."
+   },
+   {
+    "id": "L05",
+    "text": "f es continua en [a, b]."
+   },
+   {
+    "id": "L06",
+    "text": "f es Lipschitz, luego la sucesión es de Cauchy."
+   },
+   {
+    "id": "L07",
+    "text": "El límite de una sucesión ≤ 0 es ≤ 0: f(c)² ≤ 0, así que f(c) = 0."
+   },
+   {
+    "id": "L08",
+    "text": "Sea a₀ = a, b₀ = b, mₙ = (aₙ + bₙ)/2. Si f(aₙ)·f(mₙ) ≤ 0 tomar [aₙ₊₁, bₙ₊₁] = [aₙ, mₙ]; si no, [mₙ, bₙ]."
+   },
+   {
+    "id": "L09",
+    "text": "Por inducción sobre n: f(aₙ) · f(bₙ) ≤ 0 para todo n (el cambio de signo nunca se pierde)."
+   },
+   {
+    "id": "L10",
+    "text": "β − α = lim (bₙ − aₙ) = lim (b − a)/2ⁿ = 0, luego α = β =: c."
+   },
+   {
+    "id": "L11",
+    "text": "(aₙ) es no decreciente y acotada superiormente por b."
+   },
+   {
+    "id": "L12",
+    "text": "Toda sucesión monótona y acotada converge: aₙ → α."
+   },
+   {
+    "id": "L13",
+    "text": "Cada paso divide la longitud a la mitad: bₙ − aₙ = (b − a) / 2ⁿ."
+   },
+   {
+    "id": "L14",
+    "text": "La raíz c es única en [a, b]."
+   },
+   {
+    "id": "L15",
+    "text": "(bₙ) es no creciente y acotada inferiormente por a."
+   },
+   {
+    "id": "L16",
+    "text": "Supongamos que f es derivable en (a, b)."
+   },
+   {
+    "id": "L17",
+    "text": "Iteramos xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ) (Newton)."
+   },
+   {
+    "id": "L18",
+    "text": "Análogamente bₙ → β."
+   },
+   {
+    "id": "L19",
+    "text": "f(a) · f(b) < 0 (cambio de signo)."
+   },
+   {
+    "id": "L20",
+    "text": "Por tanto mₙ → c, f(c) = 0 y el error decrece geométricamente. ∎"
+   },
+   {
+    "id": "L21",
+    "text": "c ∈ [aₙ, bₙ] para todo n, luego |mₙ − c| ≤ (bₙ − aₙ)/2 = (b − a)/2ⁿ⁺¹."
+   }
+  ],
+  "n_lemmas": 21,
+  "n_distractors": 7,
+  "min_length": 14,
+  "hash": "1ccbbe0f95820554"
+ }
+}

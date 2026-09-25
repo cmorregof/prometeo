@@ -1,0 +1,17 @@
+# Episodio 3 de Astra en bisección con lemas y memoria, que se perdió por falta de créditos (24 sep 2026).
+# Parte de la memoria que Astra tenía al final del episodio 2 (copia en logs/astra_ep3_memoria.json), así que ve
+# exactamente lo que habría visto en su episodio 3. Correr con --episodes 1 desde la copia congelada .snap_astra_bis.
+name = "bisection_isabelle_lemas_mem"
+judge = "isabelle"
+target = "bisection"
+allow_lemmas = true
+memory = "run"
+memory_file = "/Users/cmorregof/Personal/rl_metodos/09_unified/logs/astra_ep3_memoria.json"
+memory_prompt = "v1"
+provider = "openai"
+model = "gpt-6-astra"
+effort = "high"
+budget = 4
+sh_timeout = 60
+build_timeout_s = 1800
+shaped = false

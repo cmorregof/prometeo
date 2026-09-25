@@ -1,0 +1,45 @@
+{
+ "env": "pep_fval_mu001_n4",
+ "judge": "pep",
+ "provider": "openai",
+ "model": "gpt-6-astra",
+ "effort": "high",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260924-061156-gpt-6-astra-high",
+ "memory": "run",
+ "memory_prompt": "v2",
+ "config": {
+  "name": "pep_fval_mu001_n4",
+  "judge": "pep",
+  "n": 4,
+  "mu": 0.01,
+  "objective": "fval",
+  "negative": false,
+  "mode": "improve",
+  "memory": "run",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "effort": "high",
+  "budget": 4,
+  "shaped": false
+ },
+ "code": {
+  "unirl_sha256": "3b796cf0ea9262d7",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-24T06:11:56",
+ "target": {
+  "id": "pep:fval|mu=0.01|n=4",
+  "n": 4,
+  "mu": 0.01,
+  "objective": "fval",
+  "negative": false,
+  "tau_ref": 0.02954310207884658,
+  "ref_source": "ce",
+  "mode": "improve",
+  "hash": "ad5fae0d992a90b3"
+ }
+}

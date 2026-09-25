@@ -1,0 +1,40 @@
+{
+ "id": "pf_5_a_priori",
+ "name": "pf_5_a_priori",
+ "kind": "theorem",
+ "metodo": "punto_fijo",
+ "peldano": 5,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "02_punto_fijo (cota a priori, con b − a en lugar de max(x0 − a, b − x0))",
+ "dependencias": [
+  "pf_4_decaimiento"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "g :: \"real \\<Rightarrow> real\" and a b k x0 :: real and p :: real and n :: nat",
+ "assumes": "ab: \"a \\<le> b\"\n    and dentro: \"\\<And>x. x \\<in> {a..b} \\<Longrightarrow> g x \\<in> {a..b}\"\n    and contr: \"\\<And>x y. x \\<in> {a..b} \\<Longrightarrow> y \\<in> {a..b} \\<Longrightarrow> \\<bar>g x - g y\\<bar> \\<le> k * \\<bar>x - y\\<bar>\"\n    and k0: \"0 \\<le> k\" and k1: \"k < 1\" and x0: \"x0 \\<in> {a..b}\"\n    and hp: \"p \\<in> {a..b}\"\n    and fp: \"g p = p\"",
+ "concl": "\\<bar>(g ^^ n) x0 - p\\<bar> \\<le> k ^ n * (b - a)",
+ "statement_es": "Cota a priori: |xₙ − p| ≤ kⁿ(b − a).",
+ "supuestos_dudosos": "02 usa max(x0 − a, b − x0), que es más fina; aquí b − a.",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "debilitada",
+ "debilitacion": "usa b − a en lugar de max(x0 − a, b − x0), que es más fina",
+ "version_clasica": "pf_5c_a_priori_max",
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "565b7cd5ec98d5d4",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

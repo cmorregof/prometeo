@@ -1,0 +1,56 @@
+[cuaderno] bis_1_ancho (dif. 1); lemas 0, estrategias 0, gasto $0.004
+  [bis_1_ancho F] intento 1: TIMEOUT r_V=0.0 (marcas 0/0, llm 62.1 s, juez 304.1 s)
+  [bis_1_ancho F] intento 2: TIMEOUT r_V=0.0 (marcas 0/0, llm 33.5 s, juez 304.1 s)
+  [bis_1_ancho F] intento 3: PROOF_FAILED r_V=0.0 (marcas 0/0, llm 51.5 s, juez 5.1 s)
+  [bis_1_ancho F] intento 4: TIMEOUT r_V=0.0 (marcas 0/0, llm 27.8 s, juez 304.1 s)
+[cuaderno] bis_2_encaje (dif. 2); lemas 0, estrategias 0, gasto $0.972
+  proveedor: Connection error. → reintento 1/6 en 15 s
+  proveedor: Connection error. → reintento 2/6 en 30 s
+  [bis_2_encaje F] intento 1: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 112.8 s, juez 10.1 s)
+  [bis_2_encaje F] intento 2: ACCEPTED r_V=2.0 (marcas 0/0, llm 31.6 s, juez 10.4 s)
+[cuaderno] bis_3_signo (dif. 2); lemas 0, estrategias 0, gasto $0.978
+  [bis_3_signo F] intento 1: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 59.2 s, juez 5.1 s)
+  [bis_3_signo F] intento 2: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 53.2 s, juez 5.0 s)
+  [bis_3_signo F] intento 3: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 41.6 s, juez 5.4 s)
+  [bis_3_signo F] intento 4: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 59.0 s, juez 6.0 s)
+[cuaderno] bis_4_raiz (dif. 3); lemas 0, estrategias 0, gasto $1.007
+  [bis_4_raiz F] consulta: 3 (1 turnos restantes)
+  [bis_4_raiz F] consulta: 4 (0 turnos restantes)
+  [bis_4_raiz F] intento 1: STATEMENT_DRIFT r_V=0.0 (marcas 0/0, llm 66.4 s, juez 0.0 s)
+  [bis_4_raiz F] intento 2: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 30.9 s, juez 5.2 s)
+  [bis_4_raiz F] intento 3: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 61.2 s, juez 5.5 s)
+  [bis_4_raiz F] intento 4: PROOF_FAILED r_V=0.0 (marcas 0/0, llm 53.7 s, juez 10.1 s)
+[cuaderno] bis_5_cota (dif. 3); lemas 0, estrategias 0, gasto $1.338
+  [bis_5_cota F] consulta: 2 (1 turnos restantes)
+  [bis_5_cota F] intento 1: PROOF_FAILED r_V=0.0 (marcas 0/2, llm 84.9 s, juez 0.0 s)
+  [bis_5_cota F] intento 2: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 43.4 s, juez 5.0 s)
+  [bis_5_cota F] intento 3: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 56.3 s, juez 5.0 s)
+  [bis_5_cota F] intento 4: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 48.5 s, juez 5.1 s)
+[cuaderno] bis_5c_cota_uniforme (dif. 3); lemas 0, estrategias 0, gasto $1.712
+  [bis_5c_cota_uniforme F] consulta: 3 (1 turnos restantes)
+  [bis_5c_cota_uniforme F] consulta: 4 (0 turnos restantes)
+  [bis_5c_cota_uniforme F] intento 1: PROOF_FAILED r_V=0.0 (marcas 0/1, llm 89.5 s, juez 0.0 s)
+  [bis_5c_cota_uniforme F] intento 2: PROOF_FAILED r_V=0.0 (marcas 0/1, llm 184.0 s, juez 0.0 s)
+  [bis_5c_cota_uniforme F] intento 3: PROOF_FAILED r_V=0.0 (marcas 0/5, llm 131.7 s, juez 0.0 s)
+  [bis_5c_cota_uniforme F] intento 4: PROOF_FAILED r_V=0.0 (marcas 0/9, llm 107.8 s, juez 0.0 s)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 437, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 422, in main
+    construir_cuaderno(a.modelo, [x for x in a.ids.split(",") if x] or None, Path(a.reanudar) if a.reanudar else None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 227, in construir_cuaderno
+    r = destilar(prov, cuad, pendientes_destilar, todas, llamadas_f, {"fase": "cuaderno", "corrida": out.name, "modelo": modelo})
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 188, in destilar
+    cuad.guardar()
+    ~~~~~~~~~~~~^^
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/cuaderno.py", line 364, in guardar
+    (DIR / "errores.md").write_text(render_errores(self.errores), encoding="utf-8")
+                                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/cuaderno.py", line 77, in render_errores
+    alts = ", ".join(f"{TIPO[a['tipo']]} `{a['nombre']}`" for a in e["en_su_lugar"])
+                                                                   ~^^^^^^^^^^^^^^^
+KeyError: 'en_su_lugar'

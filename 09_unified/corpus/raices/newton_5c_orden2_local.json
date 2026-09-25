@@ -1,0 +1,43 @@
+{
+ "id": "newton_5c_orden2_local",
+ "name": "newton_5c_orden2_local",
+ "kind": "theorem",
+ "metodo": "newton",
+ "peldano": "5c",
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 4,
+ "fuente": "04_newton (orden cuadrático, forma clásica)",
+ "dependencias": [
+  "newton_5_orden2",
+  "newton_4c_convergencia_local"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition paso_newton :: \"(real \\<Rightarrow> real) \\<Rightarrow> (real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"paso_newton f f' x = x - f x / f' x\"",
+ "fixes": "f f' f'' :: \"real \\<Rightarrow> real\" and r \\<epsilon> :: real",
+ "assumes": "eps: \"0 < \\<epsilon>\"\n    and d1: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and d2: \"\\<And>t. \\<bar>t - r\\<bar> < \\<epsilon> \\<Longrightarrow> (f' has_real_derivative f'' t) (at t)\"\n    and c2: \"continuous_on {r - \\<epsilon><..<r + \\<epsilon>} f''\"\n    and raiz: \"f r = 0\" and simple: \"f' r \\<noteq> 0\"",
+ "concl": "\\<exists>\\<delta>>0. \\<exists>C. \\<forall>x0 n. \\<bar>x0 - r\\<bar> \\<le> \\<delta> \\<longrightarrow> \\<bar>(paso_newton f f' ^^ Suc n) x0 - r\\<bar> \\<le> C * ((paso_newton f f' ^^ n) x0 - r)\\<^sup>2",
+ "statement_es": "Orden 2 clásico: existen δ > 0 y C con |xₙ₊₁ − r| ≤ C(xₙ − r)² para todo x0 ∈ [r − δ, r + δ] y todo n.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [
+  "newton_5_orden2"
+ ],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "8bc627f5b70c69f8",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

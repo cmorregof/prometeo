@@ -1,0 +1,11 @@
+name = "bisection_isabelle_lemas"
+judge = "isabelle"
+target = "bisection"
+allow_lemmas = true      # fase 2: el agente puede proponer lemas auxiliares con su prueba
+provider = "openai"
+model = "gpt-6-luna"     # proponente único de v0.2 (decisión del autor)
+effort = "high"
+budget = 4
+sh_timeout = 60
+build_timeout_s = 1800
+shaped = false

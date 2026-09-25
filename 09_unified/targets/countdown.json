@@ -1,0 +1,17 @@
+{
+ "name": "countdown",
+ "source": "target de control (no es del paper): prueba el camino ACCEPTED/VC_OPEN del juez Isabelle",
+ "statement_es": "Cuenta regresiva: i := n; mientras i > 0, i := i − 1. Termina con i = 0.",
+ "imports": "\"ITree_Numeric_VCG.ITree_Numeric_VCG\"",
+ "aux_file": "",
+ "borrowed_lemmas": [],
+ "excluded_lemmas": [],
+ "program_template": "zstore cst =\n  i :: \"nat\"\n\nprogram countdown \"(n :: nat)\" over cst\n = \"i := n;\n    while i > 0\n    invariant __INVARIANT__\n    variant __VARIANT__\n    do i := i - 1 od\"",
+ "fixes": "n :: nat",
+ "assumes": "n_nonneg: \"0 \\<le> n\"",
+ "concl": "H[True] countdown(n) [i = 0]",
+ "prelude": "",
+ "paper_invariant": "i \\<le> n",
+ "paper_variant": "i",
+ "frozen_hash": "081dadf524302edc"
+}

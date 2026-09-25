@@ -1,0 +1,55 @@
+{
+ "peldano": "orden_1_lineal",
+ "prueba": "tests/fixtures/pruebas_privadas/orden_1_lineal.txt con `by (rule mult_left_mono)` cambiado por `by martillo`",
+ "marcas": 1,
+ "cerradas": 1,
+ "fuente_primera": "sledgehammer",
+ "linea": "using ordered_comm_semiring_class.comm_mult_left_mono by blast",
+ "veredicto_juez": "ACCEPTED",
+ "s_primera": 21.1,
+ "fuente_segunda": "cache",
+ "veredicto_segunda": "ACCEPTED",
+ "s_cache": 14.6,
+ "fecha": "2026-09-24T15:51",
+ "vueltas": [
+  {
+   "s": 21.1,
+   "fuentes": [
+    "sledgehammer"
+   ],
+   "lineas": [
+    "using ordered_comm_semiring_class.comm_mult_left_mono by blast"
+   ],
+   "cerradas": 1,
+   "marcas": 1,
+   "veredicto_juez": "ACCEPTED",
+   "errores_pasada1": []
+  },
+  {
+   "s": 14.6,
+   "fuentes": [
+    "cache"
+   ],
+   "lineas": [
+    "using ordered_comm_semiring_class.comm_mult_left_mono by blast"
+   ],
+   "cerradas": 1,
+   "marcas": 1,
+   "veredicto_juez": "ACCEPTED",
+   "errores_pasada1": []
+  }
+ ],
+ "veredicto_meta": {
+  "isabelle": "Isabelle2025",
+  "juez": "teorema-2026-09-24",
+  "limite_compilacion_s": 300.0,
+  "aislado": true,
+  "carga_1_5_15": [
+   3.02,
+   4.36,
+   5.92
+  ],
+  "objetivo_hash": "70d4ebc924a91b2c",
+  "fecha": "2026-09-24T15:51:52"
+ }
+}

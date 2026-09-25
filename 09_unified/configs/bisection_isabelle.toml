@@ -1,0 +1,10 @@
+name = "bisection_isabelle"
+judge = "isabelle"
+target = "bisection"
+provider = "openai"
+model = "gpt-6-luna"     # modelo fuerte para entornos juzgados por Isabelle
+effort = "high"
+budget = 4
+sh_timeout = 60
+build_timeout_s = 1800
+shaped = false

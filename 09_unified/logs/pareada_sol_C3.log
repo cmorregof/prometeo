@@ -1,0 +1,66 @@
+  [rf_1_punto C3] intento 1: ACCEPTED r_V=2.0 (marcas 0/0, llm 26.8 s, juez 5.6 s)
+  [rf_2_signo C3] intento 1: ACCEPTED r_V=2.0 (marcas 0/0, llm 40.7 s, juez 5.6 s)
+  [rf_4_raiz C3] consulta: 4 (0 turnos restantes)
+  [rf_3_encaje C3] intento 1: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 133.3 s, juez 10.9 s)
+  [rf_4_raiz C3] intento 1: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 130.9 s, juez 10.7 s)
+  [rf_3_encaje C3] intento 2: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 99.9 s, juez 10.6 s)
+  [rf_4_raiz C3] intento 2: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 75.3 s, juez 10.6 s)
+  [rf_3_encaje C3] intento 3: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 104.9 s, juez 11.1 s)
+  [rf_4_raiz C3] intento 3: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 78.0 s, juez 11.3 s)
+  [rf_6_convergencia C3] consulta: 4 (0 turnos restantes)
+  [rf_5_limites C3] consulta: 4 (0 turnos restantes)
+  [rf_6c_puntos_convergen C3] consulta: 4 (0 turnos restantes)
+  [secante_1_inyectiva C3] consulta: 4 (0 turnos restantes)
+  [secante_1_inyectiva C3] intento 1: ACCEPTED r_V=2.0 (marcas 0/0, llm 35.7 s, juez 5.2 s)
+  [secante_2_cociente C3] consulta: 4 (0 turnos restantes)
+  [secante_3_producto C3] consulta: 4 (0 turnos restantes)
+  [secante_2_cociente C3] intento 1: PROOF_FAILED r_V=0.0 (marcas 0/0, llm 96.7 s, juez 5.3 s)
+  [secante_2_cociente C3] intento 2: ACCEPTED r_V=2.0 (marcas 0/0, llm 31.0 s, juez 5.2 s)
+  [secante_4_contraccion C3] consulta: 4 (0 turnos restantes)
+  [secante_3_producto C3] intento 1: STATEMENT_DRIFT r_V=0.0 (marcas 0/0, llm 286.3 s, juez 0.0 s)
+  [secante_4c_contraccion_local C3] consulta: 4 (0 turnos restantes)
+  [secante_4_contraccion C3] intento 1: TIMEOUT r_V=0.0 (marcas 0/0, llm 266.8 s, juez 304.1 s)
+  [secante_5_convergencia C3] consulta: 4 (0 turnos restantes)
+  [secante_4_contraccion C3] intento 2: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 178.4 s, juez 8.0 s)
+  [secante_5_convergencia C3] intento 2: STATEMENT_DRIFT r_V=0.0 (marcas 0/0, llm 172.6 s, juez 0.0 s)
+  [secante_4_contraccion C3] intento 3: PROOF_FAILED r_V=0.0 (marcas 0/0, llm 158.9 s, juez 10.7 s)
+  [secante_5c_convergencia_local C3] consulta: 4 (0 turnos restantes)
+  [secante_6_fibonacci C3] consulta: 4 (0 turnos restantes)
+  [secante_6c_orden_phi C3] consulta: 4 (0 turnos restantes)
+  [secante_6c_orden_phi C3] intento 2: STATEMENT_DRIFT r_V=0.0 (marcas 0/0, llm 91.1 s, juez 0.0 s)
+  [secante_6_fibonacci C3] intento 1: STATEMENT_DRIFT r_V=0.0 (marcas 0/0, llm 281.9 s, juez 0.0 s)
+  [secante_6_fibonacci C3] intento 2: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 254.2 s, juez 10.4 s)
+  [secante_6_fibonacci C3] intento 3: LEMMA_FAILED r_V=0.0 (marcas 0/0, llm 241.9 s, juez 10.9 s)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 437, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 424, in main
+    out = evaluar(a.modelo, a.configs.split(","), a.episodios, a.paralelo, a.cuaderno, a.fase,
+                  [x for x in a.ids.split(",") if x] or None)
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 319, in evaluar
+    f.result()
+    ~~~~~~~~^^
+  File "/Users/cmorregof/miniforge3/lib/python3.13/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/cmorregof/miniforge3/lib/python3.13/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/cmorregof/miniforge3/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/experimentos.py", line 310, in uno
+    ep = episodio(spec, CONFIGS[c], prov, llamadas_f, meta, cuaderno=cuad if CONFIGS[c].partes else None,
+                  cache=cache, resueltos=resueltos[c], verbose=verbose)
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/reflexion.py", line 305, in episodio
+    ev = evaluar_intento(juez, spec, r, biblioteca, hash_bib, resueltos, cache)
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/reflexion.py", line 208, in evaluar_intento
+    rv = M.martillo_en_pasos(juez, propuesta["proof"], cuaderno_hash=hash_bib, cache=cache, lemas=propuesta["lemmas"],
+                             biblioteca=biblioteca)
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/martillo.py", line 412, in martillo_en_pasos
+    conocidas = cache.lineas_de(ctx)
+  File "/Users/cmorregof/Personal/rl_metodos/09_unified/unirl/martillo.py", line 295, in lineas_de
+    for (res,) in self.db.execute("select resultado from martillo where tipo = 'paso'"):
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 8307203456 and this is thread id 6135132160.

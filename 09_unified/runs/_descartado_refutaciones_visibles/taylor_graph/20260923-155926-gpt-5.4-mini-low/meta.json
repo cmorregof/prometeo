@@ -1,0 +1,119 @@
+{
+ "env": "taylor_graph",
+ "judge": "lemma_graph",
+ "provider": "openai",
+ "model": "gpt-5.4-mini",
+ "effort": "low",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260923-155926-gpt-5.4-mini-low",
+ "config": {
+  "name": "taylor_graph",
+  "judge": "lemma_graph",
+  "project": "03_taylor",
+  "provider": "openai",
+  "model": "gpt-5.4-mini",
+  "effort": "low",
+  "budget": 4,
+  "shaped": false,
+  "seed": 0
+ },
+ "code": {
+  "unirl_sha256": "a053f2d4c8ea43bd",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-23T15:59:26",
+ "target": {
+  "id": "03_taylor:QED",
+  "statement": "f(x) = Pₙ(x) + f⁽ⁿ⁺¹⁾(ξ)(x − a)ⁿ⁺¹/(n+1)!, y con derivadas uniformemente acotadas la serie de Taylor converge a f. ∎",
+  "goal_id": "L20",
+  "lemmas": [
+   {
+    "id": "L01",
+    "text": "Para todo r > 0: rⁿ⁺¹/(n+1)! → 0 cuando n → ∞ (el cociente entre términos consecutivos r/(n+2) → 0)."
+   },
+   {
+    "id": "L02",
+    "text": "Iteramos xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ) (Newton)."
+   },
+   {
+    "id": "L03",
+    "text": "Toda serie de Taylor converge en todo ℝ."
+   },
+   {
+    "id": "L04",
+    "text": "Los términos f⁽ᵏ⁾(a)(x − a)ᵏ/k! tienden a 0, luego la serie converge."
+   },
+   {
+    "id": "L05",
+    "text": "f es de clase Cⁿ⁺¹ en un intervalo I que contiene a a y a x (x ≠ a)."
+   },
+   {
+    "id": "L06",
+    "text": "Por Bolzano existe c con f(c) = 0."
+   },
+   {
+    "id": "L07",
+    "text": "Si |f⁽ᵏ⁾| ≤ M en I para todo k, entonces |Rₙ(x)| ≤ M|x − a|ⁿ⁺¹/(n+1)! → 0 y Σ f⁽ᵏ⁾(a)(x − a)ᵏ/k! = f(x)."
+   },
+   {
+    "id": "L08",
+    "text": "Pₙ⁽ᵏ⁾(a) = f⁽ᵏ⁾(a) para k = 0, …, n, luego Rₙ⁽ᵏ⁾(a) = 0 para k = 0, …, n."
+   },
+   {
+    "id": "L09",
+    "text": "Sea K la constante con Rₙ(x) = K(x − a)ⁿ⁺¹/(n+1)! y g(t) = Rₙ(t) − K(t − a)ⁿ⁺¹/(n+1)!."
+   },
+   {
+    "id": "L10",
+    "text": "Si |f⁽ⁿ⁺¹⁾| ≤ M en I: |Rₙ(x)| ≤ M|x − a|ⁿ⁺¹/(n+1)!."
+   },
+   {
+    "id": "L11",
+    "text": "g(a) = g(x) = 0 y g ∈ C¹ ⇒ por Rolle existe ξ₁ entre a y x con g'(ξ₁) = 0."
+   },
+   {
+    "id": "L12",
+    "text": "Pₙ⁽ⁿ⁺¹⁾ ≡ 0 (grado n), luego g⁽ⁿ⁺¹⁾(t) = f⁽ⁿ⁺¹⁾(t) − K."
+   },
+   {
+    "id": "L13",
+    "text": "g(x) = 0 por la elección de K, y g⁽ᵏ⁾(a) = 0 para k = 0, …, n."
+   },
+   {
+    "id": "L14",
+    "text": "Por L'Hôpital, lim Rₙ(x)/(x − a)ⁿ = 0."
+   },
+   {
+    "id": "L15",
+    "text": "g'(a) = g'(ξ₁) = 0 ⇒ existe ξ₂ con g''(ξ₂) = 0; repitiendo n+1 veces existe ξ con g⁽ⁿ⁺¹⁾(ξ) = 0."
+   },
+   {
+    "id": "L16",
+    "text": "Por el teorema del valor medio f(x) − f(a) = f'(ξ)(x − a), luego Rₙ(x) → 0."
+   },
+   {
+    "id": "L17",
+    "text": "0 = g⁽ⁿ⁺¹⁾(ξ) = f⁽ⁿ⁺¹⁾(ξ) − K ⇒ K = f⁽ⁿ⁺¹⁾(ξ), es decir Rₙ(x) = f⁽ⁿ⁺¹⁾(ξ)(x − a)ⁿ⁺¹/(n+1)!."
+   },
+   {
+    "id": "L18",
+    "text": "Pₙ(t) = Σₖ₌₀ⁿ f⁽ᵏ⁾(a)(t − a)ᵏ/k!  y  Rₙ(t) = f(t) − Pₙ(t)."
+   },
+   {
+    "id": "L19",
+    "text": "f ∈ C^∞, luego su serie de Taylor converge a f.  (¡falso: e^{−1/x²} en 0!)"
+   },
+   {
+    "id": "L20",
+    "text": "f(x) = Pₙ(x) + f⁽ⁿ⁺¹⁾(ξ)(x − a)ⁿ⁺¹/(n+1)!, y con derivadas uniformemente acotadas la serie de Taylor converge a f. ∎"
+   }
+  ],
+  "n_lemmas": 20,
+  "n_distractors": 7,
+  "min_length": 13,
+  "hash": "6e1be54af31bd898"
+ }
+}

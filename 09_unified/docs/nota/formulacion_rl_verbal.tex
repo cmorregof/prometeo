@@ -1,0 +1,240 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathptmx}
+\renewcommand{\ttdefault}{pcr}
+\usepackage[letterpaper,margin=2.5cm]{geometry}
+\usepackage{setspace}\setstretch{1.15}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+
+\definecolor{darkblue}{HTML}{003366}
+\definecolor{BG1}{HTML}{EEF4FF}
+
+% Nombres en español (babel-spanish no está disponible en todas las instalaciones)
+\addto\captionsenglish{%
+  \renewcommand{\contentsname}{Contenido}%
+  \renewcommand{\refname}{Referencias}%
+  \renewcommand{\abstractname}{Resumen}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\proofname}{Demostración}}
+
+\newtheorem{definition}{Definición}[section]
+\newtheorem{proposition}[definition]{Proposición}
+\newtheorem{hypothesis}{Hipótesis}
+\renewcommand{\thehypothesis}{H\arabic{hypothesis}}
+\newtheorem{assumption}{Supuesto de confianza}
+\renewcommand{\theassumption}{C\arabic{assumption}}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Observación}
+
+\newtcolorbox{pregunta}{enhanced,breakable,colback=BG1,colframe=darkblue,
+  boxrule=0.6pt,arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,
+  title={La pregunta del proyecto},fonttitle=\bfseries}
+
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\1}{\mathbb{1}}
+
+\title{\textbf{Prometeo desencadenado}\\[4pt]
+\large Aprendizaje por refuerzo verbal con memoria verificada\\
+para la demostración formal de teoremas de análisis numérico\\[8pt]
+\normalsize Formulación matemática del proyecto}
+\author{Carlos\\
+\small Maestría en Matemática Aplicada, Universidad Nacional de Colombia, Sede Manizales\\
+\small ORCID: 0009-0001-9163-5137}
+\date{Septiembre de 2026 \quad(borrador de trabajo)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este documento formula con precisión el experimento central del proyecto: un modelo de lenguaje con pesos congelados propone demostraciones en Isabelle/HOL de teoremas de búsqueda de raíces, un kernel las verifica, y lo aprendido se acumula en una memoria externa (el \emph{cuaderno}) cuyo contenido formal está certificado. Se definen los objetos, la política, el operador de actualización que constituye el aprendizaje, la recompensa, las garantías de solidez con sus supuestos de confianza explícitos, el protocolo de evaluación y las hipótesis a contrastar, incluyendo un análisis previo de potencia estadística.
+\end{abstract}
+
+\begin{pregunta}
+¿Puede una política fija ---un modelo de lenguaje con pesos congelados--- aumentar su tasa de demostraciones verificadas formalmente sobre teoremas no vistos, acumulando una memoria cuyo contenido formal está certificado por un kernel, por encima de lo que logran la automatización sola y el modelo solo?
+\end{pregunta}
+
+\section{Objetos}
+
+\paragraph{Lógica y kernel.} Sea $\Theta_0$ la teoría base: \texttt{HOL-Analysis} más los preludios congelados del corpus (definiciones de los métodos). Escribimos $\Theta \vdash \sigma$ para la derivabilidad en Isabelle/HOL \cite{nipkow2002}.
+
+\begin{definition}[Corpus]
+Un corpus es un conjunto finito $\T$ de tareas $\tau=(\sigma_\tau,\mu_\tau,d_\tau)$, donde $\sigma_\tau$ es un enunciado cerrado, $\mu_\tau$ el método numérico al que pertenece y $d_\tau\in\{1,\dots,5\}$ su dificultad estimada. Solo se admiten tareas aprobadas por revisión humana, $\A(\tau)=1$. La partición es por método:
+\[
+\T_{\mathrm{train}}=\{\tau:\mu_\tau\in M_{\mathrm{train}}\},\qquad
+\T_{\mathrm{test}}=\{\tau:\mu_\tau\in M_{\mathrm{test}}\},
+\]
+con $M_{\mathrm{train}}=\{\text{bisección},\ \text{punto fijo},\ \text{Newton},\ \text{órdenes de convergencia}\}$ y $M_{\mathrm{test}}=\{\text{secante},\ \text{regula falsi}\}$.
+\end{definition}
+
+\begin{definition}[Verificador]
+Para una teoría $\Theta$, un enunciado $\sigma$ y un documento de prueba $\pi$,
+\[
+V(\Theta,\sigma,\pi)=1 \iff
+\begin{cases}
+\text{el kernel acepta } \pi \text{ en } \Theta,\\
+\text{el teorema producido coincide con } \sigma \text{ término a término},\\
+\pi\cap\F=\emptyset,
+\end{cases}
+\]
+donde $\F$ es el conjunto de comandos prohibidos: \texttt{sorry}, \texttt{oops}, declaraciones de oráculos, \texttt{axiomatization}, bloques \texttt{ML} y el modo \texttt{quick\_and\_dirty}.
+\end{definition}
+
+\begin{definition}[Martillo]
+El martillo es una función parcial $H(\Theta,g,t)\in\{\text{línea de prueba}\}\cup\{\bot\}$ que, dada una meta $g$ y un límite de tiempo $t$, consulta demostradores externos (Sledgehammer \cite{paulson2010}). Es un componente \emph{no confiable}: su salida solo tiene efecto a través de $V$.
+\end{definition}
+
+\section{El cuaderno: el parámetro que se aprende}
+
+\begin{definition}[Cuaderno]
+Un cuaderno es una tripleta $c=(L,E,S)$ donde
+\begin{itemize}[nosep]
+\item $L$ es un conjunto finito de lemas, cada uno con una prueba aceptada por $V$; induce la teoría extendida $\Theta_c=\Theta_0\cup L$;
+\item $E$ es un conjunto de entradas de error, en texto, con contadores;
+\item $S$ es un conjunto de estrategias $s$, en texto, con contadores $(n_s,k_s)$ de intentos y éxitos.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+$L$ es contenido \emph{formal y certificado}. $E$ y $S$ son texto \emph{no confiable}: modifican la distribución de las propuestas, nunca la validez de un veredicto.
+\end{remark}
+
+\paragraph{Invariante de solidez.} Para todo cuaderno alcanzable, $\Theta_0\vdash\ell$ para todo $\ell\in L$. Es decir, $\Theta_c$ es una extensión de $\Theta_0$ por teoremas, sin axiomas nuevos.
+
+\section{La política y el episodio}
+
+Sea $p_\theta$ el modelo de lenguaje con pesos $\theta$ \emph{fijos}. Una función de recuperación $\rho(c,\tau)$ selecciona del cuaderno un contexto de a lo sumo $B$ tokens. La política inducida por el cuaderno es
+\[
+\pi_c(\,\cdot\mid\tau,h)=p_\theta\big(\,\cdot\mid\sigma_\tau,\ \rho(c,\tau),\ h\big),
+\]
+donde $h$ es la historia dentro del episodio. El entorno base incluye un glosario Lean$\to$Isabelle y hasta $q$ consultas gratuitas por episodio a la biblioteca (búsqueda de teoremas por patrón).
+
+\begin{definition}[Episodio]
+Un episodio sobre $\tau$ con a lo sumo $K$ intentos procede así: para $j=1,\dots,K$,
+\begin{enumerate}[nosep]
+\item \emph{propuesta:} $\pi_j\sim\pi_c(\,\cdot\mid\tau,h_{j-1})$, un esqueleto con pasos intermedios y, si $j>1$, una reflexión $r_j$ en la misma respuesta;
+\item \emph{relleno:} $\hat\pi_j=\mathrm{Fill}_H(\pi_j)$, donde el martillo intenta cerrar cada paso sin justificar;
+\item \emph{veredicto:} $v_j=V(\Theta_c,\sigma_\tau,\hat\pi_j)$; si $v_j=1$ el episodio termina;
+\item \emph{retroalimentación:} $\phi_j$ son los mensajes del kernel y los pasos no cerrados, y $h_j=h_{j-1}\cup\{(\pi_j,\phi_j,r_j)\}$.
+\end{enumerate}
+El éxito del episodio es $Y(\tau;c)=\max_j v_j\in\{0,1\}$.
+\end{definition}
+
+\begin{remark}
+Cada episodio es un proceso de decisión de horizonte finito: el estado es $(\sigma_\tau,\rho(c,\tau),h_j)$, las acciones son documentos o consultas, las transiciones son deterministas y las fija el kernel, y la recompensa es $1$ al ser aceptado. La diferencia con el aprendizaje por refuerzo clásico está en \emph{qué} se actualiza (Sección~\ref{sec:U}).
+\end{remark}
+
+\section{El aprendizaje: un operador sobre cuadernos}\label{sec:U}
+
+El aprendizaje es la sucesión $c_{t+1}=U(c_t,\xi_t)$, donde $\xi_t$ es la traza del episodio $t$ sobre $\tau_t\in\T_{\mathrm{train}}$. El operador $U$ obedece las reglas siguientes.
+\begin{enumerate}[label=(U\arabic*)]
+\item \emph{Lemas.} Un lema $\ell$ entra a $L$ solo si $V(\Theta_{c_t},\ell,\pi_\ell)=1$ como enunciado independiente. Esta regla preserva el invariante de solidez.
+\item \emph{Errores.} Pueden provenir de cualquier episodio.
+\item \emph{Estrategias.} Solo de episodios aceptados o que aportaron lemas verificados. Una estrategia se descarta si $k_s/n_s<\alpha$ tras $n_s\ge n_{\min}$ intentos.
+\item \emph{Destilación.} Cada $M$ episodios, el modelo resume las trazas en entradas nuevas de $E$ y $S$, con contadores en cero.
+\item \emph{No contaminación.} Solo las tareas de entrenamiento escriben en el cuaderno, y ninguna prueba de referencia entra al cuaderno ni a los prompts.
+\end{enumerate}
+
+El objetivo implícito es
+\[
+J(c)=\frac{1}{|\T^*_{\mathrm{test}}|}\sum_{\tau\in\T^*_{\mathrm{test}}}\Pr\big[Y(\tau;c)=1\big],
+\]
+y $U$ es un operador heurístico de ascenso guiado por la señal de $V$. \textbf{No se afirma que $J(c_t)$ crezca monótonamente}: esa es precisamente la hipótesis empírica. El parámetro aprendido es $c$, discreto y en parte textual, y no $\theta$. Por eso el esquema se enmarca como aprendizaje por refuerzo verbal \cite{shinn2023} o, equivalentemente, aprendizaje en contexto con memoria verificada.
+
+\section{Recompensa y el filtro del martillo}
+
+El conjunto de tareas donde el modelo puede aportar es
+\[
+\T^*=\{\tau\in\T:\ H(\Theta_c,\sigma_\tau,t)=\bot\},
+\]
+que depende de $c$ y se recalcula cada vez que cambia $L$. La recompensa de un episodio es
+\[
+R(\tau,\xi)=\1[\tau\in\T^*]\cdot Y(\tau;c).
+\]
+La fracción de pasos cerrados $f(\xi)$ se registra solo como métrica: no interviene en las reglas (U1)--(U5), porque se puede inflar partiendo una prueba en pasos triviales.
+
+\section{Garantías y supuestos de confianza}
+
+\begin{proposition}[Solidez]
+Si $Y(\tau;c)=1$, entonces $\Theta_0\vdash\sigma_\tau$.
+\end{proposition}
+\begin{proof}
+$Y(\tau;c)=1$ implica $V(\Theta_c,\sigma_\tau,\hat\pi_j)=1$ para algún $j$, luego $\Theta_c\vdash\sigma_\tau$. Por el invariante de solidez, cada $\ell\in L$ es teorema de $\Theta_0$, así que todo uso de $\ell$ en la derivación puede sustituirse por su prueba. Por lo tanto $\Theta_0\vdash\sigma_\tau$.
+\end{proof}
+
+La proposición descansa en tres supuestos que el proyecto declara explícitamente:
+\begin{assumption} El kernel de Isabelle/HOL es correcto.\end{assumption}
+\begin{assumption} El juez implementa correctamente $\F$ y la comparación de enunciados.\end{assumption}
+\begin{assumption} Cada $\sigma_\tau$ expresa fielmente el teorema informal que pretende formalizar.\end{assumption}
+
+\begin{remark}[La frontera semántica]
+El supuesto C3 no lo garantiza el kernel sino la revisión humana $\A$. Es el punto donde la confianza en la máquina termina y empieza la confianza en el matemático.
+\end{remark}
+
+\paragraph{Lo que el proyecto no afirma.} Que cambien los pesos del modelo; que la mejora se extienda más allá de lo medido; ni que se produzcan resultados matemáticos nuevos.
+
+\section{Protocolo de evaluación}
+
+Se congela el cuaderno final $c_{\mathrm{final}}$ y se registra su hash. En el test, los episodios son independientes: no hay memoria entre tareas, solo el cuaderno congelado. Se comparan las configuraciones de la Tabla~\ref{tab:conf}; para cada una,
+$\hat p_X=|\T^*_{\mathrm{test}}|^{-1}\sum_{\tau}Y_X(\tau)$.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+Configuración & Descripción\\
+\midrule
+A & Martillo solo\\
+B0 & Modelo sin glosario ni consultas\\
+B & Modelo con martillo, sin cuaderno ni reflexión\\
+C & B más reflexión\\
+E & C más el cuaderno congelado\\
+\bottomrule
+\end{tabular}
+\caption{Configuraciones de la primera ronda.}\label{tab:conf}
+\end{table}
+
+\paragraph{Estimando principal.} $\Delta=p_E-p_C$ sobre $\T^*_{\mathrm{test}}$, estimado de forma \emph{pareada}. Sean
+\[
+b=\#\{\tau:\ Y_E(\tau)=1,\ Y_C(\tau)=0\},\qquad
+b'=\#\{\tau:\ Y_E(\tau)=0,\ Y_C(\tau)=1\}.
+\]
+Bajo la hipótesis nula de que el cuaderno no tiene efecto, $b\sim\mathrm{Bin}(b+b',1/2)$: es la prueba exacta de McNemar \cite{mcnemar1947}.
+
+\paragraph{Potencia.} Con $|\T_{\mathrm{test}}|=16$, rechazar la hipótesis nula al $5\%$ bilateral exige al menos seis pares discordantes, todos a favor de E, pues $2\cdot 2^{-6}\approx 0{,}031$ mientras que $2\cdot 2^{-5}=0{,}0625$. El experimento solo puede detectar efectos grandes, y esto se declara antes de observar los resultados.
+
+\paragraph{Análisis secundarios.} Resultados por nivel de dificultad; variabilidad intramodelo con dos episodios por tarea; y transferencia entre modelos, evaluando con un segundo modelo el cuaderno construido con el primero.
+
+\section{Hipótesis}
+
+\begin{hypothesis}[Margen] $|\T^*_{\mathrm{test}}|$ no es trivial: el martillo solo falla en una parte sustancial del test.\end{hypothesis}
+\begin{hypothesis}[Aprendizaje] $p_E>p_C$ sobre $\T^*_{\mathrm{test}}$.\end{hypothesis}
+\begin{hypothesis}[Transferencia entre métodos] H2 se cumple aunque el cuaderno se construyó con métodos distintos a los de test.\end{hypothesis}
+\begin{hypothesis}[Transferencia entre modelos] El cuaderno construido con un modelo mejora el desempeño de otro.\end{hypothesis}
+
+El orden importa: si H1 falla, las demás no son evaluables. La partición por método es lo que convierte H3 en una afirmación de transferencia y no de memorización.
+
+\section{Relación con trabajos previos}
+
+El esquema combina tres líneas. De \emph{Draft, Sketch, and Prove} \cite{jiang2023dsp} y \emph{Thor} \cite{jiang2022thor} toma la división del trabajo: el modelo propone la estructura y el martillo cierra los pasos. De Reflexion \cite{shinn2023} toma el aprendizaje sin actualizar pesos. De LEGO-Prover \cite{wang2024lego} toma la biblioteca creciente de lemas. Lo propio de este proyecto es el invariante de solidez sobre la memoria, la separación explícita entre memoria certificada y no certificada, el control por el martillo solo, la partición por método para medir transferencia, y el dominio: análisis numérico formalizado en Isabelle/HOL, a partir de la verificación de métodos numéricos de Bryant, Huerta y Munive, y Foster \cite{bryant2025}.
+
+\begin{thebibliography}{9}\small
+\bibitem{bryant2025} Bryant, Huerta y Munive, Foster. \emph{Verifying Numerical Methods with Isabelle/HOL}. arXiv:2511.20550, 2025.
+\bibitem{jiang2023dsp} A.~Q. Jiang et al. \emph{Draft, Sketch, and Prove: Guiding Formal Theorem Provers with Informal Proofs}. ICLR, 2023.
+\bibitem{jiang2022thor} A.~Q. Jiang et al. \emph{Thor: Wielding Hammers to Integrate Language Models and Automated Theorem Provers}. NeurIPS, 2022.
+\bibitem{mcnemar1947} Q.~McNemar. Note on the sampling error of the difference between correlated proportions or percentages. \emph{Psychometrika} 12 (1947), 153--157.
+\bibitem{nipkow2002} T.~Nipkow, L.~C. Paulson, M.~Wenzel. \emph{Isabelle/HOL: A Proof Assistant for Higher-Order Logic}. LNCS 2283, Springer, 2002.
+\bibitem{paulson2010} L.~C. Paulson, J.~C. Blanchette. Three years of experience with Sledgehammer, a practical link between automatic and interactive theorem provers. \emph{IWIL}, 2010.
+\bibitem{shinn2023} N.~Shinn et al. \emph{Reflexion: Language Agents with Verbal Reinforcement Learning}. NeurIPS, 2023.
+\bibitem{wang2024lego} H.~Wang et al. \emph{LEGO-Prover: Neural Theorem Proving with Growing Libraries}. ICLR, 2024.
+\end{thebibliography}
+
+\end{document}

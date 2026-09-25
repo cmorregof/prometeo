@@ -1,0 +1,13 @@
+[project]
+name = "unirl"
+version = "0.1.0"
+description = "Un MDP, jueces intercambiables: grafo de lemas (01-05), PEP (06) e Isabelle/HOL (08). Proponente LLM, recompensa solo del verificador."
+requires-python = ">=3.11"
+dependencies = ["openai>=1.50", "anthropic>=1.0", "numpy>=1.26", "scipy>=1.11", "cvxpy>=1.5", "clarabel>=0.9"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["isabelle: necesita Isabelle2025 y tarda ~1 min"]

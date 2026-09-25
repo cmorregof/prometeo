@@ -1,0 +1,45 @@
+{
+ "env": "pep_gradnorm_n6",
+ "judge": "pep",
+ "provider": "openai",
+ "model": "gpt-6-luna",
+ "effort": "high",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260924-061836-gpt-6-luna-high",
+ "memory": "run",
+ "memory_prompt": "v2",
+ "config": {
+  "name": "pep_gradnorm_n6",
+  "judge": "pep",
+  "n": 6,
+  "mu": 0.0,
+  "objective": "gradnorm",
+  "negative": false,
+  "mode": "improve",
+  "memory": "run",
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "budget": 4,
+  "shaped": false
+ },
+ "code": {
+  "unirl_sha256": "468180702f068c44",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-24T06:18:36",
+ "target": {
+  "id": "pep:gradnorm|mu=0|n=6",
+  "n": 6,
+  "mu": 0.0,
+  "objective": "gradnorm",
+  "negative": false,
+  "tau_ref": 0.007222299608904519,
+  "ref_source": "ce",
+  "mode": "improve",
+  "hash": "83112c00da746f87"
+ }
+}

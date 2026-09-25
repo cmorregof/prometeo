@@ -1,0 +1,17 @@
+{
+ "fase": "pareada_sol",
+ "modelo": "gpt-6-sol",
+ "inicio": "2026-09-25T07:39:36",
+ "tope_llamadas": 154,
+ "codigo": {
+  "unirl_sha256": "5ef59e25793670fb",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "configs": [
+  "C3"
+ ],
+ "episodios_por_peldano": 1,
+ "paralelo": 2,
+ "cuaderno": "ninguno"
+}

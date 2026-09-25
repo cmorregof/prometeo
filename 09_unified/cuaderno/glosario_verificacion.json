@@ -1,0 +1,222 @@
+{
+ "ok": true,
+ "fecha": "2026-09-24T15:51:16",
+ "isabelle": "Isabelle2025",
+ "glosario_hash": "3cf8781117f7d0b1",
+ "filas": [
+  {
+   "lean": "nlinarith",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "linarith": true,
+    "smt": true,
+    "argo": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "ring",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "algebra": true,
+    "algebra_simps": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "ring_nf",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "algebra_simps": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "field_simp",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "field_simps": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "omega",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "presburger": true,
+    "arith": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "positivity",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "simp": true,
+    "mult_pos_pos": true,
+    "zero_le_power2": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "norm_num",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "simp": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "linear_combination",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "linarith": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "gcongr",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "mult_left_mono": true,
+    "add_mono": true,
+    "power_mono": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "aesop",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "auto": true,
+    "blast": true,
+    "force": true,
+    "fastforce": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "sq_nonneg",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "zero_le_power2": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "inner_self_eq_norm_sq",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "power2_norm_eq_inner": true,
+    "dot_square_norm": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "inner_self_eq_norm",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "power2_norm_eq_inner": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "norm_sq_eq_inner",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "power2_norm_eq_inner": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "abs_inner_le_norm",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "Cauchy_Schwarz_ineq2": true,
+    "norm_cauchy_schwarz": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "inner_le_norm",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "norm_cauchy_schwarz": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "inner_neg_right",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "inner_minus_right": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "div_le_iff",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "divide_le_eq": true,
+    "pos_divide_le_eq": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "divide_less_iff",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "divide_less_eq": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "mul_pos",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "mult_pos_pos": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "mul_le_mul_of_nonneg_left",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "mult_left_mono": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "log_div",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "log_divide": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "abs_sub_comm",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "abs_minus_commute": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "pow_le_pow_left",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "power_mono": true
+   },
+   "ok": true
+  },
+  {
+   "lean": "add_pow_two",
+   "lean_existe_en_isabelle": false,
+   "alternativas": {
+    "power2_sum": true
+   },
+   "ok": true
+  }
+ ]
+}

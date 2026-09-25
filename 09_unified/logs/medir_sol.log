@@ -1,0 +1,3 @@
+[medir-sol] llamada 1: {'entrada': 2155, 'cache': 0, 'salida': 5392, 'razonamiento': 4682, 'usd': 0.05823} en 106 s
+[medir-sol] llamada 2: {'entrada': 2155, 'cache': 2152, 'salida': 8959, 'razonamiento': 8104, 'usd': 0.090026} en 172 s
+[medir-sol] llamada 3: {'entrada': 2155, 'cache': 2152, 'salida': 5966, 'razonamiento': 4942, 'usd': 0.060096} en 112 s

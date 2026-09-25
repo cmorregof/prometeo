@@ -1,0 +1,13 @@
+name = "bisection_isabelle_lemas_mem"
+judge = "isabelle"
+target = "bisection"
+allow_lemmas = true      # fase 2: el agente puede proponer lemas auxiliares con su prueba
+memory = "run"          # memoria entre episodios: biblioteca de lemas verificados y resumen de episodios anteriores
+memory_prompt = "v1"     # redacción con la que corrió Luna (20260923-215521, código 2de201754f3073b3); fija para comparar modelos
+provider = "openai"
+model = "gpt-6-luna"     # proponente único de v0.2 (decisión del autor)
+effort = "high"
+budget = 4
+sh_timeout = 60
+build_timeout_s = 1800
+shaped = false

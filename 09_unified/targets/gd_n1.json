@@ -1,0 +1,13 @@
+{
+ "name": "gd_n1",
+ "kind": "theorem",
+ "imports": "\"HOL-Analysis.Inner_Product\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "primrec gd :: \"('a::real_inner \\<Rightarrow> 'a) \\<Rightarrow> real list \\<Rightarrow> 'a \\<Rightarrow> 'a\" where\n  \"gd g [] x = x\"\n| \"gd g (h # hs) x = gd g hs (x - h *\\<^sub>R g x)\"",
+ "fixes": "f :: \"'a::real_inner \\<Rightarrow> real\" and g :: \"'a \\<Rightarrow> 'a\" and x0 xs :: 'a",
+ "assumes": "interp: \"\\<And>x y. f y + inner (g y) (x - y) + (1/2) * (norm (g x - g y))\\<^sup>2 \\<le> f x\"\n    and opt: \"g xs = 0\"",
+ "concl": "f (gd g [3/2] x0) - f xs \\<le> 1/8 * (norm (x0 - xs))\\<^sup>2",
+ "statement_es": "Un paso de descenso de gradiente de tamaño h = 3/2 (L = 1) sobre f convexa y 1-suave con gradiente g: f(x₁) − f(x*) ≤ ‖x₀ − x*‖²/8. Es la cota exacta de peor caso de un paso, y 3/2 es el paso óptimo.",
+ "borrowed_lemmas": [],
+ "frozen_hash": "469e6d77bc588f4a"
+}

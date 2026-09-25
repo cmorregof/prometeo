@@ -1,0 +1,11 @@
+# Stepsize en Isabelle (juez de teorema, docs/diseno_gd_isabelle.md): un paso h = 3/2, cota exacta 1/8. Luna demuestra, Isabelle verifica.
+name = "gd_n1"
+judge = "isabelle_theorem"
+target = "gd_n1"
+memory = "run"          # biblioteca de lemas que el agente demostró y que Isabelle verificó + resumen de episodios
+provider = "openai"
+model = "gpt-6-luna"
+effort = "high"
+budget = 4
+build_timeout_s = 300
+shaped = false

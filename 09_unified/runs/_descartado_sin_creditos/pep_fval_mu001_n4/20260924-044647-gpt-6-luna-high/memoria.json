@@ -1,0 +1,32 @@
+{
+ "library": {},
+ "episodes": [
+  {
+   "episode": 1,
+   "accepted": false,
+   "best_label": "PROVIDER_ERROR",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": null,
+   "last_feedback": "PROVIDER_ERROR: la llamada al modelo falló; este intento no se juzgó."
+  },
+  {
+   "episode": 2,
+   "accepted": false,
+   "best_label": "PROVIDER_ERROR",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": null,
+   "last_feedback": "PROVIDER_ERROR: la llamada al modelo falló; este intento no se juzgó."
+  },
+  {
+   "episode": 3,
+   "accepted": false,
+   "best_label": "PROVIDER_ERROR",
+   "best_closed": null,
+   "best_vcs": null,
+   "best_proposal": null,
+   "last_feedback": "PROVIDER_ERROR: la llamada al modelo falló; este intento no se juzgó."
+  }
+ ]
+}

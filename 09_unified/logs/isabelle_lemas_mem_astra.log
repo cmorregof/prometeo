@@ -1,0 +1,30 @@
+en cola Wed Sep 23 22:47:00 -05 2026: esperando a Luna (PID 3665)
+inicio Wed Sep 23 22:49:00 -05 2026
+entorno bisection_isabelle_lemas_mem · juez isabelle · modelo gpt-6-astra · presupuesto 4 pasos · 3 episodios → /Users/cmorregof/Personal/rl_metodos/09_unified/runs/bisection_isabelle_lemas_mem/20260923-224900-gpt-6-astra-high
+  proveedor: Request timed out. → reintento 1/6 en 15 s
+[ep 1 paso 1] LEMMA_FAILED  (llm 2161.3 s, juez 28.2 s)
+[ep 1 paso 2] LEMMA_FAILED  (llm 758.4 s, juez 28.6 s)
+[ep 1 paso 3] LEMMA_FAILED  (llm 811.5 s, juez 27.5 s)
+  proveedor: Request timed out. → reintento 1/6 en 15 s
+[ep 1 paso 4] LEMMA_FAILED  (llm 2095.7 s, juez 27.3 s)
+  proveedor: Request timed out. → reintento 1/6 en 15 s
+[ep 2 paso 1] LEMMA_FAILED  (llm 2191.9 s, juez 28.2 s)
+  proveedor: Request timed out. → reintento 1/6 en 15 s
+  proveedor: Request timed out. → reintento 2/6 en 30 s
+  proveedor: Request timed out. → reintento 3/6 en 60 s
+  proveedor: Request timed out. → reintento 4/6 en 120 s
+[ep 2 paso 2] LEMMA_FAILED  (llm 8922.3 s, juez 28.1 s)
+[ep 2 paso 3] LEMMA_FAILED  (llm 1487.2 s, juez 27.6 s)
+  proveedor: Request timed out. → reintento 1/6 en 15 s
+[ep 2 paso 4] LEMMA_FAILED  (llm 2096.4 s, juez 27.4 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 1] PROVIDER_ERROR  (llm 603.3 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 2] PROVIDER_ERROR  (llm 2.1 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 3] PROVIDER_ERROR  (llm 2.3 s, juez 0.0 s)
+  proveedor falló: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+[ep 3 paso 4] PROVIDER_ERROR  (llm 1.8 s, juez 0.0 s)
+
+aceptados 0/3; t* (mediana, censurada en B = 4): 4
+fin Thu Sep 24 04:44:57 -05 2026

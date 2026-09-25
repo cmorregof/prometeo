@@ -1,0 +1,11 @@
+# Stepsize en Isabelle (juez de teorema, docs/diseno_gd_isabelle.md): todo n, pasos h = 1, cota exacta ‖x₀ − x*‖²/(4n + 2) (Drori–Teboulle 2014). Luna demuestra, Isabelle verifica.
+name = "gd_const_dt"
+judge = "isabelle_theorem"
+target = "gd_const_dt"
+memory = "run"          # biblioteca de lemas que el agente demostró y que Isabelle verificó + resumen de episodios
+provider = "openai"
+model = "gpt-6-luna"
+effort = "high"
+budget = 4
+build_timeout_s = 300
+shaped = false

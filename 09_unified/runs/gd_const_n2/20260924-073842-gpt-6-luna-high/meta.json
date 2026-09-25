@@ -1,0 +1,43 @@
+{
+ "env": "gd_const_n2",
+ "judge": "isabelle_teorema",
+ "provider": "openai",
+ "model": "gpt-6-luna",
+ "effort": "high",
+ "budget": 4,
+ "shaped": false,
+ "beta": 0.0,
+ "run": "20260924-073842-gpt-6-luna-high",
+ "memory": "run",
+ "memory_prompt": "v2",
+ "config": {
+  "name": "gd_const_n2",
+  "judge": "isabelle_theorem",
+  "target": "gd_const_n2",
+  "memory": "run",
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "budget": 4,
+  "build_timeout_s": 300,
+  "shaped": false
+ },
+ "code": {
+  "unirl_sha256": "557c0d8abb1ce464",
+  "git_commit": "dcb8f7b",
+  "unirl_dirty": true
+ },
+ "started": "2026-09-24T07:38:42",
+ "target": {
+  "id": "isabelle_teorema:gd_const_n2",
+  "kind": "theorem",
+  "statement_es": "Dos pasos de descenso de gradiente de tamaño 1 (L = 1): f(x₂) − f(x*) ≤ ‖x₀ − x*‖²/10. Es la cota exacta de Drori y Teboulle (2014) para N = 2.",
+  "imports": "\"HOL-Analysis.Inner_Product\"",
+  "prelude": "primrec gd :: \"('a::real_inner \\<Rightarrow> 'a) \\<Rightarrow> real list \\<Rightarrow> 'a \\<Rightarrow> 'a\" where\n  \"gd g [] x = x\"\n| \"gd g (h # hs) x = gd g hs (x - h *\\<^sub>R g x)\"",
+  "fixes": "f :: \"'a::real_inner \\<Rightarrow> real\" and g :: \"'a \\<Rightarrow> 'a\" and x0 xs :: 'a",
+  "assumes": "interp: \"\\<And>x y. f y + inner (g y) (x - y) + (1/2) * (norm (g x - g y))\\<^sup>2 \\<le> f x\"\n    and opt: \"g xs = 0\"",
+  "concl": "f (gd g [1, 1] x0) - f xs \\<le> 1/10 * (norm (x0 - xs))\\<^sup>2",
+  "borrowed_lemmas": [],
+  "hash": "d0639dda521234f4"
+ }
+}

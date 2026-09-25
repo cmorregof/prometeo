@@ -1,0 +1,40 @@
+{
+ "id": "orden_2_cuadratico_lineal",
+ "name": "orden_2_cuadratico_lineal",
+ "kind": "theorem",
+ "metodo": "ordenes",
+ "peldano": 2,
+ "split": "train",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "estándar",
+ "dependencias": [
+  "orden_1_lineal"
+ ],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "",
+ "fixes": "e :: \"nat \\<Rightarrow> real\" and C :: real and n :: nat",
+ "assumes": "C0: \"0 \\<le> C\"\n    and paso: \"\\<And>j. \\<bar>e (Suc j)\\<bar> \\<le> C * (e j)\\<^sup>2\"\n    and inicio: \"C * \\<bar>e 0\\<bar> \\<le> 1 / 2\"",
+ "concl": "\\<bar>e n\\<bar> \\<le> \\<bar>e 0\\<bar> / 2 ^ n",
+ "statement_es": "Si |eₙ₊₁| ≤ C eₙ² y C|e₀| ≤ 1/2, entonces |eₙ| ≤ |e₀|/2ⁿ.",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "16338255825007e9",
+ "comprobacion_numerica": {
+  "casos": 400,
+  "cumplen": 400
+ }
+}

@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\newtheorem{definition}{Definición}
+\newtheorem{remark}{Observación}
+
+\title{Aprendizaje por refuerzo con verificación certificada\\como única recompensa:\\definición formal del entorno \texttt{unirl}\\[0.4em]\large Nota técnica del proyecto \texttt{rl\_metodos}}
+\author{Carlos [completar apellidos]\\Universidad Nacional de Colombia, Sede Manizales}
+\date{Septiembre de 2026 --- borrador v0.1}
+
+\begin{document}
+\maketitle
+
+\section{Propósito}
+
+Esta nota fija el lenguaje común de los subproyectos de \texttt{rl\_metodos}. Todos comparten una misma estructura: un \emph{proponente} produce un objeto de prueba y un \emph{juez} independiente decide si lo acepta. La recompensa proviene únicamente del juez; el proponente nunca se evalúa a sí mismo. Lo que varía entre subproyectos es el juez, y con él el residuo de confianza que la aceptación deja sin certificar. Esa variación es deliberada: es el experimento.
+
+La nota define el proceso de decisión de Markov (MDP) común (§2), la interfaz de verificador y sus tres instancias (§3), las funciones de recompensa (§4), las métricas (§5) y la jerarquía de confianza entre jueces (§6). Los entornos concretos aparecen en la Tabla~\ref{tab:envs}.
+
+\section{El MDP común}
+
+\begin{definition}[Entorno de demostración verificada]
+Un entorno es una tupla $\mathcal{E} = (T, \mathcal{A}, V, B)$ donde $T$ es un \emph{objetivo} inmutable (un enunciado y su contexto), $\mathcal{A}$ es un espacio de \emph{propuestas}, $V$ es un \emph{verificador} y $B \in \mathbb{N}$ es un presupuesto de pasos. El MDP asociado es $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$ con:
+\begin{itemize}
+  \item \textbf{Estado} $s_t = (T, \mathcal{C}_t, h_t)$: el objetivo, el \emph{contexto observable} $\mathcal{C}_t$ que el juez devuelve tras el último intento (lemas disponibles, obligaciones abiertas con su texto literal, o el valor certificado vigente), y el historial $h_t$ de resultados anteriores.
+  \item \textbf{Acción} $a_t \in \mathcal{A}$: una propuesta completa (una cadena de lemas, una anotación de invariantes y variantes, o un programa de tamaños de paso). El proponente es un modelo de lenguaje; la acción es su salida tras una extracción determinista.
+  \item \textbf{Transición} $P(s_{t+1} \mid s_t, a_t)$: determinista dado el juez; $s_{t+1}$ incorpora el resultado $V(T, a_t)$ y actualiza $\mathcal{C}_{t+1}$ y $h_{t+1}$. La estocasticidad del sistema vive en el proponente, no en la transición.
+  \item \textbf{Recompensa} $R(s_t, a_t) = r(V(T, a_t))$, función únicamente del resultado del juez (§4).
+  \item \textbf{Terminación}: el episodio termina en el primer $t$ con resultado \textsc{Accepted}, o cuando $t = B$.
+\end{itemize}
+\end{definition}
+
+\begin{remark}[El objetivo es inmutable]
+$T$ no forma parte del espacio de acciones. Cualquier propuesta que modifique el enunciado, sus hipótesis o su tipo se rechaza con etiqueta \textsc{Statement\_Drift} (§4.3). Esta restricción se impone en código mediante un hash del enunciado congelado, no por convención. Es la \emph{frontera semántica} del proyecto: el lugar donde la confianza no puede delegarse al juez.
+\end{remark}
+
+\section{La interfaz de verificador y sus tres instancias}
+
+\begin{definition}[Verificador]
+Un verificador es una función $V : \mathcal{T} \times \mathcal{A} \to \mathcal{O}$ que devuelve un \emph{resultado}
+\[
+  o = (\texttt{accepted},\ \texttt{label},\ \texttt{partial},\ \texttt{cost\_s},\ \texttt{raw}),
+\]
+con $\texttt{accepted}\in\{0,1\}$, $\texttt{label}\in L$ y $\texttt{partial}\in[0,1]$,
+donde $L$ es un conjunto finito de etiquetas de resultado propio de cada juez, \texttt{partial} es una medida de progreso que sólo se usa bajo recompensa moldeada, y \texttt{raw} es la salida íntegra del juez para auditoría.
+\end{definition}
+
+\subsection{Juez de grafo de lemas ($V_G$)}
+
+Proviene de los subproyectos 01--05. Un objetivo $T$ es un grafo dirigido acíclico $G = (\Lambda, D)$ de pasos $\lambda \in \Lambda$, cada uno con dependencias $D(\lambda) \subseteq \Lambda$, un subconjunto $\Delta \subset \Lambda$ de \emph{distractores} (pasos falsos o inaplicables, tomados de errores reales de estudiantes) y un paso distinguido \textsc{Qed}. Una propuesta es una secuencia $a = (\lambda_1, \dots, \lambda_k)$. El juez acepta si y sólo si
+\[
+  \forall i:\ \lambda_i \notin \Delta,\quad \lambda_i \notin \{\lambda_1,\dots,\lambda_{i-1}\},\quad D(\lambda_i) \subseteq \{\lambda_1,\dots,\lambda_{i-1}\},\qquad \lambda_k = \textsc{Qed}.
+\]
+Etiquetas: \textsc{Accepted}, \textsc{Invalid\_Step} (dependencia no establecida), \textsc{Unknown\_Lemma}, \textsc{Distractor}, \textsc{Incomplete} (no se alcanza \textsc{Qed} dentro del presupuesto). Progreso parcial: fracción del cierre de dependencias de \textsc{Qed} ya establecida.
+
+\subsection{Juez PEP ($V_P$)}
+
+Proviene del subproyecto 06. El objetivo es la clase de funciones $L$-suaves convexas y un horizonte $n$; una propuesta es un programa \texttt{schedule(n)} que genera pasos $(h_0,\dots,h_{n-1})$. El juez resuelve el problema de estimación de desempeño (PEP) como un programa semidefinido y obtiene el peor caso $\tau(h) = \sup_f\, f(x_n) - f^*$; el certificado dual es la demostración de la cota \citep{DroriTeboulle2014,TaylorHendrickxGlineur2017}. Toda mejora afirmada se recalcula con tolerancias finas y se certifica en aritmética racional exacta; sin certificado, no hay aceptación. Etiquetas: \textsc{Certified}, \textsc{Invalid\_Schedule}, \textsc{Not\_Improved}, \textsc{Certification\_Failed}.
+
+\subsection{Juez Isabelle ($V_I$)}
+
+Proviene del subproyecto 08 y del marco Isabelle/ITrees \citep{BryantHuertaFoster2026}. Un objetivo es un programa imperativo junto con un triple de Hoare de corrección total $H[P]\,C\,[Q]$, ambos congelados; una propuesta es una anotación $a = (\mathit{inv}, \mathit{var})$ de invariantes y variantes de bucle (en fase 2, además una selección de premisas y pruebas Isar para obligaciones abiertas). El juez inserta la anotación, ejecuta el generador de condiciones de verificación \texttt{vcg}, intenta cerrar cada obligación con automatización de una línea (\texttt{try0}, Sledgehammer con tiempo límite fijo) y construye la sesión. Etiquetas: \textsc{Accepted} (toda obligación cerrada, teorema en el heap), \textsc{VC\_Open}, \textsc{Statement\_Drift}, \textsc{Unsound} (\texttt{sorry}, \texttt{oops}, pruebas inacabadas o axiomas adicionales), \textsc{Timeout}. Progreso parcial: fracción de obligaciones cerradas.
+
+\begin{remark}[Existencia frente a descubrimiento]
+Al reproducir la fila de bisección de la Tabla 1 de \citet{BryantHuertaFoster2026} se comprobó que existen 13 pruebas de una línea para las 15 obligaciones, como afirma el artículo, pero que la automatización sin asistencia humana sólo encuentra 9. Las cuatro restantes requieren adelgazar las premisas antes de invocar Sledgehammer, o dependen de un lema de 40 líneas escrito a medida e importado como auxiliar. Por eso $V_I$ distingue tres líneas base: automatización sobre todas las premisas de \texttt{vcg}, automatización con un filtro de relevancia estándar, y selección de premisas como acción explícita del agente. Nunca se mezclan.
+\end{remark}
+
+\section{Funciones de recompensa}
+
+\subsection{Recompensa base (todos los jueces)}
+\[
+  r(o) = \begin{cases} 1 & \text{si } o.\texttt{accepted} = 1,\\ 0 & \text{en otro caso.}\end{cases}
+\]
+Es la única recompensa activa por defecto. Es binaria a propósito: cualquier señal intermedia introduce un juicio sobre qué es ``progreso'', y ese juicio debe declararse, no esconderse.
+
+\subsection{Recompensa moldeada (opcional, tras bandera)}
+\[
+  r_\beta(o) = r(o) + \beta \cdot o.\texttt{partial} \cdot \mathbb{1}[o.\texttt{accepted}=0],\qquad \beta \in [0, 0.5].
+\]
+Para $V_P$ se conserva la recompensa original del subproyecto 06, que es continua por naturaleza: $r_P(o) = \max\{-2,\ \log(\tau_{\mathrm{ref}}/\tau(h))\}$ si el programa es válido y $-3$ en otro caso, donde $\tau_{\mathrm{ref}}$ es la mejor cota certificada conocida. Se reporta también su binarización $\mathbb{1}[\tau(h) < \tau_{\mathrm{ref}}]$ para hacerla comparable con los otros jueces.
+
+\subsection{Penalización por deriva del enunciado}
+\textsc{Statement\_Drift} recibe recompensa $0$, no negativa, en la configuración base. La razón es metodológica: queremos \emph{contar} cuántas veces el proponente intenta cambiar la pregunta, y una penalización alteraría la frecuencia que se pretende medir. Una variante con penalización $-\delta$ queda disponible tras bandera para experimentos de control.
+
+\section{Métricas}
+
+Para cada entorno, juez y proponente se registran:
+\begin{enumerate}
+  \item \textbf{Intentos hasta aceptación}: mediana y distribución de $t^*$ sobre episodios, con $t^* = B$ si no hay aceptación.
+  \item \textbf{Distribución de etiquetas}: conteo de cada $\ell \in L$ sobre todos los intentos.
+  \item \textbf{Razón de deriva}: para $V_I$, el cociente entre el número de resultados \textsc{Statement\_Drift} y el de \textsc{VC\_Open}; para $V_G$, el cociente entre \textsc{Distractor} e \textsc{Invalid\_Step}. Mide cuán a menudo el proponente ``resuelve'' cambiando la pregunta o cayendo en un error de estudiante.
+  \item \textbf{Transferencia}: reducción de $t^*$ en el objetivo $T_2$ cuando el proponente ha sido entrenado (o condicionado con ejemplos aceptados) sobre $T_1$, frente a partir de cero.
+  \item \textbf{Comparación entre jueces}: para un mismo método y un mismo proponente, $t^*$ y etiquetas bajo $V_G$ frente a $V_I$. Es la medida directa de cuánto de la ``facilidad'' de un juez proviene del trabajo humano incorporado en él.
+  \item \textbf{Costo}: segundos de juez por intento; determina el cuello de botella real.
+\end{enumerate}
+
+\section{Jerarquía de confianza entre jueces}
+
+Los tres jueces aceptan objetos distintos y dejan residuos de confianza distintos. Ordenados de menor a mayor independencia respecto del humano:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+juez & qué certifica & en qué reposa la confianza \\
+\midrule
+$V_G$ & validez de una cadena en un grafo dado & el grafo, escrito por el profesor \\
+$V_P$ & una cota numérica de peor caso & el SDP, la certificación racional exacta \\
+$V_I$ & un teorema en el kernel de Isabelle/HOL & el kernel; la adecuación del triple congelado \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ningún juez elimina la confianza; cada uno la desplaza. $V_G$ la desplaza al autor del grafo. $V_P$ la desplaza a la formulación del PEP y a la implementación del certificador. $V_I$ la desplaza a dos lugares que el kernel no puede inspeccionar: la correspondencia entre el triple de Hoare y el enunciado informal que se pretendía probar, y la matemática auxiliar importada. La Observación 2 muestra que incluso lo que el artículo de referencia reporta como ``automático'' contiene decisiones humanas en esa frontera. El objetivo del proyecto es medir ese residuo, no negarlo.
+
+\section{Entornos}
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{@{}llp{5.0cm}lrrr@{}}
+\toprule
+sub. & método & objetivo de fase 2 & juez & lemas & distr. & cad.\ mín. \\
+\midrule
+01 & bisección & $m_n \to c$, $f(c)=0$, error $\le (b-a)/2^n$ & $V_G$, $V_I$ & 21 & 7 & 14 \\
+02 & punto fijo & Banach en $[a,b]$: unicidad, convergencia, cotas & $V_G$, $V_I$ & 20 & 7 & 13 \\
+03 & Taylor & resto de Lagrange; convergencia con derivadas acotadas & $V_G$ & 20 & 7 & 13 \\
+04 & Newton & convergencia local cuadrática & $V_G$ & 18 & 7 & 11 \\
+05 & secante & convergencia local de orden $\varphi$ & $V_G$ & 21 & 8 & 13 \\
+06 & pasos de GD & cota de peor caso $f(x_n)-f^*$ & $V_P$ & --- & --- & --- \\
+08 & GD (suave/PL/cuad.) & convergencia con cota de iteraciones & $V_I$ & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\caption{Entornos de \texttt{unirl}. Los objetivos formales de $V_I$ son los cuatro teoremas de \citet{BryantHuertaFoster2026} (bisección, punto fijo, perceptrón, descenso de gradiente); Taylor, Newton y secante sólo disponen de juez de grafo hasta que exista una formalización. El proponente por defecto es un modelo económico para $V_G$ y un modelo de frontera para $V_P$ y $V_I$, donde el costo lo domina el juez.}
+\label{tab:envs}
+\end{table}
+
+\section{Experimentos previstos}
+
+\begin{enumerate}
+  \item Bisección bajo $V_G$ con proponente económico, 20 episodios: primera medición de $t^*$ y de la razón de deriva.
+  \item Bisección bajo $V_I$ con el mismo proponente, mismo presupuesto: comparación entre jueces sobre el mismo método.
+  \item Punto fijo bajo ambos jueces; transferencia desde bisección.
+  \item Descenso de gradiente: puente entre $V_P$ y $V_I$. Para el paso constante $1/L$, comparar la cota que $V_P$ certifica numéricamente con la cota de iteraciones que el teorema formal garantiza.
+\end{enumerate}
+
+\bibliography{unirl_definicion}
+
+\end{document}

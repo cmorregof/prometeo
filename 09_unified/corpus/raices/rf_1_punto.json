@@ -1,0 +1,38 @@
+{
+ "id": "rf_1_punto",
+ "name": "rf_1_punto",
+ "kind": "theorem",
+ "metodo": "regula_falsi",
+ "peldano": 1,
+ "split": "test",
+ "estado": "aprobado",
+ "dificultad": 2,
+ "fuente": "estándar (regula falsi)",
+ "dependencias": [],
+ "imports": "\"HOL-Analysis.Analysis\"",
+ "session_parent": "HOL-Analysis",
+ "prelude": "definition punto_rf :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> real\" where\n  \"punto_rf f l u = (l * f u - u * f l) / (f u - f l)\"\n\nprimrec regula_falsi :: \"(real \\<Rightarrow> real) \\<Rightarrow> real \\<Rightarrow> real \\<Rightarrow> nat \\<Rightarrow> real \\<times> real\" where\n  \"regula_falsi f a b 0 = (a, b)\"\n| \"regula_falsi f a b (Suc n) = (case regula_falsi f a b n of (l, u) \\<Rightarrow>\n     (if f l * f (punto_rf f l u) \\<le> 0 then (l, punto_rf f l u) else (punto_rf f l u, u)))\"",
+ "fixes": "f :: \"real \\<Rightarrow> real\" and l u :: real",
+ "assumes": "lu: \"l < u\"\n    and fl: \"f l < 0\"\n    and fu: \"0 \\<le> f u\"",
+ "concl": "l < punto_rf f l u \\<and> punto_rf f l u \\<le> u",
+ "statement_es": "Si l < u y f(l) < 0 ≤ f(u), el punto de falsa posición cae en (l, u].",
+ "supuestos_dudosos": "",
+ "referencia_privada": null,
+ "borrowed_lemmas": [],
+ "version": "clasica",
+ "debilitacion": "",
+ "version_clasica": null,
+ "debil_de": [],
+ "analogo": null,
+ "redactado_por": "Claude (Opus 5.5), 24 sep 2026",
+ "aprobacion": {
+  "por": "Carlos Manuel Orrego Franco",
+  "fecha": "2026-09-24",
+  "nota": "revisión de enunciados: todos correctos matemáticamente; aprobado con los cambios pedidos"
+ },
+ "frozen_hash": "4c9e7c3f1e897b52",
+ "comprobacion_numerica": {
+  "casos": 148,
+  "cumplen": 148
+ }
+}
