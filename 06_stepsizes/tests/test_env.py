@@ -28,11 +28,12 @@ def test_validation_and_negative_flag():
 
 
 def test_rewards_are_relative_to_reference():
-    s = score(CONST, Instance(3))
+    # refs={}: la referencia es la tabla publicada, sin depender de lo que haya hoy en refs.json
+    s = score(CONST, Instance(3), refs={})
     assert s.ok and s.reward == pytest.approx(np.log(0.042895 / (1 / 14)), abs=1e-4) and s.ref_source == "tabla"
-    assert score("def schedule(n):\n    return [1.4142, 1.8768]\n", Instance(2)).reward == pytest.approx(0.0, abs=1e-3)
-    assert score(CONST, Instance(3)).reward > score("def schedule(n):\n    return [0.1]*n\n", Instance(3)).reward
-    assert score("def schedule(n):\n    return [1.0]*(n+1)\n", Instance(3)).reward == INVALID_REWARD
+    assert score("def schedule(n):\n    return [1.4142, 1.8768]\n", Instance(2), refs={}).reward == pytest.approx(0.0, abs=1e-3)
+    assert score(CONST, Instance(3), refs={}).reward > score("def schedule(n):\n    return [0.1]*n\n", Instance(3), refs={}).reward
+    assert score("def schedule(n):\n    return [1.0]*(n+1)\n", Instance(3), refs={}).reward == INVALID_REWARD
 
 
 def test_reference_fallbacks():
@@ -59,7 +60,7 @@ def test_score_batch_parallel_and_cache(tmp_path):
     sc = score_batch(codes, insts, workers=2, cache=cache, refs={}, cert_dir=tmp_path / "certs")
     assert len(sc) == 12 and sum(s.ok for s in sc) == 9 and (tmp_path / "tau.json").exists()
     assert len(cache) == 3  # tres sucesiones distintas → tres SDP
-    assert sc[0].reward == pytest.approx(score(SILVER, Instance(3)).reward, abs=1e-9)
+    assert sc[0].reward == pytest.approx(score(SILVER, Instance(3), refs={}).reward, abs=1e-9)  # misma referencia que el lote
     assert sc[3].improved and sc[3].certified and list((tmp_path / "certs").glob("*.json"))
     sc2 = score_batch(codes, insts, workers=2, cache=cache, refs={})
     assert [s.reward for s in sc2] == pytest.approx([s.reward for s in sc])
