@@ -1,0 +1,30 @@
+\begin{tabular}{@{}lllr>{\raggedright\arraybackslash}p{5.0cm}@{}}
+\toprule
+Juez & Entorno & Modelo & Episodios aceptados & Etiquetas de los intentos\\
+\midrule
+isabelle & bisection\_isabelle & gpt-6-luna & 0 de 3 & {\footnotesize VC\_OPEN 12}\\
+isabelle & bisection\_isabelle\_lemas & gpt-6-luna & 0 de 1 & {\footnotesize VC\_OPEN 2, LEMMA\_FAILED 2}\\
+isabelle & bisection\_isabelle\_lemas\_mem & gpt-6-astra & 0 de 2\textsuperscript{a} & {\footnotesize LEMMA\_FAILED 8, PROVIDER\_ERROR 4}\\
+isabelle & bisection\_isabelle\_lemas\_mem & gpt-6-astra & 0 de 1\textsuperscript{b} & {\footnotesize LEMMA\_FAILED 4}\\
+isabelle & bisection\_isabelle\_lemas\_mem & gpt-6-luna & 0 de 3 & {\footnotesize LEMMA\_FAILED 10, VC\_OPEN 2}\\
+isabelle\_teorema & gd\_const\_dt & gpt-6-luna & 0 de 3 & {\footnotesize LEMMA\_FAILED 5, PROOF\_FAILED 4, TIMEOUT 3}\\
+isabelle\_teorema & gd\_const\_n2 & gpt-6-luna & 0 de 3 & {\footnotesize PROOF\_FAILED 12}\\
+isabelle\_teorema & gd\_const\_textbook & gpt-6-luna & 0 de 3 & {\footnotesize LEMMA\_FAILED 11, STATEMENT\_DRIFT 1}\\
+isabelle\_teorema & gd\_n1 & gpt-6-luna & 0 de 3 & {\footnotesize PROOF\_FAILED 8, INVALID\_PROPOSAL 4}\\
+lemma\_graph & bisection\_graph & gpt-6-luna & 20 de 20 & {\footnotesize ACCEPTED 20}\\
+lemma\_graph & fixedpoint\_graph & gpt-6-luna & 20 de 20 & {\footnotesize ACCEPTED 20}\\
+lemma\_graph & newton\_graph & gpt-6-luna & 20 de 20 & {\footnotesize ACCEPTED 20}\\
+lemma\_graph & secant\_graph & gpt-6-luna & 20 de 20 & {\footnotesize ACCEPTED 20, INVALID\_STEP 2, DISTRACTOR 1}\\
+lemma\_graph & taylor\_graph & gpt-6-luna & 20 de 20 & {\footnotesize ACCEPTED 20, INVALID\_STEP 4}\\
+pep & pep\_fval\_mu001\_n4 & gpt-6-astra & 3 de 3 & {\footnotesize CERTIFIED 3, INVALID\_SCHEDULE 1}\\
+pep & pep\_fval\_mu001\_n4 & gpt-6-luna & 0 de 3 & {\footnotesize NOT\_IMPROVED 12}\\
+pep & pep\_fval\_mu01\_n5 & gpt-6-astra & 3 de 3 & {\footnotesize CERTIFIED 3}\\
+pep & pep\_fval\_mu01\_n5 & gpt-6-luna & 0 de 3 & {\footnotesize NOT\_IMPROVED 12}\\
+pep & pep\_gradnorm\_n4 & gpt-6-astra & 3 de 3 & {\footnotesize CERTIFIED 3}\\
+pep & pep\_gradnorm\_n4 & gpt-6-luna & 0 de 3 & {\footnotesize NOT\_IMPROVED 12}\\
+pep & pep\_gradnorm\_n4\_neg & gpt-6-astra & 3 de 3 & {\footnotesize CERTIFIED 3}\\
+pep & pep\_gradnorm\_n4\_neg & gpt-6-luna & 0 de 3 & {\footnotesize NOT\_IMPROVED 11, INVALID\_SCHEDULE 1}\\
+pep & pep\_gradnorm\_n6 & gpt-6-astra & 3 de 3 & {\footnotesize CERTIFIED 3}\\
+pep & pep\_gradnorm\_n6 & gpt-6-luna & 0 de 3 & {\footnotesize NOT\_IMPROVED 12}\\
+\bottomrule
+\end{tabular}

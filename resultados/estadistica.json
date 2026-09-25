@@ -1,9 +1,9 @@
 {
- "generado": "2026-09-25T14:57:17",
+ "generado": "2026-09-25T15:08:33",
  "nivel": "95 %, Clopper–Pearson exacto",
  "fuentes": {
-  "resumen.json": "2026-09-25T14:57:16",
-  "commit": "08b6264"
+  "resumen.json": "2026-09-25T15:08:33",
+  "commit": "a0b4e50"
  },
  "A_sin_cuaderno": {
   "todos": {
