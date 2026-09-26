@@ -9,6 +9,7 @@ Subcomandos:
   pendientes --fase F --modelo M --configs C1,C2 --episodios K --desde ISO   → ids de test con episodios que faltan
   carpeta-cuaderno --desde ISO --modelo M                                    → carpeta de la corrida `cuaderno` de la ronda
   hash-congelado --desde ISO --modelo M                                      → hash del cuaderno congelado (FIN.json)
+  hash-lemas --desde ISO --modelo M                                          → hash de los lemas del cuaderno congelado ("" si no hay)
   ultimo-aborto --fase F --desde ISO --despues EPOCH                         → última línea de ABORTADA.txt posterior a EPOCH
   red                                                                        → «ok» o «caida» (api.openai.com alcanzable)
   gasto                                                                      → total y por fase del libro de la ronda
@@ -74,7 +75,8 @@ def episodios_validos(fase: str, desde: str, modelo: str, configs: list[str]) ->
     validos: dict[str, dict] = {}
     for d in corridas(fase, desde, modelo):
         m = _meta(d) or {}
-        if not set(configs) <= set(m.get("configs") or []):
+        cfgs = m.get("configs") or ([m["config"]] if m.get("config") else [])  # la corrida `cuaderno` guarda `config`
+        if not set(configs) <= set(cfgs):
             continue
         intentos_por_ep: dict[str, list[dict]] = {}
         for r in _jl(d / "llamadas.jsonl"):
@@ -82,6 +84,7 @@ def episodios_validos(fase: str, desde: str, modelo: str, configs: list[str]) ->
                 intentos_por_ep.setdefault(r.get("episodio_id"), []).append(r)
         for ep in _jl(d / "episodios.jsonl"):
             eid = ep["episodio_id"]
+            ep = {**ep, "config": ep.get("config") or (cfgs[0] if len(cfgs) == 1 else None)}
             if eid in validos:
                 continue
             ints = intentos_por_ep.get(eid, [])
@@ -250,15 +253,14 @@ def informe(ronda: str, desde: str, estado: str, motivo: str) -> Path:
         lin.append(f"| {titulo} | {r['n']} | {r['b']} | {r['b_prima']} | {r['p'] if r['p'] is not None else '—'} |")
     lin += ["", "Sobre T*_test (peldaños que el martillo con cuaderno no cierra) cuando hay línea base; si no, sobre todos.", ""]
     # por peldaño
-    cols = [("evaluacion", "B0"), ("evaluacion", "B"), ("evaluacion", "C"), ("evaluacion_E", "E"), ("pareada_luna", "C3"), ("pareada_luna", "E3"), ("pareada_sol", "C3"), ("pareada_sol", "E3")]
+    cols = [("evaluacion", "B0", 2), ("evaluacion", "B", 2), ("evaluacion", "C", 2), ("evaluacion_E", "E", 2), ("pareada_luna", "C3", 1), ("pareada_luna", "E3", 1), ("pareada_sol", "C3", 1), ("pareada_sol", "E3", 1)]
     lin += ["## Por peldaño (1 = aceptado, 0 = no, · = sin episodio; dos episodios se muestran como «xy»)", "",
-            "| peldaño | dif. | en T* | " + " | ".join(f"{c} ({f.replace('evaluacion_E', 'E').replace('evaluacion', 'eval').replace('pareada_', '')})" for f, c in cols) + " |",
+            "| peldaño | dif. | en T* | " + " | ".join(f"{c} ({f.replace('evaluacion_E', 'E').replace('evaluacion', 'eval').replace('pareada_', '')})" for f, c, _ in cols) + " |",
             "|---|---|---|" + "---|" * len(cols)]
     for pid in ids:
         celdas = []
-        for f, c in cols:
-            ks = [Y.get((f, c, pid, k)) for k in (1, 2)]
-            celdas.append("".join("·" if y is None else str(y) for y in ks if not (y is None and ks[0] is not None and len(ks) == 2 and k == 2)) if any(y is not None for y in ks) else "·")
+        for f, c, kmax in cols:
+            celdas.append("".join("·" if Y.get((f, c, pid, k)) is None else str(Y[(f, c, pid, k)]) for k in range(1, kmax + 1)))
         lin.append(f"| {pid} | {peld[pid]['dificultad']} | " + ("sí" if tstar is not None and pid in tstar else ("no" if tstar is not None else "—")) + " | " + " | ".join(celdas) + " |")
     # gasto
     lin += ["", "## Gasto de la ronda por fase", "", "| fase | llamadas | $ |", "|---|---|---|"]
@@ -281,6 +283,7 @@ def main(argv=None) -> int:
     p.add_argument("--configs", required=True); p.add_argument("--episodios", type=int, required=True); p.add_argument("--desde", required=True)
     p = sub.add_parser("carpeta-cuaderno"); p.add_argument("--desde", required=True); p.add_argument("--modelo", default="gpt-6-luna")
     p = sub.add_parser("hash-congelado"); p.add_argument("--desde", required=True); p.add_argument("--modelo", default="gpt-6-luna")
+    p = sub.add_parser("hash-lemas"); p.add_argument("--desde", required=True); p.add_argument("--modelo", default="gpt-6-luna")
     p = sub.add_parser("ultimo-aborto"); p.add_argument("--fase", required=True); p.add_argument("--desde", required=True); p.add_argument("--despues", type=float, default=0.0)
     sub.add_parser("red")
     sub.add_parser("gasto")
@@ -295,6 +298,9 @@ def main(argv=None) -> int:
     elif a.cmd == "hash-congelado":
         c = carpeta_cuaderno(a.desde, a.modelo)
         print(json.loads((c / "FIN.json").read_text())["cuaderno"] if c and (c / "FIN.json").exists() else "")
+    elif a.cmd == "hash-lemas":
+        c = carpeta_cuaderno(a.desde, a.modelo)
+        print((json.loads((c / "FIN.json").read_text()).get("hash_lemas") or "") if c and (c / "FIN.json").exists() else "")
     elif a.cmd == "ultimo-aborto":
         for d in reversed(corridas(a.fase, a.desde)):
             f = d / "ABORTADA.txt"

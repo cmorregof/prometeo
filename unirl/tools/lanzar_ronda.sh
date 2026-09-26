@@ -78,7 +78,9 @@ if [ "$INTERNO" = 0 ]; then
     [ -d "$RONDA_CUADERNO" ] || cp -R "$RAIZ/runs/unirl/cuaderno" "$RONDA_CUADERNO"
     [ -f "$RONDA_RESULTADOS/martillo_linea_base.json" ] || cp "$RAIZ/resultados/martillo_linea_base.json" "$RONDA_RESULTADOS/"
     "$RAIZ/unirl/tools/preflight.sh" --dry-run $REANUDA || { log "preflight falló; no se lanza"; exit 1; }
-    exec caffeinate -i bash "$0" --dry-run --interno "--id=$ID" 2>&1 | tee -a "$LOG"
+    # sin `exec`: en una tubería no sustituye al shell y el guion seguiría hacia el lanzamiento real
+    caffeinate -i bash "$0" --dry-run --interno "--id=$ID" 2>&1 | tee -a "$LOG"
+    exit "${PIPESTATUS[0]}"
   fi
   "$RAIZ/unirl/tools/preflight.sh" $REANUDA || { log "preflight falló; no se lanza"; exit 1; }
   if [ -f "$PIDF" ] && kill -0 "$(cat "$PIDF")" 2>/dev/null; then echo "la ronda $ID ya está corriendo (pid $(cat "$PIDF"))"; exit 1; fi
@@ -194,8 +196,15 @@ fase_cuaderno() {
 }
 
 fase_linea_base() {  # H
-  local nombre=05_linea_base marca="$RDIR/fase_05_linea_base.done"
+  local nombre=05_linea_base marca="$RDIR/fase_05_linea_base.done" hl
   [ -e "$marca" ] && { log "[$nombre] ya hecha"; return 0; }
+  hl=$($RONDA_PY hash-lemas --desde "$INICIO" --modelo "$MODELO_LUNA")
+  if [ -z "$hl" ]; then
+    # sin lemas, la línea base con cuaderno coincide con la de sin cuaderno (resultados/martillo_linea_base.json, del
+    # 24 sep, versionada); rehacerla la sobrescribiría con solo los peldaños de test. Se omite y se anota.
+    log "[$nombre] el cuaderno congelado no tiene lemas: vale la línea base sin cuaderno (martillo_linea_base.json); no se rehace"
+    touch "$marca"; return 0
+  fi
   log "[$nombre] martillo solo con el cuaderno congelado $1 (en serie, sin API)"
   if $RONDA_PY exec $DRYFLAG -- linea-base --cuaderno "$1" --config E >> "$RDIR/$nombre.out" 2>&1; then
     touch "$marca"; log "[$nombre] completa: $(tail -1 "$RDIR/$nombre.out")"; return 0

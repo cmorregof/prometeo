@@ -29,15 +29,16 @@ runs/**/llamadas.jsonl
 logs/*.sqlite
 logs/*.lock
 logs/**/*.pid
-# la ronda en marcha: estado transitorio y ensayos en seco (los registros de la ronda real sí se versionan)
-logs/ronda_actual
-logs/ronda_dryrun_*
 tests/unirl/fixtures/pruebas_privadas/
 runs/didactica/**
 runs/pep/**
 # los .log de logs/ son registros de corridas, no de LaTeX
 !logs/*.log
 !logs/**/*.log
+# la ronda en marcha: estado transitorio y ensayos en seco (los registros de la ronda real sí se versionan)
+logs/ronda_actual
+logs/ronda_dryrun_*
+logs/ronda_dryrun_*.log
 
 # material ajeno y paquetes recibidos: nunca
 Conjeturas/
