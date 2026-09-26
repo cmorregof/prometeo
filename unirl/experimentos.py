@@ -5,7 +5,7 @@
     python -m unirl.experimentos evaluar   --configs B0,B,C [--episodios 2] [--paralelo 4] [--cuaderno <hash>]
     python -m unirl.experimentos linea-base --cuaderno <hash> [--config E]  # martillo solo con los lemas del cuaderno
     python -m unirl.experimentos medir-sol                                  # 3 llamadas de Sol (PLAN §9.3)
-    python -m unirl.experimentos resumen   runs/rl_verbal/<fase>/<corrida>
+    python -m unirl.experimentos resumen   runs/unirl/rl_verbal/<fase>/<corrida>
 
 Cada fase tiene su tope de llamadas en el libro de gastos (PLAN §9): cuaderno 236, evaluacion 614, pareada_luna 154,
 pareada_sol 154, medicion_sol 3, humo 12; y el tope global en dólares (25; 28 solo si Sol lo requiere). Toda corrida

@@ -206,11 +206,11 @@ def jueces09(filas: list[dict], resumen: dict) -> None:
         meta = json.loads(m.read_text(encoding="utf-8"))
         a_f = m.parent / "attempts.jsonl"
         intentos = jl(a_f)
-        archivada = any(part.startswith("_") for part in m.relative_to(U / "runs").parts[:-1])
+        archivada = any(part.startswith("_") for part in m.relative_to(U / "runs" / "unirl").parts[:-1])
         entorno = meta.get("env") or (meta.get("config") or {}).get("name")
         juez = meta.get("judge")
         codigo = (meta.get("code") or {}).get("unirl_sha256", "")
-        corrida = str(m.parent.relative_to(U / "runs"))
+        corrida = str(m.parent.relative_to(U / "runs" / "unirl"))
         cont_f = m.parent / "continuacion.json"
         cont = json.loads(cont_f.read_text(encoding="utf-8")) if cont_f.exists() else None
         eps = defaultdict(list)

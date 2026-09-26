@@ -4,17 +4,17 @@ Preparado el 25 sep 2026 por Claude. **No se lanzó nada**: Carlos corre estos c
 
 * Código corregido en el commit `b008480` (rama `versionar-y-corregir`); huella de `unirl`: `0e36aba0a1d3ca02`. Las corridas
   del 25 sep por la mañana (huella `5ef59e25793670fb`) quedan como **interrumpidas por error**: ver el
-  `INTERRUMPIDA.md` de cada una en `runs/rl_verbal/`.
+  `INTERRUMPIDA.md` de cada una en `runs/unirl/rl_verbal/`.
 * El cuaderno se resembró a su estado inicial, hash `0b6385c1aed55323`, el mismo con que empezó la corrida
   interrumpida. El estado en que quedó al fallar está archivado en
-  `runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/cuaderno_al_interrumpirse/`.
+  `runs/unirl/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/cuaderno_al_interrumpirse/`.
 * El umbral de H1 quedó prerregistrado en `docs/nota/formulacion_rl_verbal.tex` (commit `b9d850f`, 25 sep 14:30),
   antes de construir el cuaderno.
 
 ## Antes de empezar
 
 1. Estar en la rama con las correcciones (o en `main`, si ya la fusionaste):
-   `git -C ~/Personal/rl_metodos branch --show-current`.
+   `git -C ~/Personal/rl_metodos branch --show-current` (desde el 26 sep todo vive en la raíz: un solo `.venv`, `runs/unirl/`, `logs/`).
 2. Saldo de OpenAI: el libro de gastos deja $20,84 bajo el tope de $25, y la cota de toda la ronda es ≤ $11,16 (llamadas máximas por el costo medio medido por llamada).
    Comprueba en la página de facturación de OpenAI que la cuenta tenga saldo (el 24 sep se agotó). Si se agota, cada
    corrida se detiene sola con `ABORTADA.txt`.
@@ -73,36 +73,36 @@ incluir las estrategias, el paso 6 se corre con `--configs F` y el 7 necesitarí
 
 ## 6. Comandos
 
-Todos desde `~/Personal/rl_metodos/09_unified`.
+Todos desde `~/Personal/rl_metodos` (raíz del repo, con el `.venv` único).
 
 Pestaña 1, paso 1 (cuaderno):
 
 ```bash
-cd ~/Personal/rl_metodos/09_unified && caffeinate -i .venv/bin/python -m unirl.experimentos cuaderno --modelo gpt-6-luna 2>&1 | tee logs/cuaderno_luna_relanzamiento.log
+cd ~/Personal/rl_metodos && caffeinate -i .venv/bin/python -m unirl.experimentos cuaderno --modelo gpt-6-luna 2>&1 | tee logs/cuaderno_luna_relanzamiento.log
 ```
 
 Pestaña 2, paso 2 (B0, B, C con Luna):
 
 ```bash
-cd ~/Personal/rl_metodos/09_unified && caffeinate -i .venv/bin/python -m unirl.experimentos evaluar --modelo gpt-6-luna --configs B0,B,C --episodios 2 --paralelo 3 2>&1 | tee logs/eval_luna_B0_B_C_relanzamiento.log
+cd ~/Personal/rl_metodos && caffeinate -i .venv/bin/python -m unirl.experimentos evaluar --modelo gpt-6-luna --configs B0,B,C --episodios 2 --paralelo 3 2>&1 | tee logs/eval_luna_B0_B_C_relanzamiento.log
 ```
 
 Pestaña 3, paso 3 (C3 con Luna):
 
 ```bash
-cd ~/Personal/rl_metodos/09_unified && caffeinate -i .venv/bin/python -m unirl.experimentos evaluar --modelo gpt-6-luna --configs C3 --episodios 1 --paralelo 2 --fase pareada_luna 2>&1 | tee logs/pareada_luna_C3_relanzamiento.log
+cd ~/Personal/rl_metodos && caffeinate -i .venv/bin/python -m unirl.experimentos evaluar --modelo gpt-6-luna --configs C3 --episodios 1 --paralelo 2 --fase pareada_luna 2>&1 | tee logs/pareada_luna_C3_relanzamiento.log
 ```
 
 Pestaña 4, paso 4 (C3 con Sol):
 
 ```bash
-cd ~/Personal/rl_metodos/09_unified && caffeinate -i .venv/bin/python -m unirl.experimentos evaluar --modelo gpt-6-sol --configs C3 --episodios 1 --paralelo 2 --fase pareada_sol 2>&1 | tee logs/pareada_sol_C3_relanzamiento.log
+cd ~/Personal/rl_metodos && caffeinate -i .venv/bin/python -m unirl.experimentos evaluar --modelo gpt-6-sol --configs C3 --episodios 1 --paralelo 2 --fase pareada_sol 2>&1 | tee logs/pareada_sol_C3_relanzamiento.log
 ```
 
 Paso 5, cuando hayan terminado los pasos 1 a 4. Lee el hash del cuaderno congelado y corre A con él:
 
 ```bash
-cd ~/Personal/rl_metodos/09_unified && H=$(.venv/bin/python -c "import json,glob; print(json.load(open(sorted(glob.glob('runs/rl_verbal/cuaderno/*/FIN.json'))[-1]))['cuaderno'])") && echo "cuaderno congelado: $H" && caffeinate -i .venv/bin/python -m unirl.experimentos linea-base --cuaderno $H 2>&1 | tee logs/linea_base_cuaderno_relanzamiento.log
+cd ~/Personal/rl_metodos && H=$(.venv/bin/python -c "import json,glob; print(json.load(open(sorted(glob.glob('runs/unirl/rl_verbal/cuaderno/*/FIN.json'))[-1]))['cuaderno'])") && echo "cuaderno congelado: $H" && caffeinate -i .venv/bin/python -m unirl.experimentos linea-base --cuaderno $H 2>&1 | tee logs/linea_base_cuaderno_relanzamiento.log
 ```
 
 Paso 6, después de decidir (a) y (b). E con Luna (en la misma pestaña del paso 5, que ya tiene `$H`):

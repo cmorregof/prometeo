@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "pepit>=0.3"]  # pepit: solo para contrastar el PEP de steprl en las pruebas
 
 [project.scripts]
 steprl = "steprl.cli:main"

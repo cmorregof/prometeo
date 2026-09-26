@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-25T15:08:33",
- "commit": "a0b4e50",
+ "generado": "2026-09-26T15:19:22",
+ "commit": "d9cadb6",
  "estados": [
   "terminado",
   "en curso",
@@ -82,7 +82,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260915-070524/historia.json",
+   "fuente": "runs/didactica/biseccion/20260915-070524/historia.json",
    "sha": "816035e61a301a7e",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -160,7 +160,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260915-072310/historia.json",
+   "fuente": "runs/didactica/biseccion/20260915-072310/historia.json",
    "sha": "a785f1f9a39c165c",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -238,7 +238,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260916-083557/historia.json",
+   "fuente": "runs/didactica/biseccion/20260916-083557/historia.json",
    "sha": "8e15bd5dd129e11d",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -316,7 +316,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260916-084139/historia.json",
+   "fuente": "runs/didactica/biseccion/20260916-084139/historia.json",
    "sha": "adccdb49836c78a1",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -394,7 +394,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260916-110122/historia.json",
+   "fuente": "runs/didactica/biseccion/20260916-110122/historia.json",
    "sha": "2c83327d33b58d05",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -472,7 +472,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260916-110129/historia.json",
+   "fuente": "runs/didactica/biseccion/20260916-110129/historia.json",
    "sha": "9893535994477aa1",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -550,7 +550,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260916-110500/historia.json",
+   "fuente": "runs/didactica/biseccion/20260916-110500/historia.json",
    "sha": "c48221f60cea8671",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -628,7 +628,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260918-110135/historia.json",
+   "fuente": "runs/didactica/biseccion/20260918-110135/historia.json",
    "sha": "8ccc2be9b2a0ffdd",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -671,7 +671,7 @@
      "texto": "fase 2 terminada: 0 demostraciones completas, 0 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260921-093835/historia.json",
+   "fuente": "runs/didactica/biseccion/20260921-093835/historia.json",
    "sha": "27410e28f8de490a",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -714,7 +714,7 @@
      "texto": "fase 2 terminada: 0 demostraciones completas, 0 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260921-094003/historia.json",
+   "fuente": "runs/didactica/biseccion/20260921-094003/historia.json",
    "sha": "bdc2e011dd21da9a",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -792,7 +792,7 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "01_biseccion/runs/20260924-161133/historia.json",
+   "fuente": "runs/didactica/biseccion/20260924-161133/historia.json",
    "sha": "ae54acb9587f2693",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -870,9 +870,9 @@
      "texto": "fase 2 terminada: 2695 demostraciones completas, 1665 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/01_biseccion/20260925-144905/historia.json",
+   "fuente": "runs/corridas_locales/01_biseccion/20260925-144905/historia.json",
    "sha": "114cf660968612d6",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -948,9 +948,9 @@
      "texto": "fase 2 terminada: 2672 demostraciones completas, 1686 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/01_biseccion/20260925-145147/historia.json",
+   "fuente": "runs/corridas_locales/01_biseccion/20260925-145147/historia.json",
    "sha": "d6227492b355d582",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -991,9 +991,9 @@
      "texto": "fase 2 terminada: 0 demostraciones completas, 0 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/01_biseccion_100gen/20260925-145306/historia.json",
+   "fuente": "runs/corridas_locales/01_biseccion_100gen/20260925-145306/historia.json",
    "sha": "7d49391fca93fa73",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -1044,9 +1044,9 @@
      "texto": "fase 2 terminada: 9 demostraciones completas, 0 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/01_biseccion_300gen/20260925-145308/historia.json",
+   "fuente": "runs/corridas_locales/01_biseccion_300gen/20260925-145308/historia.json",
    "sha": "3e991f789cffa17f",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "02_punto_fijo",
@@ -1128,7 +1128,7 @@
      "texto": "fase 2 terminada: 2788 demostraciones completas, 1715 mínimas"
     }
    ],
-   "fuente": "02_punto_fijo/runs/20260908-231722/historia.json",
+   "fuente": "runs/didactica/punto_fijo/20260908-231722/historia.json",
    "sha": "2aee71747e10610e",
    "codigo": "ee8277d (inferido por fecha)"
   },
@@ -1212,9 +1212,9 @@
      "texto": "fase 2 terminada: 2788 demostraciones completas, 1715 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/02_punto_fijo/20260925-144906/historia.json",
+   "fuente": "runs/corridas_locales/02_punto_fijo/20260925-144906/historia.json",
    "sha": "37626eca26bc0fd3",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "03_taylor",
@@ -1298,7 +1298,7 @@
      "texto": "fase 2 terminada: 2783 demostraciones completas, 1664 mínimas"
     }
    ],
-   "fuente": "03_taylor/runs/20260908-234647/historia.json",
+   "fuente": "runs/didactica/taylor/20260908-234647/historia.json",
    "sha": "ab61ea81362863a4",
    "codigo": "51ded6b (inferido por fecha)"
   },
@@ -1384,7 +1384,7 @@
      "texto": "fase 2 terminada: 2783 demostraciones completas, 1664 mínimas"
     }
    ],
-   "fuente": "03_taylor/runs/20260915-073657/historia.json",
+   "fuente": "runs/didactica/taylor/20260915-073657/historia.json",
    "sha": "75ece02da302a735",
    "codigo": "51ded6b (inferido por fecha)"
   },
@@ -1470,9 +1470,9 @@
      "texto": "fase 2 terminada: 2783 demostraciones completas, 1664 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/03_taylor/20260925-144906/historia.json",
+   "fuente": "runs/corridas_locales/03_taylor/20260925-144906/historia.json",
    "sha": "96f2bafb7eb3f534",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "04_newton",
@@ -1559,9 +1559,9 @@
      "texto": "fase 2 terminada: 2779 demostraciones completas, 1752 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/04_newton/20260925-144906/historia.json",
+   "fuente": "runs/corridas_locales/04_newton/20260925-144906/historia.json",
    "sha": "a7cd343df3bb0f81",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "05_secante",
@@ -1654,9 +1654,9 @@
      "texto": "fase 2 terminada: 2793 demostraciones completas, 1682 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/05_secante/20260925-144907/historia.json",
+   "fuente": "runs/corridas_locales/05_secante/20260925-144907/historia.json",
    "sha": "32e2bf1447ffc6a6",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "07_interpolacion",
@@ -1733,9 +1733,9 @@
      "texto": "fase 2 terminada: 2782 demostraciones completas, 1690 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/07_interpolacion/20260925-144926/historia.json",
+   "fuente": "runs/corridas_locales/07_interpolacion/20260925-144926/historia.json",
    "sha": "9b966192857f8661",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   },
   {
    "proyecto": "07_interpolacion",
@@ -1812,9 +1812,9 @@
      "texto": "fase 2 terminada: 2764 demostraciones completas, 1701 mínimas"
     }
    ],
-   "fuente": "resultados/corridas_locales/07_interpolacion/20260925-144934/historia.json",
+   "fuente": "runs/corridas_locales/07_interpolacion/20260925-144934/historia.json",
    "sha": "6d3b0da3b485e38e",
-   "codigo": "a0b4e50 (HEAD)"
+   "codigo": "d9cadb6 (HEAD)"
   }
  ],
  "stepsizes": {
@@ -1829,7 +1829,7 @@
      "proveedor: la respuesta se cortó por lon": 11
     },
     "mejor_C_target": null,
-    "fuente": "06_stepsizes/runs/20260909-214116/evolucion.json",
+    "fuente": "runs/pep/20260909-214116/evolucion.json",
     "sha": "820fce46111409d6",
     "codigo": "4b75004 (inferido por fecha)"
    },
@@ -1841,7 +1841,7 @@
     "validas": 4,
     "errores": {},
     "mejor_C_target": null,
-    "fuente": "06_stepsizes/runs/20260910-075701/evolucion.json",
+    "fuente": "runs/pep/20260910-075701/evolucion.json",
     "sha": "df73bd1a01f6d3ea",
     "codigo": "6b458eb (inferido por fecha)"
    },
@@ -1855,7 +1855,7 @@
      "proveedor: Connection error.": 19
     },
     "mejor_C_target": 0.21374768965363045,
-    "fuente": "06_stepsizes/runs/20260910-090345/evolucion.json",
+    "fuente": "runs/pep/20260910-090345/evolucion.json",
     "sha": "c22c1d398d0049c7",
     "codigo": "6b458eb (inferido por fecha)"
    },
@@ -1870,14 +1870,14 @@
      "SolverError: Solver 'CLARABEL' failed. T": 8
     },
     "mejor_C_target": 0.16667051884149836,
-    "fuente": "06_stepsizes/runs/20260910-102749/evolucion.json",
+    "fuente": "runs/pep/20260910-102749/evolucion.json",
     "sha": "0a5c19618e9d81a3",
     "codigo": "6b458eb (inferido por fecha)"
    }
   ],
   "certificados": [
    {
-    "archivo": "06_stepsizes/certificados/fval_mu0_n12.json",
+    "archivo": "certificados/fval_mu0_n12.json",
     "tarea": "fval, μ = 0, n = 12",
     "tau_cert": 0.008972494158,
     "tau_sdp": 0.008972390160767266,
@@ -1885,7 +1885,7 @@
     "sha": "dc1c39c6a5c81c6b"
    },
    {
-    "archivo": "06_stepsizes/certificados/fval_mu0_n3.json",
+    "archivo": "certificados/fval_mu0_n3.json",
     "tarea": "fval, μ = 0, n = 3",
     "tau_cert": 0.042893459677,
     "tau_sdp": 0.04289322972397252,
@@ -1893,7 +1893,7 @@
     "sha": "6d4f55f01dffe48f"
    },
    {
-    "archivo": "06_stepsizes/certificados/fval_mu0_n6.json",
+    "archivo": "certificados/fval_mu0_n6.json",
     "tarea": "fval, μ = 0, n = 6",
     "tau_cert": 0.019665446255,
     "tau_sdp": 0.019665326783461317,
@@ -1901,7 +1901,7 @@
     "sha": "26138f90573a989f"
    },
    {
-    "archivo": "06_stepsizes/runs/cert-fval_mu0_n12.json",
+    "archivo": "runs/pep/cert-fval_mu0_n12.json",
     "tarea": "fval, μ = 0, n = 12",
     "tau_cert": 0.008972494158,
     "tau_sdp": 0.008972390160767266,
@@ -1909,7 +1909,7 @@
     "sha": "dc1c39c6a5c81c6b"
    },
    {
-    "archivo": "06_stepsizes/runs/cert-fval_mu0_n3.json",
+    "archivo": "runs/pep/cert-fval_mu0_n3.json",
     "tarea": "fval, μ = 0, n = 3",
     "tau_cert": 0.042893459677,
     "tau_sdp": 0.04289322972397252,
@@ -1917,7 +1917,7 @@
     "sha": "6d4f55f01dffe48f"
    },
    {
-    "archivo": "06_stepsizes/runs/cert-fval_mu0_n6.json",
+    "archivo": "runs/pep/cert-fval_mu0_n6.json",
     "tarea": "fval, μ = 0, n = 6",
     "tau_cert": 0.019885665265,
     "tau_sdp": 0.019885429753425506,
@@ -1925,7 +1925,7 @@
     "sha": "03ed991dc37fb2c8"
    },
    {
-    "archivo": "06_stepsizes/runs/cert-n2.json",
+    "archivo": "runs/pep/cert-n2.json",
     "tarea": "fval, μ = 0, n = 2",
     "tau_cert": 0.065951634994,
     "tau_sdp": 0.06595148529278122,
@@ -1939,7 +1939,7 @@
     "ce": 54,
     "tabla": 6
    },
-   "fuente": "06_stepsizes/steprl/refs.json",
+   "fuente": "steprl/refs.json",
    "sha": "405da8162e7ef5d4"
   }
  },
@@ -1953,11 +1953,11 @@
   "articulo_auto": 13,
   "segundos": 423.6,
   "fuentes": {
-   "08_isabelle/runs/repro_bisection.json": "efbdd2e623e4feab",
-   "09_unified/runs/_baseline/given_smt_08.json": "1d6a82dda914114a",
-   "08_isabelle/runs/repro_vc4_240s.json": "eb1d9fa582235636",
-   "09_unified/runs/_baseline/sh_goals.json": "ea9f97306cc71ec7",
-   "09_unified/runs/_baseline/upper_bound.json": "cb56cc9e2e7018a7"
+   "runs/isabelle/repro_bisection.json": "efbdd2e623e4feab",
+   "runs/unirl/_baseline/given_smt_08.json": "1d6a82dda914114a",
+   "runs/isabelle/repro_vc4_240s.json": "eb1d9fa582235636",
+   "runs/unirl/_baseline/sh_goals.json": "ea9f97306cc71ec7",
+   "runs/unirl/_baseline/upper_bound.json": "cb56cc9e2e7018a7"
   }
  },
  "jueces_09": [
@@ -1974,7 +1974,7 @@
     "DISTRACTOR": 1,
     "ACCEPTED": 7
    },
-   "fuente": "09_unified/runs/_abortado_mismo_segundo/bisection_graph/20260923-155840/attempts.jsonl",
+   "fuente": "runs/unirl/_abortado_mismo_segundo/bisection_graph/20260923-155840/attempts.jsonl",
    "sha": "4cff5905f73beaf6",
    "codigo": "86662c08be9c32ed"
   },
@@ -1988,7 +1988,7 @@
    "aceptados": 0,
    "intentos": 0,
    "etiquetas": {},
-   "fuente": "09_unified/runs/_abortado_mismo_segundo/bisection_isabelle/20260923-155839/attempts.jsonl",
+   "fuente": "runs/unirl/_abortado_mismo_segundo/bisection_isabelle/20260923-155839/attempts.jsonl",
    "sha": "e3b0c44298fc1c14",
    "codigo": "86662c08be9c32ed"
   },
@@ -2005,7 +2005,7 @@
     "ACCEPTED": 2,
     "INVALID_STEP": 3
    },
-   "fuente": "09_unified/runs/_abortado_mismo_segundo/fixedpoint_graph/20260923-155840/attempts.jsonl",
+   "fuente": "runs/unirl/_abortado_mismo_segundo/fixedpoint_graph/20260923-155840/attempts.jsonl",
    "sha": "540c910d5df5cb53",
    "codigo": "86662c08be9c32ed"
   },
@@ -2022,7 +2022,7 @@
     "ACCEPTED": 2,
     "INVALID_STEP": 3
    },
-   "fuente": "09_unified/runs/_abortado_mismo_segundo/newton_graph/20260923-155840/attempts.jsonl",
+   "fuente": "runs/unirl/_abortado_mismo_segundo/newton_graph/20260923-155840/attempts.jsonl",
    "sha": "3a3b9a9f714d695a",
    "codigo": "86662c08be9c32ed"
   },
@@ -2040,7 +2040,7 @@
     "INVALID_STEP": 2,
     "DISTRACTOR": 1
    },
-   "fuente": "09_unified/runs/_abortado_mismo_segundo/secant_graph/20260923-155840/attempts.jsonl",
+   "fuente": "runs/unirl/_abortado_mismo_segundo/secant_graph/20260923-155840/attempts.jsonl",
    "sha": "307518964ee8d10e",
    "codigo": "86662c08be9c32ed"
   },
@@ -2058,7 +2058,7 @@
     "ACCEPTED": 3,
     "INVALID_STEP": 1
    },
-   "fuente": "09_unified/runs/_abortado_mismo_segundo/taylor_graph/20260923-155840/attempts.jsonl",
+   "fuente": "runs/unirl/_abortado_mismo_segundo/taylor_graph/20260923-155840/attempts.jsonl",
    "sha": "7a2d4d68a847568b",
    "codigo": "86662c08be9c32ed"
   },
@@ -2075,7 +2075,7 @@
     "VCG_FAILED": 5,
     "VC_OPEN": 7
    },
-   "fuente": "09_unified/runs/_descartado_colision_delimitador/20260923-182334-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_colision_delimitador/20260923-182334-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "e137c6d7a9357218",
    "codigo": "6e76c3d459b1e09f"
   },
@@ -2093,7 +2093,7 @@
     "DISTRACTOR": 6,
     "INVALID_STEP": 10
    },
-   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "d1f5c4b66ae41a8e",
    "codigo": "a053f2d4c8ea43bd"
   },
@@ -2109,7 +2109,7 @@
    "etiquetas": {
     "ACCEPTED": 20
    },
-   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_refutaciones_visibles/bisection_graph/20260923-155926-gpt-6-luna-high/attempts.jsonl",
    "sha": "1c94d143d304f66e",
    "codigo": "a053f2d4c8ea43bd"
   },
@@ -2128,7 +2128,7 @@
     "DISTRACTOR": 1,
     "UNKNOWN_LEMMA": 1
    },
-   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/fixedpoint_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_refutaciones_visibles/fixedpoint_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "c8bd5f1e031c2169",
    "codigo": "a053f2d4c8ea43bd"
   },
@@ -2145,7 +2145,7 @@
     "ACCEPTED": 20,
     "INVALID_STEP": 8
    },
-   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/newton_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_refutaciones_visibles/newton_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "73d3324943ba8132",
    "codigo": "a053f2d4c8ea43bd"
   },
@@ -2163,7 +2163,7 @@
     "INVALID_STEP": 10,
     "DISTRACTOR": 5
    },
-   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/secant_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_refutaciones_visibles/secant_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "ce113b0215ba7fb3",
    "codigo": "a053f2d4c8ea43bd"
   },
@@ -2180,7 +2180,7 @@
     "ACCEPTED": 20,
     "INVALID_STEP": 2
    },
-   "fuente": "09_unified/runs/_descartado_refutaciones_visibles/taylor_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_refutaciones_visibles/taylor_graph/20260923-155926-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "8e1ff65c5494f6c8",
    "codigo": "a053f2d4c8ea43bd"
   },
@@ -2196,7 +2196,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044647-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044647-gpt-6-luna-high/attempts.jsonl",
    "sha": "0f02e746d7099f26",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2212,7 +2212,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044905-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_fval_mu001_n4/20260924-044905-gpt-6-astra-high/attempts.jsonl",
    "sha": "d3a5d51666063a54",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2228,7 +2228,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044712-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044712-gpt-6-luna-high/attempts.jsonl",
    "sha": "9833815056ff125c",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2244,7 +2244,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044929-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_fval_mu01_n5/20260924-044929-gpt-6-astra-high/attempts.jsonl",
    "sha": "205c6882a09eb77a",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2260,7 +2260,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4/20260924-044535-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_gradnorm_n4/20260924-044535-gpt-6-luna-high/attempts.jsonl",
    "sha": "bbcf67e53ef241ea",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2276,7 +2276,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4/20260924-044748-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_gradnorm_n4/20260924-044748-gpt-6-astra-high/attempts.jsonl",
    "sha": "f634972229d35a9b",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2292,7 +2292,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044624-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044624-gpt-6-luna-high/attempts.jsonl",
    "sha": "9e6fd346907e6dc9",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2308,7 +2308,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044842-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_gradnorm_n4_neg/20260924-044842-gpt-6-astra-high/attempts.jsonl",
    "sha": "c55cf8d18e5488a0",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2324,7 +2324,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n6/20260924-044600-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_gradnorm_n6/20260924-044600-gpt-6-luna-high/attempts.jsonl",
    "sha": "c36c684c864a2df1",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2340,7 +2340,7 @@
    "etiquetas": {
     "PROVIDER_ERROR": 12
    },
-   "fuente": "09_unified/runs/_descartado_sin_creditos/pep_gradnorm_n6/20260924-044813-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/_descartado_sin_creditos/pep_gradnorm_n6/20260924-044813-gpt-6-astra-high/attempts.jsonl",
    "sha": "d8ddf2f385d37784",
    "codigo": "50a7a35e5e8b72ad"
   },
@@ -2357,7 +2357,7 @@
     "VCG_FAILED": 1,
     "VC_OPEN": 1
    },
-   "fuente": "09_unified/runs/_excluido_solo_luna/20260923-193430-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_excluido_solo_luna/20260923-193430-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "5c39add32a32a446",
    "codigo": "6c134468af9913e4"
   },
@@ -2375,7 +2375,7 @@
     "DISTRACTOR": 6,
     "INVALID_STEP": 4
    },
-   "fuente": "09_unified/runs/_excluido_solo_luna/bisection_graph/20260923-193739-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_excluido_solo_luna/bisection_graph/20260923-193739-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "e28ee448abc24a6c",
    "codigo": "dff30ac55387001b"
   },
@@ -2392,7 +2392,7 @@
     "ACCEPTED": 19,
     "INVALID_STEP": 18
    },
-   "fuente": "09_unified/runs/_excluido_solo_luna/fixedpoint_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_excluido_solo_luna/fixedpoint_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "c680e19a99a6cd40",
    "codigo": "dff30ac55387001b"
   },
@@ -2409,7 +2409,7 @@
     "ACCEPTED": 20,
     "INVALID_STEP": 11
    },
-   "fuente": "09_unified/runs/_excluido_solo_luna/newton_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_excluido_solo_luna/newton_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "26038301b2a98d90",
    "codigo": "dff30ac55387001b"
   },
@@ -2427,7 +2427,7 @@
     "ACCEPTED": 19,
     "INVALID_STEP": 16
    },
-   "fuente": "09_unified/runs/_excluido_solo_luna/secant_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_excluido_solo_luna/secant_graph/20260923-193740-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "cd0310bf763a9831",
    "codigo": "dff30ac55387001b"
   },
@@ -2445,7 +2445,7 @@
     "ACCEPTED": 19,
     "DISTRACTOR": 4
    },
-   "fuente": "09_unified/runs/_excluido_solo_luna/taylor_graph/20260923-193739-gpt-5.4-mini-low/attempts.jsonl",
+   "fuente": "runs/unirl/_excluido_solo_luna/taylor_graph/20260923-193739-gpt-5.4-mini-low/attempts.jsonl",
    "sha": "d8972aaaf14d20a4",
    "codigo": "dff30ac55387001b"
   },
@@ -2461,7 +2461,7 @@
    "etiquetas": {
     "VCG_FAILED": 1
    },
-   "fuente": "09_unified/runs/_piloto/_descartado_bisection_isabelle_parser_bug/20260923-153833/attempts.jsonl",
+   "fuente": "runs/unirl/_piloto/_descartado_bisection_isabelle_parser_bug/20260923-153833/attempts.jsonl",
    "sha": "fdfaca08e1435d3b",
    "codigo": ""
   },
@@ -2475,7 +2475,7 @@
    "aceptados": 0,
    "intentos": 0,
    "etiquetas": {},
-   "fuente": "09_unified/runs/_piloto/bisection_isabelle/20260923-154022/attempts.jsonl",
+   "fuente": "runs/unirl/_piloto/bisection_isabelle/20260923-154022/attempts.jsonl",
    "sha": "e3b0c44298fc1c14",
    "codigo": ""
   },
@@ -2492,7 +2492,7 @@
     "ACCEPTED": 20,
     "INVALID_STEP": 4
    },
-   "fuente": "09_unified/runs/_v0/bisection_graph/20260923-152937/attempts.jsonl",
+   "fuente": "runs/unirl/_v0/bisection_graph/20260923-152937/attempts.jsonl",
    "sha": "55040c62171e168f",
    "codigo": ""
   },
@@ -2508,7 +2508,7 @@
    "etiquetas": {
     "ACCEPTED": 5
    },
-   "fuente": "09_unified/runs/_v0/bisection_graph/20260923-153831/attempts.jsonl",
+   "fuente": "runs/unirl/_v0/bisection_graph/20260923-153831/attempts.jsonl",
    "sha": "04f98c58b236b2bd",
    "codigo": ""
   },
@@ -2524,7 +2524,7 @@
    "etiquetas": {
     "ACCEPTED": 20
    },
-   "fuente": "09_unified/runs/bisection_graph/20260923-193740-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/bisection_graph/20260923-193740-gpt-6-luna-high/attempts.jsonl",
    "sha": "5ab69925bd135475",
    "codigo": "dff30ac55387001b"
   },
@@ -2540,7 +2540,7 @@
    "etiquetas": {
     "VC_OPEN": 12
    },
-   "fuente": "09_unified/runs/bisection_isabelle/20260923-155924-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/bisection_isabelle/20260923-155924-gpt-6-luna-high/attempts.jsonl",
    "sha": "fcfd00dd38a1f31e",
    "codigo": "a053f2d4c8ea43bd"
   },
@@ -2557,7 +2557,7 @@
     "VC_OPEN": 2,
     "LEMMA_FAILED": 2
    },
-   "fuente": "09_unified/runs/bisection_isabelle_lemas/20260923-211101-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/bisection_isabelle_lemas/20260923-211101-gpt-6-luna-high/attempts.jsonl",
    "sha": "4ff366575278c567",
    "codigo": "ca7b35f40457a756"
   },
@@ -2574,7 +2574,7 @@
     "VC_OPEN": 2,
     "LEMMA_FAILED": 10
    },
-   "fuente": "09_unified/runs/bisection_isabelle_lemas_mem/20260923-215521-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/bisection_isabelle_lemas_mem/20260923-215521-gpt-6-luna-high/attempts.jsonl",
    "sha": "9756426b18dd6d45",
    "codigo": "2de201754f3073b3"
   },
@@ -2591,7 +2591,7 @@
     "LEMMA_FAILED": 8,
     "PROVIDER_ERROR": 4
    },
-   "fuente": "09_unified/runs/bisection_isabelle_lemas_mem/20260923-224900-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/bisection_isabelle_lemas_mem/20260923-224900-gpt-6-astra-high/attempts.jsonl",
    "sha": "76a198614a9f15a2",
    "codigo": "61c5c2b8649611f6"
   },
@@ -2607,7 +2607,7 @@
    "etiquetas": {
     "LEMMA_FAILED": 4
    },
-   "fuente": "09_unified/runs/bisection_isabelle_lemas_mem/20260924-060102-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/bisection_isabelle_lemas_mem/20260924-060102-gpt-6-astra-high/attempts.jsonl",
    "sha": "3003c54a5dbea4e8",
    "codigo": "61c5c2b8649611f6"
   },
@@ -2623,7 +2623,7 @@
    "etiquetas": {
     "ACCEPTED": 20
    },
-   "fuente": "09_unified/runs/fixedpoint_graph/20260923-200114-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/fixedpoint_graph/20260923-200114-gpt-6-luna-high/attempts.jsonl",
    "sha": "006789c3bfc1d383",
    "codigo": "1028b6b7db86e0f7"
   },
@@ -2641,7 +2641,7 @@
     "TIMEOUT": 3,
     "LEMMA_FAILED": 5
    },
-   "fuente": "09_unified/runs/gd_const_dt/20260924-091710-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/gd_const_dt/20260924-091710-gpt-6-luna-high/attempts.jsonl",
    "sha": "99d2f6bd9a33fadf",
    "codigo": "6786e6748894a378"
   },
@@ -2657,7 +2657,7 @@
    "etiquetas": {
     "PROOF_FAILED": 12
    },
-   "fuente": "09_unified/runs/gd_const_n2/20260924-073842-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/gd_const_n2/20260924-073842-gpt-6-luna-high/attempts.jsonl",
    "sha": "3ca5ba251bf21f30",
    "codigo": "557c0d8abb1ce464"
   },
@@ -2674,7 +2674,7 @@
     "LEMMA_FAILED": 11,
     "STATEMENT_DRIFT": 1
    },
-   "fuente": "09_unified/runs/gd_const_textbook/20260924-082858-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/gd_const_textbook/20260924-082858-gpt-6-luna-high/attempts.jsonl",
    "sha": "05492f78e4f24d0f",
    "codigo": "6786e6748894a378"
   },
@@ -2691,7 +2691,7 @@
     "INVALID_PROPOSAL": 4,
     "PROOF_FAILED": 8
    },
-   "fuente": "09_unified/runs/gd_n1/20260924-062122-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/gd_n1/20260924-062122-gpt-6-luna-high/attempts.jsonl",
    "sha": "1a218fb4a36bf7eb",
    "codigo": "468180702f068c44"
   },
@@ -2707,7 +2707,7 @@
    "etiquetas": {
     "ACCEPTED": 20
    },
-   "fuente": "09_unified/runs/newton_graph/20260923-200118-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/newton_graph/20260923-200118-gpt-6-luna-high/attempts.jsonl",
    "sha": "9794b35acc17a16a",
    "codigo": "1028b6b7db86e0f7"
   },
@@ -2724,7 +2724,7 @@
     "INVALID_SCHEDULE": 1,
     "CERTIFIED": 3
    },
-   "fuente": "09_unified/runs/pep_fval_mu001_n4/20260924-061156-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_fval_mu001_n4/20260924-061156-gpt-6-astra-high/attempts.jsonl",
    "sha": "3eedbc6632878cf7",
    "codigo": "3b796cf0ea9262d7"
   },
@@ -2740,7 +2740,7 @@
    "etiquetas": {
     "NOT_IMPROVED": 12
    },
-   "fuente": "09_unified/runs/pep_fval_mu001_n4/20260924-074351-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_fval_mu001_n4/20260924-074351-gpt-6-luna-high/attempts.jsonl",
    "sha": "3a5c7b38c9a56a85",
    "codigo": "557c0d8abb1ce464"
   },
@@ -2756,7 +2756,7 @@
    "etiquetas": {
     "CERTIFIED": 3
    },
-   "fuente": "09_unified/runs/pep_fval_mu01_n5/20260924-062058-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_fval_mu01_n5/20260924-062058-gpt-6-astra-high/attempts.jsonl",
    "sha": "a96119e060fefc1d",
    "codigo": "468180702f068c44"
   },
@@ -2772,7 +2772,7 @@
    "etiquetas": {
     "NOT_IMPROVED": 12
    },
-   "fuente": "09_unified/runs/pep_fval_mu01_n5/20260924-075941-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_fval_mu01_n5/20260924-075941-gpt-6-luna-high/attempts.jsonl",
    "sha": "cc68591517f88c8b",
    "codigo": "557c0d8abb1ce464"
   },
@@ -2788,7 +2788,7 @@
    "etiquetas": {
     "NOT_IMPROVED": 12
    },
-   "fuente": "09_unified/runs/pep_gradnorm_n4/20260924-060113-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_gradnorm_n4/20260924-060113-gpt-6-luna-high/attempts.jsonl",
    "sha": "86f3deeadd0c4f96",
    "codigo": "58d4f6941bc218e2"
   },
@@ -2804,7 +2804,7 @@
    "etiquetas": {
     "CERTIFIED": 3
    },
-   "fuente": "09_unified/runs/pep_gradnorm_n4/20260924-060127-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_gradnorm_n4/20260924-060127-gpt-6-astra-high/attempts.jsonl",
    "sha": "1d373d9b68c87c50",
    "codigo": "58d4f6941bc218e2"
   },
@@ -2820,7 +2820,7 @@
    "etiquetas": {
     "CERTIFIED": 3
    },
-   "fuente": "09_unified/runs/pep_gradnorm_n4_neg/20260924-060745-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_gradnorm_n4_neg/20260924-060745-gpt-6-astra-high/attempts.jsonl",
    "sha": "c1a6b7c61ee14c98",
    "codigo": "ec492bd5f7b40ff6"
   },
@@ -2837,7 +2837,7 @@
     "NOT_IMPROVED": 11,
     "INVALID_SCHEDULE": 1
    },
-   "fuente": "09_unified/runs/pep_gradnorm_n4_neg/20260924-072359-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_gradnorm_n4_neg/20260924-072359-gpt-6-luna-high/attempts.jsonl",
    "sha": "32b3feaf20eb465b",
    "codigo": "557c0d8abb1ce464"
   },
@@ -2853,7 +2853,7 @@
    "etiquetas": {
     "CERTIFIED": 3
    },
-   "fuente": "09_unified/runs/pep_gradnorm_n6/20260924-060414-gpt-6-astra-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_gradnorm_n6/20260924-060414-gpt-6-astra-high/attempts.jsonl",
    "sha": "7212430a8f233825",
    "codigo": "58d4f6941bc218e2"
   },
@@ -2869,7 +2869,7 @@
    "etiquetas": {
     "NOT_IMPROVED": 12
    },
-   "fuente": "09_unified/runs/pep_gradnorm_n6/20260924-061836-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/pep_gradnorm_n6/20260924-061836-gpt-6-luna-high/attempts.jsonl",
    "sha": "b8712be8a04b2a81",
    "codigo": "468180702f068c44"
   },
@@ -2887,7 +2887,7 @@
     "INVALID_STEP": 2,
     "DISTRACTOR": 1
    },
-   "fuente": "09_unified/runs/secant_graph/20260923-200120-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/secant_graph/20260923-200120-gpt-6-luna-high/attempts.jsonl",
    "sha": "6397dbd86555848e",
    "codigo": "1028b6b7db86e0f7"
   },
@@ -2904,7 +2904,7 @@
     "INVALID_STEP": 4,
     "ACCEPTED": 20
    },
-   "fuente": "09_unified/runs/taylor_graph/20260923-200116-gpt-6-luna-high/attempts.jsonl",
+   "fuente": "runs/unirl/taylor_graph/20260923-200116-gpt-6-luna-high/attempts.jsonl",
    "sha": "fcc605c2f8930741",
    "codigo": "1028b6b7db86e0f7"
   }
@@ -3014,9 +3014,9 @@
   },
   "exportacion_y_sorry": 48,
   "fuentes": {
-   "09_unified/corpus/raices/validacion_isabelle.json": "6d6acaa6dcbdef36",
-   "09_unified/corpus/raices/validacion_exportacion.json": "5f282e47aad7f548",
-   "09_unified/corpus/raices/revision_enunciados.md": "ccccd389060011f7"
+   "corpus/curado/raices/validacion_isabelle.json": "6d6acaa6dcbdef36",
+   "corpus/curado/raices/validacion_exportacion.json": "5f282e47aad7f548",
+   "corpus/curado/raices/revision_enunciados.md": "ccccd389060011f7"
   }
  },
  "linea_base_A": {
@@ -3181,7 +3181,7 @@
    "min": 65.9,
    "max": 99.0
   },
-  "fuente": "09_unified/resultados/martillo_linea_base.json",
+  "fuente": "resultados/martillo_linea_base.json",
   "sha": "404f799d93412d5f"
  },
  "rl_verbal": [
@@ -3206,9 +3206,9 @@
    "perdidos": 0,
    "llamadas_registradas": 27,
    "fuentes": {
-    "09_unified/runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/meta.json": "37cb770eb3b78a7c",
-    "09_unified/runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/episodios.jsonl": "69dcefc6ba59d7be",
-    "09_unified/runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/llamadas.jsonl": "460f0c565ac65045"
+    "runs/unirl/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/meta.json": "37cb770eb3b78a7c",
+    "runs/unirl/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/episodios.jsonl": "69dcefc6ba59d7be",
+    "runs/unirl/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/llamadas.jsonl": "460f0c565ac65045"
    }
   },
   {
@@ -3242,9 +3242,9 @@
    "perdidos": 47,
    "llamadas_registradas": 183,
    "fuentes": {
-    "09_unified/runs/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/meta.json": "46c9cb3063be5c2e",
-    "09_unified/runs/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/episodios.jsonl": "c272c3c00656fad5",
-    "09_unified/runs/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/llamadas.jsonl": "ee19fa93f3af662a"
+    "runs/unirl/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/meta.json": "46c9cb3063be5c2e",
+    "runs/unirl/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/episodios.jsonl": "c272c3c00656fad5",
+    "runs/unirl/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/llamadas.jsonl": "ee19fa93f3af662a"
    }
   },
   {
@@ -3268,9 +3268,9 @@
    "perdidos": 0,
    "llamadas_registradas": 4,
    "fuentes": {
-    "09_unified/runs/rl_verbal/humo/20260925-072357-gpt-6-luna/meta.json": "9cf6014b7041e72d",
-    "09_unified/runs/rl_verbal/humo/20260925-072357-gpt-6-luna/episodios.jsonl": "11627f013e2edd8c",
-    "09_unified/runs/rl_verbal/humo/20260925-072357-gpt-6-luna/llamadas.jsonl": "d8fabd3bebb3fcdd"
+    "runs/unirl/rl_verbal/humo/20260925-072357-gpt-6-luna/meta.json": "9cf6014b7041e72d",
+    "runs/unirl/rl_verbal/humo/20260925-072357-gpt-6-luna/episodios.jsonl": "11627f013e2edd8c",
+    "runs/unirl/rl_verbal/humo/20260925-072357-gpt-6-luna/llamadas.jsonl": "d8fabd3bebb3fcdd"
    }
   },
   {
@@ -3288,8 +3288,8 @@
    "perdidos": 0,
    "llamadas_registradas": 3,
    "fuentes": {
-    "09_unified/runs/rl_verbal/medicion_sol/20260925-073231-gpt-6-sol/meta.json": "37d7fb73e2cadd77",
-    "09_unified/runs/rl_verbal/medicion_sol/20260925-073231-gpt-6-sol/llamadas.jsonl": "14b17471d9c9593e"
+    "runs/unirl/rl_verbal/medicion_sol/20260925-073231-gpt-6-sol/meta.json": "37d7fb73e2cadd77",
+    "runs/unirl/rl_verbal/medicion_sol/20260925-073231-gpt-6-sol/llamadas.jsonl": "14b17471d9c9593e"
    }
   },
   {
@@ -3313,9 +3313,9 @@
    "perdidos": 9,
    "llamadas_registradas": 35,
    "fuentes": {
-    "09_unified/runs/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/meta.json": "31bc23fee80e35b3",
-    "09_unified/runs/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/episodios.jsonl": "b55d6176cde3ff7e",
-    "09_unified/runs/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/llamadas.jsonl": "41e2c709d520f62d"
+    "runs/unirl/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/meta.json": "31bc23fee80e35b3",
+    "runs/unirl/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/episodios.jsonl": "b55d6176cde3ff7e",
+    "runs/unirl/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/llamadas.jsonl": "41e2c709d520f62d"
    }
   },
   {
@@ -3339,9 +3339,9 @@
    "perdidos": 7,
    "llamadas_registradas": 38,
    "fuentes": {
-    "09_unified/runs/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/meta.json": "215e5770a2749364",
-    "09_unified/runs/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/episodios.jsonl": "08d67fc16cb59d04",
-    "09_unified/runs/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/llamadas.jsonl": "4947274b1471e82d"
+    "runs/unirl/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/meta.json": "215e5770a2749364",
+    "runs/unirl/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/episodios.jsonl": "08d67fc16cb59d04",
+    "runs/unirl/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/llamadas.jsonl": "4947274b1471e82d"
    }
   }
  ],
@@ -3388,7 +3388,7 @@
    }
   },
   "restante_usd": 20.841718,
-  "fuente": "09_unified/logs/gasto.json",
+  "fuente": "logs/gasto.json",
   "sha": "936d47504c65b94d",
   "nota": "Empieza el 25 sep 07:24. Las corridas anteriores (06 del 9–10 sep; 09 del 23–24 sep) no registraron tokens: su costo no está medido."
  }
