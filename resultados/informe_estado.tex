@@ -4,12 +4,7 @@
 \usepackage[english]{babel}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{mathptmx}
-% Esta instalación (BasicTeX) no trae Zapf Chancery ni Courier, que usan mathptmx y pcr. Con los paquetes
-% `zapfchan` y `courier` instalados, borrar las tres líneas siguientes y usar \renewcommand{\ttdefault}{pcr},
-% como en formulacion_rl_verbal.tex.
-\DeclareSymbolFont{symbols}{OMS}{cmsy}{m}{n}
-\SetSymbolFont{symbols}{bold}{OMS}{cmsy}{b}{n}
-\renewcommand{\ttdefault}{lmtt}
+\renewcommand{\ttdefault}{pcr}
 \usepackage[letterpaper,margin=2.5cm]{geometry}
 \usepackage{setspace}\setstretch{1.15}
 \usepackage{booktabs}
@@ -44,6 +39,7 @@
 \newcommand{\estado}[1]{\textsc{#1}}
 \newcommand{\fuente}[1]{\par\smallskip{\raggedright\footnotesize\textit{Fuente:} #1\par}}
 \urlstyle{tt}
+\makeatletter\g@addto@macro\UrlBreaks{\do-\do\_}\makeatother  % rutas largas en Courier: cortar también en - y _
 
 \input{tablas/macros.tex}
 
@@ -253,7 +249,6 @@ Las cifras de base que 02, 04 y 05 escriben como texto fijo («Newton puro conve
 \item \textbf{El informe de resultados}, cuando la ronda termine: tasas por configuración y modelo con sus intervalos, la prueba de McNemar para C frente a E con los conteos $b$ y $b'$, los resultados por dificultad y método, el acuerdo entre los dos episodios de Luna y H1 evaluada primero.
 \item \textbf{Reproducciones con CPU pesada}, sin API, cuando la máquina esté libre: la tabla de la búsqueda del 06 ($n=1\ldots8$) y sus tiempos (\texttt{steprl bench}).
 \item \textbf{Corregir los README}, con los valores medidos de la auditoría, cuando Carlos lo apruebe.
-\item \textbf{Tipografía exacta}: instalar \texttt{courier} y \texttt{zapfchan}, para que este informe y la formulación usen Courier y la matemática completa de \texttt{mathptmx}. En esta máquina la formulación no compila sin ellos.
 \item \textbf{Subir la rama} \texttt{versionar-y-corregir} para que el CI la verifique. El repositorio es público, y las pruebas de referencia privadas quedaron fuera de git.
 \end{itemize}
 

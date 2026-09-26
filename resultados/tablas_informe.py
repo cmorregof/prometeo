@@ -115,7 +115,7 @@ def main() -> None:
     (T / "corpus.tex").write_text(
         "\\begin{tabular}{@{}llcccccr@{}}\n\\toprule\n & & \\multicolumn{5}{c}{Dificultad estimada} & \\\\\n\\cmidrule(lr){3-7}\n"
         "Método & Partición & 1 & 2 & 3 & 4 & 5 & Peldaños\\\\\n\\midrule\n" + "\n".join(fl) + "\n\\bottomrule\n\\end{tabular}\n", encoding="utf-8")
-    menos = ", ".join(f"\\texttt{{{tex(k)}}} ({v})" for k, v in sorted(C["numerica"]["menos_de_400"].items()))
+    menos = ", ".join(f"\\path{{{k}}} ({v})" for k, v in sorted(C["numerica"]["menos_de_400"].items()))
     M["CorpusMenos"] = menos
 
     # ------------------------------------------------------------------ Tabla 1 (08)
@@ -232,7 +232,7 @@ def main() -> None:
     ]
     fl = [f"{q} & \\path{{{ruta}}} & \\texttt{{{sha(ruta)}}} & {tex(c)} & {tex(f)}\\\\" for q, ruta, c, f in fuentes]
     (T / "procedencia.tex").write_text(
-        "\\begin{longtable}{@{}>{\\raggedright\\arraybackslash}p{3.0cm}>{\\raggedright\\arraybackslash}p{5.45cm}p{2.45cm}>{\\raggedright\\arraybackslash}p{2.9cm}>{\\raggedright\\arraybackslash}p{1.7cm}@{}}\n\\toprule\nQué & Archivo & SHA-256 (16) & Código & Fecha\\\\\n\\midrule\n\\endhead\n"
+        "\\begin{longtable}{@{}>{\\raggedright\\arraybackslash}p{2.8cm}>{\\raggedright\\arraybackslash}p{5.3cm}p{2.85cm}>{\\raggedright\\arraybackslash}p{2.75cm}>{\\raggedright\\arraybackslash}p{1.65cm}@{}}\n\\toprule\nQué & Archivo & SHA-256 (16) & Código & Fecha\\\\\n\\midrule\n\\endhead\n"
         + "\n".join(fl) + "\n\\bottomrule\n\\end{longtable}\n", encoding="utf-8")
 
     # ------------------------------------------------------------------ cifras del texto (también desde archivos)
