@@ -1,19 +1,43 @@
+# entorno y cachés
 .venv/
 __pycache__/
 *.pyc
-runs/
-.pytest_cache/
 *.egg-info/
-dist/
-build/
+.pytest_cache/
 .DS_Store
-.Rhistory
-.env*
+build/
+dist/
 
-# material ajeno al repo (del director, convocatorias) y paquetes recibidos: nunca versionar (revisión 26 sep 2026)
+# claves: nunca
+.env
+.env.*
+
+# auxiliares de LaTeX
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.listing
+*.synctex.gz
+docs/curso/tex/*.pdf
+
+# corridas: se versiona la estructura y los informes, no los registros pesados
+runs/**/llamadas.jsonl
+logs/*.sqlite
+logs/*.lock
+logs/**/*.pid
+tests/unirl/fixtures/pruebas_privadas/
+runs/didactica/**
+runs/pep/**
+# los .log de logs/ son registros de corridas, no de LaTeX
+!logs/*.log
+!logs/**/*.log
+
+# material ajeno y paquetes recibidos: nunca
 Conjeturas/
-paquete_completo.zip
 *.zip
-Convocatoria*.pdf
-# copias congeladas del código para corridas (se identifican por su huella en meta.json)
+Convocatoria*
 .snap_*/

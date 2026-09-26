@@ -1,0 +1,36 @@
+[project]
+name = "rl_metodos"
+version = "0.2.0"
+description = "Agentes de RL que aprenden métodos numéricos y demuestran su convergencia; jueces intercambiables (grafo de lemas, PEP, Isabelle/HOL) y RL verbal con memoria certificada por el kernel."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "rich>=13",                        # didactica: interfaz en la terminal
+  "numpy>=1.26", "scipy>=1.11",      # steprl, unirl
+  "cvxpy>=1.5", "clarabel>=0.9",     # steprl: el verificador PEP (SDP)
+  "openai>=1.50", "anthropic>=1.0",  # steprl.providers, unirl: proponentes
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+steprl = "steprl.cli:main"
+unirl = "unirl.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["unirl*", "steprl*", "isarl*", "didactica*"]
+
+[tool.setuptools.package-data]
+steprl = ["refs.json"]
+unirl = ["configs/*.toml", "targets/*.json", "targets/*.txt", "targets/*.part", "targets/gd_cert/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["isabelle: necesita Isabelle2025 y tarda minutos; se omite si no está instalada"]
+filterwarnings = ["ignore::SyntaxWarning", "ignore::UserWarning"]

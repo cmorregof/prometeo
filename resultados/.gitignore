@@ -1,9 +1,0 @@
-# temporales de LaTeX del informe
-*.aux
-*.log
-*.out
-*.toc
-*.fls
-*.fdb_latexmk
-*.synctex.gz
-_compilacion.txt
