@@ -1,6 +1,6 @@
 name = "newton_graph"
 judge = "lemma_graph"
-project = "04_newton"
+project = "newton"
 provider = "openai"
 model = "gpt-6-luna"      # proponente único de v0.2 (decisión del autor)
 effort = "high"

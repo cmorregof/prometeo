@@ -83,7 +83,7 @@ def vc_kind(goal: str, variant: str = "") -> str:
     return "invariante"
 
 
-PAPER = json.loads((Path(__file__).resolve().parent.parent / "targets" / "bisection.json").read_text(encoding="utf-8"))
+PAPER = json.loads((Path(__file__).resolve().parent / "targets" / "bisection.json").read_text(encoding="utf-8"))
 
 
 def _norm(t: str) -> str:

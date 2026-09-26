@@ -34,8 +34,7 @@ def load_config(path: Path) -> dict:
 
 
 def make_provider(cfg: dict):
-    sys.path.insert(0, str(ROOT / "06_stepsizes"))
-    from steprl.providers import make_provider as mk  # reutiliza providers.py del 06 tal cual (lee 06/.env)
+    from steprl.providers import make_provider as mk  # providers.py de steprl (lee el .env de la raíz del repo)
 
     kw = {}
     if cfg.get("provider") == "openai" and cfg.get("effort"):
@@ -58,7 +57,7 @@ def code_fingerprint() -> dict:
         h.update(f.read_bytes())
     try:
         commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
-        dirty = bool(subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "09_unified/unirl"], capture_output=True, text=True).stdout.strip())
+        dirty = bool(subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "unirl"], capture_output=True, text=True).stdout.strip())
     except Exception:
         commit, dirty = "", None
     return {"unirl_sha256": h.hexdigest()[:16], "git_commit": commit, "unirl_dirty": dirty}
@@ -205,16 +204,16 @@ def main(argv=None) -> int:
     r.add_argument("--budget", type=int, default=None)
     r.add_argument("--shaped", action="store_true")
     r.add_argument("--beta", type=float, default=None)
-    r.add_argument("--out", type=Path, default=Path("runs"))
+    r.add_argument("--out", type=Path, default=Path("runs/unirl"))
     r.set_defaults(fn=cmd_run)
     s = sub.add_parser("summary")
-    s.add_argument("runs", nargs="?", default="runs")
+    s.add_argument("runs", nargs="?", default="runs/unirl")
     s.add_argument("--json", default=None)
     s.set_defaults(fn=cmd_summary)
     tb = sub.add_parser("tables", help="fragmentos LaTeX para la nota técnica")
-    tb.add_argument("runs", nargs="?", default="runs")
-    tb.add_argument("--out", default="docs/nota")
-    tb.add_argument("--repro", default=str(ROOT / "08_isabelle" / "runs" / "repro_bisection.json"))
+    tb.add_argument("runs", nargs="?", default="runs/unirl")
+    tb.add_argument("--out", default="docs/formulacion")
+    tb.add_argument("--repro", default=str(ROOT / "runs" / "isabelle" / "repro_bisection.json"))
     tb.set_defaults(fn=lambda a: __import__("unirl.report", fromlist=["cmd_tables"]).cmd_tables(a))
     t = sub.add_parser("target")
     t.add_argument("--config", required=True, type=Path)
@@ -225,7 +224,7 @@ def main(argv=None) -> int:
     ip.add_argument("--model", default=None)
     ip.add_argument("--slug", default=None, help="escribe en docs/informes/<slug>")
     ip.add_argument("--out", default=None, help="carpeta de salida (en lugar de --slug)")
-    ip.add_argument("--runs-root", default=None, help="raíz de las corridas (por defecto 09_unified/runs)")
+    ip.add_argument("--runs-root", default=None, help="raíz de las corridas (por defecto runs/unirl)")
     ip.add_argument("--no-pdf", action="store_true", help="solo escribe informe.tex, sin compilar")
     ip.set_defaults(fn=lambda a: __import__("unirl.informe", fromlist=["cmd_informe"]).cmd_informe(a))
     args = ap.parse_args(argv)

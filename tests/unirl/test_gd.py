@@ -11,7 +11,7 @@ import pytest
 from unirl.gd_isabelle import FINAL_THEOREM, TheoremVerifier, check_lemma_block, check_proof, fill_lines, translate_errors
 from unirl.verifiers import TARGETS, make_verifier
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 GD = ["gd_n1", "gd_const_n2", "gd_const_textbook", "gd_const_dt"]
 
 
@@ -110,7 +110,7 @@ def test_objetivo_modificado_en_disco(tmp_path, monkeypatch):
 
 
 def test_certificados_exactos():
-    sys.path.insert(0, str(HERE / "tools"))
+    sys.path.insert(0, str(HERE / "unirl" / "tools"))
     import gd_certificados as gc
     for obj in ("gd_n1", "gd_const_n2", "gd_const_n3"):
         cert = gc.cargar(obj)

@@ -23,7 +23,7 @@ import sys
 import time
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
 from unirl import corpus  # noqa: E402
 from unirl.gd_isabelle import TheoremVerifier  # noqa: E402

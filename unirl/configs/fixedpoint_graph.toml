@@ -1,6 +1,6 @@
 name = "fixedpoint_graph"
 judge = "lemma_graph"
-project = "02_punto_fijo"
+project = "punto_fijo"
 provider = "openai"
 model = "gpt-6-luna"      # proponente único de v0.2 (decisión del autor)
 effort = "high"

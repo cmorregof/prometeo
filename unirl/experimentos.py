@@ -34,7 +34,7 @@ from .recompensa import ruta_linea_base, resueltos_por_martillo
 from .reflexion import CONFIGS, Config, episodio, escribir
 
 BASE = Path(__file__).resolve().parent.parent
-RUNS = BASE / "runs" / "rl_verbal"
+RUNS = BASE / "runs" / "unirl" / "rl_verbal"
 TOPES = {"humo": 12, "cuaderno": 236, "evaluacion": 614, "pareada_luna": 154, "pareada_sol": 154, "medicion_sol": 3}
 DESTILAR_CADA = 6
 MAX_LEMAS_POR_EPISODIO = 4

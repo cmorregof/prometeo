@@ -40,7 +40,7 @@ def list_models(name: str) -> list[str]:
     load_dotenv()
     if name == "openai":
         if not os.environ.get("OPENAI_API_KEY"):
-            raise ProviderError("falta OPENAI_API_KEY (exporta la variable o escribe OPENAI_API_KEY=... en 06_stepsizes/.env)")
+            raise ProviderError("falta OPENAI_API_KEY (exporta la variable o escribe OPENAI_API_KEY=... en el .env de la raíz del repo)")
         from openai import OpenAI
 
         return sorted(m.id for m in OpenAI().models.list())
@@ -61,7 +61,7 @@ class OpenAIProvider:
     def __post_init__(self) -> None:
         load_dotenv()
         if not os.environ.get("OPENAI_API_KEY"):
-            raise ProviderError("falta OPENAI_API_KEY (exporta la variable o escribe OPENAI_API_KEY=... en 06_stepsizes/.env)")
+            raise ProviderError("falta OPENAI_API_KEY (exporta la variable o escribe OPENAI_API_KEY=... en el .env de la raíz del repo)")
         from openai import OpenAI
 
         self._client = OpenAI()

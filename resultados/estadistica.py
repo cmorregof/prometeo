@@ -9,7 +9,7 @@ Solo lo que pide la formulación (formulacion_rl_verbal.tex) o el pedido de Carl
   potencia de la formulación: es aritmética de la prueba, no una prueba nueva).
 Las corridas interrumpidas por error no entran en ningún intervalo.
 
-    09_unified/.venv/bin/python resultados/estadistica.py
+    .venv/bin/python resultados/estadistica.py
 """
 
 from __future__ import annotations

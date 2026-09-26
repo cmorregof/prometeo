@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from unirl.cli import summarize
 from unirl.env import ProofEnv, reward
@@ -241,7 +241,7 @@ def test_isabelle_stage0_detects_a_changed_program():
     assert v.same_program(v.spec["paper_invariant"], v.spec["paper_variant"])[0] == "drift"
 
 
-LUNA_VI = Path(__file__).resolve().parent.parent / "runs" / "bisection_isabelle" / "20260923-155924-gpt-6-luna-high" / "attempts.jsonl"
+LUNA_VI = Path(__file__).resolve().parents[2] / "runs" / "unirl" / "bisection_isabelle" / "20260923-155924-gpt-6-luna-high" / "attempts.jsonl"
 
 
 @pytest.mark.skipif(not LUNA_VI.exists(), reason="sin los datos de la corrida de V_I")

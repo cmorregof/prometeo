@@ -1,10 +1,10 @@
 import random
 from statistics import median
 
-from secantrl.env_secant import BISECT, FALSI, SEC, SecantEnv, make_problem, theoretical_action
-from secantrl.env_proof import ProofEnv
-from secantrl.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
-from secantrl.trainer import Config, Trainer
+from didactica.secante.env_secant import BISECT, FALSI, SEC, SecantEnv, make_problem, theoretical_action
+from didactica.secante.env_proof import ProofEnv
+from didactica.secante.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
+from didactica.secante.trainer import Config, Trainer
 
 
 def test_problems_have_root_inside_a_sign_changing_bracket():

@@ -37,11 +37,8 @@ import warnings
 from fractions import Fraction
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent  # 09_unified/
-ROOT = HERE.parent  # rl_metodos/
-OUT = HERE / "targets" / "gd_cert"
-if str(ROOT / "06_stepsizes") not in sys.path:
-    sys.path.insert(0, str(ROOT / "06_stepsizes"))
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
+OUT = HERE / "unirl" / "targets" / "gd_cert"
 
 from steprl.certify import assemble, exact_matrices, flow_residuals, is_psd_exact  # noqa: E402
 

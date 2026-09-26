@@ -10,7 +10,7 @@
   score     puntúa un programa en una instancia del entorno (--program f.py --n 8 [--mu 0.1] [--negative])
   bench     tiempo por SDP y por certificado según n
 
-Las claves se leen de OPENAI_API_KEY / ANTHROPIC_API_KEY o de un fichero .env en 06_stepsizes/.
+Las claves se leen de OPENAI_API_KEY / ANTHROPIC_API_KEY o de un fichero .env en la raíz del repo.
 """
 
 from __future__ import annotations

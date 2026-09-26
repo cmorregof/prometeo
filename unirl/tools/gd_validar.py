@@ -19,11 +19,11 @@ import sys
 import time
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
 from unirl.gd_isabelle import TheoremVerifier  # noqa: E402
 
-CERT = HERE / "targets" / "gd_cert"
+CERT = HERE / "unirl" / "targets" / "gd_cert"
 LOG = HERE / "logs" / "gd_validacion.json"
 
 NO_VACUO = r'''theory NoVacuo

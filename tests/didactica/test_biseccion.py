@@ -1,9 +1,9 @@
 import random
 
-from bisectrl.env_bisection import KEEP_LEFT, KEEP_RIGHT, LAMBDAS, BisectionEnv, make_problem
-from bisectrl.env_proof import ProofEnv
-from bisectrl.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
-from bisectrl.trainer import Config, Trainer
+from didactica.biseccion.env_bisection import KEEP_LEFT, KEEP_RIGHT, LAMBDAS, BisectionEnv, make_problem
+from didactica.biseccion.env_proof import ProofEnv
+from didactica.biseccion.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
+from didactica.biseccion.trainer import Config, Trainer
 
 
 def test_problems_have_sign_change():

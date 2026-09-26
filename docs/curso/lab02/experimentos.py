@@ -1,10 +1,10 @@
 r"""Laboratorio 2 · experimentos sobre el agente de punto fijo.
 
-Se ejecuta desde 02_punto_fijo con su entorno virtual:
+Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual:
 
-    cd 02_punto_fijo
+    cd rl_metodos && source .venv/bin/activate
     .venv\Scripts\python ..\docs\curso\lab02\experimentos.py alfa_fijo     (Windows)
-    .venv/bin/python ../docs/curso/lab02/experimentos.py alfa_fijo         (Mac)
+    .venv/bin/python docs/curso/lab02/experimentos.py alfa_fijo         (Mac)
 
 Experimentos: alfa_fijo, hitos, ciego, potencial, dibujar, grafo.
 No modifica los archivos del paquete: cambia cosas en memoria y entrena de nuevo.
@@ -15,11 +15,11 @@ from __future__ import annotations
 import math
 from dataclasses import replace
 
-import fixpointrl.env_fixpoint as E
-import fixpointrl.proof_kb as KB
-import fixpointrl.trainer as T
-from fixpointrl.env_fixpoint import ACTION_SHORT, KEEP, FixpointEnv, ratio_bucket, theoretical_action
-from fixpointrl.env_proof import ProofEnv
+import didactica.punto_fijo.env_fixpoint as E
+import didactica.punto_fijo.proof_kb as KB
+import didactica.punto_fijo.trainer as T
+from didactica.punto_fijo.env_fixpoint import ACTION_SHORT, KEEP, FixpointEnv, ratio_bucket, theoretical_action
+from didactica.punto_fijo.env_proof import ProofEnv
 
 
 def entrenar(ep1: int, ep2: int, seed: int = 1, env_cls=None) -> T.Trainer:

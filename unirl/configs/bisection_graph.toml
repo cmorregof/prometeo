@@ -1,6 +1,6 @@
 name = "bisection_graph"
 judge = "lemma_graph"
-project = "01_biseccion"
+project = "biseccion"
 provider = "openai"
 model = "gpt-6-luna"      # proponente único de v0.2 (decisión del autor)
 effort = "high"

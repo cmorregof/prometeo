@@ -1,9 +1,9 @@
 import random
 
-from taylorrl.env_taylor import ABORT, ADD, STOP, TaylorEnv, make_problem, theoretical_action
-from taylorrl.env_proof import ProofEnv
-from taylorrl.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
-from taylorrl.trainer import Config, Trainer
+from didactica.taylor.env_taylor import ABORT, ADD, STOP, TaylorEnv, make_problem, theoretical_action
+from didactica.taylor.env_proof import ProofEnv
+from didactica.taylor.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
+from didactica.taylor.trainer import Config, Trainer
 
 
 def test_series_coefficients_sum_to_f_inside_radius():

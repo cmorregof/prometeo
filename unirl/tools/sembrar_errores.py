@@ -13,7 +13,7 @@ import json
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
 from unirl import cuaderno  # noqa: E402
 

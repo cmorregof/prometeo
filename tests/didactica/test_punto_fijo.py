@@ -1,9 +1,9 @@
 import random
 
-from fixpointrl.env_fixpoint import DOUBLE, FLIP, HALVE, KEEP, FixpointEnv, make_problem, theoretical_action
-from fixpointrl.env_proof import ProofEnv
-from fixpointrl.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
-from fixpointrl.trainer import Config, Trainer
+from didactica.punto_fijo.env_fixpoint import DOUBLE, FLIP, HALVE, KEEP, FixpointEnv, make_problem, theoretical_action
+from didactica.punto_fijo.env_proof import ProofEnv
+from didactica.punto_fijo.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
+from didactica.punto_fijo.trainer import Config, Trainer
 
 
 def test_problems_have_root_and_derivative():

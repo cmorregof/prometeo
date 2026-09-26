@@ -3,9 +3,9 @@
 Todo número del informe sale de resumen.json, estadistica.json, metricas.csv o del libro de gastos, nunca de una
 transcripción a mano. Hay que regenerar (y recompilar) si cambia un registro.
 
-    09_unified/.venv/bin/python resultados/consolidar.py
-    09_unified/.venv/bin/python resultados/estadistica.py
-    09_unified/.venv/bin/python resultados/tablas_informe.py
+    .venv/bin/python resultados/consolidar.py
+    .venv/bin/python resultados/estadistica.py
+    .venv/bin/python resultados/tablas_informe.py
 """
 
 from __future__ import annotations
@@ -211,24 +211,24 @@ def main() -> None:
         return hashlib.sha256((ROOT / ruta).read_bytes()).hexdigest()[:16]
     fuentes = [
         ("Estado del proyecto (Tabla~\\ref{tab:estado})", "resultados/resumen.json", "varios", R["generado"][:10]),
-        ("Línea base A (Tablas~\\ref{tab:lineabase} y~\\ref{tab:lineabase-dif})", "09_unified/resultados/martillo_linea_base.json", "unirl de la Etapa 3 (sin huella en el archivo); versionado en 9b5e3fe", "2026-09-24 16:54"),
+        ("Línea base A (Tablas~\\ref{tab:lineabase} y~\\ref{tab:lineabase-dif})", "resultados/martillo_linea_base.json", "unirl de la Etapa 3 (sin huella en el archivo); versionado en 9b5e3fe", "2026-09-24 16:54"),
         ("Intervalos y umbrales (Tablas~\\ref{tab:lineabase} y~\\ref{tab:mcnemar})", "resultados/estadistica.json", head, E["generado"][:10]),
-        ("Reproducción de la Tabla 1 del artículo", "08_isabelle/runs/repro_bisection.json", "08 sin versionar; versionado sin cambios en 9b5e3fe", "2026-09-23 15:00"),
-        ("Línea smt del artículo", "09_unified/runs/_baseline/given_smt_08.json", "ídem", "2026-09-23 19:37"),
-        ("Corpus (Tabla~\\ref{tab:corpus})", "09_unified/corpus/raices/revision_enunciados.md", "9b5e3fe", "2026-09-24"),
-        ("Validación del corpus en Isabelle", "09_unified/corpus/raices/validacion_isabelle.json", "9b5e3fe", "2026-09-24"),
-        ("Exportación y sorry del corpus", "09_unified/corpus/raices/validacion_exportacion.json", "9b5e3fe", "2026-09-24"),
+        ("Reproducción de la Tabla 1 del artículo", "runs/isabelle/repro_bisection.json", "08 sin versionar; versionado sin cambios en 9b5e3fe", "2026-09-23 15:00"),
+        ("Línea smt del artículo", "runs/unirl/_baseline/given_smt_08.json", "ídem", "2026-09-23 19:37"),
+        ("Corpus (Tabla~\\ref{tab:corpus})", "corpus/curado/raices/revision_enunciados.md", "9b5e3fe", "2026-09-24"),
+        ("Validación del corpus en Isabelle", "corpus/curado/raices/validacion_isabelle.json", "9b5e3fe", "2026-09-24"),
+        ("Exportación y sorry del corpus", "corpus/curado/raices/validacion_exportacion.json", "9b5e3fe", "2026-09-24"),
         ("Jueces del 23--24 sep (Tabla~\\ref{tab:jueces})", "resultados/metricas.csv", "unirl por corrida (columna código)", "2026-09-23/24"),
-        ("Gasto (Tabla~\\ref{tab:gasto})", "09_unified/logs/gasto.json", "unirl 5ef59e25793670fb", "2026-09-25 07:24--09:27"),
-        ("Corridas interrumpidas (Tabla~\\ref{tab:interrumpidas})", "09_unified/runs/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
-        ("", "09_unified/runs/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
-        ("", "09_unified/runs/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
-        ("", "09_unified/runs/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
-        ("PEP: episodios repetidos", "09_unified/runs/pep_gradnorm_n4/20260924-060127-gpt-6-astra-high/attempts.jsonl", "unirl de esa corrida (meta.json)", "2026-09-24"),
-        ("Tácticas de Lean", "09_unified/runs/gd_const_textbook/20260924-082858-gpt-6-luna-high/attempts.jsonl", "ídem", "2026-09-24"),
+        ("Gasto (Tabla~\\ref{tab:gasto})", "logs/gasto.json", "unirl 5ef59e25793670fb", "2026-09-25 07:24--09:27"),
+        ("Corridas interrumpidas (Tabla~\\ref{tab:interrumpidas})", "runs/unirl/rl_verbal/evaluacion/20260925-073228-gpt-6-luna/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
+        ("", "runs/unirl/rl_verbal/pareada_luna/20260925-073939-gpt-6-luna/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
+        ("", "runs/unirl/rl_verbal/pareada_sol/20260925-073936-gpt-6-sol/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
+        ("", "runs/unirl/rl_verbal/cuaderno/20260925-073216-gpt-6-luna/episodios.jsonl", "unirl 5ef59e25793670fb", "2026-09-25"),
+        ("PEP: episodios repetidos", "runs/unirl/pep_gradnorm_n4/20260924-060127-gpt-6-astra-high/attempts.jsonl", "unirl de esa corrida (meta.json)", "2026-09-24"),
+        ("Tácticas de Lean", "runs/unirl/gd_const_textbook/20260924-082858-gpt-6-luna-high/attempts.jsonl", "ídem", "2026-09-24"),
         ("Auditoría de cifras", "resultados/auditoria_cifras.md", head, "2026-09-25"),
-        ("Líneas base puras de 02, 04 y 05", "resultados/corridas_locales/lineas_base_puras.json", "e419660", "2026-09-25"),
-        ("Formulación con el umbral de H1", "09_unified/docs/nota/formulacion_rl_verbal.tex", "b9d850f", "2026-09-25 14:30"),
+        ("Líneas base puras de 02, 04 y 05", "runs/corridas_locales/lineas_base_puras.json", "e419660", "2026-09-25"),
+        ("Formulación con el umbral de H1", "docs/formulacion/formulacion_rl_verbal.tex", "b9d850f", "2026-09-25 14:30"),
     ]
     fl = [f"{q} & \\path{{{ruta}}} & \\texttt{{{sha(ruta)}}} & {tex(c)} & {tex(f)}\\\\" for q, ruta, c, f in fuentes]
     (T / "procedencia.tex").write_text(
@@ -247,7 +247,7 @@ def main() -> None:
     M.update({"PEPMejoraMin": num(100 * min(mejoras), 2) + r"\,\%", "PEPMejoraMax": num(100 * max(mejoras), 2) + r"\,\%"})
     lean = {"nlinarith": 0, "ring": 0, "field_simp": 0, "omega": 0, "positivity": 0}
     por_modelo_lean = {"gpt-6-luna": 0, "gpt-6-astra": 0}
-    for fa in glob.glob(str(ROOT / "09_unified/runs/*/*/attempts.jsonl")):
+    for fa in glob.glob(str(ROOT / "runs/unirl/*/*/attempts.jsonl")):
         if "/runs/_" in fa:
             continue
         for l in open(fa, encoding="utf-8"):
@@ -273,7 +273,7 @@ def main() -> None:
     cota = sum(medias[m] * n for m, n in maximos.items())
     M.update({"CotaRelanzamiento": usd(cota, 2), "MediaLuna": usd(medias["gpt-6-luna"], 5), "MediaSol": usd(medias["gpt-6-sol"], 4)})
     pruebas = {}
-    for x in sorted(glob.glob(str(OUT / "corridas_locales/pytest/*.xml"))):
+    for x in sorted(glob.glob(str(ROOT / "runs" / "corridas_locales" / "pytest" / "*.xml"))):
         su = ET.parse(x).getroot()
         su = su if su.tag == "testsuite" else su.find("testsuite")
         pruebas[Path(x).stem] = (int(su.get("tests")), int(su.get("failures")) + int(su.get("errors")))

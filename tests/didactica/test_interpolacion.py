@@ -1,9 +1,9 @@
 import math
 import random
 
-from interprl.env_interp import ADD, GAMMAS, STOP, InterpEnv, theoretical_action
-from interprl.env_proof import ProofEnv
-from interprl.interp import (
+from didactica.interpolacion.env_interp import ADD, GAMMAS, STOP, InterpEnv, theoretical_action
+from didactica.interpolacion.env_proof import ProofEnv
+from didactica.interpolacion.interp import (
     barycentric_weights,
     chebyshev_first_kind,
     chebyshev_lobatto,
@@ -13,9 +13,9 @@ from interprl.interp import (
     lebesgue_constant,
     max_abs_nodal_poly,
 )
-from interprl.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
-from interprl.search import run_search, symmetric_nodes
-from interprl.trainer import Config, Trainer
+from didactica.interpolacion.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
+from didactica.interpolacion.search import run_search, symmetric_nodes
+from didactica.interpolacion.trainer import Config, Trainer
 
 
 def test_interpolant_reproduces_polynomials_exactly():

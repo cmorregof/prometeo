@@ -32,10 +32,11 @@ from .cli import summarize
 from .report import PAPER, vc_kind
 from .verifiers import IsabelleVerifier, LemmaGraphVerifier, PEPVerifier, split_lemmas
 
-BASE = Path(__file__).resolve().parent.parent  # 09_unified/
+BASE = Path(__file__).resolve().parent.parent  # rl_metodos/
+PKG = Path(__file__).resolve().parent  # unirl/: configs y targets viven dentro del paquete
 PLANTILLA = BASE / "docs" / "informes" / "plantilla_v0.1.tex"
-BIB = BASE / "docs" / "nota" / "unirl_definicion.bib"
-RUNS = BASE / "runs"
+BIB = BASE / "docs" / "formulacion" / "unirl_definicion.bib"
+RUNS = BASE / "runs" / "unirl"
 INFORMES = BASE / "docs" / "informes"
 TEXBIN = Path("/Library/TeX/texbin")
 PROPONENTES = ("gpt-6-luna", "gpt-6-astra")
@@ -1311,14 +1312,14 @@ def s_jerarquia(inf: Informe, L: dict) -> str:
 def objetivos_vi_teorema() -> list[str]:
     """Objetivos del juez de teorema que existen en el repositorio (configs o targets)."""
     nombres = set()
-    for f in (BASE / "configs").glob("*.toml"):
+    for f in (PKG / "configs").glob("*.toml"):
         try:
             cfg = tomllib.loads(f.read_text(encoding="utf-8"))
         except Exception:
             continue
         if cfg.get("judge") in ("isabelle_teorema", "gd_isabelle", "isabelle_theorem"):
             nombres.add(cfg.get("target") or cfg.get("name"))
-    for f in (BASE / "targets").glob("gd_*.json"):
+    for f in (PKG / "targets").glob("gd_*.json"):
         nombres.add(f.stem)
     return sorted(n for n in nombres if n)
 

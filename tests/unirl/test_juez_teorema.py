@@ -53,7 +53,7 @@ def test_metadatos_en_cada_veredicto(monkeypatch):
 
 
 def test_enunciado_modificado_es_deriva(tmp_path):
-    e = json.loads((HERE.parent / "corpus" / "raices" / "orden_1_lineal.json").read_text())
+    e = json.loads((HERE.parents[1] / "corpus" / "curado" / "raices" / "orden_1_lineal.json").read_text())
     (tmp_path / "raices").mkdir()
     ruta = tmp_path / "raices" / "orden_1_lineal.json"
     ruta.write_text(json.dumps(e), encoding="utf-8")
@@ -65,7 +65,7 @@ def test_enunciado_modificado_es_deriva(tmp_path):
 
 
 def test_no_aprobado_no_tiene_juez(tmp_path):
-    e = json.loads((HERE.parent / "corpus" / "raices" / "orden_1_lineal.json").read_text())
+    e = json.loads((HERE.parents[1] / "corpus" / "curado" / "raices" / "orden_1_lineal.json").read_text())
     e["estado"] = "pendiente_revision"
     (tmp_path / "raices").mkdir()
     (tmp_path / "raices" / "orden_1_lineal.json").write_text(json.dumps(e), encoding="utf-8")
@@ -140,7 +140,7 @@ def test_isabelle_rechaza_sorry_en_el_kernel():
 @pytest.mark.isabelle
 def test_isabelle_sandbox_no_escribe_fuera(tmp_path):
     v = TheoremVerifier.desde_corpus("orden_1_lineal")
-    fuera = (HERE.parent / "logs" / "sandbox_prueba_test.txt").resolve()
+    fuera = (HERE.parents[1] / "logs" / "sandbox_prueba_test.txt").resolve()
     fuera.unlink(missing_ok=True)
     w = v._workdir("gd-sandbox-")
     thy = ('theory Escribe\n  imports "HOL-Analysis.Analysis"\nbegin\n'

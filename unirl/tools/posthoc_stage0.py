@@ -10,14 +10,14 @@ import sys
 import time
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
 from unirl.cli import load_attempts  # noqa: E402
 from unirl.verifiers import IsabelleVerifier, check_annotation  # noqa: E402
 
 v = IsabelleVerifier("bisection")
 rows = []
-for r in load_attempts(HERE / "runs"):
+for r in load_attempts(HERE / "runs" / "unirl"):
     if r["judge"] != "isabelle":
         continue
     p = r.get("proposal") or {}
@@ -30,6 +30,6 @@ for r in load_attempts(HERE / "runs"):
                  "allowlist": allow, "stage0": same, "consistent": (allow is None and same == expected), "seconds": round(time.time() - t, 1),
                  "errors": errs[:3]})
     print(rows[-1]["model"], r["episode"], r["step"], r["outcome_label"], "→", same, "OK" if rows[-1]["consistent"] else "¡DISTINTO!")
-out = HERE / "runs" / "_baseline" / "posthoc_stage0.json"
+out = HERE / "runs" / "unirl" / "_baseline" / "posthoc_stage0.json"
 out.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
 print(f"{sum(x['consistent'] for x in rows)}/{len(rows)} coherentes → {out}")

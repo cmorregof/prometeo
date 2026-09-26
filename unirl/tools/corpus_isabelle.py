@@ -18,9 +18,9 @@ import sys
 import time
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
-sys.path.insert(0, str(HERE / "tools"))
+sys.path.insert(0, str(HERE / "unirl" / "tools"))
 from unirl.gd_isabelle import TheoremVerifier  # noqa: E402
 import corpus_raices as cr  # noqa: E402
 
@@ -109,7 +109,7 @@ def main() -> int:
         print(f"[corpus_isabelle] {m}: {'OK' if ok else 'FALLA'} ({len(ps)} peldaños, {res[m]['s']} s)")
         for e in errs[:8]:
             print("    " + e[:220])
-    salida = HERE / "corpus" / "raices" / "validacion_isabelle.json"
+    salida = HERE / "corpus" / "curado" / "raices" / "validacion_isabelle.json"
     salida.parent.mkdir(parents=True, exist_ok=True)
     previo = json.loads(salida.read_text(encoding="utf-8")) if salida.exists() and a.metodo else {}
     previo.update(res)

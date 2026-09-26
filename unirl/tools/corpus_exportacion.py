@@ -12,7 +12,7 @@ import time
 import uuid
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
 from unirl.corpus import cargar  # noqa: E402
 from unirl.gd_isabelle import TheoremVerifier  # noqa: E402
@@ -47,7 +47,7 @@ def main() -> int:
           f"sorry detectado como skip_proof en {sum(r['skip_proof_detectado'] for r in res.values())}/{len(ents)}")
     for l in [l for l in p.stdout.splitlines() if l.startswith("***")][:10]:
         print("   ", l[:200])
-    (HERE / "corpus" / "raices" / "validacion_exportacion.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
+    (HERE / "corpus" / "curado" / "raices" / "validacion_exportacion.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
     return 0 if not malos else 2
 
 

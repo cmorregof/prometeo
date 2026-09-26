@@ -20,6 +20,7 @@ Isabelle; es matemática de libro (Nesterov, Thm. 2.1.5, y su recíproco).
 from __future__ import annotations
 
 import hashlib
+import importlib
 import json
 import os
 import re
@@ -354,7 +355,7 @@ class TheoremVerifier:
         self.aislado = bool(aislado) and Path("/usr/bin/sandbox-exec").exists()
         if not target_name:
             raise ValueError("falta el objetivo (target) del juez de teorema")
-        self.config08 = _import_from("08_isabelle", "isarl.config")
+        self.config08 = importlib.import_module("isarl.config")
         self.scratch = Path(self.config08.SCRATCH)
         self.build_timeout_s = float(build_timeout_s)
         self.target_name = target_name

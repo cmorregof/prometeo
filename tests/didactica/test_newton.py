@@ -1,9 +1,9 @@
 import random
 
-from newtonrl.env_newton import BACK, FULL, HALF, NewtonEnv, make_problem, theoretical_action
-from newtonrl.env_proof import ProofEnv
-from newtonrl.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
-from newtonrl.trainer import Config, Trainer
+from didactica.newton.env_newton import BACK, FULL, HALF, NewtonEnv, make_problem, theoretical_action
+from didactica.newton.env_proof import ProofEnv
+from didactica.newton.proof_kb import KEY_TO_INDEX, MIN_PROOF_LENGTH, REQUIRED_KEYS, STEPS
+from didactica.newton.trainer import Config, Trainer
 
 
 def test_problems_have_root_and_consistent_derivative():

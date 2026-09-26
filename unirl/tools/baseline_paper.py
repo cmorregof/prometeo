@@ -10,7 +10,7 @@ import time
 from dataclasses import asdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from unirl.verifiers import IsabelleVerifier  # noqa: E402
 
 ap = argparse.ArgumentParser()
@@ -20,7 +20,7 @@ a = ap.parse_args()
 v = IsabelleVerifier(a.target, sh_timeout=a.sh_timeout)
 t0 = time.time()
 o = v.verify(v.target(), {"invariant": v.spec["paper_invariant"], "variant": v.spec["paper_variant"]})
-out = Path(__file__).resolve().parent.parent / "runs" / "_baseline" / f"{a.target}.json"
+out = Path(__file__).resolve().parents[2] / "runs" / "unirl" / "_baseline" / f"{a.target}.json"
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps({"target": a.target, "hash": v.frozen_hash, "sh_timeout": a.sh_timeout, "seconds": round(time.time() - t0, 1),
                            "outcome": asdict(o)}, ensure_ascii=False, indent=1), encoding="utf-8")

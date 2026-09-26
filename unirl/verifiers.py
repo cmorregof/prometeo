@@ -29,8 +29,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
 
-ROOT = Path(__file__).resolve().parent.parent.parent  # rl_metodos/
-TARGETS = ROOT / "09_unified" / "targets"
+ROOT = Path(__file__).resolve().parent.parent  # rl_metodos/ (unirl/ vive en la raíz desde el 26 sep 2026)
+TARGETS = Path(__file__).resolve().parent / "targets"
+# nombres históricos de los proyectos didácticos (en configs y meta.json antiguos) → subpaquete de `didactica`
+PROYECTOS = {"01_biseccion": "biseccion", "02_punto_fijo": "punto_fijo", "03_taylor": "taylor", "04_newton": "newton",
+             "05_secante": "secante", "07_interpolacion": "interpolacion"}
 
 
 @dataclass
@@ -54,10 +57,9 @@ class Verifier(Protocol):
 
 
 def _import_from(project_dir: str, module: str):
-    """Importa `module` desde `rl_metodos/<project_dir>` sin instalar nada ni tocar el proyecto."""
-    p = str(ROOT / project_dir)
-    if p not in sys.path:
-        sys.path.insert(0, p)
+    """Importa `module` (`steprl`, `isarl`, `didactica.*`). Desde la reorganización del 26 sep 2026 los paquetes viven
+    en la raíz del repo y se instalan juntos en modo editable: no hace falta tocar `sys.path`. `project_dir` se
+    conserva por compatibilidad con los registros antiguos y se ignora."""
     return importlib.import_module(module)
 
 
@@ -78,8 +80,8 @@ class LemmaGraphVerifier:
 
     def __init__(self, project: str, seed: int = 0):
         self.project = project
-        pkg = [d.name for d in (ROOT / project).iterdir() if d.is_dir() and (d / "proof_kb.py").exists()][0]
-        self.kb = _import_from(project, f"{pkg}.proof_kb")
+        nombre = PROYECTOS.get(project, project)  # acepta el nombre viejo (01_biseccion) y el nuevo (biseccion)
+        self.kb = importlib.import_module(f"didactica.{nombre}.proof_kb")
         self.steps = list(self.kb.STEPS)
         self.qed = [s for s in self.steps if s.is_qed][0]
         self.required = frozenset(self.kb.REQUIRED_KEYS)
@@ -209,9 +211,9 @@ class PEPVerifier:
             raise ValueError("mode ∈ {improve, match}")
         self.mode = mode
         self.program_timeout_s, self.process_timeout_s = program_timeout_s, process_timeout_s
-        self.env06 = _import_from("06_stepsizes", "steprl.env")
-        self.refs06 = _import_from("06_stepsizes", "steprl.refs")
-        self.evolve06 = _import_from("06_stepsizes", "steprl.evolve")
+        self.env06 = importlib.import_module("steprl.env")
+        self.refs06 = importlib.import_module("steprl.refs")
+        self.evolve06 = importlib.import_module("steprl.evolve")
         self.inst = self.refs06.Instance(n=n, mu=mu, objective=objective, allow_negative=negative)
         # Las referencias se leen una vez: 06 las relee de refs.json en cada score(), y un programa con acceso al
         # disco podría subir τ_ref y convertir un paso cualquiera en «mejora certificada».
@@ -227,7 +229,7 @@ class PEPVerifier:
 
     def run_isolated(self, code: str) -> tuple[list[float] | None, str]:
         """Ejecuta `schedule(n)` en un intérprete aparte y devuelve (h, error)."""
-        cmd = [sys.executable, "-I", "-B", "-c", _PEP_RUNNER, str(ROOT / "06_stepsizes"), str(self.inst.n), str(self.program_timeout_s)]
+        cmd = [sys.executable, "-I", "-B", "-c", _PEP_RUNNER, str(ROOT), str(self.inst.n), str(self.program_timeout_s)]
         if self.sandboxed:  # macOS: sin red y sin escritura en disco para el programa propuesto
             cmd = ["/usr/bin/sandbox-exec", "-p", '(version 1)(allow default)(deny network*)(deny file-write* (require-not (literal "/dev/null")))'] + cmd
         try:
@@ -624,8 +626,8 @@ class IsabelleVerifier:
         # verifican uno a uno) y las VCs se evalúan con los que sí compilan; el intento recibe crédito parcial
         # (fracción de VCs cerradas) en vez de perderse entero. Por defecto apagado: las corridas anteriores no cambian.
         self.lemas_parciales = lemas_parciales
-        self.driver = _import_from("08_isabelle", "isarl.driver")
-        self.config08 = _import_from("08_isabelle", "isarl.config")
+        self.driver = importlib.import_module("isarl.driver")
+        self.config08 = importlib.import_module("isarl.config")
         self.sh_timeout, self.try0_timeout, self.build_timeout_s = sh_timeout, try0_timeout, build_timeout_s
         self.target_name = target_name
         self.spec = self._load_spec()

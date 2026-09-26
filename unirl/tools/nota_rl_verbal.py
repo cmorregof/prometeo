@@ -21,16 +21,16 @@ import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
-sys.path.insert(0, str(HERE / "tools"))
+sys.path.insert(0, str(HERE / "unirl" / "tools"))
 from unirl import corpus, cuaderno as C, recompensa as R  # noqa: E402
 from unirl.gd_isabelle import TheoremVerifier  # noqa: E402
 from unirl.informe import BIB, compilar, escapar, lab, lista_etiquetas, literales, n_es, preambulo, tt  # noqa: E402
 import corpus_raices as cr  # noqa: E402
 
 OUT = HERE / "docs" / "informes" / "rl_verbal"
-RAICES = HERE / "corpus" / "raices"
+RAICES = HERE / "corpus" / "curado" / "raices"
 RES = HERE / "resultados"
 METODOS = [("biseccion", "bisección"), ("punto_fijo", "punto fijo"), ("newton", "Newton"),
            ("ordenes", "órdenes de convergencia"), ("secante", "secante"), ("regula_falsi", "regula falsi")]

@@ -23,8 +23,8 @@ import re
 from fractions import Fraction
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
-CERT = HERE / "targets" / "gd_cert"
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
+CERT = HERE / "unirl" / "targets" / "gd_cert"
 OBJETIVOS = ("gd_n1", "gd_const_n2")
 
 EXPANSION = ("power2_norm_eq_inner inner_diff_left inner_diff_right inner_add_left inner_add_right inner_minus_left "

@@ -1,14 +1,14 @@
 """Laboratorio 1 · experimentos sobre el agente de bisección.
 
-Se ejecuta desde 01_biseccion con su entorno virtual activado:
+Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual activado:
 
-    cd 01_biseccion && source .venv/bin/activate
-    python ../docs/curso/lab01/experimentos.py generaciones
-    python ../docs/curso/lab01/experimentos.py recompensa
-    python ../docs/curso/lab01/experimentos.py recompensa --perder-raiz 0 --paso -1 --converger 0
-    python ../docs/curso/lab01/experimentos.py sin_medio
-    python ../docs/curso/lab01/experimentos.py dibujar     # el grafo de la demostración
-    python ../docs/curso/lab01/experimentos.py grafo
+    cd rl_metodos && source .venv/bin/activate
+    python docs/curso/lab01/experimentos.py generaciones
+    python docs/curso/lab01/experimentos.py recompensa
+    python docs/curso/lab01/experimentos.py recompensa --perder-raiz 0 --paso -1 --converger 0
+    python docs/curso/lab01/experimentos.py sin_medio
+    python docs/curso/lab01/experimentos.py dibujar     # el grafo de la demostración
+    python docs/curso/lab01/experimentos.py grafo
 
 No modifica los archivos del paquete: cambia constantes en memoria y entrena de nuevo.
 """
@@ -18,10 +18,10 @@ from __future__ import annotations
 import sys
 from dataclasses import replace
 
-import bisectrl.env_bisection as E
-import bisectrl.proof_kb as KB
-import bisectrl.trainer as T
-from bisectrl.env_proof import ProofEnv
+import didactica.biseccion.env_bisection as E
+import didactica.biseccion.proof_kb as KB
+import didactica.biseccion.trainer as T
+from didactica.biseccion.env_proof import ProofEnv
 
 
 def entrenar(ep1: int, ep2: int, seed: int = 1) -> T.Trainer:

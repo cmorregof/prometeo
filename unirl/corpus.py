@@ -10,8 +10,8 @@ import hashlib
 import json
 from pathlib import Path
 
-BASE = Path(__file__).resolve().parent.parent  # 09_unified/
-CORPUS = BASE / "corpus"
+BASE = Path(__file__).resolve().parent.parent  # rl_metodos/
+CORPUS = BASE / "corpus" / "curado"  # los peldaños aprobados a mano; corpus/existencia queda para la tesis
 ESTADOS = ("aprobado", "pendiente_revision", "conjetura")
 SPLITS = ("train", "test")
 CAMPOS = ("id", "name", "kind", "metodo", "peldano", "split", "estado", "dificultad", "fuente", "dependencias", "imports",

@@ -22,8 +22,8 @@ import random
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
-OUT = HERE / "corpus" / "raices"
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
+OUT = HERE / "corpus" / "curado" / "raices"
 IMPORTS = '"HOL-Analysis.Analysis"'
 HASH_FIELDS = ("imports", "prelude", "fixes", "assumes", "concl")  # los mismos que TheoremVerifier._hash
 

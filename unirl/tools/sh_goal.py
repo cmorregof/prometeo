@@ -12,8 +12,7 @@ import sys
 import time
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(HERE.parent / "08_isabelle"))
+HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 from isarl import config, driver  # noqa: E402
 
 FIXES = 'f :: "real \\<Rightarrow> real" and a b tol :: real'
@@ -77,7 +76,7 @@ for prelude_name, prelude in (("sin_prelude", ""), ("con_prelude_del_paper", PAP
     results[prelude_name] = res
     for g in res:
         print(prelude_name, g.get("name"), g.get("outcome"), g.get("ms"), (g.get("message") or str(g.get("error")))[:160])
-dest = HERE / "runs" / "_baseline" / "sh_goals.json"
+dest = HERE / "runs" / "unirl" / "_baseline" / "sh_goals.json"
 dest.parent.mkdir(parents=True, exist_ok=True)
 dest.write_text(json.dumps({"timeout": a.timeout, "results": results}, ensure_ascii=False, indent=1), encoding="utf-8")
 print("→", dest)

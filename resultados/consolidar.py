@@ -5,7 +5,7 @@ identidad del código que la produjo: el commit (01–07, inferido por la fecha 
 anota) o la huella de `unirl` que registra su meta.json (09). Estados: terminado, en curso, interrumpida por error y
 planeado; `incluida` dice si la fila entra en los análisis (las carpetas `_*` de 09 están archivadas con su LEEME.md).
 
-    09_unified/.venv/bin/python resultados/consolidar.py
+    .venv/bin/python resultados/consolidar.py
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "resultados"
-U = ROOT / "09_unified"
+U = ROOT  # antes 09_unified/; desde el 26 sep 2026 unirl y sus datos viven en la raíz (runs/unirl, corpus/curado, logs, resultados)
 
 CAMPOS = ["subproyecto", "experimento", "estado", "incluida", "corrida", "fecha", "configuracion", "modelo", "tarea",
           "episodio", "exito", "intentos_usados", "intento_exito", "tiempo_pared_s", "llamadas_api", "costo_usd",
@@ -68,14 +68,16 @@ def fecha_de_carpeta(nombre: str) -> str:
 # ----------------------------------------------------------------------------- 01–05 y 07: Q-agent tabular
 
 PAQUETES = {"01_biseccion": "bisectrl", "02_punto_fijo": "fixpointrl", "03_taylor": "taylorrl", "04_newton": "newtonrl",
-            "05_secante": "secantrl", "07_interpolacion": "interprl"}
+            "05_secante": "secantrl", "07_interpolacion": "interprl"}  # rutas históricas (para `git log`)
+DIDACTICA = {"01_biseccion": "biseccion", "02_punto_fijo": "punto_fijo", "03_taylor": "taylor", "04_newton": "newton",
+             "05_secante": "secante", "07_interpolacion": "interpolacion"}  # subpaquete y carpeta de runs/didactica
 
 
 def qagent(filas: list[dict], resumen: dict) -> None:
     corridas = []
     for proyecto in PAQUETES:
-        rutas = sorted(glob.glob(str(ROOT / proyecto / "runs" / "*" / "historia.json")))
-        rutas += sorted(glob.glob(str(OUT / "corridas_locales" / (proyecto + "*") / "*" / "historia.json")))
+        rutas = sorted(glob.glob(str(ROOT / "runs" / "didactica" / DIDACTICA[proyecto] / "*" / "historia.json")))
+        rutas += sorted(glob.glob(str(ROOT / "runs" / "corridas_locales" / (proyecto + "*") / "*" / "historia.json")))
         for r in map(Path, rutas):
             h = json.loads(r.read_text(encoding="utf-8"))
             cfg, nombre = h.get("config", {}), r.parent.name
@@ -116,7 +118,7 @@ def _head() -> str:
 
 def stepsizes(filas: list[dict], resumen: dict) -> None:
     ev = []
-    for r in sorted(map(Path, glob.glob(str(ROOT / "06_stepsizes" / "runs" / "2026*" / "evolucion.json")))):
+    for r in sorted(map(Path, glob.glob(str(ROOT / "runs" / "pep" / "2026*" / "evolucion.json")))):
         d = json.loads(r.read_text(encoding="utf-8"))
         gens = next((v for v in d.values() if isinstance(v, list)), [])
         nombre, fecha = r.parent.name, fecha_de_carpeta(r.parent.name)
@@ -139,7 +141,7 @@ def stepsizes(filas: list[dict], resumen: dict) -> None:
                    "mejor_C_target": min((g["C_target"] for g in llm if isinstance(g.get("C_target"), (int, float)) and not g.get("error")), default=None),
                    "fuente": rel(r), "sha": sha(r), "codigo": codigo})
     certs = []
-    for r in sorted(map(Path, glob.glob(str(ROOT / "06_stepsizes" / "certificados" / "*.json")) + glob.glob(str(ROOT / "06_stepsizes" / "runs" / "cert-*.json")))):
+    for r in sorted(map(Path, glob.glob(str(ROOT / "certificados" / "*.json")) + glob.glob(str(ROOT / "runs" / "pep" / "cert-*.json")))):
         d = json.loads(r.read_text(encoding="utf-8"))
         fecha = datetime.fromtimestamp(r.stat().st_mtime).isoformat(timespec="seconds")
         tarea = f"{d.get('objective')}, μ = {d.get('mu')}, n = {len(d.get('h', []))}"
@@ -150,19 +152,19 @@ def stepsizes(filas: list[dict], resumen: dict) -> None:
                           fuente=rel(r), fuente_sha256=sha(r), codigo=commit_en(fecha, "06_stepsizes/steprl")))
         certs.append({"archivo": rel(r), "tarea": tarea, "tau_cert": d.get("tau_float"), "tau_sdp": d.get("tau_sdp"),
                       "ok": d.get("ok"), "sha": sha(r)})
-    refs = json.loads((ROOT / "06_stepsizes" / "steprl" / "refs.json").read_text(encoding="utf-8"))
+    refs = json.loads((ROOT / "steprl" / "refs.json").read_text(encoding="utf-8"))
     resumen["stepsizes"] = {"evolve": ev, "certificados": certs,
                             "referencias": {"instancias": len(refs), "fuentes": dict(Counter(v["source"] for v in refs.values())),
-                                            "fuente": "06_stepsizes/steprl/refs.json", "sha": sha(ROOT / "06_stepsizes/steprl/refs.json")}}
+                                            "fuente": "steprl/refs.json", "sha": sha(ROOT / "steprl/refs.json")}}
 
 
 # ----------------------------------------------------------------------------- 08: reproducción de la Tabla 1
 
 
 def isabelle08(filas: list[dict], resumen: dict) -> None:
-    r = ROOT / "08_isabelle" / "runs" / "repro_bisection.json"
+    r = ROOT / "runs" / "isabelle" / "repro_bisection.json"
     d = json.loads(r.read_text(encoding="utf-8"))["result"]
-    g = U / "runs" / "_baseline" / "given_smt_08.json"
+    g = U / "runs" / "unirl" / "_baseline" / "given_smt_08.json"
     dada = {v["index"]: v["given"] for v in json.loads(g.read_text(encoding="utf-8"))["vcs"]}
     fecha = datetime.fromtimestamp(r.stat().st_mtime).isoformat(timespec="seconds")
     cuenta = Counter()
@@ -188,9 +190,9 @@ def isabelle08(filas: list[dict], resumen: dict) -> None:
                                    "con_prueba_de_una_linea_verificada": cuenta["sola"] + cuenta["smt_del_articulo"],
                                    "articulo_auto": 13, "segundos": round(json.loads(r.read_text())["seconds"], 1),
                                    "fuentes": {rel(r): sha(r), rel(g): sha(g),
-                                               rel(ROOT / "08_isabelle/runs/repro_vc4_240s.json"): sha(ROOT / "08_isabelle/runs/repro_vc4_240s.json"),
-                                               rel(U / "runs/_baseline/sh_goals.json"): sha(U / "runs/_baseline/sh_goals.json"),
-                                               rel(U / "runs/_baseline/upper_bound.json"): sha(U / "runs/_baseline/upper_bound.json")}}
+                                               rel(ROOT / "runs/isabelle/repro_vc4_240s.json"): sha(ROOT / "runs/isabelle/repro_vc4_240s.json"),
+                                               rel(U / "runs/unirl/_baseline/sh_goals.json"): sha(U / "runs/unirl/_baseline/sh_goals.json"),
+                                               rel(U / "runs/unirl/_baseline/upper_bound.json"): sha(U / "runs/unirl/_baseline/upper_bound.json")}}
 
 
 # ----------------------------------------------------------------------------- 09: jueces del 23–24 sep
@@ -198,7 +200,7 @@ def isabelle08(filas: list[dict], resumen: dict) -> None:
 
 def jueces09(filas: list[dict], resumen: dict) -> None:
     agregados = []
-    for m in sorted(map(Path, glob.glob(str(U / "runs" / "**" / "meta.json"), recursive=True))):
+    for m in sorted(map(Path, glob.glob(str(U / "runs" / "unirl" / "**" / "meta.json"), recursive=True))):
         if "/rl_verbal/" in str(m) or not (m.parent / "attempts.jsonl").exists():
             continue
         meta = json.loads(m.read_text(encoding="utf-8"))
@@ -242,7 +244,7 @@ def jueces09(filas: list[dict], resumen: dict) -> None:
 
 
 def corpus09(resumen: dict) -> list[dict]:
-    rows = [json.loads(Path(f).read_text(encoding="utf-8")) for f in sorted(glob.glob(str(U / "corpus/raices/*.json"))) if "validacion" not in f]
+    rows = [json.loads(Path(f).read_text(encoding="utf-8")) for f in sorted(glob.glob(str(U / "corpus/curado/raices/*.json"))) if "validacion" not in f]
     tabla = defaultdict(Counter)
     for r in rows:
         tabla[(r["split"], r["metodo"])][r["dificultad"]] += 1
@@ -255,12 +257,12 @@ def corpus09(resumen: dict) -> list[dict]:
                      "menos_de_400": {r["id"]: r["comprobacion_numerica"]["casos"] for r in rows if r["comprobacion_numerica"]["casos"] < 400}},
         "aprobados_por": dict(Counter(r["aprobacion"]["por"] + " " + r["aprobacion"]["fecha"] for r in rows)),
         "con_referencia_privada": [r["id"] for r in rows if r.get("referencia_privada")],
-        "validacion_isabelle": {k: v["ok"] for k, v in json.loads((U / "corpus/raices/validacion_isabelle.json").read_text()).items()},
-        "exportacion_y_sorry": sum(1 for v in json.loads((U / "corpus/raices/validacion_exportacion.json").read_text()).values()
+        "validacion_isabelle": {k: v["ok"] for k, v in json.loads((U / "corpus/curado/raices/validacion_isabelle.json").read_text()).items()},
+        "exportacion_y_sorry": sum(1 for v in json.loads((U / "corpus/curado/raices/validacion_exportacion.json").read_text()).values()
                                    if v["exporta"] and v["skip_proof_detectado"]),
-        "fuentes": {rel(U / "corpus/raices/validacion_isabelle.json"): sha(U / "corpus/raices/validacion_isabelle.json"),
-                    rel(U / "corpus/raices/validacion_exportacion.json"): sha(U / "corpus/raices/validacion_exportacion.json"),
-                    rel(U / "corpus/raices/revision_enunciados.md"): sha(U / "corpus/raices/revision_enunciados.md")}}
+        "fuentes": {rel(U / "corpus/curado/raices/validacion_isabelle.json"): sha(U / "corpus/curado/raices/validacion_isabelle.json"),
+                    rel(U / "corpus/curado/raices/validacion_exportacion.json"): sha(U / "corpus/curado/raices/validacion_exportacion.json"),
+                    rel(U / "corpus/curado/raices/revision_enunciados.md"): sha(U / "corpus/curado/raices/revision_enunciados.md")}}
     return rows
 
 
@@ -287,7 +289,7 @@ def linea_base(filas: list[dict], resumen: dict, corpus: list[dict]) -> None:
                                "fuente": rel(r), "sha": sha(r)}
 
 
-RL = U / "runs" / "rl_verbal"
+RL = U / "runs" / "unirl" / "rl_verbal"
 
 
 def rl_verbal(filas: list[dict], resumen: dict, corpus: list[dict]) -> None:
