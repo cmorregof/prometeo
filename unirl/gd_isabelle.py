@@ -30,7 +30,7 @@ import time
 import uuid
 from pathlib import Path
 
-from .verifiers import (ALLOWED_COMMANDS, ISABELLE_COMMANDS, TARGETS, _BANNED_WORDS, _LEMMA_HEADS, _MEANING_COMMANDS,
+from .verifiers import (ALLOWED_COMMANDS, ISABELLE_COMMANDS, TARGETS, objetivo, _BANNED_WORDS, _LEMMA_HEADS, _MEANING_COMMANDS,
                         IsabelleVerifier, Outcome, _import_from, check_lemmas, kill_build_of, kill_tree, merge_lemmas,
                         split_lemmas, tokenize_outer)
 
@@ -379,7 +379,7 @@ class TheoremVerifier:
         return cls(e["id"], spec_path=(base or CORPUS) / tema / f"{e['id']}.json", expected_hash=e["frozen_hash"], **kw)
 
     def _load_spec(self) -> dict:
-        ruta = self.spec_path or (TARGETS / f"{self.target_name}.json")
+        ruta = self.spec_path or objetivo(self.target_name)
         return json.loads(ruta.read_text(encoding="utf-8"))
 
     def metadatos(self) -> dict:

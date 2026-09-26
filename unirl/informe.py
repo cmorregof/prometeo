@@ -1319,7 +1319,7 @@ def objetivos_vi_teorema() -> list[str]:
             continue
         if cfg.get("judge") in ("isabelle_teorema", "gd_isabelle", "isabelle_theorem"):
             nombres.add(cfg.get("target") or cfg.get("name"))
-    for f in (PKG / "targets").glob("gd_*.json"):
+    for f in (BASE / "corpus" / "curado" / "stepsize").glob("gd_*.json"):
         nombres.add(f.stem)
     return sorted(n for n in nombres if n)
 

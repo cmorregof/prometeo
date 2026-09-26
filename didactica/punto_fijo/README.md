@@ -2,10 +2,10 @@
 
 **Un agente de Reinforcement Learning aprende, en vivo en la terminal, a controlar la iteración de punto fijo `x ← g(x)` y a demostrar el teorema del punto fijo de Banach.**
 
-Segundo proyecto de la serie [rl_metodos](../README.md). Mismo formato que [01 · bisección](../01_biseccion/README.md): dos fases, interfaz en vivo con cronómetro y bitácora, y una síntesis final de cómo aprendió.
+Segundo proyecto de la serie [rl_metodos](../../README.md). Mismo formato que [01 · bisección](../biseccion/README.md): dos fases, interfaz en vivo con cronómetro y bitácora, y una síntesis final de cómo aprendió.
 
 ```
-python -m fixpointrl
+python -m didactica.punto_fijo
 ```
 
 ![captura](docs/captura.svg)
@@ -52,18 +52,17 @@ Estado: conjunto de pasos establecidos. Acción: siguiente paso. Recompensa: `�
 | **Lo que el agente cree ahora** | la demostración de la política voraz en este momento |
 | **Marcador / Bitácora** | cronómetro, generación, ε, convergencias, divergencias, demostraciones e hitos con tiempo |
 
-Al terminar guarda en `runs/<fecha>/` el `informe.md` (síntesis en prosa, demostración final, ley de control, orden de asentamiento de cada paso, saltos lógicos, hitos), `demostracion.md` e `historia.json`.
+Al terminar guarda en `<out>/<fecha>/` el `informe.md` (síntesis en prosa, demostración final, ley de control, orden de asentamiento de cada paso, saltos lógicos, hitos), `demostracion.md` e `historia.json`.
 
 ## Uso
 
 ```bash
-cd 02_punto_fijo
-python -m venv .venv && source .venv/bin/activate
+cd rl_metodos && python -m venv .venv && source .venv/bin/activate   # una sola vez, para todo el repo
 pip install -e ".[dev]"
-python -m fixpointrl              # ~1–2 min con animación
-python -m fixpointrl --speed 3    # más rápido
-python -m fixpointrl --no-tui     # solo entrena y escribe el informe
-pytest -q
+python -m didactica.punto_fijo              # ~1–2 min con animación
+python -m didactica.punto_fijo --speed 3    # más rápido
+python -m didactica.punto_fijo --no-tui     # solo entrena y escribe el informe
+pytest -q tests/didactica/test_punto_fijo.py
 ```
 
 Requiere Python ≥ 3.10 y una terminal de al menos 120 × 40.

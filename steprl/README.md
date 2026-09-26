@@ -2,7 +2,7 @@
 
 **Primer proyecto de la serie en la frontera: no hay grafo de lemas escrito a mano. Un verificador independiente (un programa semidefinido) certifica el peor caso de cada programa de pasos, y esa certificación es la única recompensa. La búsqueda la hacen una capa numérica (entropía cruzada) y una capa simbólica (un LLM propone programas que generan programas de pasos).**
 
-Sexto proyecto de [rl_metodos](../README.md). Es el [proyecto 02](../02_punto_fijo/) (elegir el paso α) llevado a un problema abierto de 2023–2026.
+Sexto proyecto de [rl_metodos](../README.md). Es el [proyecto 02](../didactica/punto_fijo/) (elegir el paso α) llevado a un problema abierto de 2023–2026.
 
 ## El problema
 
@@ -92,9 +92,8 @@ Tiempos medidos (un núcleo, Clarabel): SDP n = 8 ≈ 80 ms, n = 12 ≈ 200 ms, 
 ## Uso
 
 ```bash
-cd 06_stepsizes
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev,llm]"
+cd rl_metodos && python -m venv .venv && source .venv/bin/activate   # una sola vez, para todo el repo
+pip install -e ".[dev]"   # openai y anthropic ya son dependencias del paquete
 python -m steprl verify
 python -m steprl search --n-max 4
 python -m steprl evolve --provider mock --generations 2 --anytime-n 15

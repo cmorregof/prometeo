@@ -28,7 +28,7 @@ include = ["unirl*", "steprl*", "isarl*", "didactica*"]
 
 [tool.setuptools.package-data]
 steprl = ["refs.json"]
-unirl = ["configs/*.toml", "targets/*.json", "targets/*.txt", "targets/*.part", "targets/gd_cert/*"]
+unirl = ["configs/*.toml", "isabelle_commands.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

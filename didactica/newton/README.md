@@ -2,10 +2,10 @@
 
 **Un agente de Reinforcement Learning aprende, en vivo en la terminal, cuándo es seguro dar el paso completo de Newton y cuándo amortiguarlo o retroceder, y demuestra la convergencia cuadrática local del método.**
 
-Cuarto proyecto de la serie [rl_metodos](../README.md). Cierra el arco: el paso de Newton es el punto fijo óptimo del [proyecto 02](../02_punto_fijo/) (α = 1/f'), y su demostración usa el resto de Lagrange del [proyecto 03](../03_taylor/).
+Cuarto proyecto de la serie [rl_metodos](../../README.md). Cierra el arco: el paso de Newton es el punto fijo óptimo del [proyecto 02](../punto_fijo/) (α = 1/f'), y su demostración usa el resto de Lagrange del [proyecto 03](../taylor/).
 
 ```
-python -m newtonrl
+python -m didactica.newton
 ```
 
 ![captura](docs/captura.svg)
@@ -50,18 +50,17 @@ Grafo de 11 pasos (hipótesis, entorno seguro con `f' ≠ 0`, definición, Taylo
 | **Fase 2 / Lo que el agente cree ahora** | el intento de demostración en curso y la demostración de la política voraz |
 | **Marcador / Bitácora** | cronómetro, generación, ε, convergencias, divergencias, demostraciones e hitos |
 
-Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `runs/<fecha>/`.
+Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `<out>/<fecha>/`.
 
 ## Uso
 
 ```bash
-cd 04_newton
-python -m venv .venv && source .venv/bin/activate
+cd rl_metodos && python -m venv .venv && source .venv/bin/activate   # una sola vez, para todo el repo
 pip install -e ".[dev]"
-python -m newtonrl              # ~1–2 min con animación
-python -m newtonrl --speed 3
-python -m newtonrl --no-tui
-pytest -q
+python -m didactica.newton              # ~1–2 min con animación
+python -m didactica.newton --speed 3
+python -m didactica.newton --no-tui
+pytest -q tests/didactica/test_newton.py
 ```
 
 ## Referencias

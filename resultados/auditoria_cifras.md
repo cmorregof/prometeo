@@ -1,5 +1,9 @@
 # Auditoría de las cifras de los README (25 sep 2026)
 
+> **Nota (reorganización del 26–27 sep 2026, rama `reorganizar`):** las rutas que cita este documento son las anteriores a la
+> reorganización (`01_biseccion/`, `09_unified/`, …). La correspondencia ruta vieja → ruta nueva está en `MIGRACION.md`.
+> El contenido no se ha modificado.
+
 Decisión de Carlos: «Donde un README tenga cifras sin registro, reprodúcelas o márcalas para quitarlas». Para cada
 cifra: dónde está, qué registro la respalda ahora y qué se midió. Las corridas nuevas están en
 `resultados/corridas_locales/` (commit `e419660`, sin API) y sus tiempos, en `corridas_locales/tiempos.md`.

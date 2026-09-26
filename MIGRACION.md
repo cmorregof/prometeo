@@ -1,6 +1,6 @@
 # MIGRACION.md · reorganización del 26 de septiembre de 2026 (rama `reorganizar`)
 
-Estructura de destino: `ESTRUCTURA_OBJETIVO.md` (documento de Carlos). Antes de tocar el repo se sacaron de él, fuera
+Estructura de destino: `ESTRUCTURA_OBJETIVO.md` (documento de Carlos, ahora en el repo con sus ajustes del 26–27 sep). Antes de tocar el repo se sacaron de él, fuera
 de todo repositorio: el libro del director (`Conjeturas/` → `~/Personal/_director/Conjeturas/`), su paquete
 (`paquete_completo.zip` → `~/Personal/_director/`) y la convocatoria (→ `~/Personal/_convocatorias/`), con SHA-256
 iguales antes y después (`~/Personal/_revision_general/limpieza/sha_paso5_*.txt`). Nada científico se borró; lo
@@ -37,9 +37,12 @@ instantánea).
 | `08_isabelle/docs/reproduccion-bisection.md` | `docs/informes/reproduccion-bisection.md` | git mv | **provisional** |
 | `08_isabelle/tests/`, `08_isabelle/isabelle/Targets/` (vacías) | eliminadas | rmdir | |
 | `09_unified/unirl/` | `unirl/` | git mv | sin `sys.path`; ver §2 |
-| `09_unified/configs/`, `targets/`, `tools/` | `unirl/configs/`, `unirl/targets/`, `unirl/tools/` | git mv | **provisional**: dentro del paquete para no crear carpetas nuevas en la raíz |
+| `09_unified/configs/`, `tools/` | `unirl/configs/`, `unirl/tools/` | git mv | código y configuración: dentro del paquete (aceptado el 26 sep) |
+| `09_unified/targets/{bisection,countdown}.json`, `_bisection_aux.thy.part` | `corpus/curado/programas/` | git mv | son enunciados (tripletas de Hoare congeladas y sus lemas prestados): decisión por contenido del 26 sep |
+| `09_unified/targets/gd_*.json`, `targets/gd_cert/` | `corpus/curado/stepsize/`, `corpus/curado/stepsize/gd_cert/` | git mv | enunciados del juez de teorema y sus certificados y pruebas de referencia |
+| `09_unified/targets/isabelle_commands.txt` | `unirl/isabelle_commands.txt` | git mv | dato del filtro léxico: código |
 | `09_unified/corpus/raices/` | `corpus/curado/raices/` | git mv | `corpus/existencia/LEEME.md` nuevo |
-| `09_unified/cuaderno/` | `cuaderno/` | git mv | **provisional** (raíz): la estructura no lo menciona; `unirl.cuaderno` lo busca en `<raíz>/cuaderno` |
+| `09_unified/cuaderno/` | `runs/unirl/cuaderno/` | git mv (SHA-256 de los 4 archivos igual; hash del cuaderno `0b6385c1aed55323`, el sembrado) | estado de las corridas del RL verbal (decisión del 26 sep) |
 | `09_unified/runs/` | `runs/unirl/` | git mv (+ `llamadas.jsonl` no versionados, con la carpeta) | |
 | `.snap_astra_bis/unirl/` | `runs/unirl/bisection_isabelle_lemas_mem/20260923-224900-gpt-6-astra-high/codigo_unirl_61c5c2b8.tar.gz` | tar + rm | huella de los `.py` del tar: `61c5c2b8649611f6`, igual a `code.unirl_sha256` de esa corrida |
 | `09_unified/logs/` | `logs/` | git mv (+ `.sqlite`, `.lock`, `.pid` con la carpeta) | |
@@ -61,7 +64,7 @@ instantánea).
 
 ## 2. Cambios de código (todos en el commit «reorganizar (4)»)
 
-* `unirl/verifiers.py`: `ROOT` es la raíz del repo; `TARGETS = unirl/targets`; `_import_from` ya no toca `sys.path`
+* `unirl/verifiers.py`: `ROOT` es la raíz del repo; `objetivo(nombre)` busca `<nombre>.json` en `corpus/curado/*/` (`TARGETS` = `corpus/curado/stepsize`, `TARGETS_PROGRAMAS` = `corpus/curado/programas`); `ISABELLE_COMMANDS` se lee de `unirl/isabelle_commands.txt`; `_import_from` ya no toca `sys.path`
   (importa `steprl`, `isarl` con `importlib`); el juez de grafo importa `didactica.<metodo>.proof_kb` y acepta los
   nombres viejos de las configs (`01_biseccion` → `biseccion`, tabla `PROYECTOS`); el intérprete aislado del PEP recibe
   la raíz del repo.
@@ -69,7 +72,8 @@ instantánea).
   la huella «sucia» mira `unirl/`.
 * `unirl/informe.py`, `report.py`, `corpus.py`, `experimentos.py`: `docs/formulacion`, `runs/unirl`, `unirl/configs`,
   `unirl/targets`, `corpus/curado`.
-* `unirl/gd_isabelle.py`: `importlib.import_module("isarl.config")`.
+* `unirl/gd_isabelle.py`: `importlib.import_module("isarl.config")`; el objetivo se localiza con `objetivo(nombre)`.
+* `unirl/cuaderno.py`, `unirl/martillo.py` y dos herramientas: el cuaderno vivo está en `runs/unirl/cuaderno/`.
 * `unirl/tools/*.py`: `HERE = parents[2]` (raíz), `unirl/tools`, `unirl/targets`, `runs/unirl`, `corpus/curado/raices`;
   sin `sys.path` hacia 06 y 08.
 * `unirl/configs/*_graph.toml`: `project = "biseccion"` (etc.).
@@ -95,7 +99,16 @@ instantánea).
 | `git status` limpio; un commit por paso; sin push; sin API | commits: `e469100` (pendientes de la revisión), `392e88f` (paso 1), `9e02a99` (pasos 2 y 3), `d9cadb6` (paso 4), `86ec868` (paso 5) y el commit de este archivo con `README.md` y `CLAUDE.md` (paso 6). Sin `push`. Ninguna llamada a la API |
 | `MIGRACION.md` y `CLAUDE.md` | este archivo; `CLAUDE.md` con las rutas nuevas |
 
-## 4. Lo que debes confirmar (encajes provisionales) o decidir
+## 4. Decisiones de Carlos del 26 sep (segunda ronda) sobre los encajes provisionales
+
+Todos aceptados, con dos ajustes ya aplicados: el cuaderno va a `runs/unirl/cuaderno/` y los objetivos congelados del juez
+Isabelle, por ser enunciados, a `corpus/curado/{programas,stepsize}/`. `isarl/` se mantiene (el preámbulo de la estructura
+estaba equivocado y se corrigió). Los `__main__.py` por subpaquete se conservan. De los documentos con rutas viejas se
+actualizaron solo los que se ejecutan o se leen como estado actual (`RELANZAMIENTO.md`, los README de cada método y de
+`steprl`, `CLAUDE.md`) y se añadió una nota al inicio de `resultados/INVENTARIO.md`, `auditoria_cifras.md` e
+`informe_estado.tex` (comentario; el PDF no cambia). Las guías y notas del curso no se tocan (texto histórico ya usado en
+clase). `resultados/tablas/` y el informe de estado quedan al 25 sep hasta que termine la ronda. Lo que sigue era la lista
+original de encajes provisionales, conservada como registro:
 
 1. Los marcados **provisional** en §1: READMEs y capturas junto a su paquete; `unirl/{configs,targets,tools}` dentro del
    paquete; `cuaderno/` en la raíz; los seis archivos de `09_unified/resultados/` fusionados en `resultados/`; el plan, el

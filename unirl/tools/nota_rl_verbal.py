@@ -589,7 +589,7 @@ def documento() -> str:
     ps = corpus.usables()
     viso = leer(RAICES / "validacion_isabelle.json", {})
     vexp = leer(RAICES / "validacion_exportacion.json", {})
-    glos = leer(HERE / "cuaderno" / "glosario_verificacion.json")
+    glos = leer(HERE / "runs" / "unirl" / "cuaderno" / "glosario_verificacion.json")
     base = leer(RES / "martillo_linea_base.json")
     if base is not None:
         base["total"] = len(ps)

@@ -1,5 +1,5 @@
 """Demostraciones Isar de referencia (cota superior) para los objetivos gd con n fijo, generadas desde los
-certificados racionales exactos de targets/gd_cert/<objetivo>.json (tools/gd_certificados.py).
+certificados racionales exactos de corpus/curado/stepsize/gd_cert/<objetivo>.json (tools/gd_certificados.py).
 
 La demostración es el dual del PEP escrito en Isabelle: una instancia de `interp` por cada multiplicador λᵢⱼ > 0,
 un hecho 0 ≤ ‖wₖ‖² por cada cuadrado de la descomposición M = Σ dₖ wₖ wₖᵀ, y el cierre por aritmética lineal
@@ -13,7 +13,7 @@ Variantes (la validación prueba en orden y se queda con la primera que Isabelle
   C: expansión con `simp only` y cierre con argo (decisión de aritmética lineal con reconstrucción de prueba).
 Validación del 24 sep 2026: C es ACCEPTED en gd_n1 y gd_const_n2 (≈ 5 s); A falla (linarith no cierra).
 
-Uso: .venv/bin/python tools/gd_prueba_isar.py   (escribe targets/gd_cert/<objetivo>.proof_{A,B,C}.txt)
+Uso: .venv/bin/python tools/gd_prueba_isar.py   (escribe corpus/curado/stepsize/gd_cert/<objetivo>.proof_{A,B,C}.txt)
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from fractions import Fraction
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
-CERT = HERE / "unirl" / "targets" / "gd_cert"
+CERT = HERE / "corpus" / "curado" / "stepsize" / "gd_cert"
 OBJETIVOS = ("gd_n1", "gd_const_n2")
 
 EXPANSION = ("power2_norm_eq_inner inner_diff_left inner_diff_right inner_add_left inner_add_right inner_minus_left "
@@ -61,7 +61,7 @@ def generar(obj: str, variante: str) -> str:
     base = ["(x0 - xs)"] + [f"g x{k}" for k in range(n + 1)]
     lista = re.search(r"gd g (\[[^\]]*\]) x0", c["concl"]).group(1)
     L = ["proof -"]
-    L.append(f"  (* certificado exacto del PEP para h = {[str(x) for x in h]}, tau = {c['tau']} (targets/gd_cert/{obj}.json) *)")
+    L.append(f"  (* certificado exacto del PEP para h = {[str(x) for x in h]}, tau = {c['tau']} (corpus/curado/stepsize/gd_cert/{obj}.json) *)")
     for k in range(1, n + 1):
         L.append(f'  define x{k} where "x{k} = x{k-1} - {num(h[k-1])} *\\<^sub>R g x{k-1}"')
     defs = " ".join(f"x{k}_def" for k in range(n, 0, -1))

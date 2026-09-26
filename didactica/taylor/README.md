@@ -2,10 +2,10 @@
 
 **Un agente de Reinforcement Learning aprende, en vivo en la terminal, a usar la serie de Taylor como método numérico (cuántos términos sumar, cuándo parar, cuándo la serie no sirve) y a demostrar el teorema de Taylor con resto de Lagrange.**
 
-Tercer proyecto de la serie [rl_metodos](../README.md), intermedio entre [02 · punto fijo](../02_punto_fijo/) y 04 · Newton: el resto de Lagrange que se demuestra aquí es la herramienta con la que Newton probará su convergencia cuadrática.
+Tercer proyecto de la serie [rl_metodos](../../README.md), intermedio entre [02 · punto fijo](../punto_fijo/) y 04 · Newton: el resto de Lagrange que se demuestra aquí es la herramienta con la que Newton probará su convergencia cuadrática.
 
 ```
-python -m taylorrl
+python -m didactica.taylor
 ```
 
 ![captura](docs/captura.svg)
@@ -50,18 +50,17 @@ Grafo de 13 pasos (hipótesis, polinomio y resto, derivadas que coinciden en `a`
 | **Fase 2 / Lo que el agente cree ahora** | el intento de demostración en curso y la demostración de la política voraz |
 | **Marcador / Bitácora** | cronómetro, generación, ε, aciertos, errores, demostraciones e hitos |
 
-Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `runs/<fecha>/`.
+Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `<out>/<fecha>/`.
 
 ## Uso
 
 ```bash
-cd 03_taylor
-python -m venv .venv && source .venv/bin/activate
+cd rl_metodos && python -m venv .venv && source .venv/bin/activate   # una sola vez, para todo el repo
 pip install -e ".[dev]"
-python -m taylorrl              # ~1–2 min con animación
-python -m taylorrl --speed 3
-python -m taylorrl --no-tui
-pytest -q
+python -m didactica.taylor              # ~1–2 min con animación
+python -m didactica.taylor --speed 3
+python -m didactica.taylor --no-tui
+pytest -q tests/didactica/test_taylor.py
 ```
 
 ## Referencias

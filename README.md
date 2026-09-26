@@ -18,16 +18,16 @@ pytest -q                                        # 77 pruebas didácticas y de s
 | carpeta | qué es |
 |---|---|
 | `didactica/` | seis agentes tabulares, uno por método, con un único `QAgent` (`qagent.py`) |
-| `unirl/` | un MDP, jueces intercambiables; el RL verbal con cuaderno; `configs/`, `targets/`, `tools/` |
+| `unirl/` | un MDP, jueces intercambiables; el RL verbal con cuaderno; `configs/`, `tools/` |
 | `steprl/` | juez PEP: verificador SDP, certificados racionales exactos, evolución con LLM |
 | `isarl/` | juez Isabelle: `vcg` + `try0` + Sledgehammer; reproducción de la Tabla 1 de Bryant, Huerta y Munive, Foster (2026) |
-| `corpus/curado/raices/` | 48 peldaños de búsqueda de raíces en Isabelle, aprobados uno a uno |
-| `runs/`, `logs/`, `cuaderno/`, `certificados/` | registros de corridas y estado; intocables |
+| `corpus/curado/` | `raices/`: 48 peldaños de búsqueda de raíces en Isabelle, aprobados uno a uno; `programas/` y `stepsize/`: los objetivos congelados del juez Isabelle y sus certificados |
+| `runs/`, `logs/`, `certificados/` | registros de corridas y estado (el cuaderno vivo del RL verbal está en `runs/unirl/cuaderno/`); intocables |
 | `resultados/` | inventario, métricas consolidadas, estadística, auditoría de cifras, informe de estado (PDF) |
 | `docs/formulacion/` | la formulación del RL verbal (H1–H4, McNemar, potencia), la nota técnica de `unirl`, el plan y el relanzamiento |
 | `docs/curso/` | material docente: contexto, laboratorios 1 y 2 |
 
-`MIGRACION.md` tiene la tabla ruta vieja → ruta nueva (los proyectos 01–09 de antes del 26 sep 2026).
+`ESTRUCTURA_OBJETIVO.md` es la estructura de destino y `MIGRACION.md` la tabla ruta vieja → ruta nueva (los proyectos 01–09 de antes del 26 sep 2026).
 
 ## La serie didáctica (`didactica/`)
 

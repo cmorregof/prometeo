@@ -23,7 +23,7 @@ cadena y λ_{*,k} = λ_{k,k+1} − λ_{k−1,k} desde x*. Si no, el dual numéri
 vértice de la cara óptima) redondeado con `limit_denominator`. La descomposición es LDLᵀ exacta; se prueba cada
 orden de pivotes y se queda la de coeficientes más cortos, con wₖ escalado a enteros primos entre sí.
 
-Uso: .venv/bin/python tools/gd_certificados.py  (escribe targets/gd_cert/<objetivo>.json y comprueba todo).
+Uso: .venv/bin/python tools/gd_certificados.py  (escribe corpus/curado/stepsize/gd_cert/<objetivo>.json y comprueba todo).
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ from fractions import Fraction
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
-OUT = HERE / "unirl" / "targets" / "gd_cert"
+OUT = HERE / "corpus" / "curado" / "stepsize" / "gd_cert"
 
 from steprl.certify import assemble, exact_matrices, flow_residuals, is_psd_exact  # noqa: E402
 

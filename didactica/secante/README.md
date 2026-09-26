@@ -2,10 +2,10 @@
 
 **Un agente de Reinforcement Learning aprende, en vivo en la terminal, cuándo fiarse del paso de la secante y cuándo refugiarse en el corchete, y demuestra que el método converge con orden φ = (1 + √5)/2.**
 
-Quinto proyecto de la serie [rl_metodos](../README.md). Recoge los hilos anteriores: la secante es Newton ([proyecto 04](../04_newton/)) con la derivada sustituida por un cociente incremental, el corchete con cambio de signo es la bisección del [proyecto 01](../01_biseccion/) usada como salvaguarda, y en la demostración la forma de Newton del interpolante hace el papel que en 04 hacía el resto de Lagrange del [proyecto 03](../03_taylor/).
+Quinto proyecto de la serie [rl_metodos](../../README.md). Recoge los hilos anteriores: la secante es Newton ([proyecto 04](../newton/)) con la derivada sustituida por un cociente incremental, el corchete con cambio de signo es la bisección del [proyecto 01](../biseccion/) usada como salvaguarda, y en la demostración la forma de Newton del interpolante hace el papel que en 04 hacía el resto de Lagrange del [proyecto 03](../taylor/).
 
 ```
-python -m secantrl
+python -m didactica.secante
 ```
 
 ![captura](docs/captura.svg)
@@ -51,18 +51,17 @@ Grafo de 13 pasos (hipótesis, entorno seguro, definición, forma de Newton del 
 | **Fase 2 / Lo que el agente cree ahora** | el intento de demostración en curso y la demostración de la política voraz |
 | **Marcador / Bitácora** | cronómetro, generación, ε, convergencias, fallos, demostraciones e hitos |
 
-Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `runs/<fecha>/`.
+Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `<out>/<fecha>/`.
 
 ## Uso
 
 ```bash
-cd 05_secante
-python -m venv .venv && source .venv/bin/activate
+cd rl_metodos && python -m venv .venv && source .venv/bin/activate   # una sola vez, para todo el repo
 pip install -e ".[dev]"
-python -m secantrl              # ~1–2 min con animación
-python -m secantrl --speed 3
-python -m secantrl --no-tui
-pytest -q
+python -m didactica.secante              # ~1–2 min con animación
+python -m didactica.secante --speed 3
+python -m didactica.secante --no-tui
+pytest -q tests/didactica/test_secante.py
 ```
 
 ## Referencias

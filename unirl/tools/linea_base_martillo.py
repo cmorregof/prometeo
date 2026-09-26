@@ -30,7 +30,7 @@ from unirl.gd_isabelle import TheoremVerifier  # noqa: E402
 from unirl.martillo import Cache, martillo_solo  # noqa: E402
 from unirl.recompensa import ruta_linea_base  # noqa: E402
 
-CUADERNO = HERE / "cuaderno" / "Cuaderno.thy"
+CUADERNO = HERE / "runs" / "unirl" / "cuaderno" / "Cuaderno.thy"
 CAMPOS = ["id", "metodo", "split", "dificultad", "version", "resuelto_por_martillo", "fuente", "resultado_sh",
           "veredicto_juez", "s", "sh_s_pared", "suspension_s", "intentos", "desde_cache", "carga_1", "linea"]
 REINTENTOS = 2

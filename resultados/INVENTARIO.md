@@ -1,5 +1,9 @@
 # Inventario de resultados · rl_metodos (Etapa 0)
 
+> **Nota (reorganización del 26–27 sep 2026, rama `reorganizar`):** las rutas que cita este documento son las anteriores a la
+> reorganización (`01_biseccion/`, `09_unified/`, …). La correspondencia ruta vieja → ruta nueva está en `MIGRACION.md`.
+> El contenido no se ha modificado.
+
 Hecho el 25 sep 2026, entre las 12:00 y las 13:00 (hora de Colombia, UTC−5), por Claude, **solo leyendo**. No se
 modificó ningún archivo del repo fuera de `resultados/`, no se interrumpió ni se lanzó ninguna corrida y no se llamó a
 ninguna API. Commit de referencia (HEAD): `dcb8f7bc343870eadb7482527fbc7614c3e7f251`.

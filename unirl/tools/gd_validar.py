@@ -2,7 +2,7 @@
 
 (i)   no vacuidad: las hipótesis interp y opt son satisfacibles (f = x²/2, g = id, xs = 0 en los reales);
 (ii)  cota superior: para gd_n1 y gd_const_n2, alguna demostración generada desde el certificado exacto del PEP
-      (targets/gd_cert/<objetivo>.proof_{A,B,C}.txt) es ACCEPTED por el juez real, con todos sus filtros;
+      (corpus/curado/stepsize/gd_cert/<objetivo>.proof_{A,B,C}.txt) es ACCEPTED por el juez real, con todos sus filtros;
 (iii) controles: 'sorry' lo para el filtro (UNSOUND); 'sorry' saltándose el filtro lo para el kernel (UNSOUND);
       'by simp' no demuestra gd_n1 (PROOF_FAILED).
 
@@ -23,7 +23,7 @@ HERE = Path(__file__).resolve().parents[2]  # rl_metodos/
 sys.path.insert(0, str(HERE))
 from unirl.gd_isabelle import TheoremVerifier  # noqa: E402
 
-CERT = HERE / "unirl" / "targets" / "gd_cert"
+CERT = HERE / "corpus" / "curado" / "stepsize" / "gd_cert"
 LOG = HERE / "logs" / "gd_validacion.json"
 
 NO_VACUO = r'''theory NoVacuo

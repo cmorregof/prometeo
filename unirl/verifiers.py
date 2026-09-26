@@ -30,7 +30,17 @@ from pathlib import Path
 from typing import Any, Protocol
 
 ROOT = Path(__file__).resolve().parent.parent  # rl_metodos/ (unirl/ vive en la raíz desde el 26 sep 2026)
-TARGETS = Path(__file__).resolve().parent / "targets"
+CORPUS_CURADO = ROOT / "corpus" / "curado"
+TARGETS = CORPUS_CURADO / "stepsize"  # los objetivos del juez de teorema (gd_*.json) y sus certificados (gd_cert/)
+TARGETS_PROGRAMAS = CORPUS_CURADO / "programas"  # los objetivos del juez de programa (bisection.json, countdown.json)
+
+
+def objetivo(nombre: str) -> Path:
+    """Ruta del objetivo congelado `<nombre>.json`: se busca en las carpetas de `corpus/curado/` (programas, stepsize, …)."""
+    for d in sorted(p for p in CORPUS_CURADO.iterdir() if p.is_dir()):
+        if (d / f"{nombre}.json").exists():
+            return d / f"{nombre}.json"
+    raise FileNotFoundError(f"no hay objetivo {nombre}.json en {CORPUS_CURADO}")
 # nombres históricos de los proyectos didácticos (en configs y meta.json antiguos) → subpaquete de `didactica`
 PROYECTOS = {"01_biseccion": "biseccion", "02_punto_fijo": "punto_fijo", "03_taylor": "taylor", "04_newton": "newton",
              "05_secante": "secante", "07_interpolacion": "interpolacion"}
@@ -331,7 +341,7 @@ def check_annotation(text: str) -> tuple[str, str] | None:
 # comandos, los de enunciar y demostrar lemas. La lista de comandos existentes sale del propio Isabelle
 # (targets/isabelle_commands.txt). Además, en el kernel: el enunciado congelado se lee antes y después del texto
 # del agente y debe coincidir término a término, y no puede aparecer ningún axioma nuevo.
-ISABELLE_COMMANDS = frozenset((TARGETS / "isabelle_commands.txt").read_text(encoding="utf-8").split())
+ISABELLE_COMMANDS = frozenset((Path(__file__).resolve().parent / "isabelle_commands.txt").read_text(encoding="utf-8").split())
 ALLOWED_COMMANDS = frozenset({"lemma", "theorem", "corollary", "proposition", "proof", "qed", "by", ".", "..", "apply",
                               "done", "using", "unfolding", "have", "show", "hence", "thus", "obtain", "fix", "assume",
                               "presume", "define", "let", "note", "from", "with", "then", "also", "finally", "moreover",
@@ -645,8 +655,9 @@ class IsabelleVerifier:
         self.concl_ref = re.sub(rf"\b{self.prog_name}\b", f"{self.prog_name}_ref", self.spec["concl"])
 
     def _load_spec(self) -> dict:
-        spec = json.loads((TARGETS / f"{self.target_name}.json").read_text(encoding="utf-8"))
-        spec["aux"] = (TARGETS / spec["aux_file"]).read_text(encoding="utf-8") if spec.get("aux_file") else ""
+        ruta = objetivo(self.target_name)
+        spec = json.loads(ruta.read_text(encoding="utf-8"))
+        spec["aux"] = (ruta.parent / spec["aux_file"]).read_text(encoding="utf-8") if spec.get("aux_file") else ""
         return spec
 
     @staticmethod

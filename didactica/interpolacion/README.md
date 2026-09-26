@@ -2,11 +2,11 @@
 
 **Un agente de Reinforcement Learning aprende, en vivo en la terminal, dónde poner los nodos de interpolación (Chebyshev emerge frente a equiespaciados) y cuántos usar, demuestra el teorema del error de interpolación, y en la fase 3 busca nodos con constante de Lebesgue menor que la de Chebyshev usando un verificador independiente.**
 
-Séptimo proyecto de [rl_metodos](../README.md) y el primero pensado para el curso: sale de la búsqueda de raíces y estrena el patrón de **tres fases** que sigue el resto de la serie docente. La fase 3 es el [proyecto 06](../06_stepsizes/) en pequeño: no hay grafo de lemas, hay un verificador y una búsqueda, y el resultado es un número que cualquiera puede recomputar.
+Séptimo proyecto de [rl_metodos](../../README.md) y el primero pensado para el curso: sale de la búsqueda de raíces y estrena el patrón de **tres fases** que sigue el resto de la serie docente. La fase 3 es el [proyecto 06](../../steprl/) en pequeño: no hay grafo de lemas, hay un verificador y una búsqueda, y el resultado es un número que cualquiera puede recomputar.
 
 ```
-python -m interprl                 # fases 1 y 2, en vivo
-python -m interprl search --n 8    # fase 3
+python -m didactica.interpolacion                 # fases 1 y 2, en vivo
+python -m didactica.interpolacion search --n 8    # fase 3
 ```
 
 ## Fase 1 · dónde y cuántos nodos
@@ -48,12 +48,12 @@ Aquí no hay grafo. Hay:
 * **referencias**: Chebyshev–Lobatto y Chebyshev extendido.
 
 ```bash
-python -m interprl search --n 8
+python -m didactica.interpolacion search --n 8
 #   chebyshev_lobatto      Λ = 2.27473107
 #   chebyshev_extendido    Λ = 1.94157316
 #   encontrado             Λ = 1.93872335  ratio = 0.998532  bate la referencia ✔
-python -m interprl verify runs/<fecha>/busqueda_n8.json   # recalcula Λ con otra malla
-python -m interprl lebesgue --nodes=-1,-0.5,0,0.5,1     # con "=" porque el primer nodo empieza por "-"
+python -m didactica.interpolacion verify <out>/<fecha>/busqueda_n8.json   # recalcula Λ con otra malla
+python -m didactica.interpolacion lebesgue --nodes=-1,-0.5,0,0.5,1     # con "=" porque el primer nodo empieza por "-"
 ```
 
 | n | Λ Chebyshev–Lobatto | Λ Chebyshev extendido | Λ encontrado | tiempo |
@@ -73,18 +73,17 @@ El "teorema" que sale de aquí es del tipo «estos 9 nodos tienen `Λ = 1.93872`
 | **Fase 2 / Lo que el agente cree ahora** | el intento de demostración en curso y la demostración de la política voraz |
 | **Marcador / Bitácora** | cronómetro, generación, ε, aciertos, demostraciones e hitos |
 
-Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `runs/<fecha>/`.
+Al terminar guarda `informe.md`, `demostracion.md` e `historia.json` en `<out>/<fecha>/`.
 
 ## Uso
 
 ```bash
-cd 07_interpolacion
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\python en vez de python
+cd rl_metodos && python -m venv .venv && source .venv/bin/activate   # una sola vez, para todo el repo; Windows: .venv\Scripts\python
 pip install -e ".[dev]"
-python -m interprl                 # ~2 min con animación
-python -m interprl --no-tui        # ~15 s
-python -m interprl search --n 8
-pytest -q
+python -m didactica.interpolacion                 # ~2 min con animación
+python -m didactica.interpolacion --no-tui        # ~15 s
+python -m didactica.interpolacion search --n 8
+pytest -q tests/didactica/test_interpolacion.py
 ```
 
 ## Referencias

@@ -529,7 +529,7 @@ def consultar(juez: TheoremVerifier, consultas: list[dict], tope: int = MAX_CONS
 
 # ----------------------------------------------------------------------------------------------- glosario
 
-GLOSARIO = BASE / "cuaderno" / "glosario.json"
+GLOSARIO = BASE / "runs" / "unirl" / "cuaderno" / "glosario.json"
 
 
 def verificar_glosario(juez: TheoremVerifier | None = None, salida: Path | None = None) -> dict:

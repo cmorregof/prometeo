@@ -11,20 +11,20 @@ El repo tiene tres usos que conviven:
 2. **Docencia**: `didactica/` y `docs/curso/` (métodos numéricos, matemáticas, semestres 2–4). Empezar por `docs/curso/contexto.md`.
 3. **Divulgación**: los README de cada subpaquete didáctico.
 
-## Estructura (desde la reorganización del 26 sep 2026; tabla completa en `MIGRACION.md`)
+## Estructura (desde la reorganización del 26 sep 2026; destino en `ESTRUCTURA_OBJETIVO.md`, tabla completa en `MIGRACION.md`)
 
 ```
 pyproject.toml   ÚNICO: paquetes unirl, steprl, isarl, didactica.*; extra [dev]; un solo .venv en la raíz
 didactica/       los seis agentes tabulares, como subpaquetes: biseccion, punto_fijo, taylor, newton, secante, interpolacion
   qagent.py      el QAgent compartido (Q-learning tabular, ε-greedy, tasa 1/N opcional, bono UCB); una sola copia
-unirl/           un MDP con jueces intercambiables; RL verbal con cuaderno verificado; configs/, targets/ y tools/ dentro
+unirl/           un MDP con jueces intercambiables; RL verbal con cuaderno verificado; configs/ y tools/ dentro; isabelle_commands.txt
 steprl/          juez PEP: verificador SDP, certificados racionales exactos, referencias, evolución con LLM
 isarl/           juez Isabelle: driver vcg + try0 + Sledgehammer, reproducción de la Tabla 1 del artículo
-corpus/curado/raices/   los 48 peldaños aprobados; corpus/existencia/ reservado (vacío)
+corpus/curado/   raices/ (48 peldaños aprobados), programas/ (objetivos del juez de programa: bisection, countdown, lemas prestados),
+                 stepsize/ (objetivos del juez de teorema gd_* y sus certificados gd_cert/); corpus/existencia/ reservado (vacío)
 certificados/    certificados PEP versionados (n = 6 sigue marcado como no resuelto frente a la tabla publicada)
-cuaderno/        estado vivo del cuaderno del RL verbal (glosario, errores); INTOCABLE
 runs/            registros de corridas; INTOCABLES en contenido
-  didactica/<metodo>/<fecha>/   pep/<fecha>/   isabelle/   unirl/<entorno>/<fecha-modelo>/   corridas_locales/
+  didactica/<metodo>/<fecha>/   pep/<fecha>/   isabelle/   unirl/<entorno>/<fecha-modelo>/   unirl/cuaderno/ (estado vivo)   corridas_locales/
 logs/            libro de gastos (gasto.json), caché del martillo, guiones y .log de cada corrida
 resultados/      inventario, métricas consolidadas, estadística, auditoría de cifras, informe de estado
 docs/formulacion/  formulación del RL verbal, nota técnica de unirl, plan, relanzamiento, diseño del juez de stepsize
@@ -81,7 +81,7 @@ El RL verbal (`unirl.experimentos`) llama a la API de OpenAI y gasta dinero: **s
 * Un solo `.gitignore` en la raíz. `runs/didactica/` y `runs/pep/` no se versionan (registros deterministas o pesados);
   `runs/unirl/`, `runs/isabelle/` y `runs/corridas_locales/` sí, salvo `llamadas.jsonl` (texto íntegro de cada llamada,
   citado por SHA-256). `logs/*.sqlite`, candados y `tests/unirl/fixtures/pruebas_privadas/` tampoco se versionan.
-* `runs/`, `logs/`, `corpus/`, `cuaderno/`, `certificados/`, `gasto.json` y todo `*.jsonl` son **intocables**: no se
+* `runs/` (incluido `runs/unirl/cuaderno/`), `logs/`, `corpus/`, `certificados/`, `gasto.json` y todo `*.jsonl` son **intocables**: no se
   reescriben ni se borran; si hay que moverlos, con SHA-256 antes y después.
 * Los README de cada subpaquete son la documentación de referencia; el README raíz resume la serie con cifras
   auditadas (`resultados/auditoria_cifras.md`). Toda cifra lleva su archivo de origen; sin archivo, «no medido».

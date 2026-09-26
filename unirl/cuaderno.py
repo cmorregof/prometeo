@@ -14,7 +14,7 @@ import time
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
-DIR = BASE / "cuaderno"
+DIR = BASE / "runs" / "unirl" / "cuaderno"  # estado vivo del cuaderno del RL verbal (reorganización del 26 sep 2026)
 GLOSARIO = DIR / "glosario.json"
 VERIFICACION = DIR / "glosario_verificacion.json"
 ERRORES_JSON = DIR / "errores.json"
