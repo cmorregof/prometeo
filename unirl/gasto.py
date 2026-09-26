@@ -21,7 +21,9 @@ from pathlib import Path
 from .loop import ProviderFatal
 
 BASE = Path(__file__).resolve().parent.parent
-LIBRO = BASE / "logs" / "gasto.json"
+# El libro por defecto es el del proyecto. Una ronda puede usar un libro propio con la variable UNIRL_LIBRO (p. ej.
+# logs/gasto_ronda_<fecha>.json), que arranca en cero y deja intacto el histórico (26 sep 2026, lanzar_ronda.sh).
+LIBRO = Path(os.environ["UNIRL_LIBRO"]) if os.environ.get("UNIRL_LIBRO") else BASE / "logs" / "gasto.json"
 
 # USD por millón de tokens: (entrada, entrada en caché, salida). Página de precios de OpenAI, consultada el 24 sep 2026.
 PRECIOS = {
@@ -30,7 +32,13 @@ PRECIOS = {
     "gpt-6-astra": (10.00, 1.00, 50.00),
     "gpt-5.6-terra": (2.00, 0.20, 12.00),
 }
-TOPE_USD = 25.0  # decisión de Carlos (24 sep 2026); puede subir a 28 solo si el costo medido de Sol lo requiere
+TOPE_USD = float(os.environ.get("UNIRL_TOPE_USD", 25.0))  # decisión de Carlos (24 sep 2026): 25; la ronda del 26 sep lo baja con UNIRL_TOPE_USD
+
+
+def topes_fase_usd() -> dict[str, float]:
+    """Topes duros en dólares por fase, de la variable UNIRL_TOPES_FASE_USD (JSON {fase: usd}). Vacío si no está."""
+    raw = os.environ.get("UNIRL_TOPES_FASE_USD")
+    return {str(k): float(v) for k, v in json.loads(raw).items()} if raw else {}
 
 
 class GastoExcedido(ProviderFatal):
@@ -65,9 +73,10 @@ class _CerrojoLibro:
 
 class Libro:
 
-    def __init__(self, ruta: Path | None = None, tope_usd: float = TOPE_USD):
+    def __init__(self, ruta: Path | None = None, tope_usd: float = TOPE_USD, topes_fase: dict[str, float] | None = None):
         self.ruta = Path(ruta) if ruta else LIBRO
         self.tope_usd = float(tope_usd)
+        self.topes_fase = dict(topes_fase) if topes_fase is not None else topes_fase_usd()
         self._cerrojo = _CerrojoLibro(self.ruta)
 
     def entradas(self) -> list[dict]:
@@ -81,6 +90,9 @@ class Libro:
     def llamadas(self, fase: str) -> int:
         return sum(1 for e in self.entradas() if e.get("fase") == fase)
 
+    def gastado(self, fase: str) -> float:
+        return round(sum(e["usd"] for e in self.entradas() if e.get("fase") == fase), 6)
+
     def autorizar(self, modelo: str, fase: str, tope_llamadas: int | None, chars_entrada: int, max_salida: int) -> float:
         """Peor caso de la llamada siguiente; GastoExcedido si con él se pasa del tope o la fase agotó sus llamadas."""
         peor = costo(modelo, chars_entrada // 3 + 1, 0, max_salida)
@@ -90,6 +102,10 @@ class Libro:
                 raise GastoExcedido(f"tope de ${self.tope_usd:.2f}: gastado ${gastado:.4f}, la llamada siguiente puede costar hasta ${peor:.4f}")
             if tope_llamadas is not None and self.llamadas(fase) >= tope_llamadas:
                 raise GastoExcedido(f"la fase {fase!r} agotó su tope de {tope_llamadas} llamadas")
+            tope_fase = self.topes_fase.get(fase)
+            if tope_fase is not None and self.gastado(fase) + peor > tope_fase:
+                raise GastoExcedido(f"tope de la fase {fase!r} (${tope_fase:.2f}): gastado ${self.gastado(fase):.4f}, "
+                                    f"la llamada siguiente puede costar hasta ${peor:.4f}")
         return peor
 
     def registrar(self, modelo: str, fase: str, corrida: str, uso: dict) -> float:

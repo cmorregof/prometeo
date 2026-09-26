@@ -132,25 +132,56 @@ class ProviderFatal(RuntimeError):
     pass
 
 
-def complete_with_retries(provider, system: str, user: str, retries: int = 6, verbose: bool = True) -> str | None:
+# Política de reintentos (26 sep 2026, pedido de Carlos): 5 reintentos con espera exponencial de 2 s a 60 s ante
+# errores de conexión, límite de tasa (429) y errores del servidor (5xx). Un error de autenticación o de créditos es
+# fatal de inmediato: aborta la corrida (ABORTADA.txt), sin reintentar.
+ESPERAS_REINTENTO = (2, 5, 11, 26, 60)
+TRANSITORIO = ("connection", "timeout", "timed out", "límite de tasa", "rate limit", "ratelimit", "overloaded", "server error",
+               "service unavailable", "bad gateway", "gateway timeout", "429", "500", "502", "503", "504", "529")
+AUTENTICACION = ("authentication", "invalid_api_key", "incorrect api key", "401", "permission_denied", "403")
+
+
+def clasificar_error(e: BaseException) -> str:
+    """'fatal' (créditos o autenticación), 'transitorio' (red, 429, 5xx) u 'otro'. Mira el código de estado si la
+    excepción lo trae (SDK de OpenAI) y, si no, el texto. Lo fatal se decide antes que lo transitorio: la falta de
+    créditos de OpenAI llega como un 429 con `insufficient_quota`."""
+    msg = str(e).lower()
+    if any(k in msg for k in FATAL_PROVIDER) or any(k in msg for k in AUTENTICACION):
+        return "fatal"
+    status = getattr(e, "status_code", None)
+    if status is not None:
+        if status in (401, 403):
+            return "fatal"
+        if status == 429 or status >= 500:
+            return "transitorio"
+    nombre = type(e).__name__.lower()
+    if "connection" in nombre or "timeout" in nombre or "ratelimit" in nombre or any(k in msg for k in TRANSITORIO):
+        return "transitorio"
+    return "otro"
+
+
+def complete_with_retries(provider, system: str, user: str, retries: int = len(ESPERAS_REINTENTO), verbose: bool = True,
+                          dormir=time.sleep) -> str | None:
     for attempt in range(retries + 1):
         try:
             return provider.complete(system, user)
         except ProviderFatal:
             raise  # sin créditos, sin clave o tope de gasto: se aborta la corrida, no se reintenta
-        except Exception as e:  # mismo criterio de transitoriedad que 06
+        except Exception as e:
             msg = str(e)
-            transient = any(k in msg.lower() for k in ("connection", "timeout", "timed out", "límite de tasa", "rate", "overloaded", "502", "503", "529"))
-            if transient and attempt < retries:
-                wait = min(300, 15 * 2**attempt)
+            clase = clasificar_error(e)
+            if clase == "fatal":
+                if verbose:
+                    print(f"  proveedor: error fatal (créditos o autenticación): {msg[:120]}")
+                raise ProviderFatal(msg[:300]) from e
+            if clase == "transitorio" and attempt < retries:
+                wait = ESPERAS_REINTENTO[min(attempt, len(ESPERAS_REINTENTO) - 1)]
                 if verbose:
                     print(f"  proveedor: {msg[:80]} → reintento {attempt + 1}/{retries} en {wait} s")
-                time.sleep(wait)
+                dormir(wait)
                 continue
             if verbose:
                 print(f"  proveedor falló: {e}")
-            if any(k in msg.lower() for k in FATAL_PROVIDER):
-                raise ProviderFatal(msg[:300]) from e
             return None
     return None
 
