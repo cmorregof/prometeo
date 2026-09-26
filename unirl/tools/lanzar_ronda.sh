@@ -65,7 +65,7 @@ fi
 : "${ID:?}"; : "${RDIR:?}"
 export UNIRL_TOPE_USD="$TOPE_TOTAL_USD" UNIRL_TOPES_FASE_USD="$TOPES_FASE_JSON"
 LOG="$RAIZ/logs/ronda_$ID.log"; PIDF="$RAIZ/logs/ronda_$ID.pid"
-mkdir -p "$RDIR"
+[ "$DRY" = 1 ] && mkdir -p "$RDIR"   # en la ronda real la carpeta se crea después del preflight (que exige el árbol limpio)
 
 log() { printf '%s [ronda %s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$ID" "$*"; }
 
@@ -82,6 +82,7 @@ if [ "$INTERNO" = 0 ]; then
   fi
   "$RAIZ/unirl/tools/preflight.sh" $REANUDA || { log "preflight falló; no se lanza"; exit 1; }
   if [ -f "$PIDF" ] && kill -0 "$(cat "$PIDF")" 2>/dev/null; then echo "la ronda $ID ya está corriendo (pid $(cat "$PIDF"))"; exit 1; fi
+  mkdir -p "$RDIR"
   echo "$ID" > "$RAIZ/logs/ronda_actual"
   nohup caffeinate -i bash "$0" --interno "--id=$ID" >> "$LOG" 2>&1 &
   echo $! > "$PIDF"
@@ -99,6 +100,7 @@ FIN
 fi
 
 # ---- proceso interno ---------------------------------------------------------------------------------------------
+mkdir -p "$RDIR"
 [ "$DRY" = 1 ] || echo $$ > "$PIDF"
 if [ ! -f "$RDIR/meta.json" ]; then
   INICIO=$(date '+%Y-%m-%dT%H:%M:%S')
