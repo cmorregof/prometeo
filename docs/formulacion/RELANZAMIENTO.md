@@ -11,6 +11,24 @@ Preparado el 25 sep 2026 por Claude. **No se lanzó nada**: Carlos corre estos c
 * El umbral de H1 quedó prerregistrado en `docs/nota/formulacion_rl_verbal.tex` (commit `b9d850f`, 25 sep 14:30),
   antes de construir el cuaderno.
 
+## Ejecución automática (26 sep 2026): `unirl/tools/lanzar_ronda.sh`
+
+Los pasos de abajo se pueden correr a mano, pestaña por pestaña, o con el guion, que hace todo solo y sobrevive a cortes
+de red y a cerrar la terminal:
+
+```bash
+cd ~/Personal/rl_metodos && unirl/tools/lanzar_ronda.sh --dry-run   # ensayo en seco: sin API, dos peldaños, ~2 min
+cd ~/Personal/rl_metodos && unirl/tools/lanzar_ronda.sh             # preflight y lanzamiento con nohup + caffeinate
+```
+
+Preflight (`unirl/tools/preflight.sh`): Isabelle responde, el `.venv` importa `unirl`, `steprl` e `isarl`, la clave está
+en el `.env` y una llamada mínima a Luna funciona, disco ≥ 5 GB, cuaderno en el hash sembrado, rama `reorganizar` limpia,
+`pytest` rápido en verde. Luego pasos 1–4 en paralelo, 5, y 6–7 en paralelo; cada fase deja un marcador en
+`logs/ronda_<id>/`; al relanzar se saltan las hechas y se repiten solo los peldaños sin episodios válidos. Libro propio
+de la ronda en `logs/gasto_ronda_<id>.json` (topes duros: total $12; por fase, en la cabecera del guion). Al final:
+`resultados/consolidar.py` y `resultados/RONDA_TERMINADA.md` (o `RONDA_INCOMPLETA.md` con la fase y el motivo).
+Con el libro nuevo, los topes de llamadas por fase (decisión (a)) vuelven a contar desde cero y ya alcanzan.
+
 ## Antes de empezar
 
 1. Estar en la rama con las correcciones (o en `main`, si ya la fusionaste):
