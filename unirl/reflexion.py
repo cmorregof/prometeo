@@ -53,11 +53,13 @@ CONFIGS = {
     "B": Config("B", intentos=1, turnos_consulta=2, reflexion=False),
     "C": Config("C"),
     "D": Config("D", partes=("errores",)),
-    "E": Config("E", partes=("errores", "lemas")),
+    # E redefinida el 26 sep 2026, antes de lanzar la primera ronda (decisión (b) de Carlos): solo los lemas
+    # certificados por el kernel, sin notas de error ni estrategias. Ninguna corrida de E anterior existe.
+    "E": Config("E", partes=("lemas",)),
     "F": Config("F", partes=("errores", "lemas", "estrategias")),
     # comparación entre modelos con el mismo presupuesto (PLAN §9.4): K = 3 y un turno de consulta
     "C3": Config("C3", intentos=3, turnos_consulta=1),
-    "E3": Config("E3", intentos=3, turnos_consulta=1, partes=("errores", "lemas")),
+    "E3": Config("E3", intentos=3, turnos_consulta=1, partes=("lemas",)),  # E con K = 3: misma redefinición
 }
 
 

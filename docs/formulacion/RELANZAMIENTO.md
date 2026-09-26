@@ -58,10 +58,9 @@ Propuesta: subir cada tope en lo que consumieron las corridas interrumpidas (`cu
 `pareada_luna` 198, `pareada_sol` 199), sin tocar el tope global de $25, que sigue siendo el que protege el gasto. Es una
 línea en `unirl/experimentos.py` (`TOPES`). **No está aplicada**: espera tu aprobación.
 
-**(b) Qué es E.** La formulación define E como «C más el cuaderno congelado», y el cuaderno es c = (L, E, S): lemas,
-errores **y estrategias**. En el código y en PLAN §3.9, E es «errores y lemas»; las estrategias entran en F. Si E debe
-incluir las estrategias, el paso 6 se corre con `--configs F` y el 7 necesitaría una configuración E3 con estrategias
-(`F3`, que hoy no existe). Mientras no digas otra cosa, los comandos usan E y E3 tal como están en el código.
+**(b) Qué es E.** **Decidido el 26 sep 2026, antes de lanzar la ronda:** E es C más **solo los lemas certificados** del
+cuaderno congelado (la parte $L$; sin notas de error ni estrategias), y E3 es E con K = 3. Así queda en `unirl/reflexion.py`
+(`CONFIGS`) y en la formulación (tabla de configuraciones y sección de prerregistro). Ninguna corrida de E anterior existe.
 
 ## Qué mirar mientras corren
 

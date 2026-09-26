@@ -196,7 +196,7 @@ A & Martillo solo\\
 B0 & Modelo sin glosario ni consultas\\
 B & Modelo con martillo, sin cuaderno ni reflexión\\
 C & B más reflexión\\
-E & C más el cuaderno congelado\\
+E & C más los lemas certificados $L$ del cuaderno congelado (sin $E$ ni $S$)\\
 \bottomrule
 \end{tabular}
 \caption{Configuraciones de la primera ronda.}\label{tab:conf}
@@ -218,6 +218,7 @@ Bajo la hipótesis nula de que el cuaderno no tiene efecto, $b\sim\mathrm{Bin}(b
 \begin{hypothesis}[Margen] $|\T^*_{\mathrm{test}}|$ no es trivial: el martillo solo falla en una parte sustancial del test.\end{hypothesis}
 
 \paragraph{Criterio de decisión para H1 (prerregistrado).} H1 se cumple si el martillo solo, con el cuaderno congelado, deja sin cerrar al menos 12 de los 16 teoremas de test, es decir, si $|\T^*_{\mathrm{test}}|\ge 12$ con $c=c_{\mathrm{final}}$. El martillo es el de la línea base A: \texttt{try0} durante 5\,s y Sledgehammer durante 60\,s por teorema, en serie. El umbral se fijó el 25 de septiembre de 2026, antes de calcular A con el cuaderno congelado.
+\textbf{E redefinida el 26 de septiembre de 2026, antes de lanzar la ronda; ninguna corrida de E anterior existe.} E usa solo la parte certificada del cuaderno, $L$; las notas de error $E$ y las estrategias $S$ quedan para las ablaciones D y F.
 \begin{hypothesis}[Aprendizaje] $p_E>p_C$ sobre $\T^*_{\mathrm{test}}$.\end{hypothesis}
 \begin{hypothesis}[Transferencia entre métodos] H2 se cumple aunque el cuaderno se construyó con métodos distintos a los de test.\end{hypothesis}
 \begin{hypothesis}[Transferencia entre modelos] El cuaderno construido con un modelo mejora el desempeño de otro.\end{hypothesis}
