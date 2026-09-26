@@ -4,6 +4,22 @@ Hecho el 25 sep 2026, entre las 12:00 y las 13:00 (hora de Colombia, UTC−5), p
 modificó ningún archivo del repo fuera de `resultados/`, no se interrumpió ni se lanzó ninguna corrida y no se llamó a
 ninguna API. Commit de referencia (HEAD): `dcb8f7bc343870eadb7482527fbc7614c3e7f251`.
 
+
+## Adenda del 26 sep 2026 (revisión general, Etapa 0)
+
+Lo que sigue corrige o completa el texto de abajo, que se conserva tal cual como registro del 25 sep. Fuente:
+`~/Personal/_revision_general/INVENTARIO_GENERAL.md`, §3.
+
+| dónde | decía | hoy |
+|---|---|---|
+| §0.2 y §3, filas 1–2 | los dos errores «siguen sin corregir» | corregidos en el commit `b008480`; huella de `unirl` `0e36aba0a1d3ca02`; pruebas de regresión en `09_unified/tests/test_regresiones_25sep.py` |
+| §0.2–0.3 | corridas «detenidas» | marcadas **interrumpida por error**, con un `INTERRUMPIDA.md` en cada carpeta (`e419660`); el cuaderno se resembró al hash `0b6385c1aed55323`; el relanzamiento está preparado en `09_unified/RELANZAMIENTO.md` y **no se ha lanzado** (gasto: 354 llamadas, $4,158282) |
+| §0.4 | «`formulacion_rl_verbal.tex` no está en el disco» | está en `09_unified/docs/nota/formulacion_rl_verbal.tex` (`b9d850f`), con H1–H4 y el umbral de H1 prerregistrado (12 de 16) |
+| §1 | «08 y 09 no están versionados» | versionados desde `9b5e3fe` (9 y 421 archivos); los 12 commits de `versionar-y-corregir` no están en `main` ni en `origin` |
+| §3, última fila | CI en rojo, sin corregir | corregido en local (`5a57f46`; 06: 36/36 el 26 sep); en `origin` sigue en rojo porque nada se ha subido |
+| §5, «sin costo de API» | pendientes | hechas el 25 sep: `resultados/corridas_locales/` y `auditoria_cifras.md` (34 cifras: 18 ✓, 4 ≈, 9 ✗, 3 pendientes) |
+| §9.d | pruebas | 26 sep, en local: 01–07 verdes (77 pruebas); 09 rápidas 167 pasan y 1 omitida (falta la prueba privada); con Isabelle no se repitieron (último registro: 25 sep, 19 pruebas, 1 fallo del sandbox que pasó al repetirse en el repo) |
+
 ---
 
 ## 0. Lo que cambia la premisa del pedido

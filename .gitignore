@@ -9,3 +9,11 @@ build/
 .DS_Store
 .Rhistory
 .env*
+
+# material ajeno al repo (del director, convocatorias) y paquetes recibidos: nunca versionar (revisión 26 sep 2026)
+Conjeturas/
+paquete_completo.zip
+*.zip
+Convocatoria*.pdf
+# copias congeladas del código para corridas (se identifican por su huella en meta.json)
+.snap_*/
