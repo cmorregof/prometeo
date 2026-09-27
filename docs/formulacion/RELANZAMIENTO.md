@@ -25,7 +25,7 @@ Preflight (`unirl/tools/preflight.sh`): Isabelle responde, el `.venv` importa `u
 en el `.env` y una llamada mínima a Luna funciona, disco ≥ 5 GB, cuaderno en el hash sembrado, rama `reorganizar` limpia,
 `pytest` rápido en verde. Luego pasos 1–4 en paralelo, 5, y 6–7 en paralelo; cada fase deja un marcador en
 `logs/ronda_<id>/`; al relanzar se saltan las hechas y se repiten solo los peldaños sin episodios válidos. Libro propio
-de la ronda en `logs/gasto_ronda_<id>.json` (topes duros: total $12; por fase, en la cabecera del guion). Al final:
+de la ronda en `logs/gasto_ronda_<id>.json` (topes duros: total $15; por fase, en la cabecera del guion). Al final:
 `resultados/consolidar.py` y `resultados/RONDA_TERMINADA.md` (o `RONDA_INCOMPLETA.md` con la fase y el motivo).
 Con el libro nuevo, los topes de llamadas por fase (decisión (a)) vuelven a contar desde cero y ya alcanzan.
 

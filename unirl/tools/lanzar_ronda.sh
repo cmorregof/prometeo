@@ -20,10 +20,10 @@ PY="$RAIZ/.venv/bin/python"
 RONDA_PY="$PY $RAIZ/unirl/tools/ronda.py"
 
 # ---- parámetros de la ronda (Carlos, 26 sep 2026) -----------------------------------------------------------------
-TOPE_TOTAL_USD=12
-# topes duros por fase (fases del libro). No listados por Carlos: cuaderno y la evaluación B0/B/C se reparten los
-# $2 que quedan del total; la evaluación parcial del 25 sep gastó $0,74 en el 51 %, así que $1,25 puede quedarse corta.
-TOPES_FASE_JSON='{"linea_base": 0, "preflight": 0.05, "cuaderno": 0.75, "evaluacion": 1.25, "evaluacion_E": 2, "pareada_luna": 2, "pareada_sol": 6}'
+TOPE_TOTAL_USD=15   # Carlos, 26 sep 2026: subido de 12 a 15
+# topes duros por fase (fases del libro). Los de Carlos: martillo (linea_base) $0, pareadas Luna $2, pareadas Sol $6, E $2.
+# Cuaderno y evaluación B0/B/C no los fijó: con el margen del total, $1,50 y $3,00 (estimaciones: $0,65 y $1,45).
+TOPES_FASE_JSON='{"linea_base": 0, "preflight": 0.05, "cuaderno": 1.5, "evaluacion": 3, "evaluacion_E": 2, "pareada_luna": 2, "pareada_sol": 6}'
 MODELO_LUNA=gpt-6-luna
 MODELO_SOL=gpt-6-sol
 MAX_RELANZAMIENTOS=6
