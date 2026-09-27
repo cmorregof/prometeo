@@ -57,7 +57,7 @@ if [ "$DRY" = 1 ]; then
 else
   ACTUAL="$RAIZ/logs/ronda_actual"
   if [ -z "$ID" ]; then
-    if [ "$NUEVA" = 0 ] && [ -f "$ACTUAL" ] && [ ! -e "$RAIZ/logs/ronda_$(cat "$ACTUAL")/fin" ]; then ID=$(cat "$ACTUAL"); else ID=$(date '+%Y%m%d-%H%M'); fi
+    if [ "$NUEVA" = 0 ] && [ -f "$ACTUAL" ] && [ ! -e "$RAIZ/logs/ronda_$(cat "$ACTUAL")/terminada" ]; then ID=$(cat "$ACTUAL"); else ID=$(date '+%Y%m%d-%H%M'); fi
   fi
   RDIR="$RAIZ/logs/ronda_$ID"
   export UNIRL_LIBRO="$RAIZ/logs/gasto_ronda_$ID.json"
@@ -127,7 +127,7 @@ else
   fi
   log "reanudación de la ronda iniciada el $INICIO (unirl $HUELLA)"
 fi
-rm -f "${RDIR:?}/detener" "${RDIR:?}/red_caida"
+rm -f "${RDIR:?}/detener" "${RDIR:?}/red_caida" "${RDIR:?}/fin"   # fin solo marca que el proceso anterior cerró; terminada es la marca definitiva
 
 escribir_parada() {  # nombre motivo
   printf '%s  fase %s: %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$1" "$2" >> "$RDIR/detenida.txt"
@@ -245,6 +245,7 @@ cerrar() {  # estado motivo
     log "consolidar.py"; "$PY" "$RAIZ/resultados/consolidar.py" >> "$LOG" 2>&1 || log "consolidar.py falló (ver el log)"
   fi
   out=$($RONDA_PY informe --ronda "$ID" --desde "$INICIO" --estado "$1" --motivo "$2" 2>>"$LOG") && log "informe: $out"
+  [ "$1" = terminada ] && touch "$RDIR/terminada"
   [ "$DRY" = 0 ] && [ "$1" = terminada ] && rm -f "${RAIZ:?}/logs/ronda_actual"
   rm -f "${PIDF:?}"
 }
