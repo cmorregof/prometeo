@@ -1,0 +1,17 @@
+{
+ "llamadas": [
+  {
+   "fecha": "2026-09-26T19:07:20",
+   "modelo": "gpt-6-luna",
+   "fase": "preflight",
+   "corrida": "preflight",
+   "entrada": 21,
+   "cache": 0,
+   "salida": 4,
+   "razonamiento": 0,
+   "usd": 4e-06
+  }
+ ],
+ "total_usd": 4e-06,
+ "tope_usd": 15.0
+}
