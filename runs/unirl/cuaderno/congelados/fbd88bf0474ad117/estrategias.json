@@ -1,0 +1,95 @@
+{
+ "estrategias": [
+  {
+   "texto": "Tras obtener cotas globales y nombrar los extremos con `obtain`, separa las conjunciones, demuestra las cotas del punto medio duplicando sus expresiones y resuelve por casos la rama recursiva.",
+   "topico": "encaje",
+   "origen": "bis_2_encaje#1",
+   "contadores": {
+    "intentos": 21,
+    "exitos": 8
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T00:40:07"
+   }
+  },
+  {
+   "texto": "En la inducción, nombra el par anterior, aplica la hipótesis inductiva y divide según el signo en el punto medio; usa un lema auxiliar de productos y simplifica cada rama con la igualdad que nombra el par.",
+   "topico": "signos",
+   "origen": "bis_3_signo#1",
+   "contadores": {
+    "intentos": 20,
+    "exitos": 7
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T00:40:07"
+   }
+  },
+  {
+   "texto": "Para probar que todos los iterados permanecen en un conjunto invariante, haz inducción en el índice y aplica la invariancia al iterado anterior en el paso sucesor.",
+   "topico": "inducción",
+   "origen": "pf_2_dentro#1",
+   "contadores": {
+    "intentos": 19,
+    "exitos": 5
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "texto": "Para obtener unicidad bajo una contracción, supone que la distancia es positiva y usa que el factor de contracción es menor que uno para derivar una contradicción con la cota de distancia.",
+   "topico": "unicidad",
+   "origen": "pf_3_unicidad#1",
+   "contadores": {
+    "intentos": 14,
+    "exitos": 4
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "texto": "En una cota para iterados, mantén juntas por inducción la invariancia del dominio y la estimación, y combina la contracción con la monotonía de la multiplicación por un factor no negativo.",
+   "topico": "iteración",
+   "origen": "pf_4_decaimiento#1",
+   "contadores": {
+    "intentos": 14,
+    "exitos": 4
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "texto": "Probar primero por separado que todos los iterados siguen en el dominio permite reutilizar ese resultado al demostrar después una estimación inductiva del error.",
+   "topico": "separacion",
+   "origen": "pf_5c_a_priori_max#1",
+   "contadores": {
+    "intentos": 3,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:10:08"
+   }
+  },
+  {
+   "texto": "Para una cota recursiva, hacer inducción, obtener la cota del paso con la recurrencia, escalar la hipótesis inductiva usando la no negatividad del factor, normalizar algebraicamente y encadenar las desigualdades por transitividad.",
+   "topico": "induccion",
+   "origen": "orden_1_lineal#1",
+   "contadores": {
+    "intentos": 2,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T03:06:05"
+   }
+  }
+ ]
+}

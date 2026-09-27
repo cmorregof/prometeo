@@ -1,0 +1,14 @@
+{
+ "fase": "cuaderno",
+ "modelo": "gpt-6-luna",
+ "inicio": "2026-09-26T20:17:27",
+ "tope_llamadas": 236,
+ "codigo": {
+  "unirl_sha256": "fd0d081071d9ad42",
+  "git_commit": "a5f6c14",
+  "unirl_dirty": false
+ },
+ "config": "F",
+ "cuaderno_inicial": "0b6385c1aed55323",
+ "destilar_cada": 6
+}

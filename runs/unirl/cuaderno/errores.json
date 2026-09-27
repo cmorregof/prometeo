@@ -121,8 +121,8 @@
     }
    },
    "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
+    "apariciones": 1,
+    "ultimo_episodio": "newton_4c_convergencia_local#1"
    }
   },
   {
@@ -745,6 +745,283 @@
    "contadores": {
     "apariciones": 0,
     "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "A026",
+   "clase": "aprendido",
+   "texto": "El método inicial falló repetidamente al disponer solo de `l ≤ u` frente a una meta de cotas para el punto medio.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T00:40:07"
+   }
+  },
+  {
+   "id": "A027",
+   "clase": "aprendido",
+   "texto": "Un `by` puede fallar con `Failed to apply initial proof method` cuando las premisas introducidas no bastan para cerrar el objetivo.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "id": "A028",
+   "clase": "aprendido",
+   "texto": "La prueba puede acabar con `Failed to finish proof` y dejar una meta algebraica pendiente; conviene obtener antes las igualdades o cotas auxiliares necesarias.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "id": "A029",
+   "clase": "aprendido",
+   "texto": "Declarar de nuevo una variable ya fijada provoca `Duplicate fixed variable(s)`, como ocurrió con `x` en `sign_step`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "id": "A030",
+   "clase": "aprendido",
+   "texto": "`calc` no se acepta como comando de Isar; para encadenar igualdades o desigualdades se puede usar `also` y `finally`.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "calc",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:09:46"
+   }
+  },
+  {
+   "id": "A031",
+   "clase": "aprendido",
+   "texto": "Isabelle informó que `power_nonneg` no está disponible como hecho con ese nombre.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "power_nonneg",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:09:53"
+   }
+  },
+  {
+   "id": "A032",
+   "clase": "aprendido",
+   "texto": "Isabelle informó que `tendsto_pow_zero` no está disponible como hecho con ese nombre.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "tendsto_pow_zero",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:10:01"
+   }
+  },
+  {
+   "id": "A033",
+   "clase": "aprendido",
+   "texto": "Isabelle informó que `tendsto_iff_dist` no está disponible como hecho con ese nombre.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "tendsto_iff_dist",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:10:08"
+   }
+  },
+  {
+   "id": "A034",
+   "clase": "aprendido",
+   "texto": "Declarar un lema global con la variable fija `x` del contexto produjo `Duplicate fixed variable(s): \"x\"`; el error se repitió en varios episodios.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T03:06:05"
+   }
+  },
+  {
+   "id": "A035",
+   "clase": "aprendido",
+   "texto": "La simplificación dejó abierta una identidad de potencias y productos; añadir `mult.commute` tampoco cerró la meta.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T03:06:05"
+   }
+  },
+  {
+   "id": "A036",
+   "clase": "aprendido",
+   "texto": "Isabelle rechaza fijar dos veces la misma variable (`Duplicate fixed variable(s): \"x\"`); evita repetirla en `fixes`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:29"
+   }
+  },
+  {
+   "id": "A037",
+   "clase": "aprendido",
+   "texto": "Si el lema auxiliar no se declaró en el contexto, Isabelle informa `Undefined fact` al usarlo como `newton_local_bound`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "newton_local_bound",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:36"
+   }
+  },
+  {
+   "id": "A038",
+   "clase": "aprendido",
+   "texto": "Isabelle informa `Undefined fact` cuando se invoca `abs_eq_zero` como hecho; comprueba el nombre disponible antes de usarlo.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "abs_eq_zero",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:43"
+   }
+  },
+  {
+   "id": "A039",
+   "clase": "aprendido",
+   "texto": "En una aplicación de Taylor, un índice sin tipo fijado puede causar `Type unification failed` cuando el operador espera `nat` y el argumento queda con tipo indeterminado.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:43"
+   }
+  },
+  {
+   "id": "A040",
+   "clase": "aprendido",
+   "texto": "Isabelle rechazó `newton_local_constants` y `newton_local_data` como hechos indefinidos en el contexto.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "newton_local_constants",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "newton_local_data",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T08:25:02"
+   }
+  },
+  {
+   "id": "A041",
+   "clase": "aprendido",
+   "texto": "Isabelle rechazó `martillo` como método indefinido.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "martillo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T08:25:10"
    }
   }
  ]

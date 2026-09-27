@@ -1,0 +1,17 @@
+{
+ "fase": "pareada_luna",
+ "modelo": "gpt-6-luna",
+ "inicio": "2026-09-27T09:05:07",
+ "tope_llamadas": 154,
+ "codigo": {
+  "unirl_sha256": "fd0d081071d9ad42",
+  "git_commit": "06f633b",
+  "unirl_dirty": false
+ },
+ "configs": [
+  "E3"
+ ],
+ "episodios_por_peldano": 1,
+ "paralelo": 2,
+ "cuaderno": "fbd88bf0474ad117"
+}

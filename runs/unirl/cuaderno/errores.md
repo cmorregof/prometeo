@@ -24,7 +24,7 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * En su lugar: hecho `field_simps`.
 * No existe como método; en Isabelle es una colección de reglas: `simp add: field_simps`.
-* Visto en episodios de este cuaderno: 0.
+* Visto en episodios de este cuaderno: 1.
 
 ## E005 · `omega` no existe en Isabelle (método de Lean)
 
@@ -150,4 +150,93 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * En su lugar: hecho `power2_sum`.
 * (a + b)² es power2_sum.
+* Visto en episodios de este cuaderno: 0.
+
+## A026 · aprendido en los episodios de train
+
+* El método inicial falló repetidamente al disponer solo de `l ≤ u` frente a una meta de cotas para el punto medio.
+* Visto en episodios de este cuaderno: 0.
+
+## A027 · aprendido en los episodios de train
+
+* Un `by` puede fallar con `Failed to apply initial proof method` cuando las premisas introducidas no bastan para cerrar el objetivo.
+* Visto en episodios de este cuaderno: 0.
+
+## A028 · aprendido en los episodios de train
+
+* La prueba puede acabar con `Failed to finish proof` y dejar una meta algebraica pendiente; conviene obtener antes las igualdades o cotas auxiliares necesarias.
+* Visto en episodios de este cuaderno: 0.
+
+## A029 · aprendido en los episodios de train
+
+* Declarar de nuevo una variable ya fijada provoca `Duplicate fixed variable(s)`, como ocurrió con `x` en `sign_step`.
+* Visto en episodios de este cuaderno: 0.
+
+## A030 · aprendido en los episodios de train
+
+* `calc` no se acepta como comando de Isar; para encadenar igualdades o desigualdades se puede usar `also` y `finally`.
+* Comprobado en Isabelle2025: método `calc` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A031 · aprendido en los episodios de train
+
+* Isabelle informó que `power_nonneg` no está disponible como hecho con ese nombre.
+* Comprobado en Isabelle2025: hecho `power_nonneg` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A032 · aprendido en los episodios de train
+
+* Isabelle informó que `tendsto_pow_zero` no está disponible como hecho con ese nombre.
+* Comprobado en Isabelle2025: hecho `tendsto_pow_zero` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A033 · aprendido en los episodios de train
+
+* Isabelle informó que `tendsto_iff_dist` no está disponible como hecho con ese nombre.
+* Comprobado en Isabelle2025: hecho `tendsto_iff_dist` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A034 · aprendido en los episodios de train
+
+* Declarar un lema global con la variable fija `x` del contexto produjo `Duplicate fixed variable(s): "x"`; el error se repitió en varios episodios.
+* Visto en episodios de este cuaderno: 0.
+
+## A035 · aprendido en los episodios de train
+
+* La simplificación dejó abierta una identidad de potencias y productos; añadir `mult.commute` tampoco cerró la meta.
+* Visto en episodios de este cuaderno: 0.
+
+## A036 · aprendido en los episodios de train
+
+* Isabelle rechaza fijar dos veces la misma variable (`Duplicate fixed variable(s): "x"`); evita repetirla en `fixes`.
+* Visto en episodios de este cuaderno: 0.
+
+## A037 · aprendido en los episodios de train
+
+* Si el lema auxiliar no se declaró en el contexto, Isabelle informa `Undefined fact` al usarlo como `newton_local_bound`.
+* Comprobado en Isabelle2025: hecho `newton_local_bound` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A038 · aprendido en los episodios de train
+
+* Isabelle informa `Undefined fact` cuando se invoca `abs_eq_zero` como hecho; comprueba el nombre disponible antes de usarlo.
+* Comprobado en Isabelle2025: hecho `abs_eq_zero` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A039 · aprendido en los episodios de train
+
+* En una aplicación de Taylor, un índice sin tipo fijado puede causar `Type unification failed` cuando el operador espera `nat` y el argumento queda con tipo indeterminado.
+* Visto en episodios de este cuaderno: 0.
+
+## A040 · aprendido en los episodios de train
+
+* Isabelle rechazó `newton_local_constants` y `newton_local_data` como hechos indefinidos en el contexto.
+* Comprobado en Isabelle2025: hecho `newton_local_constants` no existe.
+* Comprobado en Isabelle2025: hecho `newton_local_data` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A041 · aprendido en los episodios de train
+
+* Isabelle rechazó `martillo` como método indefinido.
+* Comprobado en Isabelle2025: método `martillo` no existe.
 * Visto en episodios de este cuaderno: 0.

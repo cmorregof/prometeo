@@ -1,0 +1,183 @@
+{
+ "cuaderno": "2b6d69992bce9f0d",
+ "cuaderno_completo": "fbd88bf0474ad117",
+ "config": "E",
+ "filas": [
+  {
+   "id": "rf_1_punto",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "rf_2_signo",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "rf_3_encaje",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "rf_4_raiz",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "rf_5_limites",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "rf_6_convergencia",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "rf_6c_puntos_convergen",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "secante_1_inyectiva",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 3
+  },
+  {
+   "id": "secante_2_cociente",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 3
+  },
+  {
+   "id": "secante_3_producto",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 3
+  },
+  {
+   "id": "secante_4_contraccion",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 3
+  },
+  {
+   "id": "secante_4c_contraccion_local",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "secante_5_convergencia",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "secante_5c_convergencia_local",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "secante_6_fibonacci",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  },
+  {
+   "id": "secante_6c_orden_phi",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "sign_step"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1
+  }
+ ]
+}

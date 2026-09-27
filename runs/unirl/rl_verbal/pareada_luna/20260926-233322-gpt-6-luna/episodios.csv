@@ -1,0 +1,15 @@
+episodio_id,peldano,metodo,split,dificultad,version,config,aceptado,intento_exito,intentos,llamadas,consultas,r_V_max,usd
+rf_3_encaje#C3#1,rf_3_encaje,regula_falsi,test,3,clasica,C3,False,,3,3,0,0.0,0.018703
+rf_4_raiz#C3#1,rf_4_raiz,regula_falsi,test,3,clasica,C3,False,,3,4,2,0.0,0.016906
+rf_6_convergencia#C3#1,rf_6_convergencia,regula_falsi,test,5,debilitada,C3,False,,3,4,3,0.0,0.021239
+rf_5_limites#C3#1,rf_5_limites,regula_falsi,test,3,clasica,C3,False,,3,4,4,0.0,0.028007
+secante_1_inyectiva#C3#1,secante_1_inyectiva,secante,test,2,clasica,C3,True,3,3,4,4,2.0,0.011885
+rf_6c_puntos_convergen#C3#1,rf_6c_puntos_convergen,regula_falsi,test,5,clasica,C3,False,,3,4,4,0.0,0.011589
+secante_2_cociente#C3#1,secante_2_cociente,secante,test,2,clasica,C3,True,1,1,2,4,2.0,0.00452
+secante_4_contraccion#C3#1,secante_4_contraccion,secante,test,2,debilitada,C3,False,,3,4,3,0.0,0.025616
+secante_3_producto#C3#1,secante_3_producto,secante,test,5,clasica,C3,False,,3,4,4,0.0,0.018404
+secante_4c_contraccion_local#C3#1,secante_4c_contraccion_local,secante,test,4,clasica,C3,False,,3,4,4,0.0,0.022526
+secante_5_convergencia#C3#1,secante_5_convergencia,secante,test,4,debilitada,C3,False,,3,4,4,0.0,0.018042
+secante_6_fibonacci#C3#1,secante_6_fibonacci,secante,test,4,debilitada,C3,False,,3,4,3,0.0,0.012166
+secante_5c_convergencia_local#C3#1,secante_5c_convergencia_local,secante,test,5,clasica,C3,False,,3,4,4,0.0,0.010282
+secante_6c_orden_phi#C3#1,secante_6c_orden_phi,secante,test,5,clasica,C3,False,,3,4,3,0.0,0.011654
