@@ -23,7 +23,8 @@ RONDA_PY="$PY $RAIZ/unirl/tools/ronda.py"
 TOPE_TOTAL_USD=15   # Carlos, 26 sep 2026: subido de 12 a 15
 # topes duros por fase (fases del libro). Los de Carlos: martillo (linea_base) $0, pareadas Luna $2, pareadas Sol $6, E $2.
 # Cuaderno y evaluación B0/B/C no los fijó: con el margen del total, $1,50 y $3,00 (estimaciones: $0,65 y $1,45).
-TOPES_FASE_JSON='{"linea_base": 0, "preflight": 0.05, "cuaderno": 1.5, "evaluacion": 3, "evaluacion_E": 2, "pareada_luna": 2, "pareada_sol": 6}'
+# 27 sep, 07:50: pareadas Sol de 6 a 10, porque C3 de Sol costó $4,00 (16 episodios) y E3 costará otro tanto.
+TOPES_FASE_JSON='{"linea_base": 0, "preflight": 0.05, "cuaderno": 1.5, "evaluacion": 3, "evaluacion_E": 2, "pareada_luna": 2, "pareada_sol": 10}'
 MODELO_LUNA=gpt-6-luna
 MODELO_SOL=gpt-6-sol
 MAX_RELANZAMIENTOS=6
