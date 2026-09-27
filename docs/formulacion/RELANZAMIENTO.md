@@ -11,6 +11,44 @@ Preparado el 25 sep 2026 por Claude. **No se lanzó nada**: Carlos corre estos c
 * El umbral de H1 quedó prerregistrado en `docs/nota/formulacion_rl_verbal.tex` (commit `b9d850f`, 25 sep 14:30),
   antes de construir el cuaderno.
 
+## Ronda 2 (preparada el 27 sep 2026; **no lanzada**)
+
+La ronda 1 (`20260926-2016`, 26–27 sep; informe en `resultados/RONDA_TERMINADA.md`, commit `ec6d9eb`) cumplió H1
+(|T*_test| = 16 de 16) y no sostuvo H2: E 4/32 frente a C 6/32; McNemar Luna C/E b = 0, b' = 2, p = 0,5. Diagnóstico
+sobre los registros (`llamadas.jsonl`, locales): el cuaderno admitió **un solo lema** (`sign_step`) porque los lemas
+solo se cosechaban de los `LEMMAS` que Luna escribía por su cuenta (2 de 10 pruebas aceptadas; la otra candidata se
+rechazó por nombre reservado); ese lema se mostró en los 16 peldaños de test sin compartir ningún identificador con
+ellos, y las 35 respuestas de E/E3 que lo citaron fallaron todas. Ningún modelo aceptó nada de dificultad 4 o 5 en
+ninguna configuración. Sol costó $8,11 de $10,78 y no superó a Luna (C3 4/16 en ambos; E3 4/16 frente a 2/16).
+
+Enmiendas prerregistradas el 27 sep 2026, antes de lanzar (párrafo «Ronda 2» de
+`docs/formulacion/formulacion_rl_verbal.tex`); **ninguna corrida de la ronda 2 existe**:
+
+| # | enmienda | dónde |
+|---|---|---|
+| 1 | F pide de 1 a 3 lemas reutilizables por intento (prefijo `cu_`); la destilación también propone lemas (`LEMAS: <<< … >>>`), solo generales; el kernel decide, como antes | `unirl/reflexion.py` (`Config.pedir_lemas`), `unirl/experimentos.py` (`PROMPT_DESTILAR`, `destilar`) |
+| 2 | tres pasadas sobre los 32 peldaños de train (96 episodios; episodio `<peldaño>#<pasada>`), partiendo del estado final de la ronda 1 (`fbd88bf0474ad117`); tope de llamadas de `cuaderno` 236 → 720 | `experimentos.py` (`--pasadas`), `lanzar_ronda.sh` (`PASADAS_CUADERNO=3`, `HASH_CUADERNO_INICIO`), `preflight.sh --cuaderno=` |
+| 3 | un lema se muestra solo si su enunciado comparte ≥ 1 identificador con el teorema (símbolos aparte); con esta regla `sign_step` no se habría mostrado en ningún peldaño de test | `unirl/cuaderno.py` (`MINIMO_IDS_LEMA`) |
+| 4 | análisis primario de H2: McNemar sobre T*_test con dificultad ≤ 3 (8 peldaños, 16 pares); secundarios: todo T* y dificultad 4–5 | `unirl/tools/ronda.py` (`CONJUNTOS_MCNEMAR`) |
+| 5 | sin Sol (H4 pospuesta); `CON_SOL=1` la devuelve con su tope de $10 | `lanzar_ronda.sh` (`CON_SOL=0`) |
+| 6 | sin cambios en B0, B, C, E, E3, martillo, línea base A ni umbral de H1 (se recalcula con el cuaderno congelado nuevo) | — |
+
+Lo que **no** cambia, dicho bien: B, C y E ya veían el glosario Lean→Isabelle (25 entradas sembradas) como bloque
+fijo; los 16 errores «aprendidos» de la ronda 1 son otra cosa (`calc`, `Duplicate fixed variable`, hechos inexistentes)
+y solo los ve F. C supera a B porque tiene reflexión y 4 intentos frente a 1, no por el cuaderno.
+
+Gasto estimado de la ronda 2 sin Sol (con las cifras de la ronda 1): cuaderno 3 × $0,55 ≈ $1,65; B0/B/C $1,00;
+E $0,61; pareadas Luna $0,51; total ≈ $3,8. Topes por fase: cuaderno $3, evaluación $3, E $2, pareadas Luna $2,
+Sol $0; total $15.
+
+```bash
+cd ~/Personal/rl_metodos && unirl/tools/lanzar_ronda.sh --dry-run   # ensayo en seco: 3 pasadas sobre 1 peldaño de train, sin API
+cd ~/Personal/rl_metodos && unirl/tools/lanzar_ronda.sh             # ronda 2: el preflight exige el cuaderno vivo en fbd88bf0474ad117
+```
+
+El informe (`RONDA_TERMINADA.md`) trae ahora la columna «sobre T*, dif. ≤ 3» y el McNemar por conjunto; el de la
+ronda 1 se generó con la versión anterior y no se regenera.
+
 ## Ejecución automática (26 sep 2026): `unirl/tools/lanzar_ronda.sh`
 
 Los pasos de abajo se pueden correr a mano, pestaña por pestaña, o con el guion, que hace todo solo y sobrevive a cortes

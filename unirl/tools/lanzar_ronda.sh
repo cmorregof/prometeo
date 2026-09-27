@@ -1,6 +1,8 @@
 #!/bin/bash
-# lanzar_ronda.sh: la primera ronda del RL verbal (docs/formulacion/RELANZAMIENTO.md, pasos 1-5, luego E y E3),
+# lanzar_ronda.sh: una ronda del RL verbal (docs/formulacion/RELANZAMIENTO.md, pasos 1-5, luego E y E3),
 # sobre la rama `reorganizar`, con el .venv de la raíz. Independiente de Claude: solo llama a unirl e Isabelle.
+# Ronda 2 (27 sep 2026): mismas fases con PASADAS_CUADERNO, CON_SOL y HASH_CUADERNO_INICIO (cabecera de parámetros);
+# enmiendas prerregistradas en docs/formulacion/formulacion_rl_verbal.tex.
 #
 #   unirl/tools/lanzar_ronda.sh              lanza (o reanuda) la ronda con nohup y caffeinate; imprime cómo seguirla
 #   unirl/tools/lanzar_ronda.sh --dry-run    ensayo en seco en primer plano: sin llamadas al modelo, dos peldaños,
@@ -24,7 +26,13 @@ TOPE_TOTAL_USD=15   # Carlos, 26 sep 2026: subido de 12 a 15
 # topes duros por fase (fases del libro). Los de Carlos: martillo (linea_base) $0, pareadas Luna $2, pareadas Sol $6, E $2.
 # Cuaderno y evaluación B0/B/C no los fijó: con el margen del total, $1,50 y $3,00 (estimaciones: $0,65 y $1,45).
 # 27 sep, 07:50: pareadas Sol de 6 a 10, porque C3 de Sol costó $4,00 (16 episodios) y E3 costará otro tanto.
-TOPES_FASE_JSON='{"linea_base": 0, "preflight": 0.05, "cuaderno": 1.5, "evaluacion": 3, "evaluacion_E": 2, "pareada_luna": 2, "pareada_sol": 10}'
+# ---- ronda 2 (27 sep 2026): enmiendas prerregistradas en docs/formulacion/formulacion_rl_verbal.tex ---------------
+PASADAS_CUADERNO=3                       # pasadas sobre los 32 peldaños de train (ronda 1: una; 150 llamadas, $0,55)
+CON_SOL=0                                # 1 = pareadas C3/E3 también con Sol (ronda 1: $8,11 de $10,78 sin superar a Luna)
+HASH_CUADERNO_INICIO=fbd88bf0474ad117    # estado final de la ronda 1: la ronda 2 sigue aprendiendo desde ahí
+if [ "$CON_SOL" = 1 ]; then TOPE_SOL=10; else TOPE_SOL=0; fi
+# cuaderno $3 (tres pasadas ≈ $1,65); pareada_sol 0 si Sol no va (cualquier llamada a Sol abortaría). Ronda 1: cuaderno 1,5.
+TOPES_FASE_JSON='{"linea_base": 0, "preflight": 0.05, "cuaderno": 3, "evaluacion": 3, "evaluacion_E": 2, "pareada_luna": 2, "pareada_sol": '"$TOPE_SOL"'}'
 MODELO_LUNA=gpt-6-luna
 MODELO_SOL=gpt-6-sol
 MAX_RELANZAMIENTOS=6
@@ -78,12 +86,12 @@ if [ "$INTERNO" = 0 ]; then
     mkdir -p "$RONDA_RUNS" "$RONDA_RESULTADOS"
     [ -d "$RONDA_CUADERNO" ] || cp -R "$RAIZ/runs/unirl/cuaderno" "$RONDA_CUADERNO"
     [ -f "$RONDA_RESULTADOS/martillo_linea_base.json" ] || cp "$RAIZ/resultados/martillo_linea_base.json" "$RONDA_RESULTADOS/"
-    "$RAIZ/unirl/tools/preflight.sh" --dry-run $REANUDA || { log "preflight falló; no se lanza"; exit 1; }
+    "$RAIZ/unirl/tools/preflight.sh" --dry-run $REANUDA "--cuaderno=$HASH_CUADERNO_INICIO" || { log "preflight falló; no se lanza"; exit 1; }
     # sin `exec`: en una tubería no sustituye al shell y el guion seguiría hacia el lanzamiento real
     caffeinate -i bash "$0" --dry-run --interno "--id=$ID" 2>&1 | tee -a "$LOG"
     exit "${PIPESTATUS[0]}"
   fi
-  "$RAIZ/unirl/tools/preflight.sh" $REANUDA || { log "preflight falló; no se lanza"; exit 1; }
+  "$RAIZ/unirl/tools/preflight.sh" $REANUDA "--cuaderno=$HASH_CUADERNO_INICIO" || { log "preflight falló; no se lanza"; exit 1; }
   if [ -f "$PIDF" ] && kill -0 "$(cat "$PIDF")" 2>/dev/null; then echo "la ronda $ID ya está corriendo (pid $(cat "$PIDF"))"; exit 1; fi
   mkdir -p "$RDIR"
   echo "$ID" > "$RAIZ/logs/ronda_actual"
@@ -109,15 +117,16 @@ if [ ! -f "$RDIR/meta.json" ]; then
   INICIO=$(date '+%Y-%m-%dT%H:%M:%S')
   HUELLA=$("$PY" -c "from unirl.cli import code_fingerprint; print(code_fingerprint()['unirl_sha256'])")
   CUAD0=$("$PY" -c "from unirl.cuaderno import Cuaderno; print(Cuaderno().hash())")
-  "$PY" - "$RDIR/meta.json" "$ID" "$INICIO" "$HUELLA" "$CUAD0" "$TOPE_TOTAL_USD" "$TOPES_FASE_JSON" "$DRY" <<'PYEOF'
+  "$PY" - "$RDIR/meta.json" "$ID" "$INICIO" "$HUELLA" "$CUAD0" "$TOPE_TOTAL_USD" "$TOPES_FASE_JSON" "$DRY" "$PASADAS_CUADERNO" "$CON_SOL" <<'PYEOF'
 import json, subprocess, sys
-p, i, ini, hu, cu, tope, topes, dry = sys.argv[1:9]
+p, i, ini, hu, cu, tope, topes, dry, pasadas, con_sol = sys.argv[1:11]
 commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
 rama = subprocess.run(["git", "branch", "--show-current"], capture_output=True, text=True).stdout.strip()
 json.dump({"ronda": i, "inicio": ini, "unirl_sha256": hu, "cuaderno_inicial": cu, "tope_total_usd": float(tope),
-           "topes_fase_usd": json.loads(topes), "rama": rama, "commit": commit, "dry_run": dry == "1"}, open(p, "w"), indent=1)
+           "topes_fase_usd": json.loads(topes), "rama": rama, "commit": commit, "dry_run": dry == "1",
+           "pasadas_cuaderno": int(pasadas), "con_sol": con_sol == "1"}, open(p, "w"), indent=1)
 PYEOF
-  log "ronda nueva: inicio $INICIO, unirl $HUELLA, cuaderno inicial $CUAD0, commit $(git rev-parse --short HEAD)"
+  log "ronda nueva: inicio $INICIO, unirl $HUELLA, cuaderno inicial $CUAD0, commit $(git rev-parse --short HEAD), pasadas $PASADAS_CUADERNO, con_sol $CON_SOL"
 else
   INICIO=$("$PY" -c "import json; print(json.load(open('$RDIR/meta.json'))['inicio'])")
   HUELLA0=$("$PY" -c "import json; print(json.load(open('$RDIR/meta.json'))['unirl_sha256'])")
@@ -187,8 +196,8 @@ fase_cuaderno() {
     esperar_red "$nombre" || return 2
     log "[$nombre] lanzamiento $n${carpeta:+ (reanuda $(basename "$carpeta"))}"
     t0=$(date +%s)
-    if [ -n "$carpeta" ]; then $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1 &
-    else $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" >> "$RDIR/$nombre.out" 2>&1 & fi
+    if [ -n "$carpeta" ]; then $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1 &
+    else $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" >> "$RDIR/$nombre.out" 2>&1 & fi
     echo $! > "$RDIR/$nombre.pid"; wait $!; rc=$?; rm -f "${RDIR:?}/${nombre:?}.pid"
     motivo=$($RONDA_PY ultimo-aborto --fase cuaderno --desde "$INICIO" --despues "$t0")
     log "[$nombre] terminó el lanzamiento $n (rc=$rc)${motivo:+; abortada: $motivo}"
@@ -258,8 +267,8 @@ CUADERNO_NADA=ninguno
 fase_cuaderno & P1=$!
 fase_evaluar 02_eval_B0BC evaluacion "$MODELO_LUNA" B0,B,C 2 3 "$CUADERNO_NADA" & P2=$!
 fase_evaluar 03_pareada_luna_C3 pareada_luna "$MODELO_LUNA" C3 1 2 "$CUADERNO_NADA" & P3=$!
-fase_evaluar 04_pareada_sol_C3 pareada_sol "$MODELO_SOL" C3 1 2 "$CUADERNO_NADA" & P4=$!
-wait $P1; wait $P2; wait $P3; wait $P4
+P4=""; if [ "$CON_SOL" = 1 ]; then fase_evaluar 04_pareada_sol_C3 pareada_sol "$MODELO_SOL" C3 1 2 "$CUADERNO_NADA" & P4=$!; else log "[04_pareada_sol_C3] omitida (CON_SOL=0)"; fi
+wait $P1; wait $P2; wait $P3; [ -z "$P4" ] || wait "$P4"
 if [ -e "$RDIR/detener" ]; then kill $VIG 2>/dev/null; cerrar incompleta "$(cat "$RDIR/detenida.txt" 2>/dev/null)"; exit 1; fi
 
 # paso 5: A con el cuaderno congelado (H1); pasos 6 y 7: E y E3
@@ -269,8 +278,8 @@ log "cuaderno congelado: $H"
 fase_linea_base "$H" || { kill $VIG 2>/dev/null; cerrar incompleta "$(cat "$RDIR/detenida.txt" 2>/dev/null)"; exit 1; }
 fase_evaluar 06_eval_E evaluacion_E "$MODELO_LUNA" E 2 3 "$H" & P6=$!
 fase_evaluar 07_pareada_luna_E3 pareada_luna "$MODELO_LUNA" E3 1 2 "$H" & P7=$!
-fase_evaluar 08_pareada_sol_E3 pareada_sol "$MODELO_SOL" E3 1 2 "$H" & P8=$!
-wait $P6; wait $P7; wait $P8
+P8=""; if [ "$CON_SOL" = 1 ]; then fase_evaluar 08_pareada_sol_E3 pareada_sol "$MODELO_SOL" E3 1 2 "$H" & P8=$!; else log "[08_pareada_sol_E3] omitida (CON_SOL=0)"; fi
+wait $P6; wait $P7; [ -z "$P8" ] || wait "$P8"
 kill $VIG 2>/dev/null
 if [ -e "$RDIR/detener" ]; then cerrar incompleta "$(cat "$RDIR/detenida.txt" 2>/dev/null)"; exit 1; fi
 cerrar terminada ""

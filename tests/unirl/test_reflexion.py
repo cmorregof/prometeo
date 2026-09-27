@@ -171,7 +171,8 @@ def _cuaderno(tmp_path) -> C.Cuaderno:
     return c
 
 
-def test_recuperacion_respeta_alcance_y_presupuesto(tmp_path, spec):
+def test_recuperacion_respeta_alcance_y_presupuesto(tmp_path, spec, monkeypatch):
+    monkeypatch.setattr(C, "MINIMO_IDS_LEMA", 0)  # regla de la ronda 1 (sin umbral); el umbral de la ronda 2 va en test_ronda2.py
     c = _cuaderno(tmp_path)
     sel = c.recuperar(spec, ("errores", "lemas", "estrategias"))
     assert [l["nombre"] for l in sel["lemas"]] == ["abs_mult_mono"]  # bis_cero es de bisección: no aplica a órdenes

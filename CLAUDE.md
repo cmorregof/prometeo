@@ -75,6 +75,9 @@ en la 459. Con 100 generaciones no aprende nada; con 300 aprende a medias. Útil
 El RL verbal (`unirl.experimentos`) llama a la API de OpenAI y gasta dinero: **solo lo lanza Carlos**, con los comandos de
 `docs/formulacion/RELANZAMIENTO.md`. Claude no lanza corridas ni llama a la API.
 La ronda completa se lanza con `unirl/tools/lanzar_ronda.sh` (preflight, nohup, reanudación, topes); `--dry-run` la ensaya sin API.
+Ronda 1 terminada el 27 sep 2026 (`resultados/RONDA_TERMINADA.md`: H1 sí, H2 no). Ronda 2 preparada ese día y **no lanzada**:
+parámetros en la cabecera del guion (`PASADAS_CUADERNO`, `CON_SOL`, `HASH_CUADERNO_INICIO`), enmiendas prerregistradas en
+`docs/formulacion/formulacion_rl_verbal.tex` (párrafo «Ronda 2») y resumen en `docs/formulacion/RELANZAMIENTO.md`.
 
 ## Convenciones
 

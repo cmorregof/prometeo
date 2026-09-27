@@ -179,6 +179,24 @@ def _mcnemar(pares: list[tuple[int, int]]) -> dict:
     return {"n": len(pares), "b": b, "b_prima": bp, "p": round(float(p), 4)}
 
 
+def pares_mcnemar(Y: dict, ids: list[str], tstar, peld: dict, fc: str, cfc: str, fe: str, cfe: str, kk: int, filtro) -> list[tuple[int, int]]:
+    """Pares (y_C, y_E) por peldaño y episodio, sobre T* (si hay línea base) y los peldaños cuya dificultad pasa `filtro`."""
+    pares = []
+    for pid in ids:
+        if (tstar is not None and pid not in tstar) or not filtro(peld[pid]["dificultad"]):
+            continue
+        for k in range(1, kk + 1):
+            a, b = Y.get((fc, cfc, pid, k)), Y.get((fe, cfe, pid, k))
+            if a is not None and b is not None:
+                pares.append((a, b))
+    return pares
+
+
+# análisis primario de H2 desde la ronda 2 (prerregistrado el 27 sep 2026): dificultad ≤ 3; en la ronda 1 fue todo T*
+CONJUNTOS_MCNEMAR = [("primario: dificultad ≤ 3", lambda d: d <= 3), ("secundario: todo T*", lambda d: True),
+                     ("secundario: dificultad 4–5", lambda d: d >= 4)]
+
+
 def informe(ronda: str, desde: str, estado: str, motivo: str) -> Path:
     from unirl import corpus
     from unirl.gasto import Libro
@@ -223,7 +241,7 @@ def informe(ronda: str, desde: str, estado: str, motivo: str) -> Path:
         lin.append("No evaluable: no hay cuaderno congelado.")
     # por configuración y por peldaño
     Y: dict[tuple[str, str, str, int], int] = {}  # (fase, config, id, k) → 1/0
-    lin += ["", "## Episodios válidos por fase y configuración", "", "| fase | modelo | config | episodios | aceptados | tasa | sobre T* | corridas |", "|---|---|---|---|---|---|---|---|"]
+    lin += ["", "## Episodios válidos por fase y configuración", "", "| fase | modelo | config | episodios | aceptados | tasa | sobre T* | sobre T*, dif. ≤ 3 | corridas |", "|---|---|---|---|---|---|---|---|---|"]
     for fase, modelo, configs, k in fases:
         val = episodios_validos(fase, desde, modelo, configs)
         for c in configs:
@@ -233,25 +251,22 @@ def informe(ronda: str, desde: str, estado: str, motivo: str) -> Path:
             ok = sum(1 for e in es if e.get("aceptado"))
             en_t = [e for e in es if tstar is not None and e["episodio_id"].split("#")[0] in tstar]
             okt = sum(1 for e in en_t if e.get("aceptado"))
+            en_t3 = [e for e in en_t if peld[e["episodio_id"].split("#")[0]]["dificultad"] <= 3]
+            okt3 = sum(1 for e in en_t3 if e.get("aceptado"))
             ncarp = len({e["corrida"] for e in es})
-            lin.append(f"| {fase} | {modelo} | {c} | {len(es)} | {ok} | {ok / len(es):.2f} | " + (f"{okt}/{len(en_t)}" if tstar is not None else "—") + f" | {ncarp} |" if es else f"| {fase} | {modelo} | {c} | 0 | — | — | — | 0 |")
+            lin.append(f"| {fase} | {modelo} | {c} | {len(es)} | {ok} | {ok / len(es):.2f} | " + (f"{okt}/{len(en_t)} | {okt3}/{len(en_t3)}" if tstar is not None else "— | —") + f" | {ncarp} |" if es else f"| {fase} | {modelo} | {c} | 0 | — | — | — | — | 0 |")
     lin += ["", "Un episodio es válido si alguno de sus intentos no fue PROVIDER_ERROR; si un episodio se repitió al reanudar, cuenta el primero válido.", ""]
     # McNemar
-    lin += ["## McNemar (pareado por peldaño y episodio; H2)", "", "| comparación | pares | b (E gana) | b' (C gana) | p exacto bilateral |", "|---|---|---|---|---|"]
+    lin += ["## McNemar (pareado por peldaño y episodio; H2)", "", "| comparación | conjunto | pares | b (E gana) | b' (C gana) | p exacto bilateral |", "|---|---|---|---|---|---|"]
     for titulo, fc, cfc, fe, cfe, kk in [("Luna: C frente a E (2 episodios)", "evaluacion", "C", "evaluacion_E", "E", 2),
                                           ("Luna: C3 frente a E3", "pareada_luna", "C3", "pareada_luna", "E3", 1),
                                           ("Sol: C3 frente a E3", "pareada_sol", "C3", "pareada_sol", "E3", 1)]:
-        pares = []
-        for pid in ids:
-            if tstar is not None and pid not in tstar:
-                continue
-            for k in range(1, kk + 1):
-                a, b = Y.get((fc, cfc, pid, k)), Y.get((fe, cfe, pid, k))
-                if a is not None and b is not None:
-                    pares.append((a, b))
-        r = _mcnemar(pares)
-        lin.append(f"| {titulo} | {r['n']} | {r['b']} | {r['b_prima']} | {r['p'] if r['p'] is not None else '—'} |")
-    lin += ["", "Sobre T*_test (peldaños que el martillo con cuaderno no cierra) cuando hay línea base; si no, sobre todos.", ""]
+        for conjunto, filtro in CONJUNTOS_MCNEMAR:
+            r = _mcnemar(pares_mcnemar(Y, ids, tstar, peld, fc, cfc, fe, cfe, kk, filtro))
+            lin.append(f"| {titulo} | {conjunto} | {r['n']} | {r['b']} | {r['b_prima']} | {r['p'] if r['p'] is not None else '—'} |")
+    lin += ["", "Sobre T*_test (peldaños que el martillo con cuaderno no cierra) cuando hay línea base; si no, sobre todos. "
+            "Análisis primario de H2 desde la ronda 2 (prerregistrado el 27 sep 2026): dificultad ≤ 3; secundarios: todo T*_test y "
+            "dificultad 4–5. En la ronda 1 el primario fue todo T*_test (su RONDA_TERMINADA.md se generó con la versión anterior de este informe).", ""]
     # por peldaño
     cols = [("evaluacion", "B0", 2), ("evaluacion", "B", 2), ("evaluacion", "C", 2), ("evaluacion_E", "E", 2), ("pareada_luna", "C3", 1), ("pareada_luna", "E3", 1), ("pareada_sol", "C3", 1), ("pareada_sol", "E3", 1)]
     lin += ["## Por peldaño (1 = aceptado, 0 = no, · = sin episodio; dos episodios se muestran como «xy»)", "",

@@ -304,6 +304,12 @@ import shutil  # noqa: E402
 CONGELADOS = DIR / "congelados"
 PRESUPUESTO = {"errores": 1500, "lemas": 3500, "estrategias": 1500}  # caracteres en el prompt (el glosario va completo)  # caracteres en el prompt
 K_RECUPERAR = {"errores": 6, "lemas": 8, "estrategias": 5}
+# Ronda 2 (27 sep 2026, prerregistrado antes de lanzarla): un lema se muestra solo si su enunciado comparte al menos
+# MINIMO_IDS_LEMA identificadores con el enunciado o el preludio del teorema; los símbolos (\<le>, \<Longrightarrow>…)
+# no cuentan. En la ronda 1 el único lema, sign_step, se mostró en los 16 teoremas de test sin compartir ningún
+# identificador con ellos, y las 35 respuestas que lo citaron fallaron (resultados/RONDA_TERMINADA.md). 0 = regla de
+# la ronda 1 (solo orden por coincidencia, sin umbral).
+MINIMO_IDS_LEMA = 1
 _PALABRAS_VACIAS = frozenset("""and assumes fixes shows lemma theorem by proof qed using unfolding apply done have show
 hence thus obtain real nat bool where if then else let in fst snd of the de la el en y que con por para los las un una es
 se si no a o del al lo su sus""".split())
@@ -318,6 +324,11 @@ def claves(texto: str) -> set[str]:
     ids = {w.lower() for w in _re.findall(r"[A-Za-z][A-Za-z0-9_']+", texto)} - _PALABRAS_VACIAS
     syms = set(_re.findall(r"\\<\^?[A-Za-z]+>", texto))
     return {w for w in ids if len(w) > 2} | syms
+
+
+def identificadores(texto: str) -> set[str]:
+    """Las claves que no son símbolos \\<…> (las palabras que derivan de un símbolo, como `bar` de \\<bar>, sí cuentan)."""
+    return {w for w in claves(texto) if not w.startswith("\\<")}
 
 
 def enunciado_de_lema(texto: str) -> str:
@@ -389,10 +400,15 @@ class Cuaderno:
         return c
 
     # -- recuperación
-    def _rankear(self, items: list[dict], texto_de, spec: dict, k: int, presupuesto: int, extra=lambda x: 0.0) -> list[dict]:
+    def _rankear(self, items: list[dict], texto_de, spec: dict, k: int, presupuesto: int, extra=lambda x: 0.0,
+                 minimo_ids: int = 0, cabeza=lambda t: t) -> list[dict]:
+        """`minimo_ids` (ronda 2): se descarta lo que no comparte al menos tantos identificadores (sin símbolos) con el
+        teorema, medidos sobre `cabeza(texto)` (para un lema, su enunciado sin la prueba)."""
         objetivo = claves(" ".join(spec.get(c, "") for c in ("prelude", "fixes", "assumes", "concl", "statement_es")))
         puntuados = []
         for n, it in enumerate(items):
+            if minimo_ids and len(identificadores(cabeza(texto_de(it))) & objetivo) < minimo_ids:
+                continue
             s = len(claves(texto_de(it)) & objetivo) + extra(it)
             puntuados.append((s, -n, it))
         puntuados.sort(key=lambda x: (x[0], x[1]), reverse=True)
@@ -421,7 +437,8 @@ class Cuaderno:
         if "lemas" in partes:
             sel["lemas"] = self._rankear(self.lemas_aplicables(spec["metodo"]), lambda l: l["texto"], spec,
                                          K_RECUPERAR["lemas"], PRESUPUESTO["lemas"],
-                                         lambda l: 2.0 if l["alcance"] == spec["metodo"] else 0.0)
+                                         lambda l: 2.0 if l["alcance"] == spec["metodo"] else 0.0,
+                                         minimo_ids=MINIMO_IDS_LEMA, cabeza=enunciado_de_lema)
         if "estrategias" in partes:
             sel["estrategias"] = self._rankear(
                 self.estrategias, lambda e: e["texto"] + " " + e.get("topico", ""), spec, K_RECUPERAR["estrategias"],

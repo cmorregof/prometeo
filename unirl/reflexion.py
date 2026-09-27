@@ -46,6 +46,7 @@ class Config:
     consulta: bool = True
     reflexion: bool = True
     partes: tuple[str, ...] = ()  # del cuaderno: "errores", "lemas", "estrategias"
+    pedir_lemas: bool = False  # ronda 2 (27 sep 2026): en el entrenamiento se piden de 1 a 3 lemas reutilizables por intento
 
 
 CONFIGS = {
@@ -56,7 +57,9 @@ CONFIGS = {
     # E redefinida el 26 sep 2026, antes de lanzar la primera ronda (decisión (b) de Carlos): solo los lemas
     # certificados por el kernel, sin notas de error ni estrategias. Ninguna corrida de E anterior existe.
     "E": Config("E", partes=("lemas",)),
-    "F": Config("F", partes=("errores", "lemas", "estrategias")),
+    # F (entrenamiento del cuaderno): desde la ronda 2 pide lemas reutilizables; en la ronda 1 los lemas solo se
+    # cosechaban de los LEMMAS que el modelo escribía por iniciativa propia (2 de 10 pruebas aceptadas; 1 admitido)
+    "F": Config("F", partes=("errores", "lemas", "estrategias"), pedir_lemas=True),
     # comparación entre modelos con el mismo presupuesto (PLAN §9.4): K = 3 y un turno de consulta
     "C3": Config("C3", intentos=3, turnos_consulta=1),
     "E3": Config("E3", intentos=3, turnos_consulta=1, partes=("lemas",)),  # E con K = 3: misma redefinición
@@ -131,6 +134,12 @@ def describir(spec: dict, cfg: Config, turnos_restantes: int, intento: int) -> s
         "  LEMMAS: <<< lemma nombre: \"…\" <prueba> >>>  (opcional) lemas auxiliares con su prueba completa; se compilan en el",
         "     mismo contexto antes del teorema. Cita las hipótesis por su etiqueta (las que aparecen en assumes).",
     ]
+    if cfg.pedir_lemas:
+        lineas += [
+            "  En este teorema (entrenamiento del cuaderno) incluye en LEMMAS de 1 a 3 lemas auxiliares REUTILIZABLES en otros",
+            "     teoremas: enunciados generales, sin las constantes del preludio si puedes, cada uno con su prueba completa y",
+            "     con un nombre que empiece por cu_. El kernel los verifica junto con tu intento; los verificados entran al cuaderno.",
+        ]
     if cfg.reflexion and intento > 1:
         lineas.append(f"  REFLEXION: <<< … >>>  (obligatorio desde el segundo intento) qué falló y qué cambias, en "
                       f"español, máximo {MAX_REFLEXION_PALABRAS} palabras.")

@@ -1,14 +1,16 @@
 #!/bin/bash
 # preflight.sh: comprobaciones previas a la ronda (26 sep 2026). Aborta con código 1 si algo falla.
-#   uso: unirl/tools/preflight.sh [--dry-run] [--reanudacion]
-# --dry-run: no llama a la API. --reanudacion: no exige el cuaderno sembrado ni el árbol limpio (la ronda ya escribió).
+#   uso: unirl/tools/preflight.sh [--dry-run] [--reanudacion] [--cuaderno=<hash>]
+# --dry-run: no llama a la API. --reanudacion: no exige el cuaderno de partida ni el árbol limpio (la ronda ya escribió).
+# --cuaderno=<hash>: hash de partida exigido al cuaderno vivo (ronda 2: el estado final de la ronda 1); sin él, el sembrado.
 set -u
 RAIZ="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$RAIZ" || exit 1
 PY="$RAIZ/.venv/bin/python"
 DRY=0; REANUDA=0
-for a in "$@"; do case "$a" in --dry-run) DRY=1;; --reanudacion) REANUDA=1;; esac; done
-HASH_SEMBRADO="0b6385c1aed55323"
+HASH_SEMBRADO="0b6385c1aed55323"   # cuaderno sembrado con que empezó la ronda 1
+HASH_ESPERADO="$HASH_SEMBRADO"
+for a in "$@"; do case "$a" in --dry-run) DRY=1;; --reanudacion) REANUDA=1;; --cuaderno=*) HASH_ESPERADO="${a#--cuaderno=}";; esac; done
 fallos=0
 ok()   { printf '  ✔ %s\n' "$1"; }
 mal()  { printf '  ✘ %s\n' "$1"; fallos=$((fallos+1)); }
@@ -26,10 +28,10 @@ if "$PY" -c "import unirl, steprl, isarl, unirl.experimentos, unirl.tools" 2>/de
 libre_kb=$(df -k "$RAIZ" | awk 'NR==2 {print $4}')
 if [ "${libre_kb:-0}" -ge 5242880 ]; then ok "disco libre: $((libre_kb/1048576)) GB"; else mal "disco libre insuficiente: $((libre_kb/1048576)) GB (< 5 GB)"; fi
 
-# 4. el cuaderno vivo está en el hash sembrado (solo al empezar una ronda)
+# 4. el cuaderno vivo está en el hash de partida (solo al empezar una ronda)
 h=$("$PY" -c "from unirl.cuaderno import Cuaderno; print(Cuaderno().hash())" 2>/dev/null)
-if [ "$REANUDA" = 1 ]; then echo "  · cuaderno vivo: $h (reanudación: no se exige el sembrado)";
-elif [ "$h" = "$HASH_SEMBRADO" ]; then ok "cuaderno vivo en el hash sembrado $HASH_SEMBRADO"; else mal "el cuaderno vivo no está en el hash sembrado ($h ≠ $HASH_SEMBRADO)"; fi
+if [ "$REANUDA" = 1 ]; then echo "  · cuaderno vivo: $h (reanudación: no se exige el hash de partida)";
+elif [ "$h" = "$HASH_ESPERADO" ]; then ok "cuaderno vivo en el hash de partida $HASH_ESPERADO"; else mal "el cuaderno vivo no está en el hash de partida ($h ≠ $HASH_ESPERADO)"; fi
 
 # 5. git: rama reorganizar y árbol limpio (limpio solo al empezar)
 rama=$(git -C "$RAIZ" branch --show-current 2>/dev/null)

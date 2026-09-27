@@ -1,13 +1,13 @@
 """Etapas 6 y 7 de PLAN_rl_verbal.md: construir el cuaderno (train) y evaluar (test), por fases, con topes.
 
     python -m unirl.experimentos humo      [--modelo gpt-6-luna] [--peldano orden_1_lineal] [--config C]
-    python -m unirl.experimentos cuaderno  [--modelo gpt-6-luna]            # train, config F, en serie; se reanuda
+    python -m unirl.experimentos cuaderno  [--modelo gpt-6-luna] [--pasadas 3]  # train, config F, en serie; se reanuda
     python -m unirl.experimentos evaluar   --configs B0,B,C [--episodios 2] [--paralelo 4] [--cuaderno <hash>]
     python -m unirl.experimentos linea-base --cuaderno <hash> [--config E]  # martillo solo con los lemas del cuaderno
     python -m unirl.experimentos medir-sol                                  # 3 llamadas de Sol (PLAN §9.3)
     python -m unirl.experimentos resumen   runs/unirl/rl_verbal/<fase>/<corrida>
 
-Cada fase tiene su tope de llamadas en el libro de gastos (PLAN §9): cuaderno 236, evaluacion 614, pareada_luna 154,
+Cada fase tiene su tope de llamadas en el libro de gastos (PLAN §9): cuaderno 720 (236 hasta la ronda 1), evaluacion 614, pareada_luna 154,
 pareada_sol 154, medicion_sol 3, humo 12; y el tope global en dólares (25; 28 solo si Sol lo requiere). Toda corrida
 larga va bajo `caffeinate -i`. Registro por llamada en <corrida>/llamadas.jsonl y por episodio en episodios.jsonl.
 """
@@ -35,9 +35,11 @@ from .reflexion import CONFIGS, Config, episodio, escribir
 
 BASE = Path(__file__).resolve().parent.parent
 RUNS = BASE / "runs" / "unirl" / "rl_verbal"
-TOPES = {"humo": 12, "cuaderno": 236, "evaluacion": 614, "pareada_luna": 154, "pareada_sol": 154, "medicion_sol": 3}
+# cuaderno: 720 desde la ronda 2 (tres pasadas; la ronda 1 gastó 150 llamadas en una pasada con el tope de 236)
+TOPES = {"humo": 12, "cuaderno": 720, "evaluacion": 614, "pareada_luna": 154, "pareada_sol": 154, "medicion_sol": 3}
 DESTILAR_CADA = 6
 MAX_LEMAS_POR_EPISODIO = 4
+MAX_LEMAS_POR_DESTILACION = 3  # ronda 2: la destilación también propone lemas reutilizables; el kernel decide
 ORDEN_TRAIN = ("biseccion", "punto_fijo", "ordenes", "newton")
 
 
@@ -113,6 +115,9 @@ ERRORES: errores concretos de Isabelle que se repitieron, en una frase cada uno.
 no existe, decláralo en `afirma` (se comprobará en Isabelle; una afirmación falsa descarta el error).
 ESTRATEGIAS: maneras de estructurar una demostración que funcionaron en un episodio ACEPTADO (o que produjo lemas \
 verificados), en una frase cada una, con el episodio de origen y un tópico de una palabra.
+LEMAS: de 1 a 3 lemas auxiliares REUTILIZABLES en otros teoremas, extraídos de las pruebas aceptadas o de los lemas \
+verificados, en Isabelle/HOL: enunciado general sin constantes de ningún preludio, con su prueba completa y un nombre que \
+empiece por cu_. El kernel los compila como enunciados independientes; solo entran los que verifica.
 
 Responde exactamente así (puede haber cero líneas en un bloque):
 ERRORES: <<<
@@ -120,6 +125,10 @@ texto: <frase> || afirma: no_existe metodo <nombre>; existe hecho <nombre>
 >>>
 ESTRATEGIAS: <<<
 origen: <id del episodio> || topico: <palabra> || texto: <frase>
+>>>
+LEMAS: <<<
+lemma cu_<nombre>: "<enunciado>"
+  <prueba>
 >>>
 """
 
@@ -143,7 +152,8 @@ def destilar(prov, cuad: C.Cuaderno, episodios: list[dict], llamadas: list[dict]
     t = time.monotonic()
     texto = complete_with_retries(prov, "Destilas un cuaderno de demostración en español, sin inventar.", "\n\n".join(partes))
     uso = getattr(prov, "ultimo_uso", None)
-    res = {"errores_admitidos": [], "errores_rechazados": [], "estrategias_admitidas": [], "estrategias_rechazadas": []}
+    res = {"errores_admitidos": [], "errores_rechazados": [], "estrategias_admitidas": [], "estrategias_rechazadas": [],
+           "lemas_admitidos": [], "lemas_rechazados": []}
     if texto:
         por_id = {e["episodio_id"]: e for e in episodios}
         errs = re.search(r"ERRORES:\s*<<<(.*?)>>>", texto, re.S)
@@ -183,6 +193,24 @@ def destilar(prov, cuad: C.Cuaderno, episodios: list[dict], llamadas: list[dict]
                 res["estrategias_admitidas"].append(texto_s)
             else:
                 res["estrategias_rechazadas"].append({"texto": texto_s, "motivo": a["motivo"]})
+        # ronda 2: lemas reutilizables de la destilación; sin método, así que solo entran los generales (los que usan
+        # constantes de un preludio los rechaza `alcance` sin pasar por el kernel)
+        from .verifiers import split_lemmas
+        lem = re.search(r"LEMAS:\s*<<<(.*?)>>>", texto, re.S)
+        for b in (split_lemmas(lem.group(1)) if lem else [])[:MAX_LEMAS_POR_DESTILACION]:
+            if any(b["name"] == l["nombre"] for l in cuad.lemas):
+                continue
+            esc, motivo = C.alcance(b["text"], None)
+            if esc is None:
+                res["lemas_rechazados"].append({"nombre": b["name"], "motivo": f"desde la destilación solo entran lemas generales: {motivo}"})
+                continue
+            gen, met = cuad.cuaderno_de("general")
+            a = C.admitir_lema(b["text"], None, gen, met, split="train")
+            if a["admitido"]:
+                cuad.agregar_lema(a, {"destilacion": meta.get("corrida"), "fecha": time.strftime("%Y-%m-%dT%H:%M:%S")})
+                res["lemas_admitidos"].append(a["nombre"])
+            else:
+                res["lemas_rechazados"].append({"nombre": b["name"], "motivo": a["motivo"]})
         vig, desc = C.descartar_estrategias(cuad.estrategias)
         cuad.estrategias[:] = vig
         res["estrategias_descartadas"] = [e["texto"] for e in desc]
@@ -194,25 +222,28 @@ def destilar(prov, cuad: C.Cuaderno, episodios: list[dict], llamadas: list[dict]
 
 
 def construir_cuaderno(modelo: str, ids: list[str] | None = None, reanudar: Path | None = None, config: str = "F",
-                       verbose: bool = True) -> Path:
+                       verbose: bool = True, pasadas: int = 1) -> Path:
+    """`pasadas` (ronda 2): cuántas veces se recorre el train; el episodio de la pasada p se llama <peldaño>#p y la
+    reanudación salta los ya registrados."""
     cfg = CONFIGS[config]
     cuad = C.Cuaderno()
     out = reanudar or nueva_corrida("cuaderno", modelo, {"config": config, "cuaderno_inicial": cuad.hash(),
-                                                         "destilar_cada": DESTILAR_CADA})
+                                                         "destilar_cada": DESTILAR_CADA, "pasadas": pasadas})
     prov = proveedor(modelo, "cuaderno", out.name)
     llamadas_f, episodios_f = out / "llamadas.jsonl", out / "episodios.jsonl"
-    hechos = {json.loads(l)["peldano"] for l in episodios_f.read_text().splitlines()} if episodios_f.exists() else set()
+    hechos = {json.loads(l)["episodio_id"] for l in episodios_f.read_text().splitlines()} if episodios_f.exists() else set()
     resueltos = resueltos_por_martillo("", None)  # en train, r_V usa la línea base sin cuaderno (PLAN §13)
     cache = M.Cache()
     pendientes_destilar: list[dict] = []
     try:
-        for spec in peldanos("train", ids):
-            if spec["id"] in hechos:
+        for pasada, spec in ((p, s) for p in range(1, pasadas + 1) for s in peldanos("train", ids)):
+            ep_id = f"{spec['id']}#{pasada}"
+            if ep_id in hechos:
                 continue
-            meta = {"fase": "cuaderno", "corrida": out.name, "modelo": modelo, "episodio_id": f"{spec['id']}#1"}
+            meta = {"fase": "cuaderno", "corrida": out.name, "modelo": modelo, "episodio_id": ep_id, "pasada": pasada}
             if verbose:
-                print(f"[cuaderno] {spec['id']} (dif. {spec['dificultad']}); lemas {len(cuad.lemas)}, estrategias "
-                      f"{len(cuad.estrategias)}, gasto ${prov.libro.total():.3f}", flush=True)
+                print(f"[cuaderno] pasada {pasada}/{pasadas} {spec['id']} (dif. {spec['dificultad']}); lemas {len(cuad.lemas)}, "
+                      f"estrategias {len(cuad.estrategias)}, gasto ${prov.libro.total():.3f}", flush=True)
             ep = episodio(spec, cfg, prov, llamadas_f, meta, cuaderno=cuad, cache=cache, resueltos=resueltos, verbose=verbose)
             ep["statement_es"] = spec["statement_es"]
             llamadas = [json.loads(l) for l in llamadas_f.read_text().splitlines() if f'"{ep["episodio_id"]}"' in l]
@@ -228,7 +259,7 @@ def construir_cuaderno(modelo: str, ids: list[str] | None = None, reanudar: Path
                 r = destilar(prov, cuad, pendientes_destilar, todas, llamadas_f, {"fase": "cuaderno", "corrida": out.name, "modelo": modelo})
                 if verbose:
                     print(f"[cuaderno] destilación: +{len(r['errores_admitidos'])} errores, +{len(r['estrategias_admitidas'])} "
-                          f"estrategias", flush=True)
+                          f"estrategias, +{len(r['lemas_admitidos'])} lemas", flush=True)
                 pendientes_destilar = []
         if pendientes_destilar:
             todas = [json.loads(l) for l in llamadas_f.read_text().splitlines()]
@@ -415,6 +446,7 @@ def main(argv: list[str] | None = None) -> int:
     cu.add_argument("--modelo", default="gpt-6-luna")
     cu.add_argument("--ids", default="")
     cu.add_argument("--reanudar", default="")
+    cu.add_argument("--pasadas", type=int, default=1)  # ronda 2: 3
     ev = sub.add_parser("evaluar")
     ev.add_argument("--modelo", default="gpt-6-luna")
     ev.add_argument("--configs", required=True)
@@ -440,7 +472,8 @@ def main(argv: list[str] | None = None) -> int:
         escribir(out / "episodios.jsonl", _resumen_episodio(ep))
         print(resumen(out).read_text())
     elif a.cmd == "cuaderno":
-        out = construir_cuaderno(a.modelo, [x for x in a.ids.split(",") if x] or None, Path(a.reanudar) if a.reanudar else None)
+        out = construir_cuaderno(a.modelo, [x for x in a.ids.split(",") if x] or None, Path(a.reanudar) if a.reanudar else None,
+                                 pasadas=a.pasadas)
         return 0 if (out / "FIN.json").exists() else 1  # FIN.json solo existe si el cuaderno quedó congelado
     elif a.cmd == "evaluar":
         out = evaluar(a.modelo, a.configs.split(","), a.episodios, a.paralelo, a.cuaderno, a.fase,

@@ -225,6 +225,16 @@ Bajo la hipótesis nula de que el cuaderno no tiene efecto, $b\sim\mathrm{Bin}(b
 
 El orden importa: si H1 falla, las demás no son evaluables. La partición por método es lo que convierte H3 en una afirmación de transferencia y no de memorización.
 
+\paragraph{Ronda 2: enmiendas prerregistradas el 27 de septiembre de 2026.} La ronda 1 (26--27 de septiembre de 2026; \texttt{resultados/RONDA\_TERMINADA.md}) cumplió H1 con $|\T^*_{\mathrm{test}}|=16$ y no sostuvo H2: $\hat p_E=4/32$ frente a $\hat p_C=6/32$; McNemar $b=0$, $b'=2$, $p=0{,}5$. El diagnóstico se hizo sobre los registros de las llamadas antes de tocar el código: el cuaderno admitió un solo lema en 32 episodios, porque los lemas solo se cosechaban de los bloques \texttt{LEMMAS} que el modelo escribía por iniciativa propia (2 de 10 pruebas aceptadas); ese lema se mostró en los 16 teoremas de test sin compartir ningún identificador con ellos, y las 35 respuestas que lo citaron fallaron todas; ningún modelo aceptó ningún teorema de dificultad 4 o 5 en ninguna configuración. Antes de lanzar la ronda 2 se fijan estas enmiendas; ninguna corrida de la ronda 2 existe:
+\begin{enumerate}
+\item En el entrenamiento (configuración F) el prompt pide de uno a tres lemas auxiliares reutilizables por intento, con prefijo \texttt{cu\_}; la destilación pide además lemas reutilizables extraídos de las pruebas aceptadas, solo generales. En ambos casos entra únicamente lo que el kernel verifica como enunciado independiente, igual que antes.
+\item El cuaderno se construye con tres pasadas sobre los 32 teoremas de entrenamiento (96 episodios) en vez de una, partiendo del estado final de la ronda 1 (hash \texttt{fbd88bf0474ad117}).
+\item Recuperación: un lema se muestra solo si su enunciado comparte al menos un identificador con el enunciado o el preludio del teorema; los símbolos (\verb|\<le>| y similares) no cuentan. Con esta regla el lema de la ronda 1 no se habría mostrado en ningún teorema de test.
+\item Análisis primario de H2: McNemar sobre $\T^*_{\mathrm{test}}\cap\{\text{dificultad}\le 3\}$ (8 teoremas; 16 pares con dos episodios, así que el criterio de potencia no cambia: seis pares discordantes a favor de E). Secundarios: todo $\T^*_{\mathrm{test}}$ y dificultad 4--5.
+\item H4 se pospone: Sol no entra en la ronda 2 (en la ronda 1 costó \$8,11 de \$10,78 y no superó a Luna: C3 4/16 en ambos, E3 4/16 frente a 2/16).
+\item Sin cambios en B0, B, C, E, E3, el martillo, la línea base A ni el umbral de H1, que se recalcula con el cuaderno congelado de la ronda 2.
+\end{enumerate}
+
 \section{Relación con trabajos previos}
 
 El esquema combina tres líneas. De \emph{Draft, Sketch, and Prove} \cite{jiang2023dsp} y \emph{Thor} \cite{jiang2022thor} toma la división del trabajo: el modelo propone la estructura y el martillo cierra los pasos. De Reflexion \cite{shinn2023} toma el aprendizaje sin actualizar pesos. De LEGO-Prover \cite{wang2024lego} toma la biblioteca creciente de lemas. Lo propio de este proyecto es el invariante de solidez sobre la memoria, la separación explícita entre memoria certificada y no certificada, el control por el martillo solo, la partición por método para medir transferencia, y el dominio: análisis numérico formalizado en Isabelle/HOL, a partir de la verificación de métodos numéricos de Bryant, Huerta y Munive, y Foster \cite{bryant2025}.
