@@ -36,6 +36,17 @@ Un episodio es válido si alguno de sus intentos no fue PROVIDER_ERROR; si un ep
 
 Sobre T*_test (peldaños que el martillo con cuaderno no cierra) cuando hay línea base; si no, sobre todos.
 
+### Añadido el 30 sep 2026: C frente a B0 y frente a B (exploratorio, no es H2)
+
+Recalculado el 30 sep 2026 desde los `episodios.jsonl` de las corridas de esta ronda (inicio entre 2026-09-26T20:17:27 y 2026-09-27T14:03:07), sin correr nada y con la misma regla: cuenta el primer episodio válido. H2 prerregistrada es E frente a C (`docs/formulacion/formulacion_rl_verbal.tex`, líneas 205 y 222); estas comparaciones son exploratorias. C difiere de B en la reflexión y además en los intentos (4 frente a 1); de B0, también en el glosario y las consultas (`unirl/reflexion.py` en `a5f6c14`, líneas 52–54).
+
+| comparación | unidad | pares | gana C | gana el otro | p exacto bilateral |
+|---|---|---|---|---|---|
+| Luna: C frente a B0 | peldaño y episodio (2 por peldaño) | 32 | 6 | 0 | 0.0312 |
+| Luna: C frente a B0 | peldaño (cerrado si algún episodio lo cerró) | 16 | 3 | 0 | 0.25 |
+| Luna: C frente a B | peldaño y episodio (2 por peldaño) | 32 | 3 | 1 | 0.625 |
+| Luna: C frente a B | peldaño (cerrado si algún episodio lo cerró) | 16 | 1 | 1 | 1.0 |
+
 ## Por peldaño (1 = aceptado, 0 = no, · = sin episodio; dos episodios se muestran como «xy»)
 
 | peldaño | dif. | en T* | B0 (eval) | B (eval) | C (eval) | E (E) | C3 (luna) | E3 (luna) | C3 (sol) | E3 (sol) |
