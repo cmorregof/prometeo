@@ -1,0 +1,14 @@
+# Juez de Lean, corpus guardarrailes (la puerta de riesgo de VelveteenTrade): Luna demuestra, Lean verifica.
+# Diseño del experimento: docs/formulacion/guardarrailes_lean.md. Los peldaños nacen pendientes de revisión: hasta
+# que Carlos los apruebe (estado = "aprobado" en corpus/curado/guardarrailes/<id>.json), make_verifier lanza NoAprobado.
+# Lanzar (solo Carlos):  python -m unirl run --config unirl/configs/guardarrailes_lean.toml --episodes 2 --out runs/lean/guardarrailes
+name = "g_cycle_safe_directo"
+judge = "lean"
+peldano = "g_cycle_safe_directo"   # cualquier id del corpus; f_* son controles falsos
+modo = "estricto"                  # "estricto" (juez de verdad) o "debil" (solo «compila»: para medir reward hacking)
+provider = "openai"
+model = "gpt-6-luna"
+effort = "high"
+budget = 4
+build_timeout_s = 120
+shaped = false

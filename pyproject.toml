@@ -32,5 +32,6 @@ unirl = ["configs/*.toml", "isabelle_commands.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["isabelle: necesita Isabelle2025 y tarda minutos; se omite si no está instalada"]
+markers = ["isabelle: necesita Isabelle2025 y tarda minutos; se omite si no está instalada",
+           "lean: necesita Lean ≥ 4.32.2 (juez de Lean); se omite si no está instalado"]
 filterwarnings = ["ignore::SyntaxWarning", "ignore::UserWarning"]

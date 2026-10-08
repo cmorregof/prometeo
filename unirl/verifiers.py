@@ -987,4 +987,8 @@ def make_verifier(cfg: dict) -> Verifier:
         if cfg.get("peldano"):  # peldaño del corpus: exige la aprobación de Carlos (corpus.NoAprobado si no la hay)
             return TheoremVerifier.desde_corpus(cfg["peldano"], cfg.get("corpus", "raices"), **kw)
         return TheoremVerifier(cfg.get("target"), expected_hash=cfg.get("target_hash"), **kw)
+    if j == "lean":  # peldaño del corpus de Lean (guardarrailes): exige la aprobación de Carlos
+        from .juez_lean import LeanVerifier
+        return LeanVerifier.desde_corpus(cfg["peldano"], cfg.get("corpus", "guardarrailes"), modo=cfg.get("modo", "estricto"),
+                                         timeout_s=float(cfg.get("build_timeout_s", 120)), aislado=bool(cfg.get("aislado", True)))
     raise ValueError(f"juez desconocido: {j}")

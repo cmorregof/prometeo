@@ -17,11 +17,13 @@ El repo tiene tres usos que conviven:
 pyproject.toml   ÚNICO: paquetes unirl, steprl, isarl, didactica.*; extra [dev]; un solo .venv en la raíz
 didactica/       los seis agentes tabulares, como subpaquetes: biseccion, punto_fijo, taylor, newton, secante, interpolacion
   qagent.py      el QAgent compartido (Q-learning tabular, ε-greedy, tasa 1/N opcional, bono UCB); una sola copia
-unirl/           un MDP con jueces intercambiables; RL verbal con cuaderno verificado; configs/ y tools/ dentro; isabelle_commands.txt
+unirl/           un MDP con jueces intercambiables; RL verbal con cuaderno verificado; configs/ y tools/ dentro; isabelle_commands.txt;
+                 juez_lean.py (juez de Lean: estricto y débil a la vez; docs/formulacion/guardarrailes_lean.md)
 steprl/          juez PEP: verificador SDP, certificados racionales exactos, referencias, evolución con LLM
 isarl/           juez Isabelle: driver vcg + try0 + Sledgehammer, reproducción de la Tabla 1 del artículo
 corpus/curado/   raices/ (48 peldaños aprobados), programas/ (objetivos del juez de programa: bisection, countdown, lemas prestados),
-                 stepsize/ (objetivos del juez de teorema gd_* y sus certificados gd_cert/); corpus/existencia/ reservado (vacío)
+                 stepsize/ (objetivos del juez de teorema gd_* y sus certificados gd_cert/), guardarrailes/ (juez de Lean:
+                 22 peldaños pendientes de revisión, 4 de ellos controles falsos); corpus/existencia/ reservado (vacío)
 certificados/    certificados PEP versionados (n = 6 sigue marcado como no resuelto frente a la tabla publicada)
 runs/            registros de corridas; INTOCABLES en contenido
   didactica/<metodo>/<fecha>/   pep/<fecha>/   isabelle/   unirl/<entorno>/<fecha-modelo>/   unirl/cuaderno/ (estado vivo)   corridas_locales/
@@ -63,6 +65,8 @@ python -m steprl verify                                    # ~2 s
 python -m unirl target --config unirl/configs/bisection_graph.toml
 pytest -q                                                  # todo; las de Isabelle se omiten si no está instalada
 pytest -q -m "not isabelle"                                # lo que corre el CI
+pytest -q -m lean tests/unirl/test_juez_lean.py            # juez de Lean (necesita Lean ≥ 4.32.2 y las pruebas privadas:
+                                                           # python -m unirl.tools.corpus_lean)
 ```
 
 Tiempos medidos (25 sep 2026, `resultados/corridas_locales/tiempos.md`): `--no-tui` con 3000 + 3000 generaciones tarda

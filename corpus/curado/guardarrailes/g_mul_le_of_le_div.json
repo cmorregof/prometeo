@@ -1,0 +1,23 @@
+{
+ "id": "g_mul_le_of_le_div",
+ "name": "g_mul_le_of_le_div",
+ "kind": "lean_theorem",
+ "metodo": "guardarrailes",
+ "peldano": "mul_le_of_le_div",
+ "split": "test",
+ "estado": "pendiente_revision",
+ "dificultad": "1",
+ "fuente": "VelveteenTrade, verification/lean/VelveteenRisk.lean (commit 9e3614d, 8 oct 2026)",
+ "dependencias": [],
+ "verdadero": true,
+ "nombre_lean": "mul_le_of_le_div",
+ "toolchain": "leanprover/lean4:v4.34.1",
+ "statement_es": "Si a ≤ b/p con p > 0, entonces a·p ≤ b.",
+ "descripcion_en": "",
+ "notas": "",
+ "redactado_por": "Claude (Opus 5.5), 8 oct 2026",
+ "aprobacion": null,
+ "contexto": "/-!\n# VelveteenTrade — formal model of the deterministic risk gate\n\nThis file models `velveteentrade/risk.py` (function `evaluate` and the shadow\nportfolio kept in `CycleContext`) over exact rationals, and proves:\n\n* `buy_safe`, `step_preserves` — one decision never pushes a cap over its limit\n  (invariants G1, G3 in risk.py).\n* `buy_risk_le_budget`, `stop_loss_le_budget` — an approved BUY risks at most\n  its budget between the reference price and its stop (G2), when the stop is\n  frozen at entry and the exit happens at or above it (no gap).\n* `cycle_safe` — over ANY list of proposals (any output of the LLM agents, any\n  market data) a portfolio that starts within its caps ends within its caps (C).\n* `old_gate_unsafe` — the gate as it was before Oct 2026 (caps checked against\n  the broker snapshot, not the shadow portfolio) violates `cycle_safe`: a\n  machine-checked counterexample.\n\nOnly Lean core is used (no Mathlib): `Rat`, its order lemmas, `grind`, `omega`.\n\n## What is NOT covered (read before citing these theorems)\n* Python computes in IEEE-754 doubles; the proofs are over ℚ. The fuzz test\n  `tests/test_risk_cycle.py` checks the same invariants on the float code.\n* The model is hand-written from the Python source; the correspondence is by\n  inspection (comments `-- risk.py:` below), not mechanically extracted.\n* Fills are not modeled: orders are assumed to fill at the reference close.\n  Gaps through the stop and slippage are outside `stop_loss_le_budget`.\n* The drawdown halt and the CVaR filter only ever reject; they are abstracted\n  as the input flag `vetoed`.\n-/\n\nnamespace Velveteen\n\n/-! ## Rounding -/\n\n/-- Specification of quantity rounding: never negative and, when positive,\nnever above its argument (rounding down / toward zero). -/\nstructure RoundDown (rq : Rat → Rat) : Prop where\n  nonneg : ∀ x, 0 ≤ rq x\n  le_of_pos : ∀ x, 0 < rq x → rq x ≤ x\n\n/-- risk.py: `_round_qty(x) = max(0, floor(x * 1000) / 1000)`. -/\ndef roundQty (x : Rat) : Rat := max 0 (((x * 1000).floor : Rat) / 1000)\n\ntheorem roundQty_spec : RoundDown roundQty := by\n  constructor\n  · intro x\n    unfold roundQty\n    grind\n  · intro x h\n    unfold roundQty at *\n    have hf := Rat.floor_le (x * 1000)\n    grind\n\n/-- risk.py: `_stop_price(close, d) = ceil((close - d) * 100) / 100`. -/\ndef stopPrice (p sd : Rat) : Rat := (((p - sd) * 100).ceil : Rat) / 100\n\ntheorem stopPrice_ge (p sd : Rat) : p - sd ≤ stopPrice p sd := by\n  unfold stopPrice\n  have h : (p - sd) * 100 ≤ (((p - sd) * 100).ceil : Rat) := Rat.le_ceil\n  grind\n\n/-! ## Two arithmetic facts used everywhere -/\n",
+ "enunciado": "theorem mul_le_of_le_div {a b p : Rat} (hp : 0 < p) (h : a ≤ b / p) : a * p ≤ b",
+ "frozen_hash": "b1582a94068327ef"
+}
