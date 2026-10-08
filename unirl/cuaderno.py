@@ -331,6 +331,25 @@ def identificadores(texto: str) -> set[str]:
     return {w for w in claves(texto) if not w.startswith("\\<")}
 
 
+def cierre_de_dependencias(elegidos: list[dict], disponibles: list[dict]) -> list[dict]:
+    """Los lemas `elegidos` más los del cuaderno que sus pruebas citan por nombre, transitivamente, en el orden del
+    cuaderno. Ese orden es el de admisión: cada lema se admitió con los anteriores ya en la teoría, así que sus
+    dependencias quedan antes. 30 sep 2026: en la ronda 2, cu_iterate_contraction_bound se mostraba sin
+    cu_funpow_invariant, que su prueba usa, y la biblioteca no compilaba («Undefined fact»)."""
+    por_nombre = {l["nombre"]: l for l in disponibles}
+    orden = {l["nombre"]: i for i, l in enumerate(disponibles)}
+    pendientes, cerrados = [l["nombre"] for l in elegidos], set()
+    while pendientes:
+        n = pendientes.pop()
+        if n in cerrados or n not in por_nombre:
+            continue
+        cerrados.add(n)
+        texto = por_nombre[n]["texto"]
+        pendientes += [m for m in por_nombre if m not in cerrados
+                       and _re.search(rf"(?<![A-Za-z0-9_']){_re.escape(m)}(?![A-Za-z0-9_'])", texto)]
+    return sorted((por_nombre[n] for n in cerrados), key=lambda l: orden[l["nombre"]])
+
+
 def enunciado_de_lema(texto: str) -> str:
     """La cabeza del lema (nombre y enunciado), sin su prueba: todo hasta el primer comando de prueba fuera de comillas."""
     dentro, i = False, 0
@@ -435,10 +454,13 @@ class Cuaderno:
             sel["errores"] = self._rankear(aprendidos, lambda e: e["texto"], spec, K_RECUPERAR["errores"],
                                            PRESUPUESTO["errores"], lambda e: 0.5 * e["contadores"]["apariciones"])
         if "lemas" in partes:
-            sel["lemas"] = self._rankear(self.lemas_aplicables(spec["metodo"]), lambda l: l["texto"], spec,
+            aplicables = self.lemas_aplicables(spec["metodo"])
+            sel["lemas"] = self._rankear(aplicables, lambda l: l["texto"], spec,
                                          K_RECUPERAR["lemas"], PRESUPUESTO["lemas"],
                                          lambda l: 2.0 if l["alcance"] == spec["metodo"] else 0.0,
                                          minimo_ids=MINIMO_IDS_LEMA, cabeza=enunciado_de_lema)
+            # lo que se compila: los mostrados y sus dependencias, en el orden del cuaderno (lo que se muestra no cambia)
+            sel["biblioteca"] = cierre_de_dependencias(sel["lemas"], aplicables)
         if "estrategias" in partes:
             sel["estrategias"] = self._rankear(
                 self.estrategias, lambda e: e["texto"] + " " + e.get("topico", ""), spec, K_RECUPERAR["estrategias"],
@@ -448,8 +470,9 @@ class Cuaderno:
 
     @staticmethod
     def biblioteca(sel: dict) -> str:
-        """Texto de los lemas recuperados, para el juez (se añaden solos a cada intento, antes de los del agente)."""
-        return "\n\n".join(l["texto"] for l in sel.get("lemas", []))
+        """Texto de los lemas que se compilan con cada intento, a nivel de teoría y antes de los del agente: los
+        mostrados y sus dependencias en el orden del cuaderno (`sel["biblioteca"]`); sin esa clave, los mostrados."""
+        return "\n\n".join(l["texto"] for l in sel.get("biblioteca", sel.get("lemas", [])))
 
     def glosario_compacto(self) -> str:
         filas = []

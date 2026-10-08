@@ -25,7 +25,8 @@ import threading
 import time
 from pathlib import Path
 
-from .gd_isabelle import TheoremVerifier, check_lemma_block, check_proof, fill_lines, nombres_del_objetivo, translate_errors
+from .gd_isabelle import (TheoremVerifier, biblioteca_sin_redefinidos, check_lemma_block, check_proof, fill_lines,
+                          nombres_del_objetivo, translate_errors)
 from .verifiers import _PREPLAYED, _PROVER, merge_lemmas, tokenize_outer
 
 BASE = Path(__file__).resolve().parent.parent
@@ -136,6 +137,8 @@ begin
 
 __PRELUDE__
 
+__LIBRARY__
+
 context
   fixes __FIXES__
   assumes __ASSUMES__
@@ -193,6 +196,8 @@ ML \<open>
 
 method_setup martillo = \<open>Scan.lift Parse.nat >> (fn k => fn ctxt => SIMPLE_METHOD' (fn i => fn st => isarl_martillo k ctxt i st))\<close>
 
+__LIBRARY__
+
 context
   fixes __FIXES__
   assumes __ASSUMES__
@@ -215,6 +220,8 @@ TEORIA_CONSULTA = r'''theory Consulta
 begin
 
 __PRELUDE__
+
+__LIBRARY__
 
 context
   fixes __FIXES__
@@ -333,16 +340,24 @@ def metodo_de_linea(linea: str) -> str | None:
     return f"(use {m['hechos']} in {m['metodo']})" if m["hechos"] else m["metodo"]
 
 
-def _tabla(juez: TheoremVerifier, lemas: str = "") -> dict:
+def _tabla(juez: TheoremVerifier, lemas: str = "", biblioteca: str = "") -> dict:
+    """Huecos comunes de las tres teorías. `lemas`: los del agente, dentro del contexto; `biblioteca`: los del cuaderno,
+    a nivel de teoría, antes del contexto (30 sep 2026; ver gd_isabelle.LEMMAS_THEOREM)."""
     s = juez.spec
     return {"IMPORTS": s["imports"], "PRELUDE": s["prelude"], "FIXES": s["fixes"], "ASSUMES": s["assumes"], "CONCL": s["concl"],
-            "AGENTLEMMAS": lemas,
+            "LIBRARY": biblioteca, "AGENTLEMMAS": lemas,
             "ETIQUETAS": ", ".join(_ml_str(e) for e in sorted(nombres_del_objetivo({"assumes": s["assumes"]}))),
             "SH": str(SH_TIMEOUT), "TRYCERO": str(TRY0_TIMEOUT), "LIMITE": str(MAX_RESULTADOS)}
 
 
+# 30 sep 2026: con cuaderno, la clave lleva dónde se compila la biblioteca. Los resultados guardados cuando iba dentro del
+# contexto (y podía no compilar) no se reutilizan; los de sin cuaderno no cambian.
+BIBLIOTECA_EN = "teoria"
+
+
 def _contexto(juez: TheoremVerifier, cuaderno_hash: str) -> str:
-    return "|".join([juez.frozen_hash, cuaderno_hash or "sin-cuaderno", str(SH_TIMEOUT), str(TRY0_TIMEOUT), ISABELLE])
+    cuaderno = f"{cuaderno_hash}@{BIBLIOTECA_EN}" if cuaderno_hash else "sin-cuaderno"
+    return "|".join([juez.frozen_hash, cuaderno, str(SH_TIMEOUT), str(TRY0_TIMEOUT), ISABELLE])
 
 
 # ----------------------------------------------------------------------------------------------- martillo solo
@@ -358,7 +373,7 @@ def martillo_solo(juez: TheoremVerifier, cuaderno_hash: str = "", cache: Cache |
         return {**c, "desde_cache": True}
     w = juez._workdir("gd-martillo-")
     out = w / "martillo.json"
-    thy, _ = fill_lines(TEORIA_SOLO, {**_tabla(juez, biblioteca), "OUT": str(out)})
+    thy, _ = fill_lines(TEORIA_SOLO, {**_tabla(juez, "", biblioteca), "OUT": str(out)})
     with candado_martillo() as espera:
         reloj = Reloj()
         rc, log = juez.build(w, thy, "Martillo", SH_TIMEOUT * 4 + 120)
@@ -415,7 +430,8 @@ def martillo_en_pasos(juez: TheoremVerifier, prueba: str, cuaderno_hash: str = "
     marcada, n = marcar_pasos(prueba)
     base = {"marcas": n, "cerradas": 0, "fraccion": None, "pasos": [], "prueba_final": prueba, "suspension_s": 0.0,
             "espera_candado_s": 0.0, "martillo_s": 0.0, "errores": []}
-    todos = merge_lemmas(biblioteca, lemas).strip()
+    libreria = biblioteca_sin_redefinidos(biblioteca, lemas)
+    todos = merge_lemmas(libreria, lemas).strip()  # juntos solo para los filtros; en la teoría van por separado
     filtros = check_proof(marcada) or (check_lemma_block(todos, juez.reservados) if todos else None)
     if n == 0 or filtros:
         o = juez.verify(juez.target(), {"proof": prueba, **propuesta})
@@ -427,7 +443,7 @@ def martillo_en_pasos(juez: TheoremVerifier, prueba: str, cuaderno_hash: str = "
     filas = [(m, metodo_de_linea(l), l) for m, l in conocidas]
     (w / "cache_pasos.txt").write_text("\x1e".join("\x1f".join(f) for f in filas
                                                     if f[1] and not re.search("[\x1e\x1f]", "".join(f))), encoding="utf-8")
-    tabla = {**_tabla(juez, todos), "OUT": str(out), "AGENTPROOF": marcada, "CACHEIN": str(w / "cache_pasos.txt")}
+    tabla = {**_tabla(juez, lemas, libreria), "OUT": str(out), "AGENTPROOF": marcada, "CACHEIN": str(w / "cache_pasos.txt")}
     thy, starts = fill_lines(TEORIA_PASOS, tabla)
     with candado_martillo() as espera:
         reloj = Reloj()
@@ -442,7 +458,8 @@ def martillo_en_pasos(juez: TheoremVerifier, prueba: str, cuaderno_hash: str = "
             lineas[int(p["k"])] = lin
             cache.guardar(Cache.clave("paso", ctx, p["meta"]), "paso", {"contexto": ctx, "meta": p["meta"], "linea": lin})
     final = re.sub(r"by \(martillo (\d+)\)", lambda m: lineas.get(int(m.group(1)), m.group(0)), marcada)
-    errores = translate_errors(log, "MartilloPasos", starts["AGENTPROOF"], marcada, starts["AGENTLEMMAS"], todos)
+    errores = translate_errors(log, "MartilloPasos", starts["AGENTPROOF"], marcada, starts["AGENTLEMMAS"], lemas,
+                               library_first=starts["LIBRARY"], library=libreria)
     res = {**base, "cerradas": len(lineas), "fraccion": len(lineas) / n, "pasos": pasos, "prueba_final": final,
            "rc_pasada1": rc, "suspension_s": suspension, "espera_candado_s": round(espera, 1),
            "martillo_s": round(martillo_s, 1), "errores": errores, "errores_pasada1": errores[:8]}
@@ -515,7 +532,7 @@ def consultar(juez: TheoremVerifier, consultas: list[dict], tope: int = MAX_CONS
         w = juez._workdir("gd-consulta-")
         (w / "consultas.txt").write_text("".join(f"{c['tipo']}\t{c['texto'].strip()}\n" for c in admitidas), encoding="utf-8")
         out = w / "consulta.json"
-        thy, _ = fill_lines(TEORIA_CONSULTA, {**_tabla(juez, biblioteca), "IN": str(w / "consultas.txt"), "OUT": str(out)})
+        thy, _ = fill_lines(TEORIA_CONSULTA, {**_tabla(juez, "", biblioteca), "IN": str(w / "consultas.txt"), "OUT": str(out)})
         rc, log = juez.build(w, thy, "Consulta", 180)
         if out.exists():
             res += json.loads(out.read_text())

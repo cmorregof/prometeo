@@ -312,9 +312,11 @@ def linea_base_con_cuaderno(cuad: C.Cuaderno, config: str = "E", split: str = "t
         while r.get("invalido") and intentos <= 2:
             r = M.martillo_solo(juez, cuaderno_hash=C.hash_texto(bib), cache=cache, usar_cache=False, biblioteca=bib)
             intentos += 1
+        # 30 sep 2026: `invalido` queda escrito. En la ronda 1, secante_1 a secante_4 agotaron sus tres intentos sin
+        # resultado válido (la biblioteca no compilaba) y quedaron como «no resuelto» sin que el archivo lo dijera.
         filas.append({"id": spec["id"], "resuelto_por_martillo": r["resuelto_por_martillo"], "linea": r.get("linea"),
                       "lemas": [l["nombre"] for l in sel["lemas"]], "suspension_s": r.get("suspension_s"),
-                      "desde_cache": r.get("desde_cache"), "intentos": intentos})
+                      "desde_cache": r.get("desde_cache"), "intentos": intentos, "invalido": bool(r.get("invalido"))})
         print(f"[linea-base] {spec['id']}: {'RESUELTO' if r['resuelto_por_martillo'] else 'no'} (lemas {len(sel['lemas'])})", flush=True)
     ruta = ruta_linea_base(cuad.hash_lemas())
     ruta.write_text(json.dumps({"cuaderno": cuad.hash_lemas() or "sin-cuaderno", "cuaderno_completo": cuad.hash(),

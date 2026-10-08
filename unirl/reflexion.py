@@ -22,7 +22,7 @@ from pathlib import Path
 
 from . import martillo as M
 from .cuaderno import hash_texto
-from .gd_isabelle import TheoremVerifier
+from .gd_isabelle import TheoremVerifier, fallo_de_biblioteca
 from .loop import ProviderFatal, complete_with_retries
 from .recompensa import LineaBaseDesactualizada, recompensa, resueltos_por_martillo
 
@@ -241,6 +241,8 @@ def evaluar_intento(juez: TheoremVerifier, spec: dict, propuesta: dict, bibliote
             "juez_s": juez_s, "martillo_s": rv.get("martillo_s", 0.0), "espera_candado_s": rv.get("espera_candado_s", 0.0),
             "suspension_s": max(rv.get("suspension_s") or 0.0, reloj.suspension_s()),
             "lemas_verificados": raw.get("verified_lemmas") or [], "errores": (raw.get("errors") or [])[:20],
+            # 30 sep 2026: el intento no se pudo juzgar porque un lema del cuaderno no compiló en este peldaño
+            "biblioteca_fallo": bool(raw.get("biblioteca_fallo")) or fallo_de_biblioteca(rv.get("errores") or []),
             "veredicto_meta": raw.get("veredicto") or juez.metadatos(), "intento_s": round(reloj.ms() / 1000, 1)}
 
 
@@ -273,6 +275,7 @@ def episodio(spec: dict, cfg: Config, proveedor, registro: Path, meta: dict, cua
             "version": spec.get("version"), "config": cfg.nombre, "episodio_id": ep_id,
             "cuaderno_hash": getattr(cuaderno, "hash", lambda: "")() if cuaderno is not None else "",
             "biblioteca_hash": hash_bib, "lemas_mostrados": [l["nombre"] for l in sel["lemas"]],
+            "lemas_biblioteca": [l["nombre"] for l in sel.get("biblioteca", sel["lemas"])],  # 30 sep: con dependencias
             "estrategias_mostradas": [e["texto"][:80] for e in sel["estrategias"]],
             "errores_mostrados": [e.get("id") for e in sel["errores"]]}
     historia, consultas_hechas = [], []

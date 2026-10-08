@@ -171,11 +171,18 @@ def fill_lines(template: str, table: dict[str, str]) -> tuple[str, dict[str, int
     return "".join(out), starts
 
 
+# 30 sep 2026: los lemas del cuaderno (__LIBRARY__) van a nivel de teoría, después del preludio y antes del contexto
+# del peldaño, igual que en su admisión (cuaderno.LEMA_ADMISION). Hasta la ronda 1 iban dentro del contexto junto con
+# los del agente, y un lema con `fixes x` chocaba con un peldaño que ya fija `x` («Duplicate fixed variable»): en la
+# ronda 1, sign_step hizo fallar así todo intento de E y E3 en secante_1 a secante_4. Los lemas del agente siguen
+# dentro del contexto (citan las hipótesis por su etiqueta).
 LEMMAS_THEOREM = r'''theory Lemmas
   imports __IMPORTS__
 begin
 
 __PRELUDE__
+
+__LIBRARY__
 
 context
   fixes __FIXES__
@@ -215,6 +222,8 @@ __PRELUDE__
 ML \<open>
   val isarl_axioms0 = length (Theory.all_axioms_of @{theory})
 \<close>
+
+__LIBRARY__
 
 context
   fixes __FIXES__
@@ -263,13 +272,29 @@ end
 '''
 
 _LINE_REF = re.compile(r'\(line (\d+) of "([^"]*)"\)')
+MARCA_BIBLIOTECA = "del cuaderno, línea"  # así se nombra en los errores una línea de un lema del cuaderno
+
+
+def biblioteca_sin_redefinidos(library: str, agent: str) -> str:
+    """Los lemas del cuaderno menos los que el agente redefine con el mismo nombre (gana su versión, como en
+    `merge_lemmas`): unos van a nivel de teoría y otros dentro del contexto, y dos hechos con un nombre chocarían."""
+    mine = {b["name"] for b in split_lemmas(agent)} if agent.strip() else set()
+    return "\n\n".join(b["text"] for b in split_lemmas(library) if b["name"] not in mine).strip() if library.strip() else ""
+
+
+def fallo_de_biblioteca(errores: list[str]) -> bool:
+    """¿Algún error cae en un lema del cuaderno? Entonces el intento no se pudo juzgar: no es un error del agente."""
+    return any(MARCA_BIBLIOTECA in e for e in errores or [])
 
 
 def translate_errors(log: str, thy_name: str, proof_first: int | None = None, proof: str = "",
-                     lemmas_first: int | None = None, lemmas: str = "", limit: int = 40) -> list[str]:
+                     lemmas_first: int | None = None, lemmas: str = "", limit: int = 40,
+                     library_first: int | None = None, library: str = "") -> list[str]:
     """Líneas «***» del registro de Isabelle, con la posición traducida cuando cae en el texto del agente:
-    «(línea k de tu PROOF)» o «(lema nombre, línea k)». El resto del mensaje queda literal."""
+    «(línea k de tu PROOF)» o «(lema nombre, línea k)»; o en un lema del cuaderno: «(lema nombre del cuaderno, línea k)».
+    El resto del mensaje queda literal."""
     blocks = split_lemmas(lemmas) if lemmas else []
+    lib_blocks = split_lemmas(library) if library else []
     n_proof = proof.count("\n") + 1 if proof else 0
 
     def where(L: int) -> str | None:
@@ -280,6 +305,11 @@ def translate_errors(log: str, thy_name: str, proof_first: int | None = None, pr
             for b in blocks:
                 if b["first"] <= rel <= b["last"]:
                     return f"lema {b['name']}, línea {rel - b['first'] + 1}"
+        if library_first is not None:
+            rel = L - library_first
+            for b in lib_blocks:
+                if b["first"] <= rel <= b["last"]:
+                    return f"lema {b['name']} {MARCA_BIBLIOTECA} {rel - b['first'] + 1}"
         return None
 
     def rep(m: re.Match) -> str:
@@ -341,7 +371,8 @@ class TheoremVerifier:
 
     name = "isabelle_teorema"
     LABELS = ("ACCEPTED", "PROOF_FAILED", "LEMMA_FAILED", "UNSOUND", "STATEMENT_DRIFT", "SYNTAX_ERROR", "TIMEOUT", "INVALID_PROPOSAL")
-    VERSION_JUEZ = "teorema-2026-09-24"  # cambia cuando cambia algo que afecte veredictos
+    # cambia cuando cambia algo que afecte veredictos; 30 sep 2026: los lemas del cuaderno, a nivel de teoría
+    VERSION_JUEZ = "teorema-2026-09-30"
     SESSION_PARENT = "HOL-Analysis"
     HASH_FIELDS = ("imports", "prelude", "fixes", "assumes", "concl")
 
@@ -456,25 +487,29 @@ class TheoremVerifier:
         self.scratch.mkdir(parents=True, exist_ok=True)
         return Path(tempfile.mkdtemp(prefix=prefix, dir=str(self.scratch)))
 
-    def lemmas_theory(self, lemmas: str, work: Path) -> tuple[str, int]:
-        """Teoría Lemmas y línea (1-based) donde empieza el bloque de lemas."""
+    def lemmas_theory(self, lemmas: str, work: Path, library: str = "") -> tuple[str, dict[str, int]]:
+        """Teoría Lemmas y líneas (1-based) donde empiezan los huecos: AGENTLEMMAS (los del agente, dentro del contexto)
+        y LIBRARY (los del cuaderno, a nivel de teoría)."""
         s = self.spec
-        thy, starts = fill_lines(LEMMAS_THEOREM, {"IMPORTS": s["imports"], "PRELUDE": s["prelude"], "FIXES": s["fixes"],
-                                                  "ASSUMES": s["assumes"], "CONCL": s["concl"], "DIR": str(work),
-                                                  "AGENTLEMMAS": lemmas})
-        return thy, starts["AGENTLEMMAS"]
+        return fill_lines(LEMMAS_THEOREM, {"IMPORTS": s["imports"], "PRELUDE": s["prelude"], "FIXES": s["fixes"],
+                                           "ASSUMES": s["assumes"], "CONCL": s["concl"], "DIR": str(work),
+                                           "LIBRARY": library, "AGENTLEMMAS": lemmas})
 
-    def _lemmas_build(self, lemmas: str) -> tuple[int, str, int, Path]:
+    def _lemmas_build(self, lemmas: str, library: str = "") -> tuple[int, str, dict[str, int], Path]:
         work = self._workdir("gd-lemmas-")
-        thy, first = self.lemmas_theory(lemmas, work)
+        thy, starts = self.lemmas_theory(lemmas, work, library)
         rc, log = self.build(work, thy, "Lemmas", self.build_timeout_s)
-        return rc, log, first, work
+        return rc, log, starts, work
 
-    def check_lemmas_in_kernel(self, lemmas: str) -> tuple[str, list[str], list[dict]]:
+    def check_lemmas_in_kernel(self, lemmas: str, library: str = "") -> tuple[str, list[str], list[dict]]:
         """Como `IsabelleVerifier.check_lemmas_in_kernel`: ('ok' | 'failed' | 'timeout', errores, lemas verificados).
-        Si el bloque falla, los lemas sin errores en su tramo se compilan solos; si pasan, cuentan como verificados."""
-        rc, log, first, work = self._lemmas_build(lemmas)
-        errors = translate_errors(log, "Lemmas", lemmas_first=first, lemmas=lemmas)
+        `lemmas`: los del agente; `library`: los del cuaderno, que se compilan antes, a nivel de teoría, y no cuentan como
+        verificados del intento. Si el bloque del agente falla, sus lemas sin errores se compilan solos (con la
+        biblioteca); si pasan, cuentan como verificados."""
+        rc, log, starts, work = self._lemmas_build(lemmas, library)
+        first = starts["AGENTLEMMAS"]
+        errors = translate_errors(log, "Lemmas", lemmas_first=first, lemmas=lemmas,
+                                  library_first=starts["LIBRARY"], library=library)
         blocks = split_lemmas(lemmas)
         if rc == -9:
             return "timeout", errors, []
@@ -484,29 +519,32 @@ class TheoremVerifier:
         clean = [b for b in blocks if not any(b["first"] <= L <= b["last"] for L in bad_lines)]
         verified = []
         if clean and len(clean) < len(blocks):
-            rc2, _, _, work2 = self._lemmas_build("\n\n".join(b["text"] for b in clean))
+            rc2, _, _, work2 = self._lemmas_build("\n\n".join(b["text"] for b in clean), library)
             if rc2 == 0 and (work2 / "lemmas.ok").exists():
                 verified = [{"name": b["name"], "text": b["text"]} for b in clean]
         return "failed", errors, verified
 
-    def final_theory(self, proof: str, lemmas: str, out: Path, target_out: Path) -> tuple[str, dict[str, int]]:
-        """Ensamblado de la teoría Final en una sola pasada; el texto del agente no se vuelve a examinar."""
+    def final_theory(self, proof: str, lemmas: str, out: Path, target_out: Path, library: str = "") -> tuple[str, dict[str, int]]:
+        """Ensamblado de la teoría Final en una sola pasada; el texto del agente no se vuelve a examinar. `library`: los
+        lemas del cuaderno, a nivel de teoría; `lemmas`: los del agente, dentro del contexto."""
         s = self.spec
         return fill_lines(FINAL_THEOREM, {"IMPORTS": s["imports"], "PRELUDE": s["prelude"], "FIXES": s["fixes"],
                                           "ASSUMES": s["assumes"], "CONCL": s["concl"], "OUT": str(out), "INST": instanciacion(s),
-                                          "TARGETOUT": str(target_out), "AGENTLEMMAS": lemmas, "AGENTPROOF": proof})
+                                          "TARGETOUT": str(target_out), "LIBRARY": library, "AGENTLEMMAS": lemmas,
+                                          "AGENTPROOF": proof})
 
-    def compile_final(self, proof: str, lemmas: str = "", work: Path | None = None) -> dict:
+    def compile_final(self, proof: str, lemmas: str = "", work: Path | None = None, library: str = "") -> dict:
         """Compila la teoría Final SIN pasar por los filtros (lo usa `verify` tras filtrarlos, y los controles de la
         validación para comprobar el kernel). Devuelve {rc, errors, cheating, final_json, target, …final.json}."""
         work = Path(work) if work else self._workdir("gd-final-")
         work.mkdir(parents=True, exist_ok=True)
         out, tout = work / "final.json", work / "target.json"
-        thy, starts = self.final_theory(proof, lemmas, out, tout)
+        thy, starts = self.final_theory(proof, lemmas, out, tout, library)
         t = time.perf_counter()
         rc, log = self.build(work, thy, "Final", self.build_timeout_s)
         fin = {"rc": rc, "build_s": round(time.perf_counter() - t, 1),
-               "errors": translate_errors(log, "Final", starts["AGENTPROOF"], proof, starts["AGENTLEMMAS"], lemmas),
+               "errors": translate_errors(log, "Final", starts["AGENTPROOF"], proof, starts["AGENTLEMMAS"], lemmas,
+                                          library_first=starts["LIBRARY"], library=library),
                # sorry en una compilación por lotes: Isabelle lo rechaza sin quick_and_dirty (Method.cheating)
                "cheating": "Cheating requires quick_and_dirty mode" in log, "final_json": False, "work": str(work)}
         if out.exists():
@@ -552,7 +590,9 @@ class TheoremVerifier:
         self.espera_s = 0.0
         p = proposal if isinstance(proposal, dict) else {}
         proof = str(p.get("proof") or "").strip()
-        lemmas = merge_lemmas(str(p.get("lemmas_library") or ""), str(p.get("lemmas") or "")).strip()
+        agent = str(p.get("lemmas") or "").strip()
+        library = biblioteca_sin_redefinidos(str(p.get("lemmas_library") or ""), agent)
+        lemmas = merge_lemmas(library, agent).strip()  # los dos bloques juntos: solo para los filtros y el conteo
         n_lemmas = len(re.findall(r"(?m)^\s*(?:lemma|corollary|theorem|proposition)\b", lemmas))
         base = {"kind": "theorem", "stage": "filtro", "errors": [], "n_lemmas": n_lemmas, "verified_lemmas": [],
                 "final": None, "build_s": 0.0, "proof_chars": len(proof)}
@@ -582,19 +622,23 @@ class TheoremVerifier:
         build_s, verified = 0.0, []
         if lemmas:
             tb = time.perf_counter()
-            st, lerrs, verified = self.check_lemmas_in_kernel(lemmas)
+            st, lerrs, verified = self.check_lemmas_in_kernel(agent, library=library)
             build_s += time.perf_counter() - tb
             if st == "timeout":
                 return done("TIMEOUT", stage="lemas", errors=lerrs, build_s=round(build_s, 1),
                             reason=f"la compilación de los lemas superó {self.build_timeout_s:.0f} s")
             if st == "failed":
+                bib = fallo_de_biblioteca(lerrs)
                 return done("LEMMA_FAILED", stage="lemas", errors=lerrs, verified_lemmas=verified, build_s=round(build_s, 1),
-                            reason="Isabelle rechazó los lemas")
+                            biblioteca_fallo=bib,
+                            reason=("los lemas del cuaderno no compilan en este peldaño: el intento no se pudo juzgar" if bib
+                                    else "Isabelle rechazó los lemas"))
         # (d) teoría Final; (e) final.json
-        fin = self.compile_final(proof, lemmas)
+        fin = self.compile_final(proof, agent, library=library)
         build_s += fin["build_s"]
         label, reason = self.classify(fin)
         return done(label, stage="final", errors=fin["errors"], final=fin, build_s=round(build_s, 1), reason=reason,
+                    biblioteca_fallo=fallo_de_biblioteca(fin["errors"]),
                     verified_lemmas=verified if label in ("ACCEPTED", "PROOF_FAILED") else [])
 
     def describe(self, target: dict) -> str:

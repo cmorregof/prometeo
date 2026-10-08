@@ -232,8 +232,13 @@ def informe(ronda: str, desde: str, estado: str, motivo: str) -> Path:
             filas = json.loads(f.read_text())["filas"]
             abiertos = [x["id"] for x in filas if not x["resuelto_por_martillo"] and x["id"] in ids]
             tstar = set(abiertos)
-            lin.append(f"Línea base A con el cuaderno (`{f.name}`): el martillo deja sin cerrar **{len(abiertos)} de {len(ids)}** peldaños de test. "
-                       f"Criterio prerregistrado |T*_test| ≥ 12: **{'se cumple' if len(abiertos) >= 12 else 'NO se cumple'}**"
+            # 30 sep 2026: una fila inválida (sin resultado del martillo tras tres intentos) no es un «no resuelto» medido
+            invalidos = [x["id"] for x in filas if x.get("invalido") and x["id"] in ids]
+            validos = sum(1 for x in filas if not x["resuelto_por_martillo"] and not x.get("invalido") and x["id"] in ids)
+            veredicto = ("se cumple" if validos >= 12 else "NO se puede decidir" if len(abiertos) >= 12 else "NO se cumple")
+            lin.append(f"Línea base A con el cuaderno (`{f.name}`): el martillo deja sin cerrar **{len(abiertos)} de {len(ids)}** peldaños de test"
+                       + (f", de ellos **{len(invalidos)} sin medición válida** ({', '.join(invalidos)})" if invalidos else "") + ". "
+                       f"Criterio prerregistrado |T*_test| ≥ 12, contando solo mediciones válidas: **{veredicto}**"
                        + (" (ensayo en seco con pocos peldaños: no interpretar)." if len(ids) < 16 else "."))
         else:
             lin.append(f"No hay línea base con el cuaderno (`{f.name}`).")

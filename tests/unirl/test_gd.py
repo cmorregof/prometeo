@@ -50,7 +50,7 @@ def test_nombres_reservados_en_lemas():
 
 def test_ensamblado_en_una_pasada():
     thy, starts = fill_lines(FINAL_THEOREM, {"IMPORTS": "I", "PRELUDE": "P", "FIXES": "F", "ASSUMES": "A", "CONCL": "C",
-                                             "OUT": "/o", "TARGETOUT": "/t", "INST": "f = f", "AGENTLEMMAS": "", "AGENTPROOF": "by (simp add: __CONCL__ __OUT__)"})
+                                             "OUT": "/o", "TARGETOUT": "/t", "INST": "f = f", "LIBRARY": "", "AGENTLEMMAS": "", "AGENTPROOF": "by (simp add: __CONCL__ __OUT__)"})
     assert "by (simp add: __CONCL__ __OUT__)" in thy
     assert thy.splitlines()[starts["AGENTPROOF"] - 1] == "by (simp add: __CONCL__ __OUT__)"
 
@@ -92,11 +92,11 @@ def test_clasificacion(fin, etiqueta):
 def test_verify_caminos_sin_isabelle(monkeypatch):
     v = TheoremVerifier("gd_n1")
     t = v.target()
-    monkeypatch.setattr(v, "compile_final", lambda proof, lemmas="", work=None: {**_fin(), "build_s": 1.0, "errors": []})
+    monkeypatch.setattr(v, "compile_final", lambda proof, lemmas="", work=None, library="": {**_fin(), "build_s": 1.0, "errors": []})
     assert v.verify(t, {"proof": "by simp"}).outcome_label == "ACCEPTED"
-    monkeypatch.setattr(v, "compile_final", lambda proof, lemmas="", work=None: {**_fin(rc=1, final_json=False, target={}), "build_s": 1.0, "errors": ["*** x"]})
+    monkeypatch.setattr(v, "compile_final", lambda proof, lemmas="", work=None, library="": {**_fin(rc=1, final_json=False, target={}), "build_s": 1.0, "errors": ["*** x"]})
     assert v.verify(t, {"proof": "by simp"}).outcome_label == "PROOF_FAILED"
-    monkeypatch.setattr(v, "check_lemmas_in_kernel", lambda lemmas: ("failed", ["*** e"], [{"name": "a", "text": "lemma a: True by simp"}]))
+    monkeypatch.setattr(v, "check_lemmas_in_kernel", lambda lemmas, library="": ("failed", ["*** e"], [{"name": "a", "text": "lemma a: True by simp"}]))
     o = v.verify(t, {"proof": "by simp", "lemmas": 'lemma a: "True" by simp\nlemma b: "False" by simp'})
     assert o.outcome_label == "LEMMA_FAILED" and o.raw["verified_lemmas"][0]["name"] == "a" and o.raw["kind"] == "theorem"
 

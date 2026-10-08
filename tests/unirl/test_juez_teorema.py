@@ -43,7 +43,7 @@ def test_instanciacion_por_nombre():
 
 def test_metadatos_en_cada_veredicto(monkeypatch):
     v = TheoremVerifier.desde_corpus("orden_1_lineal")
-    monkeypatch.setattr(v, "compile_final", lambda proof, lemmas="", work=None: {
+    monkeypatch.setattr(v, "compile_final", lambda proof, lemmas="", work=None, library="": {
         "rc": 1, "final_json": False, "target": {}, "cheating": False, "build_s": 1.0, "errors": ["*** x"]})
     o = v.verify(v.target(), {"proof": "by simp"})
     m = o.raw["veredicto"]
