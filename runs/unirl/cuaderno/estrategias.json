@@ -5,8 +5,8 @@
    "topico": "encaje",
    "origen": "bis_2_encaje#1",
    "contadores": {
-    "intentos": 21,
-    "exitos": 8
+    "intentos": 35,
+    "exitos": 13
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -18,8 +18,8 @@
    "topico": "signos",
    "origen": "bis_3_signo#1",
    "contadores": {
-    "intentos": 20,
-    "exitos": 7
+    "intentos": 33,
+    "exitos": 12
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -31,8 +31,8 @@
    "topico": "inducción",
    "origen": "pf_2_dentro#1",
    "contadores": {
-    "intentos": 19,
-    "exitos": 5
+    "intentos": 26,
+    "exitos": 7
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -44,8 +44,8 @@
    "topico": "unicidad",
    "origen": "pf_3_unicidad#1",
    "contadores": {
-    "intentos": 14,
-    "exitos": 4
+    "intentos": 25,
+    "exitos": 6
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -57,8 +57,8 @@
    "topico": "iteración",
    "origen": "pf_4_decaimiento#1",
    "contadores": {
-    "intentos": 14,
-    "exitos": 4
+    "intentos": 29,
+    "exitos": 9
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -70,8 +70,8 @@
    "topico": "separacion",
    "origen": "pf_5c_a_priori_max#1",
    "contadores": {
-    "intentos": 3,
-    "exitos": 0
+    "intentos": 6,
+    "exitos": 3
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -83,12 +83,116 @@
    "topico": "induccion",
    "origen": "orden_1_lineal#1",
    "contadores": {
-    "intentos": 2,
-    "exitos": 0
+    "intentos": 10,
+    "exitos": 3
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
     "fecha": "2026-09-27T03:06:05"
+   }
+  },
+  {
+   "texto": "En la inducción sobre el número de pasos, descomponer el par de extremos del paso anterior, usar la hipótesis inductiva para su anchura y separar las dos ramas condicionales para mostrar que ambas producen la mitad de esa anchura.",
+   "topico": "induccion",
+   "origen": "bis_1_ancho#1",
+   "contadores": {
+    "intentos": 2,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "texto": "Para transferir una condición de signo a productos, separar los casos de signo de los factores y usar identidades algebraicas en vez de depender solo de búsqueda automática.",
+   "topico": "signos",
+   "origen": "bis_3_signo#1",
+   "contadores": {
+    "intentos": 2,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "texto": "Ante una meta universal, abrir la prueba sin método inicial, fijar explícitamente el índice y después aplicar inducción sobre él.",
+   "topico": "cuantificacion",
+   "origen": "bis_3_signo#1",
+   "contadores": {
+    "intentos": 2,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "texto": "Para caracterizar cuándo un producto es no positivo, usar el hecho `mult_le_0_iff` en lugar de esperar que `smt` deduzca por sí solo la caracterización.",
+   "topico": "productos",
+   "origen": "bis_5_cota#1",
+   "contadores": {
+    "intentos": 1,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "texto": "Separa los órdenes posibles de los puntos y, al aplicar el valor medio en cada subintervalo, usa las cotas de sus extremos exteriores para demostrar que el punto intermedio sigue en el intervalo.",
+   "topico": "orden",
+   "origen": "pf_1_derivada#1",
+   "contadores": {
+    "intentos": 2,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T15:37:40"
+   }
+  },
+  {
+   "texto": "Prueba por inducción que los iterados permanecen en un conjunto, usando que el punto inicial está allí y que la función conserva ese conjunto.",
+   "topico": "invariante",
+   "origen": "pf_2_dentro#1",
+   "contadores": {
+    "intentos": 2,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T15:37:40"
+   }
+  },
+  {
+   "texto": "Aplica la cota de contracción a dos puntos fijos y usa que una distancia acotada por un múltiplo estrictamente menor de sí misma debe ser cero.",
+   "topico": "contracción",
+   "origen": "pf_3_unicidad#1",
+   "contadores": {
+    "intentos": 3,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T15:37:40"
+   }
+  },
+  {
+   "texto": "Demuestra primero por inducción que el punto fijo permanece fijo bajo iteración; luego aplica la cota para iterados y simplifica.",
+   "topico": "iteración",
+   "origen": "pf_4_decaimiento#1",
+   "contadores": {
+    "intentos": 5,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T15:37:40"
    }
   }
  ]

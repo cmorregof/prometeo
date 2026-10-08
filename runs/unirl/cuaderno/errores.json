@@ -1016,12 +1016,213 @@
     }
    ],
    "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
+    "apariciones": 1,
+    "ultimo_episodio": "bis_5c_cota_uniforme#1"
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
     "fecha": "2026-09-27T08:25:10"
+   }
+  },
+  {
+   "id": "A042",
+   "clase": "aprendido",
+   "texto": "Pasar una condición booleana a un lema que Isabelle espera que reciba un valor real causa el error de que `real` no es un subtipo de `bool`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:36:57"
+   }
+  },
+  {
+   "id": "A043",
+   "clase": "aprendido",
+   "texto": "Declarar en `fixes` una variable que ya está fijada en el contexto produce `Duplicate fixed variable(s)`; en este episodio el nombre repetido era `f`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:36:57"
+   }
+  },
+  {
+   "id": "A044",
+   "clase": "aprendido",
+   "texto": "`linarith` puede dejar sin probar una cota del punto medio que contiene división si antes no se introduce la identidad que elimina esa división.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:36:57"
+   }
+  },
+  {
+   "id": "A045",
+   "clase": "aprendido",
+   "texto": "Usar un nombre de hecho no disponible en la teoría produce `Undefined fact`; ocurrió con `le_of_lt`, `cu_midpoint_order` y `cu_bisection_invariant`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "le_of_lt",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "cu_midpoint_order",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "cu_bisection_invariant",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 1,
+    "ultimo_episodio": "pf_1_derivada#1"
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:09"
+   }
+  },
+  {
+   "id": "A046",
+   "clase": "aprendido",
+   "texto": "Usar un método no definido produce `Undefined method`; ocurrió con `exact` y `martillo`.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "exact",
+     "existe": false
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "martillo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "id": "A047",
+   "clase": "aprendido",
+   "texto": "Ante una meta universal con índice aún no fijado, un método inicial de prueba puede fallar; abrir con `proof -` y fijar explícitamente el índice evita ese fallo.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "id": "A048",
+   "clase": "aprendido",
+   "texto": "La inducción puede fallar con `Unable to figure out induct rule` si la variable sobre la que se induce no está declarada como variable local del lema.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "id": "A049",
+   "clase": "aprendido",
+   "texto": "Una búsqueda automática como `smt` puede no cerrar una transferencia de signos entre productos; conviene explicitar los casos de signo y las desigualdades necesarias.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "id": "A050",
+   "clase": "aprendido",
+   "texto": "Aplicar un lema de monotonía para productos con hipótesis de signo de orientación incompatible deja la meta sin resolver o produce `no unifiers`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "id": "A051",
+   "clase": "aprendido",
+   "texto": "Una prueba de que el punto medio queda por debajo del extremo superior puede seguir incompleta si solo se estableció la cota hacia el extremo inferior.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T14:37:21"
+   }
+  },
+  {
+   "id": "A052",
+   "clase": "aprendido",
+   "texto": "Isabelle rechaza volver a fijar una variable que ya está fijada en el contexto, así que conviene usar otro nombre en los lemas auxiliares.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T15:37:28"
+   }
+  },
+  {
+   "id": "A053",
+   "clase": "aprendido",
+   "texto": "Isabelle informa que `le_of_lt` es un hecho indefinido; para pasar de una desigualdad estricta a una no estricta, se puede usar `linarith` en estos ejemplos.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "le_of_lt",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260927-140308-gpt-6-luna",
+    "fecha": "2026-09-27T15:37:40"
    }
   }
  ]

@@ -1,0 +1,21 @@
+{
+ "ronda": "20260927-1402",
+ "inicio": "2026-09-27T14:03:07",
+ "unirl_sha256": "584a770c5857cab8",
+ "cuaderno_inicial": "fbd88bf0474ad117",
+ "tope_total_usd": 15.0,
+ "topes_fase_usd": {
+  "linea_base": 0,
+  "preflight": 0.05,
+  "cuaderno": 3,
+  "evaluacion": 3,
+  "evaluacion_E": 2,
+  "pareada_luna": 2,
+  "pareada_sol": 0
+ },
+ "rama": "reorganizar",
+ "commit": "8734420",
+ "dry_run": false,
+ "pasadas_cuaderno": 3,
+ "con_sol": false
+}

@@ -1,0 +1,5 @@
+episodio_id,peldano,metodo,split,dificultad,version,config,aceptado,intento_exito,intentos,llamadas,consultas,r_V_max,usd
+secante_5c_convergencia_local#C3#1,secante_5c_convergencia_local,secante,test,5,clasica,C3,False,,3,4,4,0.0,0.010022
+secante_6_fibonacci#C3#1,secante_6_fibonacci,secante,test,4,debilitada,C3,False,,3,4,3,0.0,0.013405
+secante_5_convergencia#C3#1,secante_5_convergencia,secante,test,4,debilitada,C3,False,,3,4,3,0.25,0.013298
+secante_6c_orden_phi#C3#1,secante_6c_orden_phi,secante,test,5,clasica,C3,False,,3,4,3,0.0,0.010977

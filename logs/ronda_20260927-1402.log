@@ -1,0 +1,75 @@
+2026-09-27 14:03:07 [ronda 20260927-1402] ronda nueva: inicio 2026-09-27T14:03:07, unirl 584a770c5857cab8, cuaderno inicial fbd88bf0474ad117, commit 8734420, pasadas 3, con_sol 0
+2026-09-27 14:03:07 [ronda 20260927-1402] [04_pareada_sol_C3] omitida (CON_SOL=0)
+2026-09-27 14:03:07 [ronda 20260927-1402] [02_eval_B0BC] lanzamiento 1: configs B0,B,C, 2 episodio(s), pendientes rf_1_punto,rf_2_signo,rf_3_encaje,rf_4_raiz,rf_5_limites,rf_6_convergencia,rf_6c_puntos_convergen,secante_1_inyectiva,secante_2_cociente,secante_3_producto,secante_4_contraccion,secante_4c_contraccion_local,secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-09-27 14:03:07 [ronda 20260927-1402] [03_pareada_luna_C3] lanzamiento 1: configs C3, 1 episodio(s), pendientes rf_1_punto,rf_2_signo,rf_3_encaje,rf_4_raiz,rf_5_limites,rf_6_convergencia,rf_6c_puntos_convergen,secante_1_inyectiva,secante_2_cociente,secante_3_producto,secante_4_contraccion,secante_4c_contraccion_local,secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-09-27 14:03:07 [ronda 20260927-1402] [01_cuaderno] lanzamiento 1
+2026-09-27 14:13:18 [ronda 20260927-1402] [vigilante] total=0.1739 cuaderno=0.0303 evaluacion=0.0869 pareada_luna=0.0567 preflight=0.0000
+2026-09-27 14:23:31 [ronda 20260927-1402] [vigilante] total=0.3345 cuaderno=0.0583 evaluacion=0.1559 pareada_luna=0.1203 preflight=0.0000
+2026-09-27 14:33:45 [ronda 20260927-1402] [vigilante] total=0.4427 cuaderno=0.0897 evaluacion=0.2062 pareada_luna=0.1467 preflight=0.0000
+2026-09-27 14:44:27 [ronda 20260927-1402] [vigilante] total=0.5146 cuaderno=0.1053 evaluacion=0.2494 pareada_luna=0.1599 preflight=0.0000
+2026-09-27 14:51:35 [ronda 20260927-1402] [vigilante] sin red ≥ 90 s: se detienen las fases con API; se relanzarán cuando vuelva
+unirl/tools/lanzar_ronda.sh: line 201: 37601 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" >> "$RDIR/$nombre.out" 2>&1
+unirl/tools/lanzar_ronda.sh: line 180: 37598 Terminated: 15          $RONDA_PY exec $DRYFLAG -- evaluar --modelo "$modelo" --configs "$configs" --episodios "$episodios" --paralelo "$paralelo" --fase "$fase" --cuaderno "$cuaderno" --ids "$pend" >> "$RDIR/$nombre.out" 2>&1
+unirl/tools/lanzar_ronda.sh: line 180: 37597 Terminated: 15          $RONDA_PY exec $DRYFLAG -- evaluar --modelo "$modelo" --configs "$configs" --episodios "$episodios" --paralelo "$paralelo" --fase "$fase" --cuaderno "$cuaderno" --ids "$pend" >> "$RDIR/$nombre.out" 2>&1
+2026-09-27 14:51:35 [ronda 20260927-1402] [01_cuaderno] terminó el lanzamiento 1 (rc=143)
+2026-09-27 14:51:35 [ronda 20260927-1402] [02_eval_B0BC] terminó el lanzamiento 1 (rc=143)
+2026-09-27 14:51:35 [ronda 20260927-1402] [03_pareada_luna_C3] terminó el lanzamiento 1 (rc=143)
+2026-09-27 14:51:35 [ronda 20260927-1402] [02_eval_B0BC] la red se cayó durante la corrida; se recalculan los pendientes
+2026-09-27 14:51:35 [ronda 20260927-1402] [03_pareada_luna_C3] la red se cayó durante la corrida; se recalculan los pendientes
+2026-09-27 14:51:35 [ronda 20260927-1402] [01_cuaderno] sin conexión con api.openai.com; esperando (1)
+2026-09-27 14:51:35 [ronda 20260927-1402] [02_eval_B0BC] sin conexión con api.openai.com; esperando (1)
+2026-09-27 14:51:35 [ronda 20260927-1402] [03_pareada_luna_C3] sin conexión con api.openai.com; esperando (1)
+2026-09-27 14:53:36 [ronda 20260927-1402] [02_eval_B0BC] lanzamiento 2: configs B0,B,C, 2 episodio(s), pendientes rf_6_convergencia,rf_6c_puntos_convergen,secante_1_inyectiva,secante_2_cociente,secante_3_producto,secante_4_contraccion,secante_4c_contraccion_local,secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-09-27 14:53:36 [ronda 20260927-1402] [01_cuaderno] lanzamiento 2 (reanuda 20260927-140308-gpt-6-luna)
+2026-09-27 14:53:37 [ronda 20260927-1402] [03_pareada_luna_C3] lanzamiento 2: configs C3, 1 episodio(s), pendientes secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-09-27 14:53:37 [ronda 20260927-1402] [vigilante] la red volvió
+2026-09-27 14:54:38 [ronda 20260927-1402] [vigilante] total=0.5921 cuaderno=0.1111 evaluacion=0.3053 pareada_luna=0.1757 preflight=0.0000
+2026-09-27 15:04:48 [ronda 20260927-1402] [03_pareada_luna_C3] terminó el lanzamiento 2 (rc=0)
+2026-09-27 15:04:48 [ronda 20260927-1402] [03_pareada_luna_C3] completa
+2026-09-27 15:04:49 [ronda 20260927-1402] [vigilante] total=0.7171 cuaderno=0.1204 evaluacion=0.3741 pareada_luna=0.2226 preflight=0.0000
+2026-09-27 15:15:07 [ronda 20260927-1402] [vigilante] total=0.7320 cuaderno=0.1259 evaluacion=0.3835 pareada_luna=0.2226 preflight=0.0000
+2026-09-27 15:25:19 [ronda 20260927-1402] [vigilante] total=0.8155 cuaderno=0.1598 evaluacion=0.4330 pareada_luna=0.2226 preflight=0.0000
+2026-09-27 15:35:30 [ronda 20260927-1402] [vigilante] total=0.9160 cuaderno=0.1923 evaluacion=0.5011 pareada_luna=0.2226 preflight=0.0000
+2026-09-27 15:45:46 [ronda 20260927-1402] [vigilante] total=0.9761 cuaderno=0.2078 evaluacion=0.5456 pareada_luna=0.2226 preflight=0.0000
+2026-09-27 15:55:59 [ronda 20260927-1402] [vigilante] total=1.0390 cuaderno=0.2193 evaluacion=0.5971 pareada_luna=0.2226 preflight=0.0000
+2026-09-27 16:06:09 [ronda 20260927-1402] [vigilante] total=1.1344 cuaderno=0.2502 evaluacion=0.6616 pareada_luna=0.2226 preflight=0.0000
+2026-09-27 16:15:38 [ronda 20260927-1402] señal recibida: se detiene la ronda
+unirl/tools/lanzar_ronda.sh: line 201: 66684 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
+unirl/tools/lanzar_ronda.sh: line 180: 66678 Terminated: 15          $RONDA_PY exec $DRYFLAG -- evaluar --modelo "$modelo" --configs "$configs" --episodios "$episodios" --paralelo "$paralelo" --fase "$fase" --cuaderno "$cuaderno" --ids "$pend" >> "$RDIR/$nombre.out" 2>&1
+2026-09-27 16:15:40 [ronda 20260927-1402] consolidar.py
+2026-09-27 16:15:40 [ronda 20260927-1402] [02_eval_B0BC] terminó el lanzamiento 2 (rc=143)
+2026-09-27 16:15:40 [ronda 20260927-1402] [01_cuaderno] terminó el lanzamiento 2 (rc=143)
+2026-09-27 16:15:40 [ronda 20260927-1402] [02_eval_B0BC] no se relanza: hay orden de detención
+2026-09-30 11:21:34 [ronda 20260927-1402] reanudación de la ronda iniciada el 2026-09-27T14:03:07 (unirl 584a770c5857cab8)
+2026-09-30 11:21:34 [ronda 20260927-1402] [03_pareada_luna_C3] ya hecha
+2026-09-30 11:21:34 [ronda 20260927-1402] [04_pareada_sol_C3] omitida (CON_SOL=0)
+2026-09-30 11:21:34 [ronda 20260927-1402] [02_eval_B0BC] lanzamiento 1: configs B0,B,C, 2 episodio(s), pendientes secante_4c_contraccion_local,secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-09-30 11:21:34 [ronda 20260927-1402] [01_cuaderno] lanzamiento 1 (reanuda 20260927-140308-gpt-6-luna)
+2026-09-30 11:29:58 [ronda 20260927-1402] [vigilante] sin red ≥ 90 s: se detienen las fases con API; se relanzarán cuando vuelva
+unirl/tools/lanzar_ronda.sh: line 201: 10086 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
+unirl/tools/lanzar_ronda.sh: line 180: 10085 Terminated: 15          $RONDA_PY exec $DRYFLAG -- evaluar --modelo "$modelo" --configs "$configs" --episodios "$episodios" --paralelo "$paralelo" --fase "$fase" --cuaderno "$cuaderno" --ids "$pend" >> "$RDIR/$nombre.out" 2>&1
+2026-09-30 11:29:58 [ronda 20260927-1402] [02_eval_B0BC] terminó el lanzamiento 1 (rc=143)
+2026-09-30 11:29:58 [ronda 20260927-1402] [01_cuaderno] terminó el lanzamiento 1 (rc=143)
+2026-09-30 11:29:58 [ronda 20260927-1402] [02_eval_B0BC] la red se cayó durante la corrida; se recalculan los pendientes
+2026-09-30 11:30:03 [ronda 20260927-1402] [01_cuaderno] lanzamiento 2 (reanuda 20260927-140308-gpt-6-luna)
+2026-09-30 11:30:10 [ronda 20260927-1402] [02_eval_B0BC] sin conexión con api.openai.com; esperando (1)
+2026-09-30 11:30:29 [ronda 20260927-1402] [vigilante] la red volvió
+2026-09-30 11:33:55 [ronda 20260927-1402] [vigilante] sin red ≥ 90 s: se detienen las fases con API; se relanzarán cuando vuelva
+unirl/tools/lanzar_ronda.sh: line 201: 16800 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
+2026-09-30 11:33:55 [ronda 20260927-1402] [01_cuaderno] terminó el lanzamiento 2 (rc=143)
+2026-09-30 11:33:55 [ronda 20260927-1402] [vigilante] total=1.3275 cuaderno=0.3062 evaluacion=0.7987 pareada_luna=0.2226 preflight=0.0000
+2026-09-30 11:34:08 [ronda 20260927-1402] [01_cuaderno] sin conexión con api.openai.com; esperando (1)
+2026-09-30 11:35:12 [ronda 20260927-1402] [01_cuaderno] lanzamiento 3 (reanuda 20260927-140308-gpt-6-luna)
+2026-09-30 11:35:59 [ronda 20260927-1402] [vigilante] la red volvió
+2026-09-30 11:36:10 [ronda 20260927-1402] [02_eval_B0BC] lanzamiento 2: configs B0,B,C, 2 episodio(s), pendientes secante_4c_contraccion_local,secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-09-30 11:44:37 [ronda 20260927-1402] [vigilante] total=1.3762 cuaderno=0.3153 evaluacion=0.8382 pareada_luna=0.2226 preflight=0.0000
+2026-09-30 11:54:48 [ronda 20260927-1402] [vigilante] total=1.4194 cuaderno=0.3252 evaluacion=0.8715 pareada_luna=0.2226 preflight=0.0000
+unirl/tools/lanzar_ronda.sh: line 201: 17702 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
+2026-09-30 12:00:22 [ronda 20260927-1402] [vigilante] orden de detención: procesos de las fases terminados
+unirl/tools/lanzar_ronda.sh: line 180: 17904 Terminated: 15          $RONDA_PY exec $DRYFLAG -- evaluar --modelo "$modelo" --configs "$configs" --episodios "$episodios" --paralelo "$paralelo" --fase "$fase" --cuaderno "$cuaderno" --ids "$pend" >> "$RDIR/$nombre.out" 2>&1
+2026-09-30 12:00:22 [ronda 20260927-1402] [01_cuaderno] terminó el lanzamiento 3 (rc=143)
+2026-09-30 12:00:22 [ronda 20260927-1402] [02_eval_B0BC] terminó el lanzamiento 2 (rc=143)
+2026-09-30 12:00:22 [ronda 20260927-1402] [02_eval_B0BC] no se relanza: hay orden de detención
+2026-09-30 12:00:22 [ronda 20260927-1402] consolidar.py
+metricas.csv: 1128 filas; resumen.json: qagent, stepsizes, tabla1_biseccion, jueces_09, corpus, linea_base_A, rl_verbal, gasto
+2026-09-30 12:00:23 [ronda 20260927-1402] informe: /Users/cmorregof/Personal/rl_metodos/resultados/RONDA_INCOMPLETA.md

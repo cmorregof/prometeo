@@ -239,4 +239,70 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * Isabelle rechazó `martillo` como método indefinido.
 * Comprobado en Isabelle2025: método `martillo` no existe.
+* Visto en episodios de este cuaderno: 1.
+
+## A042 · aprendido en los episodios de train
+
+* Pasar una condición booleana a un lema que Isabelle espera que reciba un valor real causa el error de que `real` no es un subtipo de `bool`.
+* Visto en episodios de este cuaderno: 0.
+
+## A043 · aprendido en los episodios de train
+
+* Declarar en `fixes` una variable que ya está fijada en el contexto produce `Duplicate fixed variable(s)`; en este episodio el nombre repetido era `f`.
+* Visto en episodios de este cuaderno: 0.
+
+## A044 · aprendido en los episodios de train
+
+* `linarith` puede dejar sin probar una cota del punto medio que contiene división si antes no se introduce la identidad que elimina esa división.
+* Visto en episodios de este cuaderno: 0.
+
+## A045 · aprendido en los episodios de train
+
+* Usar un nombre de hecho no disponible en la teoría produce `Undefined fact`; ocurrió con `le_of_lt`, `cu_midpoint_order` y `cu_bisection_invariant`.
+* Comprobado en Isabelle2025: hecho `le_of_lt` no existe.
+* Comprobado en Isabelle2025: hecho `cu_midpoint_order` no existe.
+* Comprobado en Isabelle2025: hecho `cu_bisection_invariant` no existe.
+* Visto en episodios de este cuaderno: 1.
+
+## A046 · aprendido en los episodios de train
+
+* Usar un método no definido produce `Undefined method`; ocurrió con `exact` y `martillo`.
+* Comprobado en Isabelle2025: método `exact` no existe.
+* Comprobado en Isabelle2025: método `martillo` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A047 · aprendido en los episodios de train
+
+* Ante una meta universal con índice aún no fijado, un método inicial de prueba puede fallar; abrir con `proof -` y fijar explícitamente el índice evita ese fallo.
+* Visto en episodios de este cuaderno: 0.
+
+## A048 · aprendido en los episodios de train
+
+* La inducción puede fallar con `Unable to figure out induct rule` si la variable sobre la que se induce no está declarada como variable local del lema.
+* Visto en episodios de este cuaderno: 0.
+
+## A049 · aprendido en los episodios de train
+
+* Una búsqueda automática como `smt` puede no cerrar una transferencia de signos entre productos; conviene explicitar los casos de signo y las desigualdades necesarias.
+* Visto en episodios de este cuaderno: 0.
+
+## A050 · aprendido en los episodios de train
+
+* Aplicar un lema de monotonía para productos con hipótesis de signo de orientación incompatible deja la meta sin resolver o produce `no unifiers`.
+* Visto en episodios de este cuaderno: 0.
+
+## A051 · aprendido en los episodios de train
+
+* Una prueba de que el punto medio queda por debajo del extremo superior puede seguir incompleta si solo se estableció la cota hacia el extremo inferior.
+* Visto en episodios de este cuaderno: 0.
+
+## A052 · aprendido en los episodios de train
+
+* Isabelle rechaza volver a fijar una variable que ya está fijada en el contexto, así que conviene usar otro nombre en los lemas auxiliares.
+* Visto en episodios de este cuaderno: 0.
+
+## A053 · aprendido en los episodios de train
+
+* Isabelle informa que `le_of_lt` es un hecho indefinido; para pasar de una desigualdad estricta a una no estricta, se puede usar `linarith` en estos ejemplos.
+* Comprobado en Isabelle2025: hecho `le_of_lt` no existe.
 * Visto en episodios de este cuaderno: 0.
