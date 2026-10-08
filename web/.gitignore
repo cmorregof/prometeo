@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.vercel/
+
+# grabaciones de didactica.historia: se regeneran con `make data` (1–5 MB cada una)
+data/
+public/data/

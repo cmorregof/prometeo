@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Historia · un agente de RL rehace la matemática</title>
+  <meta name="description" content="Visor de los episodios históricos de didactica.historia: un agente de RL tabular aprende a hacer y luego a demostrar." />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="cabecera">
+      <div class="titulos">
+        <h1 id="titulo">cargando…</h1>
+        <div id="subtitulo" class="sub"></div>
+      </div>
+      <div class="estado">
+        <span id="reloj" class="reloj" title="tiempo real de entrenamiento hasta este cuadro (el visor lo reproduce mucho más despacio)">⏱ —</span>
+        <span id="fase" class="fase">Fase —</span>
+        <span id="gen" class="gen">generación —</span>
+        <select id="ep" title="episodio (teclas 1–4)"></select>
+      </div>
+    </header>
+
+    <main class="cuerpo">
+      <div class="col" id="col-izq">
+        <section class="panel" id="p-tablero">
+          <h2 id="tablero-titulo">Fase 1</h2>
+          <div id="tablero-cabecera" class="headline"></div>
+          <div id="tablero-accion" class="accion"></div>
+          <div id="tablero" class="tablero"></div>
+        </section>
+        <section class="panel" id="p-politica">
+          <h2>Lo que aprendió a hacer</h2>
+          <div id="politica" class="politica"></div>
+        </section>
+      </div>
+      <div class="col" id="col-der">
+        <section class="panel" id="p-intento">
+          <h2 id="intento-titulo">Fase 2</h2>
+          <div id="intento-cabecera" class="headline"></div>
+          <div id="chips" class="chips"></div>
+          <ol id="intento" class="prueba cola"></ol>
+          <div id="qed" class="qed">∎</div>
+        </section>
+        <section class="panel" id="p-creencia">
+          <h2>Lo que el agente cree ahora <button id="btn-grafo" class="mini" title="grafo de lemas (g)">ver grafo</button></h2>
+          <div id="veredicto" class="veredicto"></div>
+          <div id="ambar-aviso" class="ambar-aviso oculto"></div>
+          <div id="teorema" class="teorema"></div>
+          <ol id="voraz" class="prueba"></ol>
+        </section>
+      </div>
+    </main>
+
+    <footer class="pie">
+      <section class="panel" id="p-marcador">
+        <h2>Marcador</h2>
+        <div id="marcador" class="marcador"></div>
+      </section>
+      <section class="panel" id="p-bitacora">
+        <h2>Bitácora de hitos</h2>
+        <ol id="bitacora" class="bitacora"></ol>
+      </section>
+    </footer>
+
+    <div class="controles">
+      <div class="botones">
+        <button id="btn-inicio" title="al principio (Inicio)">⏮</button>
+        <button id="btn-atras" title="un cuadro atrás (←)">◀</button>
+        <button id="btn-play" class="play" title="reproducir / pausar (espacio)">▶</button>
+        <button id="btn-adelante" title="un cuadro adelante (→)">▶</button>
+        <label class="velocidad" title="velocidad (↑/↓)">
+          <button id="btn-menos">−</button>
+          <span id="velocidad">1×</span>
+          <button id="btn-mas">+</button>
+        </label>
+        <label class="check" title="al aparecer un hito, pausa 2,5 s y lo resalta">
+          <input type="checkbox" id="chk-pausa" checked /> pausa en hitos
+        </label>
+        <label class="check oculto" id="lbl-ocultar" title="en el quinto postulado: no revelar plano/disco hasta que el agente declare">
+          <input type="checkbox" id="chk-ocultar" checked /> ocultar el mundo hasta declarar
+        </label>
+        <button id="btn-lectura" class="mini" title="lectura del episodio (l)">lectura</button>
+      </div>
+      <div class="linea" id="timeline" title="clic para saltar · marcas = hitos">
+        <div class="tl-fondo"></div>
+        <div class="tl-relleno" id="tl-relleno"></div>
+        <div class="tl-marcas" id="tl-marcas"></div>
+        <div class="tl-cursor" id="tl-cursor"></div>
+      </div>
+      <div class="posicion" id="posicion">cuadro — / —</div>
+      <div class="ayuda">espacio pausa · ←/→ cuadro · ↑/↓ velocidad · 1–4 episodio · g grafo · l lectura</div>
+    </div>
+  </div>
+
+  <div id="overlay-grafo" class="overlay oculto">
+    <div class="modal grande">
+      <h2>Grafo de lemas <span class="sub" id="grafo-sub"></span> <button class="cerrar" data-cierra="overlay-grafo">cerrar ✕</button></h2>
+      <div id="grafo" class="grafo"></div>
+      <div class="leyenda">
+        <span class="chip est">establecido</span> <span class="chip ext">postulado / cita (ámbar)</span>
+        <span class="chip no">pendiente</span> <span class="chip dis">distractor</span>
+        <span class="dim">· flecha: «se usa en» · capas = profundidad en el grafo</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="overlay-final" class="overlay oculto">
+    <div class="modal">
+      <h2 id="final-titulo">Lectura <button class="cerrar" data-cierra="overlay-final">cerrar ✕</button></h2>
+      <p id="final-lectura" class="lectura"></p>
+      <h3>Demostración final (política voraz, sin exploración)</h3>
+      <div id="final-veredicto" class="veredicto"></div>
+      <div id="final-ambar" class="ambar-aviso oculto"></div>
+      <div id="final-teorema" class="teorema"></div>
+      <ol id="final-prueba" class="prueba"></ol>
+      <div class="acciones"><button id="btn-otra-vez">volver a empezar ⏮</button></div>
+    </div>
+  </div>
+
+  <div id="cargando" class="cargando oculto">cargando…</div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
