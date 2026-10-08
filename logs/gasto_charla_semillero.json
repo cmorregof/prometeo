@@ -1,0 +1,72 @@
+{
+ "llamadas": [
+  {
+   "fecha": "2026-10-06T14:48:58",
+   "modelo": "gpt-6-luna",
+   "fase": "charla_semillero",
+   "corrida": "20261006-144758-gpt-6-luna",
+   "entrada": 1770,
+   "cache": 0,
+   "salida": 6113,
+   "razonamiento": 5429,
+   "usd": 0.003233
+  },
+  {
+   "fecha": "2026-10-06T14:49:32",
+   "modelo": "gpt-6-luna",
+   "fase": "charla_semillero",
+   "corrida": "20261006-144758-gpt-6-luna",
+   "entrada": 2505,
+   "cache": 0,
+   "salida": 2350,
+   "razonamiento": 1614,
+   "usd": 0.001425
+  },
+  {
+   "fecha": "2026-10-06T17:08:07",
+   "modelo": "gpt-6-luna",
+   "fase": "charla_semillero",
+   "corrida": "20261006-170632-gpt-6-luna",
+   "entrada": 1770,
+   "cache": 0,
+   "salida": 11243,
+   "razonamiento": 9803,
+   "usd": 0.005798
+  },
+  {
+   "fecha": "2026-10-06T17:08:46",
+   "modelo": "gpt-6-luna",
+   "fase": "charla_semillero",
+   "corrida": "20261006-170632-gpt-6-luna",
+   "entrada": 3066,
+   "cache": 0,
+   "salida": 3913,
+   "razonamiento": 2558,
+   "usd": 0.002263
+  },
+  {
+   "fecha": "2026-10-06T17:09:22",
+   "modelo": "gpt-6-luna",
+   "fase": "charla_semillero",
+   "corrida": "20261006-170632-gpt-6-luna",
+   "entrada": 4398,
+   "cache": 0,
+   "salida": 3542,
+   "razonamiento": 2377,
+   "usd": 0.002211
+  },
+  {
+   "fecha": "2026-10-06T17:10:10",
+   "modelo": "gpt-6-luna",
+   "fase": "charla_semillero",
+   "corrida": "20261006-170632-gpt-6-luna",
+   "entrada": 5605,
+   "cache": 0,
+   "salida": 4963,
+   "razonamiento": 3698,
+   "usd": 0.003042
+  }
+ ],
+ "total_usd": 0.017972,
+ "tope_usd": 3.0
+}

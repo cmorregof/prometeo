@@ -1,0 +1,14 @@
+{
+ "fase": "charla_semillero",
+ "modelo": "gpt-6-luna",
+ "inicio": "2026-10-06T17:06:32",
+ "tope_llamadas": null,
+ "codigo": {
+  "unirl_sha256": "0beb8919e874a6e3",
+  "git_commit": "8734420",
+  "unirl_dirty": true
+ },
+ "peldano": "seis_divide",
+ "config": "C",
+ "demo": "charla del semillero"
+}
