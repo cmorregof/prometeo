@@ -10,6 +10,402 @@
     "modelo": "gpt-6-luna",
     "fecha": "2026-09-26T23:51:07"
    }
+  },
+  {
+   "nombre": "cu_midpoint_halves",
+   "texto": "lemma cu_midpoint_halves:\n  fixes l u :: real and P :: bool\n  shows\n    \"snd (if P then (l, (l + u) / 2) else ((l + u) / 2, u)) -\n     fst (if P then (l, (l + u) / 2) else ((l + u) / 2, u)) =\n     (u - l) / 2\"\nproof (cases P)\n  case True\n  (* En la primera rama, la distancia entre l y el punto medio es la mitad. *)\n  show ?thesis\n    using True by (simp add: field_simps; linarith)\nnext\n  case False\n  (* En la segunda rama, la distancia entre el punto medio y u también es la mitad. *)\n  show ?thesis\n    using False by (simp add: field_simps; linarith)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_1_ancho",
+    "episodio": "bis_1_ancho#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T20:42:57"
+   }
+  },
+  {
+   "nombre": "cu_power_halving",
+   "texto": "lemma cu_power_halving:\n  fixes x :: real and k :: nat\n  shows \"(x / 2 ^ k) / 2 = x / 2 ^ Suc k\"\nproof -\n  (* Dividir por dos equivale a incrementar en uno el exponente de dos. *)\n  show ?thesis\n    by (simp add: power_Suc divide_divide_eq_left)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_1_ancho",
+    "episodio": "bis_1_ancho#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T20:43:05"
+   }
+  },
+  {
+   "nombre": "cu_product_sign_transfer",
+   "texto": "lemma cu_product_sign_transfer:\n  fixes x y z :: real\n  assumes xy: \"x * y \\<le> 0\"\n    and xz: \"\\<not> (x * z \\<le> 0)\"\n  shows \"z * y \\<le> 0\"\nproof -\n  (* La hipótesis sobre xz dice que ese producto es estrictamente positivo. *)\n  have xz_pos: \"0 < x * z\"\n    using xz by linarith\n\n  (* En particular, x no puede ser cero. *)\n  have x_nonzero: \"x \\<noteq> 0\"\n  proof\n    assume x_zero: \"x = 0\"\n    with xz_pos show False by simp\n  qed\n\n  (* Separamos los dos posibles signos de x. *)\n  show ?thesis\n  proof (cases \"x < 0\")\n    case True\n\n    (* Si x es negativo, z también debe ser negativo. *)\n    have x_nonpos: \"x \\<le> 0\"\n      using True by linarith\n    have z_neg: \"z < 0\"\n    proof (rule ccontr)\n      assume \"\\<not> z < 0\"\n      then have z_nonneg: \"0 \\<le> z\" by linarith\n      have \"x * z \\<le> 0\"\n        by (rule mult_nonpos_nonneg[OF x_nonpos z_nonneg])\n      with xz_pos show False by linarith\n    qed\n\n    (* En este caso la hipótesis xy obliga a que y sea no negativo. *)\n    have y_nonneg: \"0 \\<le> y\"\n    proof (rule ccontr)\n      assume \"\\<not> 0 \\<le> y\"\n      then have y_neg: \"y < 0\" by linarith\n      have neg_x_pos: \"0 < -x\"\n        using True by linarith\n      have neg_y_pos: \"0 < -y\"\n        using y_neg by linarith\n      have neg_product_pos: \"0 < (-x) * (-y)\"\n        by (rule mult_pos_pos[OF neg_x_pos neg_y_pos])\n      have \"0 < x * y\"\n        using neg_product_pos by (simp add: algebra_simps)\n      with xy show False by linarith\n    qed\n\n    (* El producto de un número no positivo y uno no negativo es no positivo. *)\n    have z_nonpos: \"z \\<le> 0\"\n      using z_neg by linarith\n    show ?thesis\n      by (rule mult_nonpos_nonneg[OF z_nonpos y_nonneg])\n  next\n    case False\n\n    (* Si x no es negativo ni cero, entonces es positivo. *)\n    have x_pos: \"0 < x\"\n      using x_nonzero False by linarith\n\n    (* Como x es positivo y xz es positivo, z es positivo. *)\n    have z_pos: \"0 < z\"\n    proof (rule ccontr)\n      assume \"\\<not> 0 < z\"\n      then have z_nonpos: \"z \\<le> 0\" by linarith\n      have x_nonneg: \"0 \\<le> x\"\n        using x_pos by linarith\n      have \"x * z \\<le> 0\"\n        by (rule mult_nonneg_nonpos[OF x_nonneg z_nonpos])\n      with xz_pos show False by linarith\n    qed\n\n    (* La hipótesis xy obliga ahora a que y sea no positivo. *)\n    have y_nonpos: \"y \\<le> 0\"\n    proof (rule ccontr)\n      assume \"\\<not> y \\<le> 0\"\n      then have y_pos: \"0 < y\" by linarith\n      have \"0 < x * y\"\n        by (rule mult_pos_pos[OF x_pos y_pos])\n      with xy show False by linarith\n    qed\n\n    (* El producto de un número no negativo y uno no positivo es no positivo. *)\n    have z_nonneg: \"0 \\<le> z\"\n      using z_pos by linarith\n    show ?thesis\n      by (rule mult_nonneg_nonpos[OF z_nonneg y_nonpos])\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_3_signo",
+    "episodio": "bis_3_signo#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T20:48:42"
+   }
+  },
+  {
+   "nombre": "cu_bisection_step_sign",
+   "texto": "lemma cu_bisection_step_sign:\n  fixes x y z :: real\n  assumes xy: \"x * y \\<le> 0\"\n  shows \"(if x * z \\<le> 0 then x * z else z * y) \\<le> 0\"\nproof (cases \"x * z \\<le> 0\")\n  case True\n\n  (* Si el primer subinterval tiene cambio de signo, el producto elegido ya es no positivo. *)\n  then show ?thesis by simp\nnext\n  case False\n\n  (* Si no, el lema de transferencia da el signo del segundo subintervalo. *)\n  have zy: \"z * y \\<le> 0\"\n    by (rule cu_product_sign_transfer[OF xy False])\n  then show ?thesis\n    using False by simp\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_3_signo",
+    "episodio": "bis_3_signo#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T20:48:49"
+   }
+  },
+  {
+   "nombre": "cu_bolzano_product",
+   "texto": "lemma cu_bolzano_product:\n  fixes g :: \"real \\<Rightarrow> real\" and x y :: real\n  assumes xy: \"x \\<le> y\"\n    and contxy: \"continuous_on {x..y} g\"\n    and signxy: \"g x * g y \\<le> 0\"\n  shows \"\\<exists>z. x \\<le> z \\<and> z \\<le> y \\<and> g z = 0\"\nproof -\n  (* Si un extremo ya es raíz, ese extremo sirve como testigo. *)\n  show ?thesis\n  proof (cases \"g x = 0\")\n    case True\n    show ?thesis using xy True by auto\n  next\n    case xne: False\n    (* Consideramos también por separado el caso en que el extremo derecho es raíz. *)\n    show ?thesis\n    proof (cases \"g y = 0\")\n      case True\n      show ?thesis using xy True by auto\n    next\n      case yne: False\n\n      (* Sin raíces en los extremos, el producto no positivo fuerza signos estrictos opuestos. *)\n      have signs:\n        \"(g x < 0 \\<and> 0 < g y) \\<or> (g y < 0 \\<and> 0 < g x)\"\n      proof (cases \"g x < 0\")\n        case True\n        have gypos: \"0 < g y\"\n        proof (rule ccontr)\n          assume not_pos: \"\\<not> 0 < g y\"\n          have gyneg: \"g y < 0\" using not_pos yne by linarith\n          have nx: \"0 < - g x\" using True by linarith\n          have ny: \"0 < - g y\" using gyneg by linarith\n          have prod_pos: \"0 < (- g x) * (- g y)\"\n            by (rule mult_pos_pos[OF nx ny])\n          have prod_eq: \"g x * g y = (- g x) * (- g y)\"\n            by algebra\n          show False using signxy prod_pos prod_eq by linarith\n        qed\n        show ?thesis using True gypos by blast\n      next\n        case False\n        have gxpos: \"0 < g x\" using False xne by linarith\n        have gyneg: \"g y < 0\"\n        proof (rule ccontr)\n          assume not_neg: \"\\<not> g y < 0\"\n          have gypos: \"0 < g y\" using not_neg yne by linarith\n          have prod_pos: \"0 < g x * g y\"\n            by (rule mult_pos_pos[OF gxpos gypos])\n          show False using signxy prod_pos by linarith\n        qed\n        show ?thesis using gxpos gyneg by blast\n      qed\n\n      (* El teorema del valor intermedio cubre ambos órdenes de los signos. *)\n      from signs show ?thesis\n      proof\n        assume left: \"g x < 0 \\<and> 0 < g y\"\n        have gx_le: \"g x \\<le> 0\" using left by linarith\n        have zero_le_gy: \"0 \\<le> g y\" using left by linarith\n        obtain z where z: \"x \\<le> z \\<and> z \\<le> y \\<and> g z = 0\"\n          using IVT'[OF gx_le zero_le_gy xy contxy] by blast\n        show ?thesis using z by blast\n      next\n        assume right: \"g y < 0 \\<and> 0 < g x\"\n        have gy_le: \"g y \\<le> 0\" using right by linarith\n        have zero_le_gx: \"0 \\<le> g x\" using right by linarith\n        obtain z where z: \"x \\<le> z \\<and> z \\<le> y \\<and> g z = 0\"\n          using IVT2'[OF gy_le zero_le_gx xy contxy] by blast\n        show ?thesis using z by blast\n      qed\n    qed\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_4_raiz",
+    "episodio": "bis_4_raiz#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T20:54:13"
+   }
+  },
+  {
+   "nombre": "cu_deriv_bound_lipschitz",
+   "texto": "lemma cu_deriv_bound_lipschitz:\n  fixes f f' :: \"real \\<Rightarrow> real\" and l u K :: real\n  assumes order: \"l \\<le> u\"\n    and d: \"\\<And>t. t \\<in> {l..u} \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and bound: \"\\<And>t. t \\<in> {l..u} \\<Longrightarrow> \\<bar>f' t\\<bar> \\<le> K\"\n  shows \"\\<bar>f u - f l\\<bar> \\<le> K * \\<bar>u - l\\<bar>\"\nproof -\n  (* Si los extremos coinciden, ambos lados son cero. *)\n  show ?thesis\n  proof (cases \"l = u\")\n    case True\n    then show ?thesis by simp\n  next\n    case False\n    (* En el caso no degenerado, obtenemos los requisitos del teorema del valor medio. *)\n    have strict: \"l < u\" using order False by linarith\n    have der: \"\\<And>t. l \\<le> t \\<Longrightarrow> t \\<le> u \\<Longrightarrow>\n        (f has_real_derivative f' t) (at t)\"\n      using d by auto\n    (* El valor medio expresa la diferencia de valores mediante una derivada interior. *)\n    obtain z where zl: \"l < z\" and zu: \"z < u\"\n      and eq: \"f u - f l = (u - l) * f' z\"\n      using MVT2[OF strict der] by blast\n    have zmem: \"z \\<in> {l..u}\" using zl zu by simp\n    (* Aplicamos la cota de la derivada en el punto obtenido. *)\n    have bz: \"\\<bar>f' z\\<bar> \\<le> K\" using bound zmem by blast\n    (* Multiplicamos por la distancia, que es no negativa. *)\n    have prod: \"\\<bar>u - l\\<bar> * \\<bar>f' z\\<bar> \\<le> \\<bar>u - l\\<bar> * K\"\n      by (rule mult_left_mono[OF bz]) simp\n    have abs_eq: \"\\<bar>f u - f l\\<bar> = \\<bar>u - l\\<bar> * \\<bar>f' z\\<bar>\"\n      using eq by (simp add: abs_mult)\n    (* Encadenamos la igualdad del valor medio con la cota del producto. *)\n    show ?thesis\n    proof -\n      have \"\\<bar>f u - f l\\<bar> = \\<bar>u - l\\<bar> * \\<bar>f' z\\<bar>\" by (rule abs_eq)\n      also have \"... \\<le> \\<bar>u - l\\<bar> * K\" by (rule prod)\n      also have \"... = K * \\<bar>u - l\\<bar>\" by (simp add: mult.commute)\n      finally show ?thesis .\n    qed\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_1_derivada",
+    "episodio": "pf_1_derivada#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:20:14"
+   }
+  },
+  {
+   "nombre": "cu_funpow_closed",
+   "texto": "lemma cu_funpow_closed:\n  fixes f :: \"'a \\<Rightarrow> 'a\" and S :: \"'a set\" and z :: \"'a\" and m :: nat\n  assumes start: \"z \\<in> S\"\n    and closed: \"\\<And>x. x \\<in> S \\<Longrightarrow> f x \\<in> S\"\n  shows \"(f ^^ m) z \\<in> S\"\nproof (induction m)\n  case 0\n  (* La iteración de orden cero deja el punto inicial sin cambios. *)\n  show ?case\n    using start by simp\nnext\n  case (Suc m)\n  (* El iterado anterior está en S y la clausura da el siguiente. *)\n  show ?case\n    using closed[OF Suc.IH] by simp\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_2_dentro",
+    "episodio": "pf_2_dentro#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:21:10"
+   }
+  },
+  {
+   "nombre": "cu_contraction_fixed_unique",
+   "texto": "lemma cu_contraction_fixed_unique:\n  fixes f :: \"real \\<Rightarrow> real\" and c x y :: real\n  assumes c_nonneg: \"0 \\<le> c\"\n    and c_less_one: \"c < 1\"\n    and contraction: \"\\<bar>f x - f y\\<bar> \\<le> c * \\<bar>x - y\\<bar>\"\n    and fixed_x: \"f x = x\"\n    and fixed_y: \"f y = y\"\n  shows \"x = y\"\nproof -\n  (* Usando que ambos puntos son fijos, la contracción acota su distancia por sí misma. *)\n  have distance_bound: \"\\<bar>x - y\\<bar> \\<le> c * \\<bar>x - y\\<bar>\"\n    using contraction fixed_x fixed_y by simp\n\n  (* Reescribimos la diferencia de ambos lados como un producto. *)\n  have difference_nonpos: \"\\<bar>x - y\\<bar> - c * \\<bar>x - y\\<bar> \\<le> 0\"\n    using distance_bound by linarith\n  have product_eq:\n    \"(1 - c) * \\<bar>x - y\\<bar> = \\<bar>x - y\\<bar> - c * \\<bar>x - y\\<bar>\"\n    by (simp add: algebra_simps)\n  have product_nonpos: \"(1 - c) * \\<bar>x - y\\<bar> \\<le> 0\"\n    using product_eq difference_nonpos by linarith\n\n  (* Como 1-c es positivo, una distancia positiva daría un producto positivo. *)\n  have distance_zero: \"\\<bar>x - y\\<bar> = 0\"\n  proof (rule ccontr)\n    assume distance_nonzero: \"\\<bar>x - y\\<bar> \\<noteq> 0\"\n    have distance_positive: \"0 < \\<bar>x - y\\<bar>\"\n      using distance_nonzero by simp\n    have factor_positive: \"0 < 1 - c\"\n      using c_less_one by linarith\n    have \"0 < (1 - c) * \\<bar>x - y\\<bar>\"\n      using factor_positive distance_positive by (rule mult_pos_pos)\n    with product_nonpos show False by linarith\n  qed\n\n  (* Una diferencia absoluta nula implica que los puntos coinciden. *)\n  show \"x = y\"\n    using distance_zero by simp\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_3_unicidad",
+    "episodio": "pf_3_unicidad#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:22:14"
+   }
+  },
+  {
+   "nombre": "cu_iterate_contraction_bound",
+   "texto": "lemma cu_iterate_contraction_bound:\n  fixes f :: \"real \\<Rightarrow> real\" and S :: \"real set\"\n    and c z q :: real and m :: nat\n  assumes c_nonneg: \"0 \\<le> c\"\n    and z_in: \"z \\<in> S\"\n    and q_in: \"q \\<in> S\"\n    and invariant: \"\\<And>x. x \\<in> S \\<Longrightarrow> f x \\<in> S\"\n    and lip: \"\\<And>x y. x \\<in> S \\<Longrightarrow> y \\<in> S \\<Longrightarrow>\n      \\<bar>f x - f y\\<bar> \\<le> c * \\<bar>x - y\\<bar>\"\n    and fixpoint: \"f q = q\"\n  shows \"\\<bar>(f ^^ m) z - q\\<bar> \\<le> c ^ m * \\<bar>z - q\\<bar>\"\nproof (induction m)\n  case 0\n  (* Para cero, el iterado y la potencia se simplifican. *)\n  then show ?case by simp\nnext\n  case (Suc m)\n  (* El iterado anterior permanece en el conjunto invariante. *)\n  have prev_in: \"(f ^^ m) z \\<in> S\"\n    by (rule cu_funpow_closed[OF z_in invariant])\n\n  (* Aplicamos la contracción entre el iterado anterior y el punto fijo. *)\n  have contraction_step:\n    \"\\<bar>f ((f ^^ m) z) - f q\\<bar> \\<le>\n      c * \\<bar>(f ^^ m) z - q\\<bar>\"\n    by (rule lip[OF prev_in q_in])\n\n  (* La hipótesis inductiva se puede multiplicar por c, que es no negativo. *)\n  have product_bound:\n    \"c * \\<bar>(f ^^ m) z - q\\<bar> \\<le>\n      c * (c ^ m * \\<bar>z - q\\<bar>)\"\n    by (rule mult_left_mono[OF Suc.IH c_nonneg])\n\n  (* Usamos que q es punto fijo para expresar el primer paso de la iteración. *)\n  have fixed_step:\n    \"\\<bar>f ((f ^^ m) z) - q\\<bar> \\<le>\n      c * \\<bar>(f ^^ m) z - q\\<bar>\"\n    using contraction_step fixpoint by simp\n\n  (* La regla de sucesor de la potencia da el factor requerido. *)\n  have power_step:\n    \"c ^ Suc m * \\<bar>z - q\\<bar> =\n      c * (c ^ m * \\<bar>z - q\\<bar>)\"\n    by (simp add: algebra_simps)\n\n  (* Encadenamos la contracción, la cota inductiva y la identidad de potencias. *)\n  have chain:\n    \"\\<bar>f ((f ^^ m) z) - q\\<bar> \\<le>\n      c ^ Suc m * \\<bar>z - q\\<bar>\"\n  proof -\n    have \"\\<bar>f ((f ^^ m) z) - q\\<bar> \\<le>\n        c * \\<bar>(f ^^ m) z - q\\<bar>\"\n      by fact\n    also have \"\\<dots> \\<le> c * (c ^ m * \\<bar>z - q\\<bar>)\"\n      by fact\n    also have \"\\<dots> = c ^ Suc m * \\<bar>z - q\\<bar>\"\n      by (rule sym[OF power_step])\n    finally show ?thesis .\n  qed\n\n  (* La forma sucesora del iterado convierte esta cadena en la meta. *)\n  have iter_suc: \"(f ^^ Suc m) z = f ((f ^^ m) z)\"\n    by simp\n  show ?case using chain iter_suc by simp\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_4_decaimiento",
+    "episodio": "pf_4_decaimiento#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:23:27"
+   }
+  },
+  {
+   "nombre": "cu_iterated_contraction_bound",
+   "texto": "lemma cu_iterated_contraction_bound:\n  fixes f :: \"real \\<Rightarrow> real\" and S :: \"real set\"\n    and K z q :: real and m :: nat\n  assumes start: \"z \\<in> S\"\n    and point: \"q \\<in> S\"\n    and closed: \"\\<And>x. x \\<in> S \\<Longrightarrow> f x \\<in> S\"\n    and contract: \"\\<And>x y. x \\<in> S \\<Longrightarrow> y \\<in> S \\<Longrightarrow>\n      \\<bar>f x - f y\\<bar> \\<le> K * \\<bar>x - y\\<bar>\"\n    and fixed_point: \"f q = q\"\n    and nonneg: \"0 \\<le> K\"\n  shows \"\\<bar>(f ^^ m) z - q\\<bar> \\<le> K ^ m * \\<bar>z - q\\<bar>\"\nproof (induction m)\n  case 0\n  (* Para cero iteraciones, la cota es una igualdad. *)\n  show ?case by simp\nnext\n  case (Suc m)\n  (* El iterado previo sigue perteneciendo al dominio invariante. *)\n  have image: \"(f ^^ m) z \\<in> S\"\n    by (rule cu_funpow_closed[OF start closed])\n\n  (* Aplicamos la contracción entre el iterado previo y el punto fijo. *)\n  have one_step:\n    \"\\<bar>f ((f ^^ m) z) - f q\\<bar> \\<le> K * \\<bar>(f ^^ m) z - q\\<bar>\"\n    by (rule contract[OF image point])\n\n  (* Escalamos la hipótesis inductiva usando que K es no negativo. *)\n  have scaled:\n    \"K * \\<bar>(f ^^ m) z - q\\<bar> \\<le> K * (K ^ m * \\<bar>z - q\\<bar>)\"\n    by (rule mult_left_mono[OF Suc.IH nonneg])\n\n  (* Encadenamos la contracción y la cota inductiva, y reescribimos la potencia. *)\n  have \"\\<bar>f ((f ^^ m) z) - f q\\<bar>\n      \\<le> K * \\<bar>(f ^^ m) z - q\\<bar>\"\n    using one_step .\n  also have \"\\<dots> \\<le> K * (K ^ m * \\<bar>z - q\\<bar>)\"\n    using scaled .\n  finally show ?case\n    using fixed_point by (simp add: power_Suc mult_ac)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_5_a_priori",
+    "episodio": "pf_5_a_priori#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:28:10"
+   }
+  },
+  {
+   "nombre": "cu_interval_distance_bound_v3",
+   "texto": "lemma cu_interval_distance_bound_v3:\n  fixes l u x y :: real\n  assumes order: \"l \\<le> u\"\n    and x_in: \"x \\<in> {l..u}\"\n    and y_in: \"y \\<in> {l..u}\"\n  shows \"\\<bar>x - y\\<bar> \\<le> u - l\"\nproof -\n  (* Cada punto del intervalo está entre sus dos extremos. *)\n  have lx: \"l \\<le> x\" and xu: \"x \\<le> u\"\n    using x_in by auto\n  have ly: \"l \\<le> y\" and yu: \"y \\<le> u\"\n    using y_in by auto\n\n  (* La diferencia está acotada por la longitud del intervalo. *)\n  have upper: \"x - y \\<le> u - l\"\n    using xu ly by linarith\n  have lower: \"- (u - l) \\<le> x - y\"\n    using lx yu by linarith\n\n  (* Según el signo de la diferencia, su valor absoluto es ella o su opuesto. *)\n  show ?thesis\n  proof (cases \"0 \\<le> x - y\")\n    case True\n    have \"\\<bar>x - y\\<bar> = x - y\"\n      by (rule abs_of_nonneg[OF True])\n    then show ?thesis\n      using upper by simp\n  next\n    case False\n    have nonpos: \"x - y \\<le> 0\"\n      using False by linarith\n    have \"\\<bar>x - y\\<bar> = - (x - y)\"\n      by (rule abs_of_nonpos[OF nonpos])\n    then show ?thesis\n      using lower by linarith\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_5_a_priori",
+    "episodio": "pf_5_a_priori#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:28:19"
+   }
+  },
+  {
+   "nombre": "cu_interval_distance_bound_final",
+   "texto": "lemma cu_interval_distance_bound_final:\n  fixes l u x y :: real\n  assumes order: \"l \\<le> u\"\n    and x_in: \"x \\<in> {l..u}\"\n    and y_in: \"y \\<in> {l..u}\"\n  shows \"\\<bar>x - y\\<bar> \\<le> u - l\"\nproof -\n  (* Cada punto del intervalo está entre sus extremos. *)\n  have lx: \"l \\<le> x\" and xu: \"x \\<le> u\"\n    using x_in by auto\n  have ly: \"l \\<le> y\" and yu: \"y \\<le> u\"\n    using y_in by auto\n\n  (* La diferencia y su opuesto están acotados por la longitud. *)\n  have upper: \"x - y \\<le> u - l\"\n    using xu ly by linarith\n  have lower: \"- (u - l) \\<le> x - y\"\n    using lx yu by linarith\n\n  (* El signo de la diferencia permite concluir la cota absoluta. *)\n  show ?thesis\n  proof (cases \"0 \\<le> x - y\")\n    case True\n    have \"\\<bar>x - y\\<bar> = x - y\"\n      by (rule abs_of_nonneg[OF True])\n    then show ?thesis\n      using upper by simp\n  next\n    case False\n    have nonpos: \"x - y \\<le> 0\"\n      using False by linarith\n    have \"\\<bar>x - y\\<bar> = - (x - y)\"\n      by (rule abs_of_nonpos[OF nonpos])\n    then show ?thesis\n      using lower by linarith\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_5_a_priori",
+    "episodio": "pf_5_a_priori#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:28:28"
+   }
+  },
+  {
+   "nombre": "cu_iterated_contraction_bound_final",
+   "texto": "lemma cu_iterated_contraction_bound_final:\n  fixes f :: \"real \\<Rightarrow> real\" and S :: \"real set\"\n    and K z q :: real and m :: nat\n  assumes start: \"z \\<in> S\"\n    and point: \"q \\<in> S\"\n    and closed: \"\\<And>x. x \\<in> S \\<Longrightarrow> f x \\<in> S\"\n    and contract: \"\\<And>x y. x \\<in> S \\<Longrightarrow> y \\<in> S \\<Longrightarrow>\n      \\<bar>f x - f y\\<bar> \\<le> K * \\<bar>x - y\\<bar>\"\n    and fixed_point: \"f q = q\"\n    and nonneg: \"0 \\<le> K\"\n  shows \"\\<bar>(f ^^ m) z - q\\<bar> \\<le> K ^ m * \\<bar>z - q\\<bar>\"\nproof (induction m)\n  case 0\n  (* Sin iteraciones, la distancia coincide con la cota. *)\n  show ?case by simp\nnext\n  case (Suc m)\n  (* El iterado previo permanece en el conjunto invariante. *)\n  have image: \"(f ^^ m) z \\<in> S\"\n    by (rule cu_funpow_closed[OF start closed])\n\n  (* Aplicamos la contracción entre el iterado y el punto fijo. *)\n  have one_step:\n    \"\\<bar>f ((f ^^ m) z) - f q\\<bar> \\<le> K * \\<bar>(f ^^ m) z - q\\<bar>\"\n    by (rule contract[OF image point])\n  have one_step':\n    \"\\<bar>f ((f ^^ m) z) - q\\<bar> \\<le> K * \\<bar>(f ^^ m) z - q\\<bar>\"\n    using one_step fixed_point by simp\n\n  (* Escalamos la hipótesis inductiva por el factor no negativo. *)\n  have scaled:\n    \"K * \\<bar>(f ^^ m) z - q\\<bar> \\<le> K * (K ^ m * \\<bar>z - q\\<bar>)\"\n    by (rule mult_left_mono[OF Suc.IH nonneg])\n\n  (* Encadenamos el paso de contracción con la cota inductiva. *)\n  have combined:\n    \"\\<bar>f ((f ^^ m) z) - q\\<bar> \\<le> K * (K ^ m * \\<bar>z - q\\<bar>)\"\n    using one_step' scaled by linarith\n  show ?case\n    using combined by (simp add: power_Suc algebra_simps)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_5_a_priori",
+    "episodio": "pf_5_a_priori#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:28:38"
+   }
+  },
+  {
+   "nombre": "cu_interval_endpoint_bound",
+   "texto": "lemma cu_interval_endpoint_bound:\n  fixes l u x y :: real\n  assumes x_mem: \"x \\<in> {l..u}\"\n    and y_mem: \"y \\<in> {l..u}\"\n  shows \"\\<bar>x - y\\<bar> \\<le> max (x - l) (u - x)\"\nproof -\n  (* La pertenencia al intervalo da las cotas de ambos puntos. *)\n  have lx: \"l \\<le> x\" and xu: \"x \\<le> u\"\n    using x_mem by auto\n  have ly: \"l \\<le> y\" and yu: \"y \\<le> u\"\n    using y_mem by auto\n\n  (* Las distancias desde x a los extremos están acotadas por el máximo. *)\n  have left_bound: \"x - l \\<le> max (x - l) (u - x)\"\n    by (rule max.cobounded1)\n  have right_bound: \"u - x \\<le> max (x - l) (u - x)\"\n    by (rule max.cobounded2)\n\n  (* Las cotas de y y de los extremos acotan x - y por ambos lados. *)\n  have upper: \"x - y \\<le> max (x - l) (u - x)\"\n    using ly left_bound by linarith\n  have lower: \"- max (x - l) (u - x) \\<le> x - y\"\n    using yu right_bound by linarith\n\n  (* Escribimos explícitamente la desigualdad para el opuesto de x - y. *)\n  have neg_upper: \"- (x - y) \\<le> max (x - l) (u - x)\"\n    using lower by linarith\n\n  (* La caracterización del valor absoluto concluye la cota. *)\n  show ?thesis\n    using upper neg_upper by (simp add: abs_le_iff)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_5c_a_priori_max",
+    "episodio": "pf_5c_a_priori_max#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:31:23"
+   }
+  },
+  {
+   "nombre": "cu_fixedpoint_first_step_bound",
+   "texto": "lemma cu_fixedpoint_first_step_bound:\n  fixes f :: \"real \\<Rightarrow> real\" and S :: \"real set\"\n    and c z q :: real\n  assumes c_nonneg: \"0 \\<le> c\"\n    and c_less_one: \"c < 1\"\n    and z_in: \"z \\<in> S\"\n    and q_in: \"q \\<in> S\"\n    and invariant: \"\\<And>x. x \\<in> S \\<Longrightarrow> f x \\<in> S\"\n    and lip: \"\\<And>x y. x \\<in> S \\<Longrightarrow> y \\<in> S \\<Longrightarrow>\n      \\<bar>f x - f y\\<bar> \\<le> c * \\<bar>x - y\\<bar>\"\n    and fixpoint: \"f q = q\"\n  shows \"\\<bar>z - q\\<bar> \\<le> \\<bar>f z - z\\<bar> / (1 - c)\"\nproof -\n  (* La contracción aplicada entre z y el punto fijo acota el siguiente error. *)\n  have lip_z: \"\\<bar>f z - q\\<bar> \\<le> c * \\<bar>z - q\\<bar>\"\n    using lip[OF z_in q_in] fixpoint by simp\n\n  (* La desigualdad triangular relaciona el error actual con el primer paso. *)\n  have tri: \"\\<bar>z - q\\<bar> \\<le> \\<bar>f z - z\\<bar> + c * \\<bar>z - q\\<bar>\"\n  proof -\n    have eq: \"z - q = (z - f z) + (f z - q)\" by algebra\n    have swap: \"\\<bar>z - f z\\<bar> = \\<bar>f z - z\\<bar>\"\n      by (simp add: abs_minus_commute)\n    have \"\\<bar>z - q\\<bar> = \\<bar>(z - f z) + (f z - q)\\<bar>\"\n      by (simp only: eq)\n    also have \"\\<dots> \\<le> \\<bar>z - f z\\<bar> + \\<bar>f z - q\\<bar>\"\n      by (rule abs_triangle_ineq)\n    also have \"\\<dots> \\<le> \\<bar>f z - z\\<bar> + c * \\<bar>z - q\\<bar>\"\n      using swap lip_z by linarith\n    finally show ?thesis .\n  qed\n\n  (* Reordenamos la cota triangular para aislar el factor 1-c. *)\n  have ident: \"(1 - c) * \\<bar>z - q\\<bar> = \\<bar>z - q\\<bar> - c * \\<bar>z - q\\<bar>\"\n    by algebra\n  have scaled: \"(1 - c) * \\<bar>z - q\\<bar> \\<le> \\<bar>f z - z\\<bar>\"\n    using tri ident by linarith\n\n  (* El denominador es positivo, así que podemos dividir por él. *)\n  have den_pos: \"0 < 1 - c\" using c_less_one by linarith\n  have scaled_commuted: \"\\<bar>z - q\\<bar> * (1 - c) \\<le> \\<bar>f z - z\\<bar>\"\n    using scaled by (simp add: mult.commute)\n  show ?thesis\n    using scaled_commuted den_pos by (simp add: pos_le_divide_eq)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_6_a_priori_x1",
+    "episodio": "pf_6_a_priori_x1#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:35:05"
+   }
+  },
+  {
+   "nombre": "cu_iterate_first_step_bound",
+   "texto": "lemma cu_iterate_first_step_bound:\n  fixes f :: \"real \\<Rightarrow> real\" and S :: \"real set\"\n    and c z q :: real and m :: nat\n  assumes c_nonneg: \"0 \\<le> c\"\n    and c_less_one: \"c < 1\"\n    and z_in: \"z \\<in> S\"\n    and q_in: \"q \\<in> S\"\n    and invariant: \"\\<And>x. x \\<in> S \\<Longrightarrow> f x \\<in> S\"\n    and lip: \"\\<And>x y. x \\<in> S \\<Longrightarrow> y \\<in> S \\<Longrightarrow>\n      \\<bar>f x - f y\\<bar> \\<le> c * \\<bar>x - y\\<bar>\"\n    and fixpoint: \"f q = q\"\n  shows \"\\<bar>(f ^^ m) z - q\\<bar> \\<le> c ^ m / (1 - c) * \\<bar>f z - z\\<bar>\"\nproof -\n  (* La contracción acota el error del iterado por el error inicial. *)\n  have iter: \"\\<bar>(f ^^ m) z - q\\<bar> \\<le> c ^ m * \\<bar>z - q\\<bar>\"\n    by (rule cu_iterate_contraction_bound\n        [OF c_nonneg z_in q_in invariant lip fixpoint])\n\n  (* La cota a priori controla el error inicial mediante el primer paso. *)\n  have first: \"\\<bar>z - q\\<bar> \\<le> \\<bar>f z - z\\<bar> / (1 - c)\"\n    by (rule cu_fixedpoint_first_step_bound\n        [OF c_nonneg c_less_one z_in q_in invariant lip fixpoint])\n\n  (* La potencia del factor de contracción es no negativa. *)\n  have pow_nonneg: \"0 \\<le> c ^ m\"\n  proof (induction m)\n    case 0\n    then show ?case by simp\n  next\n    case (Suc j)\n    have \"0 \\<le> c * c ^ j\"\n      by (rule mult_nonneg_nonneg[OF c_nonneg Suc.IH])\n    then show ?case by (simp add: power_Suc)\n  qed\n\n  (* Multiplicamos la cota del primer paso por esa potencia no negativa. *)\n  have scaled:\n    \"c ^ m * \\<bar>z - q\\<bar> \\<le>\n      c ^ m * (\\<bar>f z - z\\<bar> / (1 - c))\"\n    by (rule mult_left_mono[OF first pow_nonneg])\n\n  (* Reordenamos el producto para obtener la forma del enunciado. *)\n  have rearranged:\n    \"c ^ m * (\\<bar>f z - z\\<bar> / (1 - c)) =\n      c ^ m / (1 - c) * \\<bar>f z - z\\<bar>\"\n    by (simp add: divide_inverse algebra_simps)\n\n  (* Encadenamos la cota de la iteración con la cota escalada. *)\n  show ?thesis\n    using iter scaled rearranged by linarith\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_6_a_priori_x1",
+    "episodio": "pf_6_a_priori_x1#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:35:19"
+   }
+  },
+  {
+   "nombre": "cu_abs_posteriori",
+   "texto": "lemma cu_abs_posteriori:\n  fixes c u v :: real\n  assumes c_nonneg: \"0 \\<le> c\"\n    and c_less: \"c < 1\"\n    and contraction: \"\\<bar>u\\<bar> \\<le> c * \\<bar>v\\<bar>\"\n    and triangle: \"\\<bar>v\\<bar> \\<le> \\<bar>u\\<bar> + \\<bar>v - u\\<bar>\"\n  shows \"\\<bar>u\\<bar> \\<le> c / (1 - c) * \\<bar>v - u\\<bar>\"\nproof -\n  (* El denominador que usaremos para despejar es positivo. *)\n  have hc: \"0 < 1 - c\"\n    using c_less by linarith\n\n  (* La desigualdad triangular y la contracción acotan la distancia entre v y u. *)\n  have hdiff: \"(1 - c) * \\<bar>v\\<bar> \\<le> \\<bar>v - u\\<bar>\"\n  proof -\n    have heq: \"(1 - c) * \\<bar>v\\<bar> = \\<bar>v\\<bar> - c * \\<bar>v\\<bar>\"\n      by algebra\n    show ?thesis\n      using triangle contraction heq by linarith\n  qed\n\n  (* Multiplicamos la cota de contracción por el factor positivo 1-c. *)\n  have hscale1: \"(1 - c) * \\<bar>u\\<bar> \\<le> c * ((1 - c) * \\<bar>v\\<bar>)\"\n  proof -\n    have h: \"(1 - c) * \\<bar>u\\<bar> \\<le> (1 - c) * (c * \\<bar>v\\<bar>)\"\n      by (rule mult_left_mono[OF contraction]) (use hc in linarith)\n    have heq: \"(1 - c) * (c * \\<bar>v\\<bar>) = c * ((1 - c) * \\<bar>v\\<bar>)\"\n      by algebra\n    show ?thesis\n      using h heq by simp\n  qed\n\n  (* Multiplicamos la cota de hdiff por el factor no negativo c. *)\n  have hscale2: \"c * ((1 - c) * \\<bar>v\\<bar>) \\<le> c * \\<bar>v - u\\<bar>\"\n    by (rule mult_left_mono[OF hdiff]) (use c_nonneg in linarith)\n\n  (* Encadenamos las cotas y expresamos el producto en el orden conveniente. *)\n  have hfinal: \"(1 - c) * \\<bar>u\\<bar> \\<le> c * \\<bar>v - u\\<bar>\"\n    by (rule order_trans[OF hscale1 hscale2])\n  have hfinal': \"\\<bar>u\\<bar> * (1 - c) \\<le> c * \\<bar>v - u\\<bar>\"\n    using hfinal by (simp add: mult.commute)\n\n  (* Despejamos usando que 1-c es positivo. *)\n  have hquot: \"\\<bar>u\\<bar> \\<le> (c * \\<bar>v - u\\<bar>) / (1 - c)\"\n    using hc hfinal' by (simp add: pos_le_divide_eq)\n\n  (* Reescribimos el cociente en la forma del enunciado. *)\n  have hne: \"1 - c \\<noteq> 0\"\n    using hc by linarith\n  have heq: \"c / (1 - c) * \\<bar>v - u\\<bar> =\n      (c * \\<bar>v - u\\<bar>) / (1 - c)\"\n    using hne by (simp add: field_simps)\n  show ?thesis\n    using hquot heq by simp\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_6p_a_posteriori",
+    "episodio": "pf_6p_a_posteriori#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:37:57"
+   }
+  },
+  {
+   "nombre": "cu_real_lipschitz_continuous",
+   "texto": "lemma cu_real_lipschitz_continuous:\n  fixes f :: \"real \\<Rightarrow> real\" and S :: \"real set\" and L :: real\n  assumes nonneg: \"0 \\<le> L\"\n    and lip: \"\\<And>x y. x \\<in> S \\<Longrightarrow> y \\<in> S \\<Longrightarrow>\n      \\<bar>f x - f y\\<bar> \\<le> L * \\<bar>x - y\\<bar>\"\n  shows \"continuous_on S f\"\nproof -\n  (* La cota en valor absoluto es precisamente una cota Lipschitz para la distancia real. *)\n  have lip_metric: \"L-lipschitz_on S f\"\n    using nonneg lip\n    unfolding lipschitz_on_def\n    by (auto simp: dist_real_def)\n  (* Las funciones Lipschitz son continuas. *)\n  show ?thesis\n    by (rule Lipschitz.lipschitz_on_continuous_on[OF lip_metric])\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_7_existencia",
+    "episodio": "pf_7_existencia#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:40:12"
+   }
+  },
+  {
+   "nombre": "cu_interval_endpoint_bounds",
+   "texto": "lemma cu_interval_endpoint_bounds:\n  fixes f :: \"real \\<Rightarrow> real\" and u v :: real\n  assumes left: \"f u \\<in> {u..v}\"\n    and right: \"f v \\<in> {u..v}\"\n  shows \"u \\<le> f u \\<and> f v \\<le> v\"\nproof -\n  (* La pertenencia a un intervalo cerrado proporciona las cotas de sus extremos. *)\n  show ?thesis\n    using left right by auto\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_7_existencia",
+    "episodio": "pf_7_existencia#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:40:21"
+   }
+  },
+  {
+   "nombre": "cu_geometric_power_tends_zero",
+   "texto": "lemma cu_geometric_power_tends_zero:\n  fixes r :: real\n  assumes nonneg: \"0 \\<le> r\"\n    and less: \"r < 1\"\n  shows \"(\\<lambda>n. r ^ n) \\<longlonglongrightarrow> 0\"\nproof -\n  (* La condición sobre r implica que la serie geométrica es sumable. *)\n  have nr: \"norm r < 1\"\n    using nonneg less by simp\n  have summ: \"summable (\\<lambda>n. r ^ n)\"\n    using nr by (simp add: summable_geometric)\n\n  (* Los términos de una serie sumable tienden a cero. *)\n  show ?thesis\n    using summable_LIMSEQ_zero[OF summ] .\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_8_convergencia",
+    "episodio": "pf_8_convergencia#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:46:33"
+   }
+  },
+  {
+   "nombre": "cu_real_geometric_sequence_tends_zero",
+   "texto": "lemma cu_real_geometric_sequence_tends_zero:\n  fixes r :: real\n  assumes nonneg: \"0 \\<le> r\"\n    and less: \"r < 1\"\n  shows \"(\\<lambda>n. r ^ n) \\<longlonglongrightarrow> 0\"\nproof -\n  (* La cota de r implica que la serie geométrica es sumable. *)\n  have nr: \"norm r < 1\"\n    using nonneg less by simp\n  have summ: \"summable (\\<lambda>n. r ^ n)\"\n    using nr by (simp add: summable_geometric)\n\n  (* Los términos de toda serie sumable tienden a cero. *)\n  show ?thesis\n    using summable_LIMSEQ_zero[OF summ] .\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_8_convergencia",
+    "episodio": "pf_8_convergencia#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:46:45"
+   }
+  },
+  {
+   "nombre": "cu_abs_square",
+   "texto": "lemma cu_abs_square:\n  fixes r :: real\n  shows \"\\<bar>r\\<bar> * \\<bar>r\\<bar> = r\\<^sup>2\"\nproof (cases \"0 \\<le> r\")\n  (* Con r no negativo, el valor absoluto se elimina directamente. *)\n  case True\n  then show ?thesis by (simp add: power2_eq_square)\nnext\n  (* En el otro caso, r es no positivo y también se elimina el valor absoluto. *)\n  case False\n  have nonpositive: \"r \\<le> 0\" using False by linarith\n  then show ?thesis by (simp add: power2_eq_square)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_9_cuadratico",
+    "episodio": "pf_9_cuadratico#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:51:29"
+   }
+  },
+  {
+   "nombre": "cu_quadratic_derivative_step",
+   "texto": "lemma cu_quadratic_derivative_step:\n  fixes f f' :: \"real \\<Rightarrow> real\" and l u q z K :: real\n  assumes segment_order: \"l \\<le> u\"\n    and qin: \"q \\<in> {l..u}\"\n    and zin: \"z \\<in> {l..u}\"\n    and derivative_rule: \"\\<And>t. t \\<in> {l..u} \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and derivative_estimate: \"\\<And>t. t \\<in> {l..u} \\<Longrightarrow> \\<bar>f' t\\<bar> \\<le> K * \\<bar>t - q\\<bar>\"\n    and scale_nonnegative: \"0 \\<le> K\"\n  shows \"\\<bar>f z - f q\\<bar> \\<le> K * (z - q)\\<^sup>2\"\nproof -\n  (* El producto de las distancias absolutas es el cuadrado correspondiente. *)\n  have product: \"(K * \\<bar>z - q\\<bar>) * \\<bar>z - q\\<bar> = K * (z - q)\\<^sup>2\"\n  proof -\n    have square: \"\\<bar>z - q\\<bar> * \\<bar>z - q\\<bar> = (z - q)\\<^sup>2\"\n      by (rule cu_abs_square)\n    show ?thesis using square by (simp add: algebra_simps)\n  qed\n\n  (* Si q está a la izquierda de z, acotamos en [q,z]. *)\n  show ?thesis\n  proof (cases \"q \\<le> z\")\n    case True\n    have subinterval: \"{q..z} \\<subseteq> {l..u}\"\n      using qin zin True by auto\n    have step: \"\\<bar>f z - f q\\<bar> \\<le> (K * \\<bar>z - q\\<bar>) * \\<bar>z - q\\<bar>\"\n    proof (rule cu_deriv_bound_lipschitz)\n      show \"q \\<le> z\" using True .\n    next\n      fix t\n      assume tmem: \"t \\<in> {q..z}\"\n      have in_parent: \"t \\<in> {l..u}\"\n        using subinterval tmem by blast\n      show \"(f has_real_derivative f' t) (at t)\"\n        using derivative_rule[OF in_parent] .\n    next\n      fix t\n      assume tmem: \"t \\<in> {q..z}\"\n      have in_parent: \"t \\<in> {l..u}\"\n        using subinterval tmem by blast\n      have endpoints: \"q \\<le> t\" \"t \\<le> z\" using tmem by auto\n      have distance: \"\\<bar>t - q\\<bar> \\<le> \\<bar>z - q\\<bar>\"\n        using endpoints by (simp; linarith)\n      have scaled: \"K * \\<bar>t - q\\<bar> \\<le> K * \\<bar>z - q\\<bar>\"\n        by (rule mult_left_mono[OF distance scale_nonnegative])\n      have derivative_bound: \"\\<bar>f' t\\<bar> \\<le> K * \\<bar>t - q\\<bar>\"\n        using derivative_estimate[OF in_parent] .\n      show \"\\<bar>f' t\\<bar> \\<le> K * \\<bar>z - q\\<bar>\"\n        using derivative_bound scaled by linarith\n    qed\n    show ?thesis using step product by simp\n  next\n    (* Si z está a la izquierda de q, aplicamos la misma cota en [z,q]. *)\n    case False\n    have z_le_q: \"z \\<le> q\" using False by linarith\n    have subinterval: \"{z..q} \\<subseteq> {l..u}\"\n      using qin zin z_le_q by auto\n    have reverse_step: \"\\<bar>f q - f z\\<bar> \\<le> (K * \\<bar>z - q\\<bar>) * \\<bar>q - z\\<bar>\"\n    proof (rule cu_deriv_bound_lipschitz)\n      show \"z \\<le> q\" using z_le_q .\n    next\n      fix t\n      assume tmem: \"t \\<in> {z..q}\"\n      have in_parent: \"t \\<in> {l..u}\"\n        using subinterval tmem by blast\n      show \"(f has_real_derivative f' t) (at t)\"\n        using derivative_rule[OF in_parent] .\n    next\n      fix t\n      assume tmem: \"t \\<in> {z..q}\"\n      have in_parent: \"t \\<in> {l..u}\"\n        using subinterval tmem by blast\n      have endpoints: \"z \\<le> t\" \"t \\<le> q\" using tmem by auto\n      have distance: \"\\<bar>t - q\\<bar> \\<le> \\<bar>z - q\\<bar>\"\n        using endpoints by (simp; linarith)\n      have scaled: \"K * \\<bar>t - q\\<bar> \\<le> K * \\<bar>z - q\\<bar>\"\n        by (rule mult_left_mono[OF distance scale_nonnegative])\n      have derivative_bound: \"\\<bar>f' t\\<bar> \\<le> K * \\<bar>t - q\\<bar>\"\n        using derivative_estimate[OF in_parent] .\n      show \"\\<bar>f' t\\<bar> \\<le> K * \\<bar>z - q\\<bar>\"\n        using derivative_bound scaled by linarith\n    qed\n    have step: \"\\<bar>f z - f q\\<bar> \\<le> (K * \\<bar>z - q\\<bar>) * \\<bar>z - q\\<bar>\"\n      using reverse_step by (simp add: abs_minus_commute)\n    show ?thesis using step product by simp\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_9_cuadratico",
+    "episodio": "pf_9_cuadratico#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:51:42"
+   }
+  },
+  {
+   "nombre": "cu_deriv_nonnegative_nondecreasing",
+   "texto": "lemma cu_deriv_nonnegative_nondecreasing:\n  fixes f f' :: \"real \\<Rightarrow> real\" and l u :: real\n  assumes ord: \"l \\<le> u\"\n    and ddata: \"\\<And>t. t \\<in> {l..u} \\<Longrightarrow> (f has_real_derivative f' t) (at t)\"\n    and nonneg: \"\\<And>t. t \\<in> {l..u} \\<Longrightarrow> 0 \\<le> f' t\"\n  shows \"f l \\<le> f u\"\nproof (rule Deriv.DERIV_nonneg_imp_nondecreasing[OF ord])\n  (* La derivada dada es no negativa en cada punto del intervalo. *)\n  fix t\n  assume lt: \"l \\<le> t\" and tu: \"t \\<le> u\"\n  have ti: \"t \\<in> {l..u}\" using lt tu by simp\n  show \"\\<exists>y. (f has_real_derivative y) (at t) \\<and> 0 \\<le> y\"\n    using ddata[OF ti] nonneg[OF ti] by blast\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "pf_9c_cuadratico_medio",
+    "episodio": "pf_9c_cuadratico_medio#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T22:59:05"
+   }
+  },
+  {
+   "nombre": "cu_abs_recurrence_bound",
+   "texto": "lemma cu_abs_recurrence_bound:\n  fixes a :: \"nat \\<Rightarrow> real\" and r :: real and k :: nat\n  assumes r_nonneg: \"0 \\<le> r\"\n    and recurrence: \"\\<And>j. \\<bar>a (Suc j)\\<bar> \\<le> r * \\<bar>a j\\<bar>\"\n  shows \"\\<bar>a k\\<bar> \\<le> r ^ k * \\<bar>a 0\\<bar>\"\n(* Por inducción, en el paso sucesor se escala la cota inductiva por el factor no negativo. *)\nproof (induction k)\n  case 0\n  then show ?case by simp\nnext\n  case (Suc k)\n  (* La recurrencia da el primer tramo de la cota del paso. *)\n  have step: \"\\<bar>a (Suc k)\\<bar> \\<le> r * \\<bar>a k\\<bar>\"\n    using recurrence[of k] .\n\n  (* La no negatividad de r permite escalar la hipótesis inductiva. *)\n  have scaled: \"r * \\<bar>a k\\<bar> \\<le> r * (r ^ k * \\<bar>a 0\\<bar>)\"\n    using Suc.IH r_nonneg by (rule mult_left_mono)\n\n  (* Se encadenan ambas cotas y se simplifica la potencia sucesora. *)\n  have \"\\<bar>a (Suc k)\\<bar> \\<le> r * (r ^ k * \\<bar>a 0\\<bar>)\"\n    using step scaled by (rule order_trans)\n  also have \"... = r ^ Suc k * \\<bar>a 0\\<bar>\"\n    by (simp add: power_Suc algebra_simps)\n  finally show ?case .\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "orden_1_lineal",
+    "episodio": "orden_1_lineal#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T23:00:40"
+   }
+  },
+  {
+   "nombre": "cu_abs_recurrence_bound_v2",
+   "texto": "lemma cu_abs_recurrence_bound_v2:\n  fixes a :: \"nat \\<Rightarrow> real\" and r :: real and k :: nat\n  assumes r_nonneg: \"0 \\<le> r\"\n    and recurrence: \"\\<And>j. \\<bar>a (Suc j)\\<bar> \\<le> r * \\<bar>a j\\<bar>\"\n  shows \"\\<bar>a k\\<bar> \\<le> r ^ k * \\<bar>a 0\\<bar>\"\nproof (induction k)\n  case 0\n  then show ?case by simp\nnext\n  case (Suc k)\n  (* La recurrencia proporciona la cota para el paso actual. *)\n  have step: \"\\<bar>a (Suc k)\\<bar> \\<le> r * \\<bar>a k\\<bar>\"\n    using recurrence[of k] .\n\n  (* Se multiplica la hipótesis inductiva por el factor no negativo. *)\n  have scaled: \"r * \\<bar>a k\\<bar> \\<le> r * (r ^ k * \\<bar>a 0\\<bar>)\"\n    using Suc.IH r_nonneg by (rule mult_left_mono)\n\n  (* Se encadenan las cotas y se simplifica la potencia sucesora. *)\n  have \"\\<bar>a (Suc k)\\<bar> \\<le> r * (r ^ k * \\<bar>a 0\\<bar>)\"\n    using step scaled by (rule order_trans)\n  also have \"... = r ^ Suc k * \\<bar>a 0\\<bar>\"\n    by (simp add: power_Suc algebra_simps)\n  finally show ?case .\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "orden_1_lineal",
+    "episodio": "orden_1_lineal#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-08T23:00:53"
+   }
+  },
+  {
+   "nombre": "cu_abs_square_scale",
+   "texto": "lemma cu_abs_square_scale:\n  fixes c x y :: real\n  assumes c_nonneg: \"0 \\<le> c\"\n    and bound: \"\\<bar>x\\<bar> \\<le> c * y\\<^sup>2\"\n  shows \"c * \\<bar>x\\<bar> \\<le> (c * \\<bar>y\\<bar>)\\<^sup>2\"\nproof -\n  (* El cuadrado de un valor absoluto coincide con el cuadrado original. *)\n  have abs_sq: \"(\\<bar>y\\<bar>)\\<^sup>2 = y\\<^sup>2\"\n  proof (cases \"0 \\<le> y\")\n    case True\n    then show ?thesis by simp\n  next\n    case False\n    then have \"y \\<le> 0\" by linarith\n    then have \"\\<bar>y\\<bar> = -y\" by simp\n    then show ?thesis by algebra\n  qed\n  (* Escalamos la cota usando que c es no negativo. *)\n  have scaled: \"c * \\<bar>x\\<bar> \\<le> c * (c * y\\<^sup>2)\"\n  proof (rule mult_left_mono)\n    show \"\\<bar>x\\<bar> \\<le> c * y\\<^sup>2\" by (rule bound)\n    show \"0 \\<le> c\" by (rule c_nonneg)\n  qed\n  (* La expresión escalada es exactamente el cuadrado requerido. *)\n  have equality: \"c * (c * y\\<^sup>2) = (c * \\<bar>y\\<bar>)\\<^sup>2\"\n    using abs_sq by algebra\n  show ?thesis\n    using scaled equality by simp\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "orden_3_cuadratico",
+    "episodio": "orden_3_cuadratico#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T08:09:31"
+   }
+  },
+  {
+   "nombre": "cu_square_recurrence_bound",
+   "texto": "lemma cu_square_recurrence_bound:\n  fixes a :: \"nat \\<Rightarrow> real\" and k :: nat\n  assumes nonneg: \"\\<And>j. 0 \\<le> a j\"\n    and recurrence: \"\\<And>j. a (Suc j) \\<le> (a j)\\<^sup>2\"\n  shows \"a k \\<le> (a 0) ^ (2 ^ k)\"\nproof (induction k)\n  case 0\n  show ?case by simp\nnext\n  case (Suc k)\n  (* La hipótesis inductiva se eleva al cuadrado por monotonía. *)\n  have square_bound: \"(a k)\\<^sup>2 \\<le> (a 0 ^ (2 ^ k))\\<^sup>2\"\n    using Suc.IH nonneg[of k] by (rule power_mono; assumption)\n\n  (* Se reescribe el cuadrado como una potencia con exponente producto. *)\n  have power_step:\n    \"(a 0 ^ (2 ^ k))\\<^sup>2 = (a 0) ^ ((2 ^ k) * 2)\"\n    by (simp only: power_mult)\n\n  (* El exponente en el paso sucesor es el producto por dos. *)\n  have exp_step: \"(2::nat) ^ Suc k = (2 ^ k) * 2\"\n    by (simp add: mult.commute)\n  have exp_reverse: \"(2 ^ k) * 2 = (2::nat) ^ Suc k\"\n    using exp_step by (rule sym)\n\n  (* La congruencia transporta la igualdad de exponentes a las potencias reales. *)\n  have exponent_step:\n    \"(a 0) ^ ((2 ^ k) * 2) = (a 0) ^ (2 ^ Suc k)\"\n    using exp_reverse\n    by (rule arg_cong[where f = \"\\<lambda>m::nat. (a 0) ^ m\"])\n\n  (* Encadenamos la recurrencia, la cota inductiva y la igualdad de potencias. *)\n  show ?case\n  proof -\n    have \"a (Suc k) \\<le> (a k)\\<^sup>2\"\n      by (rule recurrence)\n    also have \"... \\<le> (a 0 ^ (2 ^ k))\\<^sup>2\"\n      by (rule square_bound)\n    also have \"... = (a 0) ^ (2 ^ Suc k)\"\n      by (rule trans[OF power_step exponent_step])\n    finally show ?thesis .\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "orden_3_cuadratico",
+    "episodio": "orden_3_cuadratico#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T08:09:43"
+   }
+  },
+  {
+   "nombre": "cu_newton_algebra",
+   "texto": "lemma cu_newton_algebra:\n  fixes u v w :: real\n  assumes w_nonzero: \"w \\<noteq> 0\"\n    and numerator_bound:\n      \"\\<bar>u - w * v\\<bar> \\<le> \\<bar>w\\<bar> * \\<bar>v\\<bar> / 2\"\n  shows \"\\<bar>v - u / w\\<bar> \\<le> \\<bar>v\\<bar> / 2\"\nproof -\n  (* Reescribimos el error como el cociente del residuo por el denominador. *)\n  have error_eq: \"v - u / w = (w * v - u) / w\"\n    using w_nonzero by (simp add: field_simps)\n  have wabs_pos: \"0 < \\<bar>w\\<bar>\"\n    using w_nonzero by simp\n\n  (* Dividir la cota del residuo por el denominador da la cota deseada. *)\n  have quotient_bound:\n    \"\\<bar>u - w * v\\<bar> / \\<bar>w\\<bar> \\<le> \\<bar>v\\<bar> / 2\"\n  proof -\n    have divided:\n      \"\\<bar>u - w * v\\<bar> / \\<bar>w\\<bar> \\<le>\n        (\\<bar>w\\<bar> * \\<bar>v\\<bar> / 2) / \\<bar>w\\<bar>\"\n      by (rule divide_right_mono[OF numerator_bound]) (use wabs_pos in simp)\n    also have \"\\<dots> = \\<bar>v\\<bar> / 2\"\n      using wabs_pos by (simp add: field_simps)\n    finally show ?thesis .\n  qed\n\n  (* La igualdad de valores absolutos concluye la estimación. *)\n  have \"\\<bar>v - u / w\\<bar> = \\<bar>u - w * v\\<bar> / \\<bar>w\\<bar>\"\n    using w_nonzero error_eq\n    by (simp add: abs_div abs_minus_commute)\n  also have \"\\<dots> \\<le> \\<bar>v\\<bar> / 2\"\n    by (rule quotient_bound)\n  finally show ?thesis .\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "newton_2_contraccion",
+    "episodio": "newton_2_contraccion#1",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T08:34:32"
+   }
+  },
+  {
+   "nombre": "cu_medio_en_intervalo",
+   "texto": "lemma cu_medio_en_intervalo:\n  fixes l u :: real\n  assumes orden: \"l \\<le> u\"\n  shows \"l \\<le> (l + u) / 2 \\<and> (l + u) / 2 \\<le> u\"\nproof -\n  (* Expresamos el punto medio duplicado sin divisiones. *)\n  have dos_medio: \"2 * ((l + u) / 2) = l + u\"\n    by (simp add: field_simps)\n\n  (* Comparamos los extremos tras duplicar las desigualdades. *)\n  have dos_izquierda: \"2 * l \\<le> l + u\"\n    using orden by linarith\n  have dos_derecha: \"l + u \\<le> 2 * u\"\n    using orden by linarith\n\n  (* Las comparaciones anteriores dan las dos cotas del punto medio. *)\n  show ?thesis\n    using dos_medio dos_izquierda dos_derecha by linarith\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_1_ancho",
+    "episodio": "bis_1_ancho#2",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T11:02:56"
+   }
+  },
+  {
+   "nombre": "cu_mitad_longitud",
+   "texto": "lemma cu_mitad_longitud:\n  fixes l u :: real\n  shows \"(l + u) / 2 - l = (u - l) / 2 \\<and>\n         u - (l + u) / 2 = (u - l) / 2\"\nproof -\n  (* Cada distancia desde el punto medio es la mitad de la longitud. *)\n  have izquierda: \"(l + u) / 2 - l = (u - l) / 2\"\n    by (simp add: field_simps)\n  have derecha: \"u - (l + u) / 2 = (u - l) / 2\"\n    by (simp add: field_simps)\n  show ?thesis using izquierda derecha by blast\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_1_ancho",
+    "episodio": "bis_1_ancho#2",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T11:03:08"
+   }
+  },
+  {
+   "nombre": "cu_divide_power_two_half",
+   "texto": "lemma cu_divide_power_two_half:\n  fixes d :: real and k :: nat\n  shows \"(d / 2 ^ k) / 2 = d / 2 ^ Suc k\"\nproof -\n  (* El exponente sucesor incorpora el factor dos en el denominador. *)\n  show ?thesis\n    by (simp add: power_Suc field_simps; algebra)\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_1_ancho",
+    "episodio": "bis_1_ancho#2",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T11:03:20"
+   }
+  },
+  {
+   "nombre": "cu_midpoint_bounds",
+   "texto": "lemma cu_midpoint_bounds:\n  fixes x y :: real\n  assumes xy: \"x \\<le> y\"\n  shows \"x \\<le> (x + y) / 2 \\<and> (x + y) / 2 \\<le> y\"\nproof -\n  (* La identidad de duplicación elimina la división del razonamiento de orden. *)\n  have twice: \"2 * ((x + y) / 2) = x + y\"\n    by (simp add: field_simps)\n\n  (* Con la identidad anterior, ambas cotas se reducen a aritmética lineal. *)\n  have lower: \"x \\<le> (x + y) / 2\"\n    using xy twice by linarith\n  have upper: \"(x + y) / 2 \\<le> y\"\n    using xy twice by linarith\n  show ?thesis\n    using lower upper by blast\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_2_encaje",
+    "episodio": "bis_2_encaje#2",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T11:07:05"
+   }
+  },
+  {
+   "nombre": "cu_split_interval",
+   "texto": "lemma cu_split_interval:\n  fixes x y :: real and c :: bool\n  assumes xy: \"x \\<le> y\"\n  shows\n    \"x \\<le> fst (if c then (x, (x + y) / 2) else ((x + y) / 2, y)) \\<and>\n     fst (if c then (x, (x + y) / 2) else ((x + y) / 2, y)) \\<le>\n       snd (if c then (x, (x + y) / 2) else ((x + y) / 2, y)) \\<and>\n     snd (if c then (x, (x + y) / 2) else ((x + y) / 2, y)) \\<le> y\"\nproof -\n  (* El punto medio está entre los extremos, por lo que ambas mitades son intervalos válidos. *)\n  have mid: \"x \\<le> (x + y) / 2 \\<and> (x + y) / 2 \\<le> y\"\n    using cu_midpoint_bounds[OF xy] .\n  show ?thesis\n    using mid by (cases c) auto\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_2_encaje",
+    "episodio": "bis_2_encaje#2",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T11:07:26"
+   }
+  },
+  {
+   "nombre": "cu_product_sign_switch",
+   "texto": "lemma cu_product_sign_switch:\n  fixes x y z :: real\n  assumes xy: \"x * y \\<le> 0\"\n    and xz: \"0 < x * z\"\n  shows \"z * y \\<le> 0\"\nproof -\n  (* El producto estrictamente positivo implica que x no es cero. *)\n  have x_nonzero: \"x \\<noteq> 0\"\n  proof\n    assume \"x = 0\"\n    with xz show False by simp\n  qed\n\n  (* Separamos los casos según el signo de x. *)\n  show ?thesis\n  proof (cases \"0 < x\")\n    case True\n\n    (* Si x es positivo, y no puede ser positivo. *)\n    have y_nonpos: \"y \\<le> 0\"\n    proof (rule ccontr)\n      assume \"\\<not> y \\<le> 0\"\n      then have \"0 < y\" by linarith\n      with True have \"0 < x * y\" by (rule mult_pos_pos)\n      with xy show False by linarith\n    qed\n\n    (* La positividad de x*z fuerza que z sea positivo. *)\n    have z_pos: \"0 < z\"\n    proof (rule ccontr)\n      assume \"\\<not> 0 < z\"\n      then have z_nonpos: \"z \\<le> 0\" by linarith\n      have x_nonneg: \"0 \\<le> x\" using True by linarith\n      have \"x * z \\<le> 0\"\n        using x_nonneg z_nonpos by (rule mult_nonneg_nonpos)\n      with xz show False by linarith\n    qed\n\n    (* El producto de un número no negativo y uno no positivo es no positivo. *)\n    have z_nonneg: \"0 \\<le> z\" using z_pos by linarith\n    from z_nonneg y_nonpos show ?thesis by (rule mult_nonneg_nonpos)\n  next\n    case False\n\n    (* Como x no es cero, en este caso x es estrictamente negativo. *)\n    have x_nonpos: \"x \\<le> 0\" using False by linarith\n    have x_neg: \"x < 0\" using x_nonzero x_nonpos by linarith\n\n    (* Si y fuera negativo, el producto x*y sería positivo. *)\n    have y_nonneg: \"0 \\<le> y\"\n    proof (rule ccontr)\n      assume \"\\<not> 0 \\<le> y\"\n      then have \"y < 0\" by linarith\n      with x_neg have \"0 < x * y\" by (rule mult_neg_neg)\n      with xy show False by linarith\n    qed\n\n    (* La positividad de x*z fuerza que z sea negativo. *)\n    have z_neg: \"z < 0\"\n    proof (rule ccontr)\n      assume \"\\<not> z < 0\"\n      then have z_nonneg: \"0 \\<le> z\" by linarith\n      have \"x * z \\<le> 0\"\n        using x_nonpos z_nonneg by (rule mult_nonpos_nonneg)\n      with xz show False by linarith\n    qed\n\n    (* El producto de un número no positivo y uno no negativo es no positivo. *)\n    have z_nonpos: \"z \\<le> 0\" using z_neg by linarith\n    from z_nonpos y_nonneg show ?thesis by (rule mult_nonpos_nonneg)\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_3_signo",
+    "episodio": "bis_3_signo#2",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-09T11:10:42"
+   }
+  },
+  {
+   "nombre": "cu_product_sign_step",
+   "texto": "lemma cu_product_sign_step:\n  fixes p q r :: real\n  assumes pq: \"p * q \\<le> 0\"\n    and not_pr: \"\\<not> p * r \\<le> 0\"\n  shows \"r * q \\<le> 0\"\nproof -\n  (* El producto p*r es estrictamente positivo. *)\n  have pr: \"0 < p * r\" using not_pr by linarith\n  have pne: \"p \\<noteq> 0\" using pr by auto\n  have p_cases: \"p < 0 \\<or> 0 < p\" using pne by linarith\n  (* Separamos los dos posibles signos de p. *)\n  from p_cases show ?thesis\n  proof\n    assume pneg: \"p < 0\"\n    (* Si p es negativo, r también debe ser negativo. *)\n    have rneg: \"r < 0\"\n    proof (rule ccontr)\n      assume nr: \"\\<not> r < 0\"\n      have rnonneg: \"0 \\<le> r\" using nr by linarith\n      have ple: \"p \\<le> 0\" using pneg by linarith\n      have \"p * r \\<le> 0\"\n        by (rule mult_nonpos_nonneg[OF ple rnonneg])\n      with pr show False by linarith\n    qed\n    (* El producto p*q no positivo fuerza q a ser no negativo. *)\n    have qnonneg: \"0 \\<le> q\"\n    proof (rule ccontr)\n      assume nq: \"\\<not> 0 \\<le> q\"\n      have qneg: \"q < 0\" using nq by linarith\n      have \"0 < p * q\" by (rule mult_neg_neg[OF pneg qneg])\n      with pq show False by linarith\n    qed\n    have rle: \"r \\<le> 0\" using rneg by linarith\n    show ?thesis by (rule mult_nonpos_nonneg[OF rle qnonneg])\n  next\n    assume ppos: \"0 < p\"\n    (* Si p es positivo, r también debe ser positivo. *)\n    have rpos: \"0 < r\"\n    proof (rule ccontr)\n      assume nr: \"\\<not> 0 < r\"\n      have rle: \"r \\<le> 0\" using nr by linarith\n      have pnonneg: \"0 \\<le> p\" using ppos by linarith\n      have \"p * r \\<le> 0\"\n        by (rule mult_nonneg_nonpos[OF pnonneg rle])\n      with pr show False by linarith\n    qed\n    (* El producto p*q no positivo fuerza q a ser no positivo. *)\n    have qle: \"q \\<le> 0\"\n    proof (rule ccontr)\n      assume nq: \"\\<not> q \\<le> 0\"\n      have qpos: \"0 < q\" using nq by linarith\n      have \"0 < p * q\" by (rule mult_pos_pos[OF ppos qpos])\n      with pq show False by linarith\n    qed\n    have rnonneg: \"0 \\<le> r\" using rpos by linarith\n    show ?thesis by (rule mult_nonneg_nonpos[OF rnonneg qle])\n  qed\nqed",
+   "alcance": "general",
+   "procedencia": {
+    "peldano": "bis_5_cota",
+    "episodio": "bis_5_cota#2",
+    "modelo": "gpt-6-luna",
+    "fecha": "2026-10-10T07:39:02"
+   }
   }
  ]
 }

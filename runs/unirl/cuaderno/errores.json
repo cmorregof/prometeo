@@ -1016,12 +1016,239 @@
     }
    ],
    "contadores": {
-    "apariciones": 0,
-    "ultimo_episodio": null
+    "apariciones": 1,
+    "ultimo_episodio": "newton_3_decaimiento#1"
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
     "fecha": "2026-09-27T08:25:10"
+   }
+  },
+  {
+   "id": "A042",
+   "clase": "aprendido",
+   "texto": "Al volver a fijar `f` en un lema cuando el contexto ya la fija, Isabelle produce `Duplicate fixed variable(s): \"f\"`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:37"
+   }
+  },
+  {
+   "id": "A043",
+   "clase": "aprendido",
+   "texto": "Si las premisas disponibles no bastan para aplicar el método inicial al subobjetivo, Isabelle produce `Failed to apply initial proof method`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:37"
+   }
+  },
+  {
+   "id": "A044",
+   "clase": "aprendido",
+   "texto": "Si la prueba deja una submeta aritmética sin resolver, como `(l + u) / 2 ≤ u`, Isabelle produce `Failed to finish proof`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:37"
+   }
+  },
+  {
+   "id": "A045",
+   "clase": "aprendido",
+   "texto": "Usar un hecho no declarado produce `Undefined fact: \"cu_bisection_invariant\".`",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_bisection_invariant",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:44"
+   }
+  },
+  {
+   "id": "A046",
+   "clase": "aprendido",
+   "texto": "La simplificación amplia de la definición recursiva agotó repetidamente el tiempo de compilación.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:24:38"
+   }
+  },
+  {
+   "id": "A047",
+   "clase": "aprendido",
+   "texto": "Se intentó concluir \\(0 \\le k\\) a partir de \\(0 \\le k^n k\\), algo que no se deduce sin una hipótesis de signo sobre \\(k\\).",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "id": "A048",
+   "clase": "aprendido",
+   "texto": "Las cotas de orden no cierran por sí solas la meta de valor absoluto si la cota inferior no se expresa en la orientación requerida por la caracterización de \\(|\\cdot|\\).",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "id": "A049",
+   "clase": "aprendido",
+   "texto": "Isabelle da `Undefined fact` cuando se usa un lema auxiliar que no está disponible en el contexto activo; citarlo no incorpora su declaración.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "id": "A050",
+   "clase": "aprendido",
+   "texto": "En una cota de productos, Isabelle no cierra la monotonía si no se proporciona la no negatividad del factor y se multiplica por el lado correcto.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A051",
+   "clase": "aprendido",
+   "texto": "La normalización automática de potencias puede dejar sin probar una igualdad cuando los exponentes aparecen en órdenes distintos.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A052",
+   "clase": "aprendido",
+   "texto": "El tipo del índice auxiliar de Taylor puede quedar indeterminado; hay que fijarlo explícitamente como `nat`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A053",
+   "clase": "aprendido",
+   "texto": "Las reglas del valor medio no emparejan una derivabilidad expresada como cuantificación lógica con una premisa que esperan como regla de Isar.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A054",
+   "clase": "aprendido",
+   "texto": "Una referencia a un lema auxiliar no compilado o fuera del contexto produce `Undefined fact`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A055",
+   "clase": "aprendido",
+   "texto": "Declarar un lema con una variable ya fijada en el contexto produce `Duplicate fixed variable(s)`; usa nombres auxiliares distintos.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T11:08:11"
+   }
+  },
+  {
+   "id": "A056",
+   "clase": "aprendido",
+   "texto": "Invocar un hecho `cu_...` que no se declaró ni se incluyó produce `Undefined fact`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_newton_step_quadratic",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "cu_medio_en_intervalo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T11:08:21"
    }
   }
  ]

@@ -1,0 +1,19 @@
+{
+ "fase": "evaluacion",
+ "modelo": "gpt-6-luna",
+ "inicio": "2026-10-08T20:40:19",
+ "tope_llamadas": 614,
+ "codigo": {
+  "unirl_sha256": "4ae5557805b5d23f",
+  "git_commit": "25a2ee5",
+  "unirl_dirty": false
+ },
+ "configs": [
+  "B0",
+  "B",
+  "C"
+ ],
+ "episodios_por_peldano": 2,
+ "paralelo": 3,
+ "cuaderno": "ninguno"
+}

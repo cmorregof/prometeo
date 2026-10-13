@@ -5,8 +5,8 @@
    "topico": "encaje",
    "origen": "bis_2_encaje#1",
    "contadores": {
-    "intentos": 21,
-    "exitos": 8
+    "intentos": 41,
+    "exitos": 15
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -18,8 +18,8 @@
    "topico": "signos",
    "origen": "bis_3_signo#1",
    "contadores": {
-    "intentos": 20,
-    "exitos": 7
+    "intentos": 43,
+    "exitos": 16
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -31,8 +31,8 @@
    "topico": "inducción",
    "origen": "pf_2_dentro#1",
    "contadores": {
-    "intentos": 19,
-    "exitos": 5
+    "intentos": 41,
+    "exitos": 16
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -44,8 +44,8 @@
    "topico": "unicidad",
    "origen": "pf_3_unicidad#1",
    "contadores": {
-    "intentos": 14,
-    "exitos": 4
+    "intentos": 34,
+    "exitos": 13
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -57,8 +57,8 @@
    "topico": "iteración",
    "origen": "pf_4_decaimiento#1",
    "contadores": {
-    "intentos": 14,
-    "exitos": 4
+    "intentos": 40,
+    "exitos": 15
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
@@ -66,29 +66,159 @@
    }
   },
   {
-   "texto": "Probar primero por separado que todos los iterados siguen en el dominio permite reutilizar ese resultado al demostrar después una estimación inductiva del error.",
-   "topico": "separacion",
-   "origen": "pf_5c_a_priori_max#1",
-   "contadores": {
-    "intentos": 3,
-    "exitos": 0
-   },
-   "procedencia": {
-    "destilacion": "20260926-201727-gpt-6-luna",
-    "fecha": "2026-09-27T02:10:08"
-   }
-  },
-  {
    "texto": "Para una cota recursiva, hacer inducción, obtener la cota del paso con la recurrencia, escalar la hipótesis inductiva usando la no negatividad del factor, normalizar algebraicamente y encadenar las desigualdades por transitividad.",
    "topico": "induccion",
    "origen": "orden_1_lineal#1",
    "contadores": {
-    "intentos": 2,
-    "exitos": 0
+    "intentos": 18,
+    "exitos": 6
    },
    "procedencia": {
     "destilacion": "20260926-201727-gpt-6-luna",
     "fecha": "2026-09-27T03:06:05"
+   }
+  },
+  {
+   "texto": "En una inducción, descompón la pareja de la iteración anterior y prueba por separado la actualización, la identidad algebraica del paso y la sustitución en la hipótesis inductiva.",
+   "topico": "inducción",
+   "origen": "bis_1_ancho#1",
+   "contadores": {
+    "intentos": 10,
+    "exitos": 3
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:44"
+   }
+  },
+  {
+   "texto": "Aísla el invariante en la iteración anterior, expresa explícitamente la recurrencia y divide la demostración según la condición que selecciona la rama.",
+   "topico": "casos",
+   "origen": "bis_3_signo#1",
+   "contadores": {
+    "intentos": 6,
+    "exitos": 2
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:44"
+   }
+  },
+  {
+   "texto": "Separa el caso degenerado, aplica el teorema del valor medio con extremos estrictamente ordenados y trata el orden inverso intercambiando los extremos.",
+   "topico": "orden",
+   "origen": "pf_1_derivada#1",
+   "contadores": {
+    "intentos": 12,
+    "exitos": 3
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:24:38"
+   }
+  },
+  {
+   "texto": "Demuestra por inducción que la aplicación iterada conserva un conjunto invariante y usa ese lema en el resultado principal.",
+   "topico": "invariancia",
+   "origen": "pf_2_dentro#1",
+   "contadores": {
+    "intentos": 9,
+    "exitos": 3
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:24:38"
+   }
+  },
+  {
+   "texto": "Obtén una cota entre dos puntos fijos y cierra la prueba aplicando un lema general de unicidad para contracciones.",
+   "topico": "unicidad",
+   "origen": "pf_3_unicidad#1",
+   "contadores": {
+    "intentos": 5,
+    "exitos": 1
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:24:38"
+   }
+  },
+  {
+   "texto": "Separa la cota geométrica de los detalles del problema y demuestra el resultado instanciando un lema general sobre iterados.",
+   "topico": "iteración",
+   "origen": "pf_4_decaimiento#1",
+   "contadores": {
+    "intentos": 4,
+    "exitos": 1
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:24:38"
+   }
+  },
+  {
+   "texto": "Formula la cota como lema general, prueba por inducción la no negatividad de las potencias que aparecen y luego aplica el lema a la iteración concreta.",
+   "topico": "induccion",
+   "origen": "pf_6_a_priori_x1#1",
+   "contadores": {
+    "intentos": 4,
+    "exitos": 1
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "texto": "Compara iterados consecutivos usando la contracción y la desigualdad triangular, y después aplica un lema escalar a posteriori a sus distancias.",
+   "topico": "triangulo",
+   "origen": "pf_6p_a_posteriori#1",
+   "contadores": {
+    "intentos": 1,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "texto": "Obtén continuidad a partir de la hipótesis de Lipschitz, verifica que las imágenes de los extremos permanecen en el intervalo y aplica un resultado de punto fijo para intervalos.",
+   "topico": "existencia",
+   "origen": "pf_7_existencia#1",
+   "contadores": {
+    "intentos": 4,
+    "exitos": 1
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "texto": "Reduce el resultado a un lema general de recurrencia cuadrática y luego lo instancia con las hipótesis de la sucesión.",
+   "topico": "induccion",
+   "origen": "orden_2_cuadratico_lineal#1",
+   "contadores": {
+    "intentos": 1,
+    "exitos": 0
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "texto": "Separa las cotas globales del intervalo de las relaciones de encaje de un paso: descompón el par actual, demuestra que ambos posibles subintervalos quedan dentro del actual y luego despliega la recursión.",
+   "topico": "induccion",
+   "origen": "bis_2_encaje#2",
+   "contadores": {
+    "intentos": 3,
+    "exitos": 1
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T11:08:21"
    }
   }
  ]

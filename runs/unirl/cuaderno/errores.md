@@ -239,4 +239,82 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * Isabelle rechazó `martillo` como método indefinido.
 * Comprobado en Isabelle2025: método `martillo` no existe.
+* Visto en episodios de este cuaderno: 1.
+
+## A042 · aprendido en los episodios de train
+
+* Al volver a fijar `f` en un lema cuando el contexto ya la fija, Isabelle produce `Duplicate fixed variable(s): "f"`.
+* Visto en episodios de este cuaderno: 0.
+
+## A043 · aprendido en los episodios de train
+
+* Si las premisas disponibles no bastan para aplicar el método inicial al subobjetivo, Isabelle produce `Failed to apply initial proof method`.
+* Visto en episodios de este cuaderno: 0.
+
+## A044 · aprendido en los episodios de train
+
+* Si la prueba deja una submeta aritmética sin resolver, como `(l + u) / 2 ≤ u`, Isabelle produce `Failed to finish proof`.
+* Visto en episodios de este cuaderno: 0.
+
+## A045 · aprendido en los episodios de train
+
+* Usar un hecho no declarado produce `Undefined fact: "cu_bisection_invariant".`
+* Comprobado en Isabelle2025: hecho `cu_bisection_invariant` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A046 · aprendido en los episodios de train
+
+* La simplificación amplia de la definición recursiva agotó repetidamente el tiempo de compilación.
+* Visto en episodios de este cuaderno: 0.
+
+## A047 · aprendido en los episodios de train
+
+* Se intentó concluir \(0 \le k\) a partir de \(0 \le k^n k\), algo que no se deduce sin una hipótesis de signo sobre \(k\).
+* Visto en episodios de este cuaderno: 0.
+
+## A048 · aprendido en los episodios de train
+
+* Las cotas de orden no cierran por sí solas la meta de valor absoluto si la cota inferior no se expresa en la orientación requerida por la caracterización de \(|\cdot|\).
+* Visto en episodios de este cuaderno: 0.
+
+## A049 · aprendido en los episodios de train
+
+* Isabelle da `Undefined fact` cuando se usa un lema auxiliar que no está disponible en el contexto activo; citarlo no incorpora su declaración.
+* Visto en episodios de este cuaderno: 0.
+
+## A050 · aprendido en los episodios de train
+
+* En una cota de productos, Isabelle no cierra la monotonía si no se proporciona la no negatividad del factor y se multiplica por el lado correcto.
+* Visto en episodios de este cuaderno: 0.
+
+## A051 · aprendido en los episodios de train
+
+* La normalización automática de potencias puede dejar sin probar una igualdad cuando los exponentes aparecen en órdenes distintos.
+* Visto en episodios de este cuaderno: 0.
+
+## A052 · aprendido en los episodios de train
+
+* El tipo del índice auxiliar de Taylor puede quedar indeterminado; hay que fijarlo explícitamente como `nat`.
+* Visto en episodios de este cuaderno: 0.
+
+## A053 · aprendido en los episodios de train
+
+* Las reglas del valor medio no emparejan una derivabilidad expresada como cuantificación lógica con una premisa que esperan como regla de Isar.
+* Visto en episodios de este cuaderno: 0.
+
+## A054 · aprendido en los episodios de train
+
+* Una referencia a un lema auxiliar no compilado o fuera del contexto produce `Undefined fact`.
+* Visto en episodios de este cuaderno: 0.
+
+## A055 · aprendido en los episodios de train
+
+* Declarar un lema con una variable ya fijada en el contexto produce `Duplicate fixed variable(s)`; usa nombres auxiliares distintos.
+* Visto en episodios de este cuaderno: 0.
+
+## A056 · aprendido en los episodios de train
+
+* Invocar un hecho `cu_...` que no se declaró ni se incluyó produce `Undefined fact`.
+* Comprobado en Isabelle2025: hecho `cu_newton_step_quadratic` no existe.
+* Comprobado en Isabelle2025: hecho `cu_medio_en_intervalo` no existe.
 * Visto en episodios de este cuaderno: 0.
