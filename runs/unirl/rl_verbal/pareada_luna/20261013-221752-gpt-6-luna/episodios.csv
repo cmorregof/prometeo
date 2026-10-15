@@ -1,0 +1,17 @@
+episodio_id,peldano,metodo,split,dificultad,version,config,aceptado,intento_exito,intentos,llamadas,consultas,r_V_max,usd
+rf_1_punto#E3#1,rf_1_punto,regula_falsi,test,2,clasica,E3,True,1,1,1,0,2.0,0.002309
+rf_2_signo#E3#1,rf_2_signo,regula_falsi,test,2,clasica,E3,True,3,3,3,0,2.0,0.006187
+rf_3_encaje#E3#1,rf_3_encaje,regula_falsi,test,3,clasica,E3,False,,3,3,0,0.0,0.016345
+rf_4_raiz#E3#1,rf_4_raiz,regula_falsi,test,3,clasica,E3,False,,3,3,0,0.0,0.016316
+rf_6_convergencia#E3#1,rf_6_convergencia,regula_falsi,test,5,debilitada,E3,False,,3,4,4,0.0,0.013771
+rf_5_limites#E3#1,rf_5_limites,regula_falsi,test,3,clasica,E3,False,,3,4,4,0.0,0.023468
+secante_1_inyectiva#E3#1,secante_1_inyectiva,secante,test,2,clasica,E3,True,1,1,2,3,2.0,0.003533
+rf_6c_puntos_convergen#E3#1,rf_6c_puntos_convergen,regula_falsi,test,5,clasica,E3,False,,3,4,6,0.0,0.012246
+secante_2_cociente#E3#1,secante_2_cociente,secante,test,2,clasica,E3,False,,3,4,1,0.0,0.01457
+secante_3_producto#E3#1,secante_3_producto,secante,test,5,clasica,E3,False,,3,4,4,0.0,0.015514
+secante_4_contraccion#E3#1,secante_4_contraccion,secante,test,2,debilitada,E3,False,,3,4,3,0.0,0.018229
+secante_4c_contraccion_local#E3#1,secante_4c_contraccion_local,secante,test,4,clasica,E3,False,,3,4,3,0.0,0.026269
+secante_5c_convergencia_local#E3#1,secante_5c_convergencia_local,secante,test,5,clasica,E3,False,,3,4,4,0.0,0.010088
+secante_5_convergencia#E3#1,secante_5_convergencia,secante,test,4,debilitada,E3,False,,3,4,2,0.25,0.012889
+secante_6c_orden_phi#E3#1,secante_6c_orden_phi,secante,test,5,clasica,E3,False,,3,4,4,0.0,0.010938
+secante_6_fibonacci#E3#1,secante_6_fibonacci,secante,test,4,debilitada,E3,False,,3,4,3,0.0,0.012017

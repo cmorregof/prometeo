@@ -114,3 +114,125 @@ unirl/tools/lanzar_ronda.sh: line 201: 43777 Terminated: 15          $RONDA_PY e
 unirl/tools/lanzar_ronda.sh: line 201: 48524 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
 2026-10-10 16:12:20 [ronda 20261008-2003] consolidar.py
 2026-10-10 16:12:20 [ronda 20261008-2003] [01_cuaderno] terminó el lanzamiento 6 (rc=143)
+2026-10-13 10:12:30 [ronda 20261008-2003] reanudación de la ronda iniciada el 2026-10-08T20:05:58 (unirl 4ae5557805b5d23f)
+2026-10-13 10:12:30 [ronda 20261008-2003] [04_pareada_sol_C3] omitida (CON_SOL=0)
+2026-10-13 10:12:30 [ronda 20261008-2003] [03_pareada_luna_C3] ya hecha
+2026-10-13 10:12:30 [ronda 20261008-2003] [02_eval_B0BC] ya hecha
+2026-10-13 10:12:31 [ronda 20261008-2003] [01_cuaderno] lanzamiento 1 (reanuda 20261008-200559-gpt-6-luna)
+2026-10-13 10:22:41 [ronda 20261008-2003] [vigilante] total=2.1882 cuaderno=0.8640 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 10:32:51 [ronda 20261008-2003] [vigilante] total=2.2192 cuaderno=0.8950 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 10:43:02 [ronda 20261008-2003] [vigilante] total=2.2477 cuaderno=0.9235 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 10:53:11 [ronda 20261008-2003] [vigilante] total=2.2681 cuaderno=0.9439 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 11:08:11 [ronda 20261008-2003] [vigilante] total=2.2871 cuaderno=0.9629 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 11:18:27 [ronda 20261008-2003] [vigilante] total=2.3202 cuaderno=0.9960 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 11:28:40 [ronda 20261008-2003] [vigilante] total=2.3536 cuaderno=1.0294 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 11:38:54 [ronda 20261008-2003] [vigilante] total=2.3788 cuaderno=1.0546 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 11:49:07 [ronda 20261008-2003] [vigilante] total=2.3872 cuaderno=1.0630 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 11:59:36 [ronda 20261008-2003] [vigilante] total=2.3908 cuaderno=1.0666 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 12:09:47 [ronda 20261008-2003] [vigilante] total=2.4058 cuaderno=1.0816 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 12:20:02 [ronda 20261008-2003] [vigilante] total=2.4372 cuaderno=1.1130 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 12:30:13 [ronda 20261008-2003] [vigilante] total=2.4478 cuaderno=1.1236 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 12:40:23 [ronda 20261008-2003] [vigilante] total=2.4788 cuaderno=1.1546 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 12:50:17 [ronda 20261008-2003] señal recibida: se detiene la ronda
+unirl/tools/lanzar_ronda.sh: line 201:  5863 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
+2026-10-13 12:50:19 [ronda 20261008-2003] consolidar.py
+2026-10-13 12:50:19 [ronda 20261008-2003] [01_cuaderno] terminó el lanzamiento 1 (rc=143)
+metricas.csv: 1314 filas; resumen.json: qagent, stepsizes, tabla1_biseccion, jueces_09, corpus, linea_base_A, rl_verbal, gasto
+2026-10-13 12:50:20 [ronda 20261008-2003] informe: /Users/cmorregof/Personal/rl_metodos/resultados/RONDA_INCOMPLETA.md
+2026-10-13 12:50:32 [ronda 20261008-2003] [vigilante] orden de detención: procesos de las fases terminados
+2026-10-13 13:16:56 [ronda 20261008-2003] reanudación de la ronda iniciada el 2026-10-08T20:05:58 (unirl 4ae5557805b5d23f)
+2026-10-13 13:16:56 [ronda 20261008-2003] [04_pareada_sol_C3] omitida (CON_SOL=0)
+2026-10-13 13:16:56 [ronda 20261008-2003] [03_pareada_luna_C3] ya hecha
+2026-10-13 13:16:56 [ronda 20261008-2003] [02_eval_B0BC] ya hecha
+2026-10-13 13:16:56 [ronda 20261008-2003] [01_cuaderno] lanzamiento 1 (reanuda 20261008-200559-gpt-6-luna)
+2026-10-13 13:27:05 [ronda 20261008-2003] [vigilante] total=2.5352 cuaderno=1.2110 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 13:37:15 [ronda 20261008-2003] [vigilante] total=2.5675 cuaderno=1.2433 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 14:05:04 [ronda 20261008-2003] [vigilante] total=2.5675 cuaderno=1.2433 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 14:15:17 [ronda 20261008-2003] [vigilante] total=2.5989 cuaderno=1.2747 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 14:25:27 [ronda 20261008-2003] [vigilante] total=2.6370 cuaderno=1.3128 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 14:35:37 [ronda 20261008-2003] [vigilante] total=2.6580 cuaderno=1.3338 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 14:45:47 [ronda 20261008-2003] [vigilante] total=2.6844 cuaderno=1.3602 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 14:55:58 [ronda 20261008-2003] [vigilante] total=2.7211 cuaderno=1.3969 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 15:06:08 [ronda 20261008-2003] [vigilante] total=2.7562 cuaderno=1.4320 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 15:16:19 [ronda 20261008-2003] [vigilante] total=2.7878 cuaderno=1.4635 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 15:26:30 [ronda 20261008-2003] [vigilante] total=2.7934 cuaderno=1.4692 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 15:36:40 [ronda 20261008-2003] [vigilante] total=2.8162 cuaderno=1.4920 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 15:46:52 [ronda 20261008-2003] [vigilante] total=2.8512 cuaderno=1.5270 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 15:57:05 [ronda 20261008-2003] [vigilante] total=2.8787 cuaderno=1.5545 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 16:07:46 [ronda 20261008-2003] [vigilante] total=2.9128 cuaderno=1.5886 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 16:16:53 [ronda 20261008-2003] [vigilante] sin red ≥ 90 s: se detienen las fases con API; se relanzarán cuando vuelva
+unirl/tools/lanzar_ronda.sh: line 201: 22344 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
+2026-10-13 16:16:53 [ronda 20261008-2003] [01_cuaderno] terminó el lanzamiento 1 (rc=143)
+2026-10-13 16:16:53 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (1)
+2026-10-13 16:30:28 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (6)
+2026-10-13 16:30:29 [ronda 20261008-2003] [vigilante] total=2.9335 cuaderno=1.6093 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 16:37:49 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (11)
+2026-10-13 16:43:04 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (16)
+2026-10-13 16:43:06 [ronda 20261008-2003] [vigilante] total=2.9335 cuaderno=1.6093 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 16:48:41 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (21)
+2026-10-13 16:54:10 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (26)
+2026-10-13 16:54:16 [ronda 20261008-2003] [vigilante] total=2.9335 cuaderno=1.6093 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 16:59:38 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (31)
+2026-10-13 17:05:16 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (36)
+2026-10-13 17:05:22 [ronda 20261008-2003] [vigilante] total=2.9335 cuaderno=1.6093 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 17:30:02 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (41)
+2026-10-13 17:51:09 [ronda 20261008-2003] [01_cuaderno] lanzamiento 2 (reanuda 20261008-200559-gpt-6-luna)
+2026-10-13 17:51:16 [ronda 20261008-2003] [vigilante] la red volvió
+2026-10-13 17:54:19 [ronda 20261008-2003] [vigilante] total=2.9401 cuaderno=1.6158 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 18:17:11 [ronda 20261008-2003] [vigilante] total=2.9736 cuaderno=1.6494 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 18:47:31 [ronda 20261008-2003] [vigilante] total=2.9803 cuaderno=1.6561 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 19:08:12 [ronda 20261008-2003] [vigilante] sin red ≥ 90 s: se detienen las fases con API; se relanzarán cuando vuelva
+unirl/tools/lanzar_ronda.sh: line 201: 47781 Terminated: 15          $RONDA_PY exec $DRYFLAG -- cuaderno --modelo "$MODELO_LUNA" --pasadas "$PASADAS_CUADERNO" --reanudar "$carpeta" >> "$RDIR/$nombre.out" 2>&1
+2026-10-13 19:08:12 [ronda 20261008-2003] [01_cuaderno] terminó el lanzamiento 2 (rc=143)
+2026-10-13 19:08:34 [ronda 20261008-2003] [01_cuaderno] sin conexión con api.openai.com; esperando (1)
+2026-10-13 19:09:35 [ronda 20261008-2003] [01_cuaderno] lanzamiento 3 (reanuda 20261008-200559-gpt-6-luna)
+2026-10-13 19:10:04 [ronda 20261008-2003] [vigilante] la red volvió
+2026-10-13 19:11:05 [ronda 20261008-2003] [vigilante] total=2.9846 cuaderno=1.6604 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 19:21:13 [ronda 20261008-2003] [vigilante] total=3.0104 cuaderno=1.6862 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 19:31:23 [ronda 20261008-2003] [vigilante] total=3.0374 cuaderno=1.7132 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 19:41:32 [ronda 20261008-2003] [vigilante] total=3.0622 cuaderno=1.7380 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 19:51:42 [ronda 20261008-2003] [vigilante] total=3.0931 cuaderno=1.7689 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 20:01:50 [ronda 20261008-2003] [vigilante] total=3.1244 cuaderno=1.8002 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 20:11:59 [ronda 20261008-2003] [vigilante] total=3.1588 cuaderno=1.8346 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 20:22:08 [ronda 20261008-2003] [vigilante] total=3.1903 cuaderno=1.8661 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 20:32:18 [ronda 20261008-2003] [vigilante] total=3.2272 cuaderno=1.9030 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 20:42:26 [ronda 20261008-2003] [vigilante] total=3.2657 cuaderno=1.9414 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 20:52:35 [ronda 20261008-2003] [vigilante] total=3.2944 cuaderno=1.9702 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 21:02:45 [ronda 20261008-2003] [vigilante] total=3.3272 cuaderno=2.0030 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 21:12:54 [ronda 20261008-2003] [vigilante] total=3.3738 cuaderno=2.0496 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 21:23:04 [ronda 20261008-2003] [vigilante] total=3.3998 cuaderno=2.0756 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 21:33:13 [ronda 20261008-2003] [vigilante] total=3.4378 cuaderno=2.1135 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 21:43:22 [ronda 20261008-2003] [vigilante] total=3.4746 cuaderno=2.1504 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 21:53:33 [ronda 20261008-2003] [vigilante] total=3.4971 cuaderno=2.1729 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 21:57:41 [ronda 20261008-2003] [01_cuaderno] terminó el lanzamiento 3 (rc=0)
+2026-10-13 21:57:41 [ronda 20261008-2003] [01_cuaderno] completa: 20261008-200559-gpt-6-luna
+2026-10-13 21:57:41 [ronda 20261008-2003] cuaderno congelado: 835d3070e3b0c3b1
+2026-10-13 21:57:41 [ronda 20261008-2003] [05_linea_base] martillo solo con el cuaderno congelado 835d3070e3b0c3b1 (en serie, sin API)
+2026-10-13 22:03:42 [ronda 20261008-2003] [vigilante] total=3.5110 cuaderno=2.1868 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 22:13:53 [ronda 20261008-2003] [vigilante] total=3.5110 cuaderno=2.1868 evaluacion=1.0629 pareada_luna=0.2612 preflight=0.0000
+2026-10-13 22:17:52 [ronda 20261008-2003] [05_linea_base] completa: /Users/cmorregof/Personal/rl_metodos/resultados/martillo_linea_base_2ceab27c97e13a3f.json
+2026-10-13 22:17:52 [ronda 20261008-2003] [08_pareada_sol_E3] omitida (CON_SOL=0)
+2026-10-13 22:17:52 [ronda 20261008-2003] [07_pareada_luna_E3] lanzamiento 1: configs E3, 1 episodio(s), pendientes rf_1_punto,rf_2_signo,rf_3_encaje,rf_4_raiz,rf_5_limites,rf_6_convergencia,rf_6c_puntos_convergen,secante_1_inyectiva,secante_2_cociente,secante_3_producto,secante_4_contraccion,secante_4c_contraccion_local,secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-10-13 22:17:52 [ronda 20261008-2003] [06_eval_E] lanzamiento 1: configs E, 2 episodio(s), pendientes rf_1_punto,rf_2_signo,rf_3_encaje,rf_4_raiz,rf_5_limites,rf_6_convergencia,rf_6c_puntos_convergen,secante_1_inyectiva,secante_2_cociente,secante_3_producto,secante_4_contraccion,secante_4c_contraccion_local,secante_5_convergencia,secante_5c_convergencia_local,secante_6_fibonacci,secante_6c_orden_phi
+2026-10-13 22:24:03 [ronda 20261008-2003] [vigilante] total=3.5950 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.0486 pareada_luna=0.2967 preflight=0.0000
+2026-10-13 22:34:14 [ronda 20261008-2003] [vigilante] total=3.7591 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.1460 pareada_luna=0.3634 preflight=0.0000
+2026-10-13 22:44:23 [ronda 20261008-2003] [vigilante] total=3.8416 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.2065 pareada_luna=0.3853 preflight=0.0000
+2026-10-13 22:54:33 [ronda 20261008-2003] [vigilante] total=3.8972 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.2340 pareada_luna=0.4134 preflight=0.0000
+2026-10-13 23:04:42 [ronda 20261008-2003] [vigilante] total=3.9143 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.2449 pareada_luna=0.4197 preflight=0.0000
+2026-10-13 23:14:53 [ronda 20261008-2003] [vigilante] total=3.9852 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.2967 pareada_luna=0.4388 preflight=0.0000
+2026-10-13 23:25:02 [ronda 20261008-2003] [vigilante] total=4.0212 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.3185 pareada_luna=0.4530 preflight=0.0000
+2026-10-13 23:35:11 [ronda 20261008-2003] [vigilante] total=4.0745 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.3522 pareada_luna=0.4725 preflight=0.0000
+2026-10-13 23:41:33 [ronda 20261008-2003] [07_pareada_luna_E3] terminó el lanzamiento 1 (rc=0)
+2026-10-13 23:41:33 [ronda 20261008-2003] [07_pareada_luna_E3] completa
+2026-10-13 23:45:20 [ronda 20261008-2003] [vigilante] total=4.1461 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.4204 pareada_luna=0.4759 preflight=0.0000
+2026-10-13 23:55:30 [ronda 20261008-2003] [vigilante] total=4.2133 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.4876 pareada_luna=0.4759 preflight=0.0000
+2026-10-14 00:05:40 [ronda 20261008-2003] [vigilante] total=4.2623 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.5366 pareada_luna=0.4759 preflight=0.0000
+2026-10-14 00:15:50 [ronda 20261008-2003] [vigilante] total=4.2923 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.5666 pareada_luna=0.4759 preflight=0.0000
+2026-10-14 00:25:59 [ronda 20261008-2003] [vigilante] total=4.3153 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.5896 pareada_luna=0.4759 preflight=0.0000
+2026-10-14 00:36:09 [ronda 20261008-2003] [vigilante] total=4.3269 cuaderno=2.1868 evaluacion=1.0629 evaluacion_E=0.6012 pareada_luna=0.4759 preflight=0.0000
+2026-10-14 00:38:33 [ronda 20261008-2003] [06_eval_E] terminó el lanzamiento 1 (rc=0)
+2026-10-14 00:38:33 [ronda 20261008-2003] [06_eval_E] completa
+2026-10-14 00:38:33 [ronda 20261008-2003] consolidar.py
+metricas.csv: 1401 filas; resumen.json: qagent, stepsizes, tabla1_biseccion, jueces_09, corpus, linea_base_A, rl_verbal, gasto
+2026-10-14 00:38:35 [ronda 20261008-2003] informe: /Users/cmorregof/Personal/rl_metodos/resultados/RONDA_TERMINADA.md
+2026-10-14 00:38:35 [ronda 20261008-2003] RONDA TERMINADA

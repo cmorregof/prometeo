@@ -12,7 +12,7 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * En su lugar: método `algebra`, hecho `algebra_simps`.
 * No existe. Para identidades de anillos: `by algebra` o `by (simp add: algebra_simps)`.
-* Visto en episodios de este cuaderno: 0.
+* Visto en episodios de este cuaderno: 1.
 
 ## E003 · `ring_nf` no existe en Isabelle (método de Lean)
 
@@ -30,7 +30,7 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * En su lugar: método `presburger`, método `arith`.
 * No existe. Aritmética lineal entera o natural: presburger, arith, linarith.
-* Visto en episodios de este cuaderno: 0.
+* Visto en episodios de este cuaderno: 1.
 
 ## E006 · `positivity` no existe en Isabelle (método de Lean)
 
@@ -182,7 +182,7 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * Isabelle informó que `power_nonneg` no está disponible como hecho con ese nombre.
 * Comprobado en Isabelle2025: hecho `power_nonneg` no existe.
-* Visto en episodios de este cuaderno: 0.
+* Visto en episodios de este cuaderno: 1.
 
 ## A032 · aprendido en los episodios de train
 
@@ -239,7 +239,7 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 
 * Isabelle rechazó `martillo` como método indefinido.
 * Comprobado en Isabelle2025: método `martillo` no existe.
-* Visto en episodios de este cuaderno: 1.
+* Visto en episodios de este cuaderno: 4.
 
 ## A042 · aprendido en los episodios de train
 
@@ -317,4 +317,251 @@ Cada nombre marcado como inexistente se comprobó en Isabelle2025 (no existe) y 
 * Invocar un hecho `cu_...` que no se declaró ni se incluyó produce `Undefined fact`.
 * Comprobado en Isabelle2025: hecho `cu_newton_step_quadratic` no existe.
 * Comprobado en Isabelle2025: hecho `cu_medio_en_intervalo` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A057 · aprendido en los episodios de train
+
+* `Failed to apply initial proof method` se repitió cuando el método inicial no cerró la meta; comprobar que las hipótesis bastan o descomponer explícitamente los casos de signo.
+* Visto en episodios de este cuaderno: 0.
+
+## A058 · aprendido en los episodios de train
+
+* `Failed to finish proof` se repitió con subobjetivos abiertos; exponer las ecuaciones de cada rama y cerrar por separado las metas residuales.
+* Visto en episodios de este cuaderno: 0.
+
+## A059 · aprendido en los episodios de train
+
+* Referenciar lemas auxiliares aún no definidos o registrados produjo `Undefined fact`.
+* Comprobado en Isabelle2025: hecho `cu_iterate_contraction_diameter` no existe.
+* Comprobado en Isabelle2025: hecho `cu_fixed_point_posteriori_step` no existe.
+* Comprobado en Isabelle2025: hecho `cu_funpow_Suc_apply` no existe.
+* Comprobado en Isabelle2025: hecho `cu_power_tends_zero` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A060 · aprendido en los episodios de train
+
+* Declarar de nuevo `n` como variable fija en un contexto donde ya estaba fijada produjo `Duplicate fixed variable(s)`.
+* Visto en episodios de este cuaderno: 0.
+
+## A061 · aprendido en los episodios de train
+
+* Volver a fijar el parámetro `p` cuando ya está fijado en el contexto causa `Duplicate fixed variable(s)`.
+* Visto en episodios de este cuaderno: 0.
+
+## A062 · aprendido en los episodios de train
+
+* Usar `mem_Icc` como hecho produjo `Undefined fact` en ese contexto.
+* Comprobado en Isabelle2025: hecho `mem_Icc` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A063 · aprendido en los episodios de train
+
+* Usar `omega` produjo `Undefined method` en ese contexto.
+* Comprobado en Isabelle2025: método `omega` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A064 · aprendido en los episodios de train
+
+* Una proposición mal parentizada sobre `has_real_derivative` produjo un error de sintaxis al analizar la prueba.
+* Visto en episodios de este cuaderno: 0.
+
+## A065 · aprendido en los episodios de train
+
+* Introducir `calc` en una posición donde Isabelle esperaba un comando exterior produjo un error de sintaxis; `calc` debe aparecer dentro de la estructura Isar apropiada.
+* Visto en episodios de este cuaderno: 0.
+
+## A066 · aprendido en los episodios de train
+
+* Dejar sin fijar como natural el índice de una sucesión de derivadas causó un fallo de unificación de tipos al compararlo con `0` y `1`.
+* Visto en episodios de este cuaderno: 0.
+
+## A067 · aprendido en los episodios de train
+
+* Una táctica de cierre no resolvió las obligaciones de derivabilidad de una función auxiliar y dejó esas premisas como subobjetivos.
+* Visto en episodios de este cuaderno: 0.
+
+## A068 · aprendido en los episodios de train
+
+* `MacLaurin.Taylor` entrega un punto interior `t`, por lo que no cierra directamente un objetivo que exige un testigo expresado como `aa + v * (bb - aa)`.
+* Visto en episodios de este cuaderno: 0.
+
+## A069 · aprendido en los episodios de train
+
+* La simplificación por sí sola no cerró varias igualdades de potencias anidadas; fue necesario separar y normalizar las identidades de exponentes.
+* Visto en episodios de este cuaderno: 0.
+
+## A070 · aprendido en los episodios de train
+
+* Aplicar MVT directamente no unifica cuando las hipótesis dan derivadas reales, pero el teorema requiere continuidad y diferenciabilidad en el interior; hay que establecer primero las condiciones requeridas.
+* Visto en episodios de este cuaderno: 0.
+
+## A071 · aprendido en los episodios de train
+
+* Usar mult_mono para acotar cuadrados falla si faltan las no negatividades o se suministran en el orden incorrecto.
+* Visto en episodios de este cuaderno: 0.
+
+## A072 · aprendido en los episodios de train
+
+* Reutilizar una variable fija del contexto, como f o r, en una declaración nueva produce Duplicate fixed variable(s).
+* Visto en episodios de este cuaderno: 0.
+
+## A073 · aprendido en los episodios de train
+
+* Se informó como indefinido el hecho has_real_derivative_imp_differentiable.
+* Comprobado en Isabelle2025: hecho `has_real_derivative_imp_differentiable` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A074 · aprendido en los episodios de train
+
+* Se informó como indefinido el hecho cu_newton_local_half.
+* Comprobado en Isabelle2025: hecho `cu_newton_local_half` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A075 · aprendido en los episodios de train
+
+* Se informó como indefinido el hecho tendsto_powr_zero.
+* Comprobado en Isabelle2025: hecho `tendsto_powr_zero` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A076 · aprendido en los episodios de train
+
+* Se informó como indefinido el hecho divide_nonneg_iff.
+* Comprobado en Isabelle2025: hecho `divide_nonneg_iff` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A077 · aprendido en los episodios de train
+
+* martillo no se reconoce como método de Isabelle.
+* Comprobado en Isabelle2025: método `martillo` no existe.
+* Visto en episodios de este cuaderno: 2.
+
+## A078 · aprendido en los episodios de train
+
+* La aplicación de `tendsto` falló por incompatibilidad de tipos al pasar `at r` donde se esperaba una función.
+* Visto en episodios de este cuaderno: 0.
+
+## A079 · aprendido en los episodios de train
+
+* La cota de `((1/2::'a)^n)` quedó con el tipo demasiado general para demostrar que es menor o igual que 1.
+* Visto en episodios de este cuaderno: 0.
+
+## A080 · aprendido en los episodios de train
+
+* `HOL.simp` rechazó constantes y hechos escritos como argumentos entre corchetes; las reglas adicionales se indican con `simp add:`.
+* Visto en episodios de este cuaderno: 0.
+
+## A081 · aprendido en los episodios de train
+
+* La aplicación de `mult_nonneg_nonpos` no unificó porque sus premisas exigen un factor no negativo y otro no positivo.
+* Visto en episodios de este cuaderno: 0.
+
+## A082 · aprendido en los episodios de train
+
+* Separar la proposición de la declaración `lemma` hizo que el analizador esperara una proposición y encontrara el fin de entrada.
+* Visto en episodios de este cuaderno: 0.
+
+## A083 · aprendido en los episodios de train
+
+* Usar `calc` como comando Isar independiente hizo que el analizador esperara un comando y encontrara ese identificador.
+* Visto en episodios de este cuaderno: 0.
+
+## A084 · aprendido en los episodios de train
+
+* La prueba de no negatividad de una potencia dejó pendiente una desigualdad porque el producto tenía los factores en un orden distinto al de la hipótesis inductiva.
+* Visto en episodios de este cuaderno: 0.
+
+## A085 · aprendido en los episodios de train
+
+* Se intentó usar un hecho auxiliar que no estaba disponible en el contexto.
+* Comprobado en Isabelle2025: hecho `cu_iterate_contraction_bound` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A086 · aprendido en los episodios de train
+
+* `calc` produjo un error de sintaxis porque no es una orden Isar válida en esos bloques; la cadena de cotas se puede expresar con `also` y `finally`.
+* Visto en episodios de este cuaderno: 0.
+
+## A087 · aprendido en los episodios de train
+
+* Declarar `p` como variable fija en un lema cuando ya está fijada en el contexto produce `Duplicate fixed variable(s)`.
+* Visto en episodios de este cuaderno: 0.
+
+## A088 · aprendido en los episodios de train
+
+* `simp` no demuestra por sí solo igualdades entre valores absolutos de diferencias si no se establecen antes los signos.
+* Visto en episodios de este cuaderno: 0.
+
+## A089 · aprendido en los episodios de train
+
+* El método `martillo` no está definido en el entorno Isabelle usado.
+* Comprobado en Isabelle2025: método `martillo` no existe.
+* Visto en episodios de este cuaderno: 1.
+
+## A090 · aprendido en los episodios de train
+
+* El hecho `lipschitz_continuous_on` no está definido en el entorno Isabelle usado.
+* Comprobado en Isabelle2025: hecho `lipschitz_continuous_on` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A091 · aprendido en los episodios de train
+
+* Isabelle rechaza un lema que vuelve a fijar una variable ya fijada por el contexto; ocurrió con `n` y con `f`.
+* Visto en episodios de este cuaderno: 0.
+
+## A092 · aprendido en los episodios de train
+
+* Al aplicar Taylor, no basta con obtener un punto de resto en un intervalo cerrado: hay que conservar la condición estricta de que esté entre los extremos.
+* Visto en episodios de este cuaderno: 0.
+
+## A093 · aprendido en los episodios de train
+
+* Un comando de nivel de teoría como `theorem` no puede aparecer dentro de `PROOF`; la prueba debe empezar directamente con `proof`.
+* Visto en episodios de este cuaderno: 0.
+
+## A094 · aprendido en los episodios de train
+
+* Un lema auxiliar no puede volver a fijar una variable que ya está fijada en el contexto, como `f` o `r`.
+* Visto en episodios de este cuaderno: 0.
+
+## A095 · aprendido en los episodios de train
+
+* Isabelle no encuentra el hecho `le_of_lt`.
+* Comprobado en Isabelle2025: hecho `le_of_lt` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A096 · aprendido en los episodios de train
+
+* Isabelle no encuentra el hecho `cu_newton_quadratic_step` si el lema auxiliar no se declaró en el contexto.
+* Comprobado en Isabelle2025: hecho `cu_newton_quadratic_step` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A097 · aprendido en los episodios de train
+
+* Isabelle no reconoce `martillo` como método de prueba.
+* Comprobado en Isabelle2025: método `martillo` no existe.
+* Visto en episodios de este cuaderno: 0.
+
+## A098 · aprendido en los episodios de train
+
+* La aplicación de `D` falla si se pasa un índice de tipo incompatible; hay que separar el tipo del índice del tipo de los argumentos reales.
+* Visto en episodios de este cuaderno: 0.
+
+## A099 · aprendido en los episodios de train
+
+* La inducción no se cierra si el punto inicial no se generaliza para mantener una hipótesis inductiva aplicable al sucesor.
+* Visto en episodios de este cuaderno: 0.
+
+## A100 · aprendido en los episodios de train
+
+* Una aplicación inicial de método puede fallar cuando el objetivo usa cotas con `min` y `max` y las hipótesis solo dan cotas en un intervalo ordenado; hay que transportar las cotas o separar los casos de orden.
+* Visto en episodios de este cuaderno: 0.
+
+## A101 · aprendido en los episodios de train
+
+* Un límite de una composición no se obtiene automáticamente si la composición o los filtros no están instanciados de forma compatible.
+* Visto en episodios de este cuaderno: 0.
+
+## A102 · aprendido en los episodios de train
+
+* `qed` falla si aún queda un subobjetivo pendiente, aunque la estructura general de la prueba parezca completa.
 * Visto en episodios de este cuaderno: 0.

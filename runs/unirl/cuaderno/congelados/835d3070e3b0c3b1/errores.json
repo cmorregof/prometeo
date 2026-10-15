@@ -1,0 +1,1998 @@
+{
+ "version": 1,
+ "sembrado": "2026-09-25T14:38:32",
+ "errores": [
+  {
+   "id": "E001",
+   "clase": "glosario",
+   "lean": "nlinarith",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "linarith"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "smt"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "argo"
+    }
+   ],
+   "nota": "No existe en Isabelle. Da a linarith los productos como hechos explícitos (p. ej. mult_nonneg_nonneg, zero_le_power2) o usa smt.",
+   "origen": "glosario (Luna, stepsize (6 veces))",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "linarith": true,
+     "smt": true,
+     "argo": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E002",
+   "clase": "glosario",
+   "lean": "ring",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "algebra"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "algebra_simps"
+    }
+   ],
+   "nota": "No existe. Para identidades de anillos: `by algebra` o `by (simp add: algebra_simps)`.",
+   "origen": "glosario (Luna, stepsize (3 veces))",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "algebra": true,
+     "algebra_simps": true
+    }
+   },
+   "contadores": {
+    "apariciones": 1,
+    "ultimo_episodio": "orden_3_cuadratico#3"
+   }
+  },
+  {
+   "id": "E003",
+   "clase": "glosario",
+   "lean": "ring_nf",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "algebra_simps"
+    }
+   ],
+   "nota": "No existe. Normaliza con `simp add: algebra_simps`.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "algebra_simps": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E004",
+   "clase": "glosario",
+   "lean": "field_simp",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "field_simps"
+    }
+   ],
+   "nota": "No existe como método; en Isabelle es una colección de reglas: `simp add: field_simps`.",
+   "origen": "glosario (Luna y Astra, bisección (3 veces))",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "field_simps": true
+    }
+   },
+   "contadores": {
+    "apariciones": 1,
+    "ultimo_episodio": "newton_4c_convergencia_local#1"
+   }
+  },
+  {
+   "id": "E005",
+   "clase": "glosario",
+   "lean": "omega",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "presburger"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "arith"
+    }
+   ],
+   "nota": "No existe. Aritmética lineal entera o natural: presburger, arith, linarith.",
+   "origen": "glosario (Luna, bisección)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "presburger": true,
+     "arith": true
+    }
+   },
+   "contadores": {
+    "apariciones": 1,
+    "ultimo_episodio": "newton_1_paso#2"
+   }
+  },
+  {
+   "id": "E006",
+   "clase": "glosario",
+   "lean": "positivity",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "simp"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "mult_pos_pos"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "zero_le_power2"
+    }
+   ],
+   "nota": "No existe. Prueba la positividad con simp y reglas como mult_pos_pos, add_pos_pos, zero_le_power2.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "simp": true,
+     "mult_pos_pos": true,
+     "zero_le_power2": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E007",
+   "clase": "glosario",
+   "lean": "norm_num",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "simp"
+    }
+   ],
+   "nota": "No existe. Los cálculos con numerales los hace simp.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "simp": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E008",
+   "clase": "glosario",
+   "lean": "linear_combination",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "linarith"
+    }
+   ],
+   "nota": "No existe. Pasa a linarith los hechos que combinarías.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "linarith": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E009",
+   "clase": "glosario",
+   "lean": "gcongr",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_left_mono"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "add_mono"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "power_mono"
+    }
+   ],
+   "nota": "No existe. Usa reglas de monotonía explícitas.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "mult_left_mono": true,
+     "add_mono": true,
+     "power_mono": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E010",
+   "clase": "glosario",
+   "lean": "aesop",
+   "tipo": "metodo",
+   "en_su_lugar": [
+    {
+     "tipo": "metodo",
+     "nombre": "auto"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "blast"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "force"
+    },
+    {
+     "tipo": "metodo",
+     "nombre": "fastforce"
+    }
+   ],
+   "nota": "No existe. Búsqueda automática: auto, blast, force, fastforce.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "auto": true,
+     "blast": true,
+     "force": true,
+     "fastforce": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E011",
+   "clase": "glosario",
+   "lean": "sq_nonneg",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "zero_le_power2"
+    }
+   ],
+   "nota": "0 ≤ x² se llama zero_le_power2.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "zero_le_power2": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E012",
+   "clase": "glosario",
+   "lean": "inner_self_eq_norm_sq",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "dot_square_norm"
+    }
+   ],
+   "nota": "‖x‖² = ⟨x, x⟩ es power2_norm_eq_inner (y dot_square_norm en el otro sentido).",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_norm_eq_inner": true,
+     "dot_square_norm": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E013",
+   "clase": "glosario",
+   "lean": "inner_self_eq_norm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    }
+   ],
+   "nota": "Nombre inventado; el hecho es power2_norm_eq_inner.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_norm_eq_inner": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E014",
+   "clase": "glosario",
+   "lean": "norm_sq_eq_inner",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_norm_eq_inner"
+    }
+   ],
+   "nota": "Nombre inventado; el hecho es power2_norm_eq_inner.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_norm_eq_inner": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E015",
+   "clase": "glosario",
+   "lean": "abs_inner_le_norm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "Cauchy_Schwarz_ineq2"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "norm_cauchy_schwarz"
+    }
+   ],
+   "nota": "Cauchy–Schwarz: Cauchy_Schwarz_ineq2 (con valor absoluto) y norm_cauchy_schwarz.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "Cauchy_Schwarz_ineq2": true,
+     "norm_cauchy_schwarz": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E016",
+   "clase": "glosario",
+   "lean": "inner_le_norm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "norm_cauchy_schwarz"
+    }
+   ],
+   "nota": "Nombre inventado; ⟨x, y⟩ ≤ ‖x‖‖y‖ es norm_cauchy_schwarz.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "norm_cauchy_schwarz": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E017",
+   "clase": "glosario",
+   "lean": "inner_neg_right",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "inner_minus_right"
+    }
+   ],
+   "nota": "En Isabelle es inner_minus_right.",
+   "origen": "glosario (Luna, stepsize)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "inner_minus_right": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E018",
+   "clase": "glosario",
+   "lean": "div_le_iff",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "divide_le_eq"
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "pos_divide_le_eq"
+    }
+   ],
+   "nota": "División y desigualdad: divide_le_eq, pos_divide_le_eq.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "divide_le_eq": true,
+     "pos_divide_le_eq": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E019",
+   "clase": "glosario",
+   "lean": "divide_less_iff",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "divide_less_eq"
+    }
+   ],
+   "nota": "Nombre inventado; usa divide_less_eq.",
+   "origen": "glosario (Luna, bisección)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "divide_less_eq": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E020",
+   "clase": "glosario",
+   "lean": "mul_pos",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_pos_pos"
+    }
+   ],
+   "nota": "Producto de positivos: mult_pos_pos.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "mult_pos_pos": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E021",
+   "clase": "glosario",
+   "lean": "mul_le_mul_of_nonneg_left",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "mult_left_mono"
+    }
+   ],
+   "nota": "Monotonía del producto: mult_left_mono.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "mult_left_mono": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E022",
+   "clase": "glosario",
+   "lean": "log_div",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "log_divide"
+    }
+   ],
+   "nota": "El logaritmo de un cociente es log_divide.",
+   "origen": "glosario (Luna, bisección)",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "log_divide": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E023",
+   "clase": "glosario",
+   "lean": "abs_sub_comm",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "abs_minus_commute"
+    }
+   ],
+   "nota": "|a − b| = |b − a| es abs_minus_commute.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "abs_minus_commute": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E024",
+   "clase": "glosario",
+   "lean": "pow_le_pow_left",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power_mono"
+    }
+   ],
+   "nota": "Monotonía de la potencia: power_mono.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power_mono": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "E025",
+   "clase": "glosario",
+   "lean": "add_pow_two",
+   "tipo": "hecho",
+   "en_su_lugar": [
+    {
+     "tipo": "hecho",
+     "nombre": "power2_sum"
+    }
+   ],
+   "nota": "(a + b)² es power2_sum.",
+   "origen": "glosario ()",
+   "comprobado": {
+    "isabelle": "Isabelle2025",
+    "fecha": "2026-09-24T15:51:16",
+    "glosario_hash": "3cf8781117f7d0b1",
+    "lean_existe": false,
+    "alternativas": {
+     "power2_sum": true
+    }
+   },
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   }
+  },
+  {
+   "id": "A026",
+   "clase": "aprendido",
+   "texto": "El método inicial falló repetidamente al disponer solo de `l ≤ u` frente a una meta de cotas para el punto medio.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T00:40:07"
+   }
+  },
+  {
+   "id": "A027",
+   "clase": "aprendido",
+   "texto": "Un `by` puede fallar con `Failed to apply initial proof method` cuando las premisas introducidas no bastan para cerrar el objetivo.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "id": "A028",
+   "clase": "aprendido",
+   "texto": "La prueba puede acabar con `Failed to finish proof` y dejar una meta algebraica pendiente; conviene obtener antes las igualdades o cotas auxiliares necesarias.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "id": "A029",
+   "clase": "aprendido",
+   "texto": "Declarar de nuevo una variable ya fijada provoca `Duplicate fixed variable(s)`, como ocurrió con `x` en `sign_step`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T01:25:43"
+   }
+  },
+  {
+   "id": "A030",
+   "clase": "aprendido",
+   "texto": "`calc` no se acepta como comando de Isar; para encadenar igualdades o desigualdades se puede usar `also` y `finally`.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "calc",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:09:46"
+   }
+  },
+  {
+   "id": "A031",
+   "clase": "aprendido",
+   "texto": "Isabelle informó que `power_nonneg` no está disponible como hecho con ese nombre.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "power_nonneg",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 1,
+    "ultimo_episodio": "pf_5c_a_priori_max#2"
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:09:53"
+   }
+  },
+  {
+   "id": "A032",
+   "clase": "aprendido",
+   "texto": "Isabelle informó que `tendsto_pow_zero` no está disponible como hecho con ese nombre.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "tendsto_pow_zero",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:10:01"
+   }
+  },
+  {
+   "id": "A033",
+   "clase": "aprendido",
+   "texto": "Isabelle informó que `tendsto_iff_dist` no está disponible como hecho con ese nombre.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "tendsto_iff_dist",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T02:10:08"
+   }
+  },
+  {
+   "id": "A034",
+   "clase": "aprendido",
+   "texto": "Declarar un lema global con la variable fija `x` del contexto produjo `Duplicate fixed variable(s): \"x\"`; el error se repitió en varios episodios.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T03:06:05"
+   }
+  },
+  {
+   "id": "A035",
+   "clase": "aprendido",
+   "texto": "La simplificación dejó abierta una identidad de potencias y productos; añadir `mult.commute` tampoco cerró la meta.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T03:06:05"
+   }
+  },
+  {
+   "id": "A036",
+   "clase": "aprendido",
+   "texto": "Isabelle rechaza fijar dos veces la misma variable (`Duplicate fixed variable(s): \"x\"`); evita repetirla en `fixes`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:29"
+   }
+  },
+  {
+   "id": "A037",
+   "clase": "aprendido",
+   "texto": "Si el lema auxiliar no se declaró en el contexto, Isabelle informa `Undefined fact` al usarlo como `newton_local_bound`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "newton_local_bound",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:36"
+   }
+  },
+  {
+   "id": "A038",
+   "clase": "aprendido",
+   "texto": "Isabelle informa `Undefined fact` cuando se invoca `abs_eq_zero` como hecho; comprueba el nombre disponible antes de usarlo.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "abs_eq_zero",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:43"
+   }
+  },
+  {
+   "id": "A039",
+   "clase": "aprendido",
+   "texto": "En una aplicación de Taylor, un índice sin tipo fijado puede causar `Type unification failed` cuando el operador espera `nat` y el argumento queda con tipo indeterminado.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T07:50:43"
+   }
+  },
+  {
+   "id": "A040",
+   "clase": "aprendido",
+   "texto": "Isabelle rechazó `newton_local_constants` y `newton_local_data` como hechos indefinidos en el contexto.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "newton_local_constants",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "newton_local_data",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T08:25:02"
+   }
+  },
+  {
+   "id": "A041",
+   "clase": "aprendido",
+   "texto": "Isabelle rechazó `martillo` como método indefinido.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "martillo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 4,
+    "ultimo_episodio": "newton_5_orden2#3"
+   },
+   "procedencia": {
+    "destilacion": "20260926-201727-gpt-6-luna",
+    "fecha": "2026-09-27T08:25:10"
+   }
+  },
+  {
+   "id": "A042",
+   "clase": "aprendido",
+   "texto": "Al volver a fijar `f` en un lema cuando el contexto ya la fija, Isabelle produce `Duplicate fixed variable(s): \"f\"`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:37"
+   }
+  },
+  {
+   "id": "A043",
+   "clase": "aprendido",
+   "texto": "Si las premisas disponibles no bastan para aplicar el método inicial al subobjetivo, Isabelle produce `Failed to apply initial proof method`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:37"
+   }
+  },
+  {
+   "id": "A044",
+   "clase": "aprendido",
+   "texto": "Si la prueba deja una submeta aritmética sin resolver, como `(l + u) / 2 ≤ u`, Isabelle produce `Failed to finish proof`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:37"
+   }
+  },
+  {
+   "id": "A045",
+   "clase": "aprendido",
+   "texto": "Usar un hecho no declarado produce `Undefined fact: \"cu_bisection_invariant\".`",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_bisection_invariant",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T21:29:44"
+   }
+  },
+  {
+   "id": "A046",
+   "clase": "aprendido",
+   "texto": "La simplificación amplia de la definición recursiva agotó repetidamente el tiempo de compilación.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:24:38"
+   }
+  },
+  {
+   "id": "A047",
+   "clase": "aprendido",
+   "texto": "Se intentó concluir \\(0 \\le k\\) a partir de \\(0 \\le k^n k\\), algo que no se deduce sin una hipótesis de signo sobre \\(k\\).",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "id": "A048",
+   "clase": "aprendido",
+   "texto": "Las cotas de orden no cierran por sí solas la meta de valor absoluto si la cota inferior no se expresa en la orientación requerida por la caracterización de \\(|\\cdot|\\).",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "id": "A049",
+   "clase": "aprendido",
+   "texto": "Isabelle da `Undefined fact` cuando se usa un lema auxiliar que no está disponible en el contexto activo; citarlo no incorpora su declaración.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-08T22:48:09"
+   }
+  },
+  {
+   "id": "A050",
+   "clase": "aprendido",
+   "texto": "En una cota de productos, Isabelle no cierra la monotonía si no se proporciona la no negatividad del factor y se multiplica por el lado correcto.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A051",
+   "clase": "aprendido",
+   "texto": "La normalización automática de potencias puede dejar sin probar una igualdad cuando los exponentes aparecen en órdenes distintos.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A052",
+   "clase": "aprendido",
+   "texto": "El tipo del índice auxiliar de Taylor puede quedar indeterminado; hay que fijarlo explícitamente como `nat`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A053",
+   "clase": "aprendido",
+   "texto": "Las reglas del valor medio no emparejan una derivabilidad expresada como cuantificación lógica con una premisa que esperan como regla de Isar.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A054",
+   "clase": "aprendido",
+   "texto": "Una referencia a un lema auxiliar no compilado o fuera del contexto produce `Undefined fact`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T09:18:47"
+   }
+  },
+  {
+   "id": "A055",
+   "clase": "aprendido",
+   "texto": "Declarar un lema con una variable ya fijada en el contexto produce `Duplicate fixed variable(s)`; usa nombres auxiliares distintos.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T11:08:11"
+   }
+  },
+  {
+   "id": "A056",
+   "clase": "aprendido",
+   "texto": "Invocar un hecho `cu_...` que no se declaró ni se incluyó produce `Undefined fact`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_newton_step_quadratic",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "cu_medio_en_intervalo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-09T11:08:21"
+   }
+  },
+  {
+   "id": "A057",
+   "clase": "aprendido",
+   "texto": "`Failed to apply initial proof method` se repitió cuando el método inicial no cerró la meta; comprobar que las hipótesis bastan o descomponer explícitamente los casos de signo.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T10:35:35"
+   }
+  },
+  {
+   "id": "A058",
+   "clase": "aprendido",
+   "texto": "`Failed to finish proof` se repitió con subobjetivos abiertos; exponer las ecuaciones de cada rama y cerrar por separado las metas residuales.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T10:35:35"
+   }
+  },
+  {
+   "id": "A059",
+   "clase": "aprendido",
+   "texto": "Referenciar lemas auxiliares aún no definidos o registrados produjo `Undefined fact`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_iterate_contraction_diameter",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "cu_fixed_point_posteriori_step",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "cu_funpow_Suc_apply",
+     "existe": false
+    },
+    {
+     "tipo": "hecho",
+     "nombre": "cu_power_tends_zero",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T11:16:08"
+   }
+  },
+  {
+   "id": "A060",
+   "clase": "aprendido",
+   "texto": "Declarar de nuevo `n` como variable fija en un contexto donde ya estaba fijada produjo `Duplicate fixed variable(s)`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T11:16:08"
+   }
+  },
+  {
+   "id": "A061",
+   "clase": "aprendido",
+   "texto": "Volver a fijar el parámetro `p` cuando ya está fijado en el contexto causa `Duplicate fixed variable(s)`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:17"
+   }
+  },
+  {
+   "id": "A062",
+   "clase": "aprendido",
+   "texto": "Usar `mem_Icc` como hecho produjo `Undefined fact` en ese contexto.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "mem_Icc",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:24"
+   }
+  },
+  {
+   "id": "A063",
+   "clase": "aprendido",
+   "texto": "Usar `omega` produjo `Undefined method` en ese contexto.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "omega",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:31"
+   }
+  },
+  {
+   "id": "A064",
+   "clase": "aprendido",
+   "texto": "Una proposición mal parentizada sobre `has_real_derivative` produjo un error de sintaxis al analizar la prueba.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:31"
+   }
+  },
+  {
+   "id": "A065",
+   "clase": "aprendido",
+   "texto": "Introducir `calc` en una posición donde Isabelle esperaba un comando exterior produjo un error de sintaxis; `calc` debe aparecer dentro de la estructura Isar apropiada.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:31"
+   }
+  },
+  {
+   "id": "A066",
+   "clase": "aprendido",
+   "texto": "Dejar sin fijar como natural el índice de una sucesión de derivadas causó un fallo de unificación de tipos al compararlo con `0` y `1`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:31"
+   }
+  },
+  {
+   "id": "A067",
+   "clase": "aprendido",
+   "texto": "Una táctica de cierre no resolvió las obligaciones de derivabilidad de una función auxiliar y dejó esas premisas como subobjetivos.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:31"
+   }
+  },
+  {
+   "id": "A068",
+   "clase": "aprendido",
+   "texto": "`MacLaurin.Taylor` entrega un punto interior `t`, por lo que no cierra directamente un objetivo que exige un testigo expresado como `aa + v * (bb - aa)`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:31"
+   }
+  },
+  {
+   "id": "A069",
+   "clase": "aprendido",
+   "texto": "La simplificación por sí sola no cerró varias igualdades de potencias anidadas; fue necesario separar y normalizar las identidades de exponentes.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T12:24:31"
+   }
+  },
+  {
+   "id": "A070",
+   "clase": "aprendido",
+   "texto": "Aplicar MVT directamente no unifica cuando las hipótesis dan derivadas reales, pero el teorema requiere continuidad y diferenciabilidad en el interior; hay que establecer primero las condiciones requeridas.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:15"
+   }
+  },
+  {
+   "id": "A071",
+   "clase": "aprendido",
+   "texto": "Usar mult_mono para acotar cuadrados falla si faltan las no negatividades o se suministran en el orden incorrecto.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:15"
+   }
+  },
+  {
+   "id": "A072",
+   "clase": "aprendido",
+   "texto": "Reutilizar una variable fija del contexto, como f o r, en una declaración nueva produce Duplicate fixed variable(s).",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:15"
+   }
+  },
+  {
+   "id": "A073",
+   "clase": "aprendido",
+   "texto": "Se informó como indefinido el hecho has_real_derivative_imp_differentiable.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "has_real_derivative_imp_differentiable",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:22"
+   }
+  },
+  {
+   "id": "A074",
+   "clase": "aprendido",
+   "texto": "Se informó como indefinido el hecho cu_newton_local_half.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_newton_local_half",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:29"
+   }
+  },
+  {
+   "id": "A075",
+   "clase": "aprendido",
+   "texto": "Se informó como indefinido el hecho tendsto_powr_zero.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "tendsto_powr_zero",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:36"
+   }
+  },
+  {
+   "id": "A076",
+   "clase": "aprendido",
+   "texto": "Se informó como indefinido el hecho divide_nonneg_iff.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "divide_nonneg_iff",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:43"
+   }
+  },
+  {
+   "id": "A077",
+   "clase": "aprendido",
+   "texto": "martillo no se reconoce como método de Isabelle.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "martillo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 2,
+    "ultimo_episodio": "newton_5_orden2#3"
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:09:51"
+   }
+  },
+  {
+   "id": "A078",
+   "clase": "aprendido",
+   "texto": "La aplicación de `tendsto` falló por incompatibilidad de tipos al pasar `at r` donde se esperaba una función.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:53:19"
+   }
+  },
+  {
+   "id": "A079",
+   "clase": "aprendido",
+   "texto": "La cota de `((1/2::'a)^n)` quedó con el tipo demasiado general para demostrar que es menor o igual que 1.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:53:19"
+   }
+  },
+  {
+   "id": "A080",
+   "clase": "aprendido",
+   "texto": "`HOL.simp` rechazó constantes y hechos escritos como argumentos entre corchetes; las reglas adicionales se indican con `simp add:`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:53:19"
+   }
+  },
+  {
+   "id": "A081",
+   "clase": "aprendido",
+   "texto": "La aplicación de `mult_nonneg_nonpos` no unificó porque sus premisas exigen un factor no negativo y otro no positivo.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T15:53:19"
+   }
+  },
+  {
+   "id": "A082",
+   "clase": "aprendido",
+   "texto": "Separar la proposición de la declaración `lemma` hizo que el analizador esperara una proposición y encontrara el fin de entrada.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T19:23:57"
+   }
+  },
+  {
+   "id": "A083",
+   "clase": "aprendido",
+   "texto": "Usar `calc` como comando Isar independiente hizo que el analizador esperara un comando y encontrara ese identificador.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T19:23:57"
+   }
+  },
+  {
+   "id": "A084",
+   "clase": "aprendido",
+   "texto": "La prueba de no negatividad de una potencia dejó pendiente una desigualdad porque el producto tenía los factores en un orden distinto al de la hipótesis inductiva.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T19:23:57"
+   }
+  },
+  {
+   "id": "A085",
+   "clase": "aprendido",
+   "texto": "Se intentó usar un hecho auxiliar que no estaba disponible en el contexto.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_iterate_contraction_bound",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T19:24:04"
+   }
+  },
+  {
+   "id": "A086",
+   "clase": "aprendido",
+   "texto": "`calc` produjo un error de sintaxis porque no es una orden Isar válida en esos bloques; la cadena de cotas se puede expresar con `also` y `finally`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T20:07:10"
+   }
+  },
+  {
+   "id": "A087",
+   "clase": "aprendido",
+   "texto": "Declarar `p` como variable fija en un lema cuando ya está fijada en el contexto produce `Duplicate fixed variable(s)`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T20:07:10"
+   }
+  },
+  {
+   "id": "A088",
+   "clase": "aprendido",
+   "texto": "`simp` no demuestra por sí solo igualdades entre valores absolutos de diferencias si no se establecen antes los signos.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T20:07:10"
+   }
+  },
+  {
+   "id": "A089",
+   "clase": "aprendido",
+   "texto": "El método `martillo` no está definido en el entorno Isabelle usado.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "martillo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 1,
+    "ultimo_episodio": "newton_5_orden2#3"
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T20:07:17"
+   }
+  },
+  {
+   "id": "A090",
+   "clase": "aprendido",
+   "texto": "El hecho `lipschitz_continuous_on` no está definido en el entorno Isabelle usado.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "lipschitz_continuous_on",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T20:07:24"
+   }
+  },
+  {
+   "id": "A091",
+   "clase": "aprendido",
+   "texto": "Isabelle rechaza un lema que vuelve a fijar una variable ya fijada por el contexto; ocurrió con `n` y con `f`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:12:54"
+   }
+  },
+  {
+   "id": "A092",
+   "clase": "aprendido",
+   "texto": "Al aplicar Taylor, no basta con obtener un punto de resto en un intervalo cerrado: hay que conservar la condición estricta de que esté entre los extremos.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:12:54"
+   }
+  },
+  {
+   "id": "A093",
+   "clase": "aprendido",
+   "texto": "Un comando de nivel de teoría como `theorem` no puede aparecer dentro de `PROOF`; la prueba debe empezar directamente con `proof`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:19"
+   }
+  },
+  {
+   "id": "A094",
+   "clase": "aprendido",
+   "texto": "Un lema auxiliar no puede volver a fijar una variable que ya está fijada en el contexto, como `f` o `r`.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:19"
+   }
+  },
+  {
+   "id": "A095",
+   "clase": "aprendido",
+   "texto": "Isabelle no encuentra el hecho `le_of_lt`.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "le_of_lt",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:26"
+   }
+  },
+  {
+   "id": "A096",
+   "clase": "aprendido",
+   "texto": "Isabelle no encuentra el hecho `cu_newton_quadratic_step` si el lema auxiliar no se declaró en el contexto.",
+   "afirma": [
+    {
+     "tipo": "hecho",
+     "nombre": "cu_newton_quadratic_step",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:34"
+   }
+  },
+  {
+   "id": "A097",
+   "clase": "aprendido",
+   "texto": "Isabelle no reconoce `martillo` como método de prueba.",
+   "afirma": [
+    {
+     "tipo": "metodo",
+     "nombre": "martillo",
+     "existe": false
+    }
+   ],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:41"
+   }
+  },
+  {
+   "id": "A098",
+   "clase": "aprendido",
+   "texto": "La aplicación de `D` falla si se pasa un índice de tipo incompatible; hay que separar el tipo del índice del tipo de los argumentos reales.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:41"
+   }
+  },
+  {
+   "id": "A099",
+   "clase": "aprendido",
+   "texto": "La inducción no se cierra si el punto inicial no se generaliza para mantener una hipótesis inductiva aplicable al sucesor.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:41"
+   }
+  },
+  {
+   "id": "A100",
+   "clase": "aprendido",
+   "texto": "Una aplicación inicial de método puede fallar cuando el objetivo usa cotas con `min` y `max` y las hipótesis solo dan cotas en un intervalo ordenado; hay que transportar las cotas o separar los casos de orden.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:41"
+   }
+  },
+  {
+   "id": "A101",
+   "clase": "aprendido",
+   "texto": "Un límite de una composición no se obtiene automáticamente si la composición o los filtros no están instanciados de forma compatible.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:41"
+   }
+  },
+  {
+   "id": "A102",
+   "clase": "aprendido",
+   "texto": "`qed` falla si aún queda un subobjetivo pendiente, aunque la estructura general de la prueba parezca completa.",
+   "afirma": [],
+   "contadores": {
+    "apariciones": 0,
+    "ultimo_episodio": null
+   },
+   "procedencia": {
+    "destilacion": "20261008-200559-gpt-6-luna",
+    "fecha": "2026-10-13T21:57:41"
+   }
+  }
+ ]
+}
