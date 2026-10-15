@@ -1,0 +1,226 @@
+{
+ "cuaderno": "2ceab27c97e13a3f",
+ "cuaderno_completo": "835d3070e3b0c3b1",
+ "config": "E",
+ "filas": [
+  {
+   "id": "rf_1_punto",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_iterate_contraction_bound",
+    "cu_funpow_closed",
+    "cu_funpow_preserves_set"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "rf_2_signo",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_iterate_contraction_bound",
+    "cu_abs_recurrence_bound"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "rf_3_encaje",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_bolzano_product",
+    "cu_funpow_closed",
+    "cu_real_power_suc"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "rf_4_raiz",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_bolzano_product",
+    "cu_deriv_nonnegative_nondecreasing"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "rf_5_limites",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_square_recurrence_bound",
+    "cu_iterate_fixedpoint_contraction",
+    "cu_interval_endpoint_bounds"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "rf_6_convergencia",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_bolzano_product",
+    "cu_deriv_nonnegative_nondecreasing"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "rf_6c_puntos_convergen",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_compact_real_abs_bound",
+    "cu_iterate_contraction_bound",
+    "cu_real_power_suc"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_1_inyectiva",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_iterate_contraction_bound",
+    "cu_contraction_fixed_point_unique"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_2_cociente",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_contraction_fixed_point_unique",
+    "cu_lipschitz_continuous",
+    "cu_abs_product_real"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_3_producto",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_deriv_bound_lipschitz",
+    "cu_contraction_fixed_point_unique",
+    "cu_iterates_preserve_set"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_4_contraccion",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_iterate_first_step_bound",
+    "cu_contraction_fixed_point_unique",
+    "cu_interval_endpoint_bounds"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_4c_contraccion_local",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_lipschitz_continuous",
+    "cu_compact_real_abs_bound",
+    "cu_interval_endpoint_bounds"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_5_convergencia",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_contraction_fixed_point_unique",
+    "cu_lipschitz_continuous",
+    "cu_abs_product_real"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_5c_convergencia_local",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_lipschitz_continuous",
+    "cu_compact_real_abs_bound",
+    "cu_power_tends_zero"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_6_fibonacci",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_iterate_contraction_bound",
+    "cu_contraction_fixed_point_unique"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  },
+  {
+   "id": "secante_6c_orden_phi",
+   "resuelto_por_martillo": false,
+   "linea": null,
+   "lemas": [
+    "cu_lipschitz_continuous",
+    "cu_compact_real_abs_bound",
+    "cu_power_tends_zero"
+   ],
+   "suspension_s": 0.0,
+   "desde_cache": false,
+   "intentos": 1,
+   "invalido": false
+  }
+ ]
+}

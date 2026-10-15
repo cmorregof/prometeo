@@ -1,6 +1,6 @@
 {
- "generado": "2026-09-30T12:00:22",
- "commit": "8734420",
+ "generado": "2026-10-14T00:38:34",
+ "commit": "1239ba4",
  "estados": [
   "terminado",
   "en curso",
@@ -872,7 +872,7 @@
    ],
    "fuente": "runs/corridas_locales/01_biseccion/20260925-144905/historia.json",
    "sha": "114cf660968612d6",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -950,7 +950,7 @@
    ],
    "fuente": "runs/corridas_locales/01_biseccion/20260925-145147/historia.json",
    "sha": "d6227492b355d582",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -993,7 +993,7 @@
    ],
    "fuente": "runs/corridas_locales/01_biseccion_100gen/20260925-145306/historia.json",
    "sha": "7d49391fca93fa73",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "01_biseccion",
@@ -1046,7 +1046,7 @@
    ],
    "fuente": "runs/corridas_locales/01_biseccion_300gen/20260925-145308/historia.json",
    "sha": "3e991f789cffa17f",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "02_punto_fijo",
@@ -1214,7 +1214,7 @@
    ],
    "fuente": "runs/corridas_locales/02_punto_fijo/20260925-144906/historia.json",
    "sha": "37626eca26bc0fd3",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "03_taylor",
@@ -1472,7 +1472,7 @@
    ],
    "fuente": "runs/corridas_locales/03_taylor/20260925-144906/historia.json",
    "sha": "96f2bafb7eb3f534",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "04_newton",
@@ -1561,7 +1561,7 @@
    ],
    "fuente": "runs/corridas_locales/04_newton/20260925-144906/historia.json",
    "sha": "a7cd343df3bb0f81",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "05_secante",
@@ -1656,7 +1656,7 @@
    ],
    "fuente": "runs/corridas_locales/05_secante/20260925-144907/historia.json",
    "sha": "32e2bf1447ffc6a6",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "07_interpolacion",
@@ -1735,7 +1735,7 @@
    ],
    "fuente": "runs/corridas_locales/07_interpolacion/20260925-144926/historia.json",
    "sha": "9b966192857f8661",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   },
   {
    "proyecto": "07_interpolacion",
@@ -1814,7 +1814,7 @@
    ],
    "fuente": "runs/corridas_locales/07_interpolacion/20260925-144934/historia.json",
    "sha": "6d3b0da3b485e38e",
-   "codigo": "8734420 (HEAD)"
+   "codigo": "1239ba4 (HEAD)"
   }
  ],
  "stepsizes": {
@@ -3186,6 +3186,58 @@
  },
  "rl_verbal": [
   {
+   "corrida": "20261006-144758-gpt-6-luna",
+   "fase": "charla_semillero",
+   "modelo": "gpt-6-luna",
+   "estado": "en curso",
+   "inicio": "2026-10-06T14:47:58",
+   "codigo": {
+    "unirl_sha256": "0beb8919e874a6e3",
+    "git_commit": "8734420",
+    "unirl_dirty": true
+   },
+   "por_config": {
+    "C": {
+     "planeados": 0,
+     "registrados": 1,
+     "aceptados_entre_registrados": 1
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 2,
+   "fuentes": {
+    "runs/unirl/rl_verbal/charla_semillero/20261006-144758-gpt-6-luna/meta.json": "e8f8ffab9da52aea",
+    "runs/unirl/rl_verbal/charla_semillero/20261006-144758-gpt-6-luna/episodios.jsonl": "78ddd2c2fdadd46e",
+    "runs/unirl/rl_verbal/charla_semillero/20261006-144758-gpt-6-luna/llamadas.jsonl": "94dde1526afd3acc"
+   }
+  },
+  {
+   "corrida": "20261006-170632-gpt-6-luna",
+   "fase": "charla_semillero",
+   "modelo": "gpt-6-luna",
+   "estado": "en curso",
+   "inicio": "2026-10-06T17:06:32",
+   "codigo": {
+    "unirl_sha256": "0beb8919e874a6e3",
+    "git_commit": "8734420",
+    "unirl_dirty": true
+   },
+   "por_config": {
+    "C": {
+     "planeados": 0,
+     "registrados": 1,
+     "aceptados_entre_registrados": 0
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 4,
+   "fuentes": {
+    "runs/unirl/rl_verbal/charla_semillero/20261006-170632-gpt-6-luna/meta.json": "a2fb6d347fb5f22c",
+    "runs/unirl/rl_verbal/charla_semillero/20261006-170632-gpt-6-luna/episodios.jsonl": "06fa992ea9e1aaa8",
+    "runs/unirl/rl_verbal/charla_semillero/20261006-170632-gpt-6-luna/llamadas.jsonl": "7a245b25f35f70fa"
+   }
+  },
+  {
    "corrida": "20260925-073216-gpt-6-luna",
    "fase": "cuaderno",
    "modelo": "gpt-6-luna",
@@ -3261,6 +3313,32 @@
     "runs/unirl/rl_verbal/cuaderno/20260927-140308-gpt-6-luna/meta.json": "d2d26c5c6a103345",
     "runs/unirl/rl_verbal/cuaderno/20260927-140308-gpt-6-luna/episodios.jsonl": "1bace4806ff93c0a",
     "runs/unirl/rl_verbal/cuaderno/20260927-140308-gpt-6-luna/llamadas.jsonl": "9610d75a8a7d1c2c"
+   }
+  },
+  {
+   "corrida": "20261008-200559-gpt-6-luna",
+   "fase": "cuaderno",
+   "modelo": "gpt-6-luna",
+   "estado": "terminado",
+   "inicio": "2026-10-08T20:05:59",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "25a2ee5",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "F": {
+     "planeados": 32,
+     "registrados": 96,
+     "aceptados_entre_registrados": 33
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 446,
+   "fuentes": {
+    "runs/unirl/rl_verbal/cuaderno/20261008-200559-gpt-6-luna/meta.json": "8e7c06002da5e1a2",
+    "runs/unirl/rl_verbal/cuaderno/20261008-200559-gpt-6-luna/episodios.jsonl": "fee2b7492029e45b",
+    "runs/unirl/rl_verbal/cuaderno/20261008-200559-gpt-6-luna/llamadas.jsonl": "6a49fd360ecbc4cb"
    }
   },
   {
@@ -3516,6 +3594,150 @@
    }
   },
   {
+   "corrida": "20261008-200559-gpt-6-luna",
+   "fase": "evaluacion",
+   "modelo": "gpt-6-luna",
+   "estado": "en curso",
+   "inicio": "2026-10-08T20:05:59",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "25a2ee5",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "B0": {
+     "planeados": 32,
+     "registrados": 4,
+     "aceptados_entre_registrados": 0
+    },
+    "B": {
+     "planeados": 32,
+     "registrados": 4,
+     "aceptados_entre_registrados": 0
+    },
+    "C": {
+     "planeados": 32,
+     "registrados": 3,
+     "aceptados_entre_registrados": 3
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 16,
+   "fuentes": {
+    "runs/unirl/rl_verbal/evaluacion/20261008-200559-gpt-6-luna/meta.json": "df17fb783b86ce02",
+    "runs/unirl/rl_verbal/evaluacion/20261008-200559-gpt-6-luna/episodios.jsonl": "263ec9affe7b312f",
+    "runs/unirl/rl_verbal/evaluacion/20261008-200559-gpt-6-luna/llamadas.jsonl": "b484680ec04015e8"
+   }
+  },
+  {
+   "corrida": "20261008-204019-gpt-6-luna",
+   "fase": "evaluacion",
+   "modelo": "gpt-6-luna",
+   "estado": "en curso",
+   "inicio": "2026-10-08T20:40:19",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "25a2ee5",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "B0": {
+     "planeados": 32,
+     "registrados": 22,
+     "aceptados_entre_registrados": 0
+    },
+    "B": {
+     "planeados": 32,
+     "registrados": 20,
+     "aceptados_entre_registrados": 1
+    },
+    "C": {
+     "planeados": 32,
+     "registrados": 18,
+     "aceptados_entre_registrados": 5
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 164,
+   "fuentes": {
+    "runs/unirl/rl_verbal/evaluacion/20261008-204019-gpt-6-luna/meta.json": "6a074708c1dde17a",
+    "runs/unirl/rl_verbal/evaluacion/20261008-204019-gpt-6-luna/episodios.jsonl": "120ceccf5d2d1afb",
+    "runs/unirl/rl_verbal/evaluacion/20261008-204019-gpt-6-luna/llamadas.jsonl": "443916cd0967fe25"
+   }
+  },
+  {
+   "corrida": "20261009-080009-gpt-6-luna",
+   "fase": "evaluacion",
+   "modelo": "gpt-6-luna",
+   "estado": "en curso",
+   "inicio": "2026-10-09T08:00:09",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "25a2ee5",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "B0": {
+     "planeados": 32,
+     "registrados": 12,
+     "aceptados_entre_registrados": 0
+    },
+    "B": {
+     "planeados": 32,
+     "registrados": 12,
+     "aceptados_entre_registrados": 0
+    },
+    "C": {
+     "planeados": 32,
+     "registrados": 10,
+     "aceptados_entre_registrados": 0
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 109,
+   "fuentes": {
+    "runs/unirl/rl_verbal/evaluacion/20261009-080009-gpt-6-luna/meta.json": "57452f76936070e8",
+    "runs/unirl/rl_verbal/evaluacion/20261009-080009-gpt-6-luna/episodios.jsonl": "59b16919f932669b",
+    "runs/unirl/rl_verbal/evaluacion/20261009-080009-gpt-6-luna/llamadas.jsonl": "5b75f8172c6874d9"
+   }
+  },
+  {
+   "corrida": "20261009-100605-gpt-6-luna",
+   "fase": "evaluacion",
+   "modelo": "gpt-6-luna",
+   "estado": "terminado",
+   "inicio": "2026-10-09T10:06:05",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "25a2ee5",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "B0": {
+     "planeados": 32,
+     "registrados": 2,
+     "aceptados_entre_registrados": 0
+    },
+    "B": {
+     "planeados": 32,
+     "registrados": 2,
+     "aceptados_entre_registrados": 0
+    },
+    "C": {
+     "planeados": 32,
+     "registrados": 2,
+     "aceptados_entre_registrados": 0
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 20,
+   "fuentes": {
+    "runs/unirl/rl_verbal/evaluacion/20261009-100605-gpt-6-luna/meta.json": "60ffe6828f1ea65e",
+    "runs/unirl/rl_verbal/evaluacion/20261009-100605-gpt-6-luna/episodios.jsonl": "11d838c760847100",
+    "runs/unirl/rl_verbal/evaluacion/20261009-100605-gpt-6-luna/llamadas.jsonl": "4e21ef62d3cceae8"
+   }
+  },
+  {
    "corrida": "20260927-084149-gpt-6-luna",
    "fase": "evaluacion_E",
    "modelo": "gpt-6-luna",
@@ -3565,6 +3787,32 @@
     "runs/unirl/rl_verbal/evaluacion_E/20260927-090507-gpt-6-luna/meta.json": "180ceb8caeabccd0",
     "runs/unirl/rl_verbal/evaluacion_E/20260927-090507-gpt-6-luna/episodios.jsonl": "0a592261088d8aac",
     "runs/unirl/rl_verbal/evaluacion_E/20260927-090507-gpt-6-luna/llamadas.jsonl": "2093ad0b61f29904"
+   }
+  },
+  {
+   "corrida": "20261013-221752-gpt-6-luna",
+   "fase": "evaluacion_E",
+   "modelo": "gpt-6-luna",
+   "estado": "terminado",
+   "inicio": "2026-10-13T22:17:52",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "1239ba4",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "E": {
+     "planeados": 0,
+     "registrados": 32,
+     "aceptados_entre_registrados": 5
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 166,
+   "fuentes": {
+    "runs/unirl/rl_verbal/evaluacion_E/20261013-221752-gpt-6-luna/meta.json": "71ca267976e36b64",
+    "runs/unirl/rl_verbal/evaluacion_E/20261013-221752-gpt-6-luna/episodios.jsonl": "266279f1c37f0c1a",
+    "runs/unirl/rl_verbal/evaluacion_E/20261013-221752-gpt-6-luna/llamadas.jsonl": "7d6c1701352ab4eb"
    }
   },
   {
@@ -3792,6 +4040,84 @@
     "runs/unirl/rl_verbal/pareada_luna/20260927-145337-gpt-6-luna/meta.json": "aa27a906886fb4be",
     "runs/unirl/rl_verbal/pareada_luna/20260927-145337-gpt-6-luna/episodios.jsonl": "712729414089784e",
     "runs/unirl/rl_verbal/pareada_luna/20260927-145337-gpt-6-luna/llamadas.jsonl": "ef998115b387068c"
+   }
+  },
+  {
+   "corrida": "20261008-200559-gpt-6-luna",
+   "fase": "pareada_luna",
+   "modelo": "gpt-6-luna",
+   "estado": "en curso",
+   "inicio": "2026-10-08T20:05:59",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "25a2ee5",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "C3": {
+     "planeados": 16,
+     "registrados": 2,
+     "aceptados_entre_registrados": 1
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 9,
+   "fuentes": {
+    "runs/unirl/rl_verbal/pareada_luna/20261008-200559-gpt-6-luna/meta.json": "55b6ec1139004b3e",
+    "runs/unirl/rl_verbal/pareada_luna/20261008-200559-gpt-6-luna/episodios.jsonl": "d6905db761d14812",
+    "runs/unirl/rl_verbal/pareada_luna/20261008-200559-gpt-6-luna/llamadas.jsonl": "2c4beda846d9dead"
+   }
+  },
+  {
+   "corrida": "20261008-204019-gpt-6-luna",
+   "fase": "pareada_luna",
+   "modelo": "gpt-6-luna",
+   "estado": "terminado",
+   "inicio": "2026-10-08T20:40:19",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "25a2ee5",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "C3": {
+     "planeados": 16,
+     "registrados": 14,
+     "aceptados_entre_registrados": 1
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 55,
+   "fuentes": {
+    "runs/unirl/rl_verbal/pareada_luna/20261008-204019-gpt-6-luna/meta.json": "2da4c1e8c26fe8b3",
+    "runs/unirl/rl_verbal/pareada_luna/20261008-204019-gpt-6-luna/episodios.jsonl": "0bf7553ee7d91fa7",
+    "runs/unirl/rl_verbal/pareada_luna/20261008-204019-gpt-6-luna/llamadas.jsonl": "6d7d72ed7ea56097"
+   }
+  },
+  {
+   "corrida": "20261013-221752-gpt-6-luna",
+   "fase": "pareada_luna",
+   "modelo": "gpt-6-luna",
+   "estado": "terminado",
+   "inicio": "2026-10-13T22:17:52",
+   "codigo": {
+    "unirl_sha256": "4ae5557805b5d23f",
+    "git_commit": "1239ba4",
+    "unirl_dirty": false
+   },
+   "por_config": {
+    "E3": {
+     "planeados": 16,
+     "registrados": 16,
+     "aceptados_entre_registrados": 3
+    }
+   },
+   "perdidos": 0,
+   "llamadas_registradas": 56,
+   "fuentes": {
+    "runs/unirl/rl_verbal/pareada_luna/20261013-221752-gpt-6-luna/meta.json": "bfd6f2a2cc688d51",
+    "runs/unirl/rl_verbal/pareada_luna/20261013-221752-gpt-6-luna/episodios.jsonl": "1c7c86d454e2ab04",
+    "runs/unirl/rl_verbal/pareada_luna/20261013-221752-gpt-6-luna/llamadas.jsonl": "a1baa45f9f264ec7"
    }
   },
   {

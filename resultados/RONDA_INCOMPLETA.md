@@ -1,16 +1,16 @@
-# Ronda 20260927-1402: INCOMPLETA
+# Ronda 20261008-2003: INCOMPLETA
 
-Inicio 2026-09-27T14:03:07; informe 2026-09-30T12:00:23. Libro de la ronda: `logs/gasto_ronda_20260927-1402.json` (total $1.4825 de $15.00).
+Inicio 2026-10-08T20:05:58; informe 2026-10-13T12:50:20. Libro de la ronda: `logs/gasto_ronda_20261008-2003.json` (total $2.5124 de $15.00).
 
 ## Dónde quedó y por qué
 
-(sin motivo registrado)
+detenida por señal (Ctrl-C o kill) Tue Oct 13 12:50:19 -05 2026
 
 Para continuar: volver a lanzar `unirl/tools/lanzar_ronda.sh`; salta las fases hechas y relanza los peldaños que faltan.
 
 ## Cuaderno
 
-Corrida `20260927-140308-gpt-6-luna`: 18 episodios de train registrados, 5 aceptados; **no congelado**.
+Corrida `20261008-200559-gpt-6-luna`: 57 episodios de train registrados, 21 aceptados; **no congelado**.
 
 ## H1: margen del martillo con el cuaderno congelado
 
@@ -20,11 +20,11 @@ No evaluable: no hay cuaderno congelado.
 
 | fase | modelo | config | episodios | aceptados | tasa | sobre T* | sobre T*, dif. ≤ 3 | corridas |
 |---|---|---|---|---|---|---|---|---|
-| cuaderno | gpt-6-luna | F | 18 | 5 | 0.28 | — | — | 1 |
-| evaluacion | gpt-6-luna | B0 | 28 | 1 | 0.04 | — | — | 3 |
-| evaluacion | gpt-6-luna | B | 26 | 1 | 0.04 | — | — | 3 |
-| evaluacion | gpt-6-luna | C | 24 | 7 | 0.29 | — | — | 3 |
-| pareada_luna | gpt-6-luna | C3 | 16 | 4 | 0.25 | — | — | 2 |
+| cuaderno | gpt-6-luna | F | 57 | 21 | 0.37 | — | — | 1 |
+| evaluacion | gpt-6-luna | B0 | 32 | 0 | 0.00 | — | — | 3 |
+| evaluacion | gpt-6-luna | B | 32 | 0 | 0.00 | — | — | 3 |
+| evaluacion | gpt-6-luna | C | 32 | 7 | 0.22 | — | — | 4 |
+| pareada_luna | gpt-6-luna | C3 | 16 | 2 | 0.12 | — | — | 2 |
 | pareada_sol | gpt-6-sol | C3 | 0 | — | — | — | — | 0 |
 | evaluacion_E | gpt-6-luna | E | 0 | — | — | — | — | 0 |
 | pareada_luna | gpt-6-luna | E3 | 0 | — | — | — | — | 0 |
@@ -52,29 +52,29 @@ Sobre T*_test (peldaños que el martillo con cuaderno no cierra) cuando hay lín
 
 | peldaño | dif. | en T* | B0 (eval) | B (eval) | C (eval) | E (E) | C3 (luna) | E3 (luna) | C3 (sol) | E3 (sol) |
 |---|---|---|---|---|---|---|---|---|---|---|
-| rf_1_punto | 2 | — | 00 | 01 | 11 | ·· | 1 | · | · | · |
-| rf_2_signo | 2 | — | 01 | 00 | 01 | ·· | 1 | · | · | · |
-| rf_3_encaje | 3 | — | 00 | 00 | 10 | ·· | 0 | · | · | · |
-| rf_4_raiz | 3 | — | 00 | 00 | 00 | ·· | 1 | · | · | · |
+| rf_1_punto | 2 | — | 00 | 00 | 11 | ·· | 1 | · | · | · |
+| rf_2_signo | 2 | — | 00 | 00 | 11 | ·· | 0 | · | · | · |
+| rf_3_encaje | 3 | — | 00 | 00 | 10 | ·· | 1 | · | · | · |
+| rf_4_raiz | 3 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
 | rf_5_limites | 3 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
 | rf_6_convergencia | 5 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
 | rf_6c_puntos_convergen | 5 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
-| secante_1_inyectiva | 2 | — | 00 | 00 | 01 | ·· | 1 | · | · | · |
-| secante_2_cociente | 2 | — | 00 | 00 | 11 | ·· | 0 | · | · | · |
+| secante_1_inyectiva | 2 | — | 00 | 00 | 11 | ·· | 0 | · | · | · |
+| secante_2_cociente | 2 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
 | secante_3_producto | 5 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
 | secante_4_contraccion | 2 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
 | secante_4c_contraccion_local | 4 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
-| secante_5_convergencia | 4 | — | 00 | 00 | ·· | ·· | 0 | · | · | · |
-| secante_5c_convergencia_local | 5 | — | 00 | ·· | ·· | ·· | 0 | · | · | · |
-| secante_6_fibonacci | 4 | — | ·· | ·· | ·· | ·· | 0 | · | · | · |
-| secante_6c_orden_phi | 5 | — | ·· | ·· | ·· | ·· | 0 | · | · | · |
+| secante_5_convergencia | 4 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
+| secante_5c_convergencia_local | 5 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
+| secante_6_fibonacci | 4 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
+| secante_6c_orden_phi | 5 | — | 00 | 00 | 00 | ·· | 0 | · | · | · |
 
 ## Gasto de la ronda por fase
 
 | fase | llamadas | $ |
 |---|---|---|
-| cuaderno | 93 | 0.3407 |
-| evaluacion | 258 | 0.9192 |
-| pareada_luna | 60 | 0.2226 |
+| cuaderno | 260 | 1.1882 |
+| evaluacion | 309 | 1.0629 |
+| pareada_luna | 64 | 0.2612 |
 | preflight | 3 | 0.0000 |
-| **total** | 414 | **1.4825** |
+| **total** | 636 | **2.5124** |
