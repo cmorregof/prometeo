@@ -1,0 +1,31 @@
+{
+ "desde": "2026-10-08T20:05:58",
+ "hasta": "2026-10-14T00:38:36",
+ "fases": [
+  "cuaderno",
+  "evaluacion",
+  "evaluacion_E",
+  "pareada_luna",
+  "pareada_sol"
+ ],
+ "configs": null,
+ "peldanos": null,
+ "solo": "todos",
+ "limite_s": 600.0,
+ "isabelle": "/Users/cmorregof/isabelle/Isabelle2025.app/bin/isabelle",
+ "sandbox": true,
+ "cortesia": true,
+ "referencia": "referencia-2026-10-08",
+ "fecha": "2026-10-14T13:09:11",
+ "corridas": [
+  "cuaderno/20261008-200559-gpt-6-luna",
+  "evaluacion/20261008-200559-gpt-6-luna",
+  "pareada_luna/20261008-200559-gpt-6-luna",
+  "evaluacion/20261008-204019-gpt-6-luna",
+  "pareada_luna/20261008-204019-gpt-6-luna",
+  "evaluacion/20261009-080009-gpt-6-luna",
+  "evaluacion/20261009-100605-gpt-6-luna",
+  "evaluacion_E/20261013-221752-gpt-6-luna",
+  "pareada_luna/20261013-221752-gpt-6-luna"
+ ]
+}

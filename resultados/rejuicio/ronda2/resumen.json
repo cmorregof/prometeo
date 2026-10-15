@@ -1,0 +1,451 @@
+{
+ "parametros": {
+  "desde": "2026-10-08T20:05:58",
+  "hasta": "2026-10-14T00:38:36",
+  "fases": [
+   "cuaderno",
+   "evaluacion",
+   "evaluacion_E",
+   "pareada_luna",
+   "pareada_sol"
+  ],
+  "configs": null,
+  "peldanos": null,
+  "solo": "todos",
+  "limite_s": 600.0,
+  "isabelle": "/Users/cmorregof/isabelle/Isabelle2025.app/bin/isabelle",
+  "sandbox": true,
+  "cortesia": true,
+  "referencia": "referencia-2026-10-08",
+  "fecha": "2026-10-14T13:09:11",
+  "corridas": [
+   "cuaderno/20261008-200559-gpt-6-luna",
+   "evaluacion/20261008-200559-gpt-6-luna",
+   "pareada_luna/20261008-200559-gpt-6-luna",
+   "evaluacion/20261008-204019-gpt-6-luna",
+   "pareada_luna/20261008-204019-gpt-6-luna",
+   "evaluacion/20261009-080009-gpt-6-luna",
+   "evaluacion/20261009-100605-gpt-6-luna",
+   "evaluacion_E/20261013-221752-gpt-6-luna",
+   "pareada_luna/20261013-221752-gpt-6-luna"
+  ]
+ },
+ "categorias_por_config": {
+  "cuaderno|gpt-6-luna|F": {
+   "sin_juicio": 52,
+   "concordante": 282,
+   "indeterminado": 1
+  },
+  "evaluacion|gpt-6-luna|B0": {
+   "sin_juicio": 22,
+   "concordante": 18
+  },
+  "evaluacion|gpt-6-luna|C": {
+   "sin_juicio": 61,
+   "concordante": 61
+  },
+  "evaluacion|gpt-6-luna|B": {
+   "sin_juicio": 14,
+   "concordante": 24
+  },
+  "pareada_luna|gpt-6-luna|C3": {
+   "sin_juicio": 25,
+   "concordante": 25
+  },
+  "evaluacion_E|gpt-6-luna|E": {
+   "sin_juicio": 57,
+   "concordante": 62,
+   "regla_estricta": 1
+  },
+  "pareada_luna|gpt-6-luna|E3": {
+   "sin_juicio": 27,
+   "concordante": 17
+  }
+ },
+ "mcnemar": [
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "episodio",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 32,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 4,
+   "p": 0.6875
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 32,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 4,
+   "p": 0.6875
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 32,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 4,
+   "p": 0.6875
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 32,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 4,
+   "p": 0.6875
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "peldaño",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 16,
+   "b_gana_segunda": 1,
+   "b_prima_gana_primera": 2,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 16,
+   "b_gana_segunda": 1,
+   "b_prima_gana_primera": 2,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 16,
+   "b_gana_segunda": 1,
+   "b_prima_gana_primera": 2,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "E",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 16,
+   "b_gana_segunda": 1,
+   "b_prima_gana_primera": 2,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "episodio",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "peldaño",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C3",
+   "b": "E3",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 16,
+   "b_gana_segunda": 2,
+   "b_prima_gana_primera": 1,
+   "p": 1.0
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "episodio",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "peldaño",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B0",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "episodio",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "episodio",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 32,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 7,
+   "p": 0.015625
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "peldaño",
+   "veredictos": "juez",
+   "indeterminados": "—",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "excluir",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "0",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  },
+  {
+   "modelo": "gpt-6-luna",
+   "a": "C",
+   "b": "B",
+   "unidad": "peldaño",
+   "veredictos": "auditados",
+   "indeterminados": "1",
+   "pares": 16,
+   "b_gana_segunda": 0,
+   "b_prima_gana_primera": 4,
+   "p": 0.125
+  }
+ ]
+}
