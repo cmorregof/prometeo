@@ -1,10 +1,9 @@
 r"""Laboratorio 3 · experimentos sobre el agente de interpolación (proyecto 07).
 
-Se ejecuta desde 07_interpolacion con su entorno virtual:
+Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual activado:
 
-    cd 07_interpolacion
-    .venv\Scripts\python ..\docs\curso\lab03\experimentos.py basales        (Windows)
-    .venv/bin/python ../docs/curso/lab03/experimentos.py basales            (Mac)
+    cd rl_metodos && source .venv/bin/activate
+    python docs/curso/lab03/experimentos.py basales
 
 Experimentos:
     basales [--nodos=-1,0,1] [--t=-0.5,0.5,2]   valores exactos de los basales (para revisar la Parte 1)
@@ -31,12 +30,12 @@ from dataclasses import replace
 from fractions import Fraction
 from pathlib import Path
 
-import interprl.env_interp as E
-import interprl.proof_kb as KB
-import interprl.trainer as T
-from interprl.agent import QAgent
-from interprl.env_proof import ProofEnv
-from interprl.interp import lebesgue_constant, nodes
+import didactica.interpolacion.env_interp as E
+import didactica.interpolacion.proof_kb as KB
+import didactica.interpolacion.trainer as T
+from didactica.interpolacion.env_proof import ProofEnv
+from didactica.interpolacion.interp import lebesgue_constant, nodes
+from didactica.qagent import QAgent
 
 AQUI = Path(__file__).resolve().parent
 

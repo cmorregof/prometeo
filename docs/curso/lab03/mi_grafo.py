@@ -7,9 +7,9 @@ Cada paso es una línea Step(clave, título, texto, deps). En deps van las clave
 pasos que ese paso USA. Las hipótesis no usan nada: deps=(). El paso final lleva is_qed=True.
 Un distractor es un paso que suena bien pero está mal: distractor=True y sin deps.
 
-Comprueba tu grafo con (desde 07_interpolacion):
+Comprueba tu grafo con (desde la raíz del repo, con el entorno virtual activado):
 
-    .venv\Scripts\python ..\docs\curso\lab03\experimentos.py mi_grafo
+    python docs/curso/lab03/experimentos.py mi_grafo
 
 El programa revisa que el grafo esté bien formado, lo dibuja y pone al agente de la
 fase 2 a buscar un orden válido. El agente no sabe matemáticas: solo respeta tus flechas.
@@ -19,7 +19,7 @@ Cuando termines, cambia el nombre del archivo a mi_grafo_<apellido1>_<apellido2>
 entrégalo. Los grafos buenos entran a la biblioteca del curso con sus autores.
 """
 
-from interprl.proof_kb import Step
+from didactica.interpolacion.proof_kb import Step
 
 TEOREMA = "Si x₀, …, xₙ son distintos, entonces L₀(t) + L₁(t) + … + Lₙ(t) = 1 para todo t."
 AUTORES = "escribe aquí sus nombres"

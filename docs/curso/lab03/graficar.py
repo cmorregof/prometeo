@@ -1,11 +1,10 @@
 r"""Laboratorio 3 · graficar los polinomios basales y usarlos con el PIB.
 
-Se ejecuta desde 07_interpolacion:
+Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual activado:
 
-    .venv\Scripts\python ..\docs\curso\lab03\graficar.py          (Windows)
-    .venv/bin/python ../docs/curso/lab03/graficar.py              (Mac)
+    python docs/curso/lab03/graficar.py
 
-Guarda dos figuras en runs\lab03\ (basales.png y pib_<ejemplo>.png) y escribe una
+Guarda dos figuras en runs/didactica/interpolacion/lab03/ (basales.png y pib_<ejemplo>.png) y escribe una
 tabla en la terminal. Tú solo cambias el bloque «AJUSTA AQUÍ»; el resto se lee, no
 se toca. Ábrelo con el Bloc de notas, cambia, guarda (Ctrl+S) y vuelve a correr
 (flecha arriba, Enter).
@@ -39,7 +38,7 @@ from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
 DATOS = AQUI / "pib_tres_paises.csv"
-SALIDA = Path("runs") / "lab03"
+SALIDA = AQUI.parents[2] / "runs" / "didactica" / "interpolacion" / "lab03"  # las corridas de didactica (no versionadas)
 URL = "https://raw.githubusercontent.com/datasets/gdp/main/data/gdp.csv"
 
 
@@ -162,12 +161,12 @@ def main():
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except ImportError:
-        print("Falta matplotlib. Instálalo con:  .venv\\Scripts\\python -m pip install matplotlib")
+        print("Falta matplotlib. Instálalo con:  python -m pip install matplotlib")
         return
     SALIDA.mkdir(parents=True, exist_ok=True)
     graficar_basales(plt)
     graficar_pib(plt)
-    print("\nAbre las figuras desde el explorador de archivos (carpeta runs\\lab03).")
+    print(f"\nAbre las figuras desde el explorador de archivos (carpeta {SALIDA}).")
 
 
 if __name__ == "__main__":
