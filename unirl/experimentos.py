@@ -43,9 +43,14 @@ MAX_LEMAS_POR_DESTILACION = 3  # ronda 2: la destilación también propone lemas
 ORDEN_TRAIN = ("biseccion", "punto_fijo", "ordenes", "newton")
 
 
+def proveedor_de(modelo: str) -> str:
+    """'anthropic' para los modelos de Claude (claude-sonnet-5-5, claude-opus-5-5), 'openai' para el resto."""
+    return "anthropic" if modelo.startswith("claude-") else "openai"
+
+
 def proveedor(modelo: str, fase: str, corrida: str, effort: str = "high"):
     from .cli import make_provider
-    return make_provider({"provider": "openai", "model": modelo, "effort": effort, "fase": fase, "name": corrida,
+    return make_provider({"provider": proveedor_de(modelo), "model": modelo, "effort": effort, "fase": fase, "name": corrida,
                           "tope_llamadas": TOPES.get(fase)})
 
 

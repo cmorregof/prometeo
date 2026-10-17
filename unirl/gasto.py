@@ -1,5 +1,6 @@
 """Libro de gastos: costo real de cada llamada a la API y topes que abortan antes de pasarse (PLAN_rl_verbal.md §9).
 
+Contabiliza los proveedores OpenAI y, desde el 17 oct 2026, Anthropic (Claude Sonnet 5.5 y Opus 5.5).
 Cada llamada se registra con los tokens que devuelve la API (entrada, entrada en caché, salida y razonamiento) y
 su costo con los precios oficiales. Antes de cada llamada, `autorizar` exige que el total gastado más el peor caso
 de la llamada siguiente (entrada estimada + máximo de salida) no pase del tope en dólares, y que la fase no haya
@@ -31,7 +32,12 @@ PRECIOS = {
     "gpt-6-sol": (2.00, 0.20, 10.00),
     "gpt-6-astra": (10.00, 1.00, 50.00),
     "gpt-5.6-terra": (2.00, 0.20, 12.00),
+    # Claude: https://platform.claude.com/docs/en/about-claude/pricing, consultada el 17 oct 2026. La entrada en caché
+    # es la lectura; el razonamiento (thinking) se cobra como salida y ya viene en output_tokens.
+    "claude-sonnet-5-5": (2.00, 0.10, 10.00),
+    "claude-opus-5-5": (4.00, 0.20, 20.00),
 }
+RECARGO_ESCRITURA_CACHE = 1.25  # Anthropic: escribir en la caché de 5 min cuesta 1,25 veces la entrada base
 TOPE_USD = float(os.environ.get("UNIRL_TOPE_USD", 25.0))  # decisión de Carlos (24 sep 2026): 25; la ronda del 26 sep lo baja con UNIRL_TOPE_USD
 
 
@@ -45,11 +51,14 @@ class GastoExcedido(ProviderFatal):
     """La llamada siguiente podría pasar del tope en dólares, o la fase agotó su tope de llamadas."""
 
 
-def costo(modelo: str, tokens_entrada: int, tokens_cache: int, tokens_salida: int) -> float:
+def costo(modelo: str, tokens_entrada: int, tokens_cache: int, tokens_salida: int, tokens_escritura_cache: int = 0) -> float:
+    """`tokens_entrada` es la entrada total; de ella, `tokens_cache` se leyó de la caché y `tokens_escritura_cache` se
+    escribió en ella (solo Anthropic; OpenAI no cobra la escritura)."""
     if modelo not in PRECIOS:
         raise GastoExcedido(f"sin precio registrado para {modelo}: no se autoriza la llamada")
     pe, pc, ps = PRECIOS[modelo]
-    return ((tokens_entrada - tokens_cache) * pe + tokens_cache * pc + tokens_salida * ps) / 1e6
+    base = tokens_entrada - tokens_cache - tokens_escritura_cache
+    return (base * pe + tokens_cache * pc + tokens_escritura_cache * pe * RECARGO_ESCRITURA_CACHE + tokens_salida * ps) / 1e6
 
 
 class _CerrojoLibro:
@@ -109,7 +118,7 @@ class Libro:
         return peor
 
     def registrar(self, modelo: str, fase: str, corrida: str, uso: dict) -> float:
-        usd = costo(modelo, uso.get("entrada", 0), uso.get("cache", 0), uso.get("salida", 0))
+        usd = costo(modelo, uso.get("entrada", 0), uso.get("cache", 0), uso.get("salida", 0), uso.get("cache_escritura", 0))
         with self._cerrojo():
             datos = {"llamadas": self.entradas()}
             datos["llamadas"].append({"fecha": time.strftime("%Y-%m-%dT%H:%M:%S"), "modelo": modelo, "fase": fase, "corrida": corrida,
@@ -125,20 +134,42 @@ class Libro:
 
 
 class ProveedorContable:
-    """Envuelve el proveedor OpenAI del 06 (sin modificarlo): hace la misma llamada, lee `usage` y la registra en el
-    libro, autorizando antes cada llamada contra los topes."""
+    """Envuelve el proveedor OpenAI del 06 (sin modificarlo) o el de Anthropic de steprl: hace la misma llamada, lee
+    `usage` y la registra en el libro, autorizando antes cada llamada contra los topes."""
 
     def __init__(self, interno, libro: Libro, fase: str, corrida: str, tope_llamadas: int | None = None):
-        if not hasattr(interno, "_client"):
-            raise GastoExcedido("el libro de gastos solo sabe contabilizar el proveedor OpenAI")
+        # Anthropic (17 oct 2026): el proveedor de steprl expone `respuesta` (la llamada cruda, con usage) y `texto`
+        self._anthropic = callable(getattr(interno, "respuesta", None)) and callable(getattr(interno, "texto", None))
+        if not self._anthropic and not hasattr(interno, "_client"):
+            raise GastoExcedido("el libro de gastos solo sabe contabilizar los proveedores OpenAI y Anthropic")
         self.interno, self.libro, self.fase, self.corrida, self.tope_llamadas = interno, libro, fase, corrida, tope_llamadas
         self.model = interno.model
         self.calls = 0
         self._local = threading.local()  # uso de la última llamada, por hilo (episodios en paralelo)
 
+    def _complete_anthropic(self, system: str, user: str) -> str:
+        resp = self.interno.respuesta(system, user)  # los errores del SDK suben tal cual: loop.clasificar_error los lee
+        u = resp.usage
+        lectura = int(getattr(u, "cache_read_input_tokens", 0) or 0)
+        escritura = int(getattr(u, "cache_creation_input_tokens", 0) or 0)
+        det = getattr(u, "output_tokens_details", None)
+        uso = {"entrada": int(u.input_tokens or 0) + lectura + escritura, "cache": lectura, "cache_escritura": escritura,
+               "salida": int(u.output_tokens or 0), "razonamiento": int(getattr(det, "thinking_tokens", 0) or 0)}
+        usd = self.libro.registrar(self.model, self.fase, self.corrida, uso)  # se registra aunque la respuesta sea inútil: se pagó
+        self.calls += 1
+        self._local.uso = {**uso, "usd": round(usd, 6)}
+        if resp.stop_reason == "max_tokens":  # como con OpenAI: un texto cortado puede traer la prueba entera
+            text = "".join(b.text for b in resp.content if b.type == "text")
+            if not text.strip():
+                raise RuntimeError("la respuesta se cortó por longitud")
+            return text
+        return self.interno.texto(resp)  # un rechazo es ProviderError: el intento queda como PROVIDER_ERROR, sin reintento
+
     def complete(self, system: str, user: str) -> str:
         max_salida = int(getattr(self.interno, "max_output_tokens", 64000))
         self.libro.autorizar(self.model, self.fase, self.tope_llamadas, len(system) + len(user), max_salida)
+        if self._anthropic:
+            return self._complete_anthropic(system, user)
         kwargs = {}
         if getattr(self.interno, "reasoning_effort", None):
             kwargs["reasoning_effort"] = self.interno.reasoning_effort

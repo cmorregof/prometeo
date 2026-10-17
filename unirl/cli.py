@@ -37,13 +37,19 @@ def make_provider(cfg: dict):
     from steprl.providers import make_provider as mk  # providers.py de steprl (lee el .env de la raíz del repo)
 
     kw = {}
-    if cfg.get("provider") == "openai" and cfg.get("effort"):
+    nombre = cfg.get("provider", "openai")
+    if nombre == "openai" and cfg.get("effort"):
         kw["reasoning_effort"] = cfg["effort"]
-    if cfg.get("provider") == "anthropic" and cfg.get("effort"):
-        kw["effort"] = cfg["effort"]
-    interno = mk(cfg.get("provider", "openai"), cfg.get("model"), **kw)
-    if cfg.get("provider", "openai") == "openai" and cfg.get("contabilidad", True):
-        # toda llamada a OpenAI pasa por el libro de gastos (tope en dólares del proyecto y tope de llamadas de la fase)
+    if nombre == "anthropic":
+        if cfg.get("effort"):
+            kw["effort"] = cfg["effort"]
+        # 17 oct 2026: un experimento tiene un solo proponente, así que sin fallback a otro modelo (salvo que la config lo
+        # pida); 64k de salida como el proveedor OpenAI, porque el razonamiento cuenta ahí y 16k se queda corto
+        kw["fallback_model"] = cfg.get("fallback_model")
+        kw["max_output_tokens"] = int(cfg.get("max_output_tokens", 64000))
+    interno = mk(nombre, cfg.get("model"), **kw)
+    if nombre in ("openai", "anthropic") and cfg.get("contabilidad", True):
+        # toda llamada a la API pasa por el libro de gastos (tope en dólares del proyecto y tope de llamadas de la fase)
         from .gasto import Libro, ProveedorContable, TOPE_USD
         libro = Libro(tope_usd=float(cfg.get("tope_usd", TOPE_USD)))
         return ProveedorContable(interno, libro, fase=cfg.get("fase", "otras"), corrida=cfg.get("name", "?"),

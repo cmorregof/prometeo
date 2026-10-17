@@ -3,6 +3,8 @@
 #   uso: unirl/tools/preflight.sh [--dry-run] [--reanudacion] [--cuaderno=<hash>]
 # --dry-run: no llama a la API. --reanudacion: no exige el cuaderno de partida ni el árbol limpio (la ronda ya escribió).
 # --cuaderno=<hash>: hash de partida exigido al cuaderno vivo (ronda 2: el estado final de la ronda 1); sin él, el sembrado.
+# MODELO_PREFLIGHT=<modelo> (17 oct 2026): el proponente de la llamada de prueba; por omisión gpt-6-luna. Con un modelo
+# claude-* se exige ANTHROPIC_API_KEY en vez de OPENAI_API_KEY.
 set -u
 RAIZ="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$RAIZ" || exit 1
@@ -43,14 +45,16 @@ elif [ "$sucios" = 0 ]; then ok "git status limpio"; else mal "git status con $s
 # 6. pytest rápido en verde
 if out=$("$PY" -m pytest -q -p no:cacheprovider -m "not isabelle" 2>&1 | tail -1) && echo "$out" | grep -qE '^[0-9]+ passed' && ! echo "$out" | grep -qE 'failed|error'; then ok "pytest rápido: $out"; else mal "pytest rápido: $out"; fi
 
-# 7 (último). La clave existe en el .env de la raíz (nunca se imprime) y una llamada mínima a Luna funciona.
+# 7 (último). La clave existe en el .env de la raíz (nunca se imprime) y una llamada mínima al proponente funciona.
 # Va al final: la llamada crea el libro de la ronda (logs/gasto_ronda_<id>.json) y, si fuera antes, el árbol de git
 # aparecería sucio en el paso 6 (lanzamientos del 26 sep, 19:00 y 19:07). Solo se llama si todo lo demás pasó.
-if [ -f "$RAIZ/.env" ] && grep -qE '^OPENAI_API_KEY=.{20,}' "$RAIZ/.env"; then ok "OPENAI_API_KEY presente en .env"; else mal "falta OPENAI_API_KEY en .env"; fi
+export MODELO_PRUEBA="${MODELO_PREFLIGHT:-gpt-6-luna}"
+case "$MODELO_PRUEBA" in claude-*) CLAVE=ANTHROPIC_API_KEY;; *) CLAVE=OPENAI_API_KEY;; esac
+if [ -f "$RAIZ/.env" ] && grep -qE "^${CLAVE}=.{20,}" "$RAIZ/.env"; then ok "$CLAVE presente en .env"; else mal "falta $CLAVE en .env"; fi
 if [ "$DRY" = 1 ]; then
-  echo "  · llamada de prueba a Luna omitida (--dry-run)"
+  echo "  · llamada de prueba a $MODELO_PRUEBA omitida (--dry-run)"
 elif [ "$fallos" != 0 ]; then
-  echo "  · llamada de prueba a Luna omitida: ya hay comprobaciones fallidas"
+  echo "  · llamada de prueba a $MODELO_PRUEBA omitida: ya hay comprobaciones fallidas"
 else
   if "$PY" - <<'PYEOF'
 import os, sys
@@ -58,14 +62,18 @@ from steprl.providers import make_provider
 from unirl.gasto import Libro, ProveedorContable
 from unirl.loop import clasificar_error
 try:
-    p = make_provider("openai", "gpt-6-luna", reasoning_effort="low")
-    p.max_output_tokens = 64
+    modelo = os.environ["MODELO_PRUEBA"]
+    if modelo.startswith("claude-"):  # sin fallback; Opus 5.5 y Sonnet 5.5 piensan siempre: margen para el razonamiento
+        p = make_provider("anthropic", modelo, effort="low", fallback_model=None, max_output_tokens=1024)
+    else:
+        p = make_provider("openai", modelo, reasoning_effort="low")
+        p.max_output_tokens = 64
     prov = ProveedorContable(p, Libro(), fase="preflight", corrida="preflight")
     txt = prov.complete("Responde con la palabra OK y nada más.", "OK")
     u = prov.ultimo_uso or {}
-    print(f"  ✔ Luna respondió ({u.get('entrada', '?')} + {u.get('salida', '?')} tokens, ${u.get('usd', 0):.5f}, registrado en el libro de la ronda)")
+    print(f"  ✔ {modelo} respondió ({u.get('entrada', '?')} + {u.get('salida', '?')} tokens, ${u.get('usd', 0):.5f}, registrado en el libro de la ronda)")
 except Exception as e:
-    print(f"  ✘ la llamada de prueba a Luna falló ({clasificar_error(e)}): {str(e)[:160]}")
+    print(f"  ✘ la llamada de prueba a {os.environ.get('MODELO_PRUEBA', '?')} falló ({clasificar_error(e)}): {str(e)[:160]}")
     sys.exit(1)
 PYEOF
   then :; else fallos=$((fallos+1)); fi

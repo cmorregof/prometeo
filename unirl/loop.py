@@ -125,7 +125,7 @@ def build_prompt(env: ProofEnv, obs: Observation, memory: "Memory | None" = None
 # Errores del proveedor que no se arreglan reintentando: sin créditos, clave inválida o sin permiso. Ante ellos la
 # corrida se detiene: seguir solo llenaría el registro de PROVIDER_ERROR (lo que pasó la noche del 23 al 24 sep).
 FATAL_PROVIDER = ("insufficient_quota", "credit_balance_exhausted", "no credits", "invalid_api_key", "incorrect api key",
-                  "permission_denied", "billing")
+                  "permission_denied", "billing", "credit balance is too low")  # el último: Anthropic sin créditos (400)
 
 
 class ProviderFatal(RuntimeError):

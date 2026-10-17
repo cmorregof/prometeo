@@ -3,7 +3,8 @@ objeto con `.complete(system, user) -> str` sirve. Se incluyen:
 
 * `OpenAIProvider`   – API de OpenAI (`OPENAI_API_KEY`), modelo configurable;
 * `AnthropicProvider`– API de Anthropic (`ANTHROPIC_API_KEY`), por defecto
-                       Claude Fable 5.1 con fallback de servidor;
+                       Claude Fable 5.1 con fallback de servidor; unirl lo usa
+                       sin fallback con Claude Sonnet 5.5 u Opus 5.5;
 * `MockProvider`     – devuelve programas fijos: para tests y ensayos en seco.
 """
 
@@ -89,7 +90,7 @@ class AnthropicProvider:
     model: str = "claude-fable-5-1"
     max_output_tokens: int = 16000
     effort: str = "high"  # low | medium | high | xhigh | max
-    fallback_model: str = "claude-opus-4-8"
+    fallback_model: str | None = "claude-opus-4-8"  # None: sin fallback (un experimento con un solo proponente)
     calls: int = 0
 
     def __post_init__(self) -> None:
@@ -99,19 +100,33 @@ class AnthropicProvider:
         self._anthropic = anthropic
         self._client = anthropic.Anthropic()  # ANTHROPIC_API_KEY o perfil de `ant auth login`
 
+    def respuesta(self, system: str, user: str):
+        """La respuesta cruda de la API, con su `usage`, sin mirar stop_reason: quien contabiliza la registra antes de
+        juzgarla (unirl.gasto.ProveedorContable). El thinking no se configura: en Claude Fable 5.1, Opus 5.5 y Sonnet 5.5
+        es adaptativo por omisión, y la profundidad la fija output_config.effort (Opus 5.5 usa `medium` si no se dice).
+        Sin fallback va en streaming, porque con un max_tokens grande una llamada sin streaming puede agotar el tiempo
+        de HTTP; con fallback, la llamada beta de siempre (fallback de servidor ante un rechazo)."""
+        kw = dict(model=self.model, max_tokens=self.max_output_tokens, system=system,
+                  output_config={"effort": self.effort}, messages=[{"role": "user", "content": user}])
+        if self.fallback_model:
+            return self._client.beta.messages.create(betas=["server-side-fallback-2026-06-01"],
+                                                     fallbacks=[{"model": self.fallback_model}], **kw)
+        with self._client.messages.stream(**kw) as stream:
+            return stream.get_final_message()
+
+    def texto(self, resp) -> str:
+        """El texto de una respuesta; ProviderError si el modelo la rechazó o si se cortó por max_tokens."""
+        if resp.stop_reason == "refusal":
+            categoria = getattr(getattr(resp, "stop_details", None), "category", None)
+            raise ProviderError("la petición fue rechazada por el modelo" + (f" ({categoria})" if categoria else "")
+                                + (" y por el fallback" if self.fallback_model else ""))
+        if resp.stop_reason == "max_tokens":
+            raise ProviderError("la respuesta se cortó por max_tokens")
+        return "".join(block.text for block in resp.content if block.type == "text")
+
     def complete(self, system: str, user: str) -> str:
-        # Claude Fable 5.1: el thinking siempre está activo (no se pasa el parámetro); la
-        # profundidad se controla con output_config.effort; fallback de servidor ante rechazo.
         try:
-            resp = self._client.beta.messages.create(
-                model=self.model,
-                max_tokens=self.max_output_tokens,
-                system=system,
-                output_config={"effort": self.effort},
-                betas=["server-side-fallback-2026-06-01"],
-                fallbacks=[{"model": self.fallback_model}],
-                messages=[{"role": "user", "content": user}],
-            )
+            resp = self.respuesta(system, user)
         except self._anthropic.RateLimitError as e:
             raise ProviderError(f"límite de tasa: reintentar en {e.response.headers.get('retry-after', '?')} s") from e
         except self._anthropic.APIStatusError as e:
@@ -119,11 +134,7 @@ class AnthropicProvider:
         except self._anthropic.APIConnectionError as e:
             raise ProviderError("error de red") from e
         self.calls += 1
-        if resp.stop_reason == "refusal":
-            raise ProviderError("la petición fue rechazada por el modelo y por el fallback")
-        if resp.stop_reason == "max_tokens":
-            raise ProviderError("la respuesta se cortó por max_tokens")
-        return "".join(block.text for block in resp.content if block.type == "text")
+        return self.texto(resp)
 
 
 @dataclass
