@@ -11,6 +11,36 @@ Preparado el 25 sep 2026 por Claude. **No se lanzó nada**: Carlos corre estos c
 * El umbral de H1 quedó prerregistrado en `docs/nota/formulacion_rl_verbal.tex` (commit `b9d850f`, 25 sep 14:30),
   antes de construir el cuaderno.
 
+## Ronda 3 (preparada el 17 oct 2026; **no lanzada**)
+
+Exploratoria y de mecanismo; **no es una prueba de H2**. Prerregistro: párrafo «Ronda 3» de
+`docs/formulacion/formulacion_rl_verbal.tex`. Pregunta si un proponente más capaz cita y usa los 26 lemas del cuaderno
+congelado `835d3070e3b0c3b1` que el martillo no demuestra solo; Luna no citó ninguno en la ronda 2 (0 de 120 intentos
+de E). Se reporta junto con las rondas 1 y 2, y la auditoría va antes de cualquier análisis.
+
+| | |
+|---|---|
+| Proponentes | `claude-sonnet-5-5` y después `claude-opus-5-5` (API de Anthropic, sin fallback; un rechazo es `REFUSAL`, intento fallido) |
+| Esfuerzo y temperatura | `high`; la temperatura por omisión de la API (no se envía); los dos se registran en cada llamada |
+| Tareas | los 16 teoremas de test, dos episodios por teorema, C y E (E con el cuaderno `835d3070e3b0c3b1`) |
+| Juez y código | `teorema-2026-09-30`; commit `f413acb`, huella de `unirl` `24bdd337e927ff1d` |
+| Presupuesto | tope duro de USD 75: 37,5 para C (fase `evaluacion`) y 37,5 para E (fase `evaluacion_E`); libro `logs/gasto_ronda_r3_<id>.json` |
+| Estimación | ≈ USD 24 con Sonnet 5.5 y ≈ 47 con Opus 5.5, si gastan los tokens de Luna en la ronda 2 por episodio |
+
+```bash
+cd ~/Personal/rl_metodos && unirl/tools/lanzar_ronda3.sh --dry-run   # ensayo en seco: sin API, dos peldaños
+cd ~/Personal/rl_metodos && unirl/tools/lanzar_ronda3.sh             # lanza (o reanuda) con nohup y caffeinate
+unirl/tools/lanzar_ronda3.sh --detener                               # parar al terminar los episodios en curso
+```
+
+La clave es la `ANTHROPIC_API_KEY` del `.env` de la raíz. Los créditos vencen el 19 oct 2026 (UTC). Al terminar,
+antes de mirar resultados, la auditoría (sin API), con la ventana que diga `logs/ronda_r3_<id>/meta.json`:
+
+```bash
+.venv/bin/python unirl/tools/rejuzgar.py rejuzgar --desde <inicio> --fases evaluacion,evaluacion_E --etiqueta ronda3 --paralelo 1
+.venv/bin/python unirl/tools/rejuzgar.py cruzado  --desde <inicio> --fases evaluacion,evaluacion_E --etiqueta ronda3
+```
+
 ## Ronda 2 (preparada el 27 sep 2026; **no lanzada**)
 
 La ronda 1 (`20260926-2016`, 26–27 sep; informe en `resultados/RONDA_TERMINADA.md`, commit `ec6d9eb`) cumplió H1
