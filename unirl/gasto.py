@@ -19,7 +19,7 @@ import threading
 import time
 from pathlib import Path
 
-from .loop import ProviderFatal
+from .loop import ProviderFatal, Rechazo
 
 BASE = Path(__file__).resolve().parent.parent
 # El libro por defecto es el del proyecto. Una ronda puede usar un libro propio con la variable UNIRL_LIBRO (p. ej.
@@ -147,6 +147,13 @@ class ProveedorContable:
         self.calls = 0
         self._local = threading.local()  # uso de la última llamada, por hilo (episodios en paralelo)
 
+    def _ajustes(self) -> dict:
+        """El esfuerzo y la temperatura de la llamada, fijos por corrida, para el libro y el registro del intento.
+        La temperatura no se envía (None = la de la API por omisión): Opus 5.5 no admite el parámetro, Sonnet 5.5 solo
+        su valor por omisión, y los modelos de razonamiento de OpenAI no la usan."""
+        effort = getattr(self.interno, "effort", None) if self._anthropic else getattr(self.interno, "reasoning_effort", None)
+        return {"effort": effort, "temperatura": None}
+
     def _complete_anthropic(self, system: str, user: str) -> str:
         resp = self.interno.respuesta(system, user)  # los errores del SDK suben tal cual: loop.clasificar_error los lee
         u = resp.usage
@@ -154,16 +161,19 @@ class ProveedorContable:
         escritura = int(getattr(u, "cache_creation_input_tokens", 0) or 0)
         det = getattr(u, "output_tokens_details", None)
         uso = {"entrada": int(u.input_tokens or 0) + lectura + escritura, "cache": lectura, "cache_escritura": escritura,
-               "salida": int(u.output_tokens or 0), "razonamiento": int(getattr(det, "thinking_tokens", 0) or 0)}
+               "salida": int(u.output_tokens or 0), "razonamiento": int(getattr(det, "thinking_tokens", 0) or 0),
+               **self._ajustes()}
         usd = self.libro.registrar(self.model, self.fase, self.corrida, uso)  # se registra aunque la respuesta sea inútil: se pagó
         self.calls += 1
         self._local.uso = {**uso, "usd": round(usd, 6)}
+        if resp.stop_reason == "refusal":  # el intento cuenta como fallido (REFUSAL), sin reintento ni fallback
+            raise Rechazo(getattr(getattr(resp, "stop_details", None), "category", None))
         if resp.stop_reason == "max_tokens":  # como con OpenAI: un texto cortado puede traer la prueba entera
             text = "".join(b.text for b in resp.content if b.type == "text")
             if not text.strip():
                 raise RuntimeError("la respuesta se cortó por longitud")
             return text
-        return self.interno.texto(resp)  # un rechazo es ProviderError: el intento queda como PROVIDER_ERROR, sin reintento
+        return self.interno.texto(resp)
 
     def complete(self, system: str, user: str) -> str:
         max_salida = int(getattr(self.interno, "max_output_tokens", 64000))
@@ -179,7 +189,8 @@ class ProveedorContable:
         u = resp.usage
         det_e, det_s = getattr(u, "prompt_tokens_details", None), getattr(u, "completion_tokens_details", None)
         uso = {"entrada": int(u.prompt_tokens or 0), "cache": int(getattr(det_e, "cached_tokens", 0) or 0),
-               "salida": int(u.completion_tokens or 0), "razonamiento": int(getattr(det_s, "reasoning_tokens", 0) or 0)}
+               "salida": int(u.completion_tokens or 0), "razonamiento": int(getattr(det_s, "reasoning_tokens", 0) or 0),
+               **self._ajustes()}
         usd = self.libro.registrar(self.model, self.fase, self.corrida, uso)  # se registra aunque la respuesta sea inútil: se pagó
         self.calls += 1
         self._local.uso = {**uso, "usd": round(usd, 6)}  # el episodio lo copia en el registro de cada llamada

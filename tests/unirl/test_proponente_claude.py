@@ -81,16 +81,18 @@ def test_el_modelo_elige_el_proveedor():
     assert X.proveedor_de("gpt-6-luna") == X.proveedor_de("gpt-6-sol") == "openai"
 
 
-def test_sin_fallback_va_en_streaming_y_con_fallback_como_antes(cliente):
+def test_sin_fallback_va_en_streaming_y_el_fallback_solo_si_se_pide(cliente):
     c = cliente(_resp())
     p = P.AnthropicProvider(model="claude-sonnet-5-5", effort="high", fallback_model=None, max_output_tokens=64000)
     assert "by simp" in p.complete("s", "u")
     (tipo, kw), = c.llamadas
     assert tipo == "stream" and kw["model"] == "claude-sonnet-5-5" and kw["max_tokens"] == 64000
     assert kw["output_config"] == {"effort": "high"} and "thinking" not in kw and "fallbacks" not in kw
-    assert kw["system"] == "s" and kw["messages"] == [{"role": "user", "content": "u"}]
+    assert kw["system"] == [{"type": "text", "text": "s", "cache_control": {"type": "ephemeral"}}]
+    assert kw["messages"] == [{"role": "user", "content": "u"}]
     c = cliente(_resp())
-    P.AnthropicProvider().complete("s", "u")  # steprl evolve: Fable 5.1 con fallback de servidor, sin cambios
+    # el fallback de servidor solo si se pide (desde el 17 oct no hay modelo ni fallback por defecto)
+    P.AnthropicProvider(model="claude-fable-5-1", fallback_model="claude-opus-4-8").complete("s", "u")
     (tipo, kw), = c.llamadas
     assert tipo == "beta" and kw["model"] == "claude-fable-5-1" and kw["fallbacks"] == [{"model": "claude-opus-4-8"}]
 
@@ -110,10 +112,10 @@ def test_el_libro_registra_el_uso_de_claude(cliente, tmp_path):
 
 def test_un_rechazo_se_paga_y_no_se_reintenta(cliente, tmp_path):
     c = cliente(_resp(stop="refusal", texto="", categoria="cyber"))
-    interno = P.AnthropicProvider(model="claude-opus-5-5", fallback_model=None)
+    interno = P.AnthropicProvider(model="claude-opus-5-5")
     libro = Libro(tmp_path / "gasto.json", tope_usd=25)
     p = ProveedorContable(interno, libro, fase="prueba", corrida="t")
-    assert complete_with_retries(p, "s", "u", verbose=False, dormir=lambda s: None) is None  # PROVIDER_ERROR
+    assert complete_with_retries(p, "s", "u", verbose=False, dormir=lambda s: None) is None  # sin propagar_rechazo: None
     assert len(c.llamadas) == 1 and len(libro.entradas()) == 1
     with pytest.raises(P.ProviderError, match="cyber"):
         interno.texto(_resp(stop="refusal", texto="", categoria="cyber"))

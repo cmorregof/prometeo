@@ -128,6 +128,15 @@ FATAL_PROVIDER = ("insufficient_quota", "credit_balance_exhausted", "no credits"
                   "permission_denied", "billing", "credit balance is too low")  # el último: Anthropic sin créditos (400)
 
 
+class Rechazo(RuntimeError):
+    """El modelo rechazó la petición (stop_reason «refusal» de Anthropic). Ya se pagó y se registró; no se reintenta.
+    En reflexion, el intento queda como REFUSAL: fallido, pero el episodio sigue siendo válido (no es PROVIDER_ERROR)."""
+
+    def __init__(self, categoria: str | None = None):
+        self.categoria = categoria
+        super().__init__("el modelo rechazó la petición" + (f" ({categoria})" if categoria else ""))
+
+
 class ProviderFatal(RuntimeError):
     pass
 
@@ -161,12 +170,20 @@ def clasificar_error(e: BaseException) -> str:
 
 
 def complete_with_retries(provider, system: str, user: str, retries: int = len(ESPERAS_REINTENTO), verbose: bool = True,
-                          dormir=time.sleep) -> str | None:
+                          dormir=time.sleep, propagar_rechazo: bool = False) -> str | None:
+    """El texto de la respuesta, o None si falló. Un Rechazo no se reintenta: con `propagar_rechazo` sube a quien
+    llama (reflexion lo registra como REFUSAL); sin él, cuenta como una falla más (None)."""
     for attempt in range(retries + 1):
         try:
             return provider.complete(system, user)
         except ProviderFatal:
             raise  # sin créditos, sin clave o tope de gasto: se aborta la corrida, no se reintenta
+        except Rechazo as e:
+            if propagar_rechazo:
+                raise
+            if verbose:
+                print(f"  proveedor: {e}")
+            return None
         except Exception as e:
             msg = str(e)
             clase = clasificar_error(e)

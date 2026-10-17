@@ -23,7 +23,7 @@ from pathlib import Path
 from . import martillo as M
 from .cuaderno import hash_texto
 from .gd_isabelle import TheoremVerifier, fallo_de_biblioteca
-from .loop import ProviderFatal, complete_with_retries
+from .loop import ProviderFatal, Rechazo, complete_with_retries
 from .recompensa import LineaBaseDesactualizada, recompensa, resueltos_por_martillo
 
 MAX_REFLEXION_PALABRAS = 150
@@ -285,13 +285,29 @@ def episodio(spec: dict, cfg: Config, proveedor, registro: Path, meta: dict, cua
     while intento < cfg.intentos:
         prompt = construir_prompt(spec, cfg, glosario, cuaderno_txt, consultas_hechas, historia, turnos, intento + 1)
         t = time.monotonic()
-        texto = complete_with_retries(proveedor, SISTEMA, prompt, verbose=verbose)
+        rechazo = None
+        try:
+            texto = complete_with_retries(proveedor, SISTEMA, prompt, verbose=verbose, propagar_rechazo=True)
+        except Rechazo as e:
+            texto, rechazo = None, e
         llm_s = round(time.monotonic() - t, 1)
         llamada += 1
         uso = getattr(proveedor, "ultimo_uso", None)
         usd += (uso or {}).get("usd", 0.0)
         reg = {**base, "llamada": llamada, "prompt_chars": len(prompt), "llm_s": llm_s, "uso": uso,
                "fecha": time.strftime("%Y-%m-%dT%H:%M:%S")}
+        if rechazo is not None:
+            # 17 oct 2026: un rechazo del modelo es un intento fallido (se pagó y no se juzgó nada), no una falla de la
+            # red: el episodio sigue siendo válido y no se reintenta la llamada
+            intento += 1
+            fb = f"REFUSAL: {rechazo}; el intento cuenta como fallido."
+            historia.append({"intento": intento, "proof": "", "feedback": fb})
+            escribir(registro, {**reg, "tipo": "intento", "intento": intento, "etiqueta": "REFUSAL", "r_V": 0.0,
+                                "feedback": fb, "categoria_rechazo": rechazo.categoria})
+            if verbose:
+                print(f"  [{spec['id']} {cfg.nombre}] intento {intento}: REFUSAL ({rechazo.categoria or 'sin categoría'})",
+                      flush=True)
+            continue
         if texto is None:
             intento += 1
             historia.append({"intento": intento, "proof": "", "feedback": "PROVIDER_ERROR: la llamada al modelo falló; "

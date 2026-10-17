@@ -3,8 +3,8 @@
 #   uso: unirl/tools/preflight.sh [--dry-run] [--reanudacion] [--cuaderno=<hash>]
 # --dry-run: no llama a la API. --reanudacion: no exige el cuaderno de partida ni el árbol limpio (la ronda ya escribió).
 # --cuaderno=<hash>: hash de partida exigido al cuaderno vivo (ronda 2: el estado final de la ronda 1); sin él, el sembrado.
-# MODELO_PREFLIGHT=<modelo> (17 oct 2026): el proponente de la llamada de prueba; por omisión gpt-6-luna. Con un modelo
-# claude-* se exige ANTHROPIC_API_KEY en vez de OPENAI_API_KEY.
+# MODELO_PREFLIGHT=<modelo>[,<modelo>…] (17 oct 2026): los proponentes de la llamada de prueba, una por modelo; por
+# omisión gpt-6-luna. Con un modelo claude-* se exige ANTHROPIC_API_KEY; con los demás, OPENAI_API_KEY.
 set -u
 RAIZ="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$RAIZ" || exit 1
@@ -49,8 +49,10 @@ if out=$("$PY" -m pytest -q -p no:cacheprovider -m "not isabelle" 2>&1 | tail -1
 # Va al final: la llamada crea el libro de la ronda (logs/gasto_ronda_<id>.json) y, si fuera antes, el árbol de git
 # aparecería sucio en el paso 6 (lanzamientos del 26 sep, 19:00 y 19:07). Solo se llama si todo lo demás pasó.
 export MODELO_PRUEBA="${MODELO_PREFLIGHT:-gpt-6-luna}"
-case "$MODELO_PRUEBA" in claude-*) CLAVE=ANTHROPIC_API_KEY;; *) CLAVE=OPENAI_API_KEY;; esac
-if [ -f "$RAIZ/.env" ] && grep -qE "^${CLAVE}=.{20,}" "$RAIZ/.env"; then ok "$CLAVE presente en .env"; else mal "falta $CLAVE en .env"; fi
+CLAVES=$(printf '%s' "$MODELO_PRUEBA" | tr ',' '\n' | awk '/^claude-/{print "ANTHROPIC_API_KEY"; next} NF{print "OPENAI_API_KEY"}' | sort -u)
+for CLAVE in $CLAVES; do
+  if [ -f "$RAIZ/.env" ] && grep -qE "^${CLAVE}=.{20,}" "$RAIZ/.env"; then ok "$CLAVE presente en .env"; else mal "falta $CLAVE en .env"; fi
+done
 if [ "$DRY" = 1 ]; then
   echo "  · llamada de prueba a $MODELO_PRUEBA omitida (--dry-run)"
 elif [ "$fallos" != 0 ]; then
@@ -61,20 +63,22 @@ import os, sys
 from steprl.providers import make_provider
 from unirl.gasto import Libro, ProveedorContable
 from unirl.loop import clasificar_error
-try:
-    modelo = os.environ["MODELO_PRUEBA"]
-    if modelo.startswith("claude-"):  # sin fallback; Opus 5.5 y Sonnet 5.5 piensan siempre: margen para el razonamiento
-        p = make_provider("anthropic", modelo, effort="low", fallback_model=None, max_output_tokens=1024)
-    else:
-        p = make_provider("openai", modelo, reasoning_effort="low")
-        p.max_output_tokens = 64
-    prov = ProveedorContable(p, Libro(), fase="preflight", corrida="preflight")
-    txt = prov.complete("Responde con la palabra OK y nada más.", "OK")
-    u = prov.ultimo_uso or {}
-    print(f"  ✔ {modelo} respondió ({u.get('entrada', '?')} + {u.get('salida', '?')} tokens, ${u.get('usd', 0):.5f}, registrado en el libro de la ronda)")
-except Exception as e:
-    print(f"  ✘ la llamada de prueba a {os.environ.get('MODELO_PRUEBA', '?')} falló ({clasificar_error(e)}): {str(e)[:160]}")
-    sys.exit(1)
+fallo = False
+for modelo in [m.strip() for m in os.environ["MODELO_PRUEBA"].split(",") if m.strip()]:
+    try:
+        if modelo.startswith("claude-"):  # sin fallback; Opus 5.5 y Sonnet 5.5 piensan siempre: margen para el razonamiento
+            p = make_provider("anthropic", modelo, effort="low", fallback_model=None, max_output_tokens=1024)
+        else:
+            p = make_provider("openai", modelo, reasoning_effort="low")
+            p.max_output_tokens = 64
+        prov = ProveedorContable(p, Libro(), fase="preflight", corrida="preflight")
+        txt = prov.complete("Responde con la palabra OK y nada más.", "OK")
+        u = prov.ultimo_uso or {}
+        print(f"  ✔ {modelo} respondió ({u.get('entrada', '?')} + {u.get('salida', '?')} tokens, ${u.get('usd', 0):.5f}, registrado en el libro de la ronda)")
+    except Exception as e:
+        print(f"  ✘ la llamada de prueba a {modelo} falló ({clasificar_error(e)}): {str(e)[:160]}")
+        fallo = True
+sys.exit(1 if fallo else 0)
 PYEOF
   then :; else fallos=$((fallos+1)); fi
 fi

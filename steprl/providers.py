@@ -2,9 +2,9 @@
 objeto con `.complete(system, user) -> str` sirve. Se incluyen:
 
 * `OpenAIProvider`   – API de OpenAI (`OPENAI_API_KEY`), modelo configurable;
-* `AnthropicProvider`– API de Anthropic (`ANTHROPIC_API_KEY`), por defecto
-                       Claude Fable 5.1 con fallback de servidor; unirl lo usa
-                       sin fallback con Claude Sonnet 5.5 u Opus 5.5;
+* `AnthropicProvider`– API de Anthropic (`ANTHROPIC_API_KEY`), con el modelo
+                       explícito y sin fallback (un rechazo es del modelo pedido);
+                       unirl lo usa con Claude Sonnet 5.5 u Opus 5.5;
 * `MockProvider`     – devuelve programas fijos: para tests y ensayos en seco.
 """
 
@@ -87,10 +87,10 @@ class OpenAIProvider:
 
 @dataclass
 class AnthropicProvider:
-    model: str = "claude-fable-5-1"
+    model: str  # sin modelo por defecto (17 oct 2026): claude-sonnet-5-5, claude-opus-5-5, claude-fable-5-1…
     max_output_tokens: int = 16000
     effort: str = "high"  # low | medium | high | xhigh | max
-    fallback_model: str | None = "claude-opus-4-8"  # None: sin fallback (un experimento con un solo proponente)
+    fallback_model: str | None = None  # sin fallback: un rechazo es del modelo pedido (fallback de servidor si se da uno)
     calls: int = 0
 
     def __post_init__(self) -> None:
@@ -105,8 +105,12 @@ class AnthropicProvider:
         juzgarla (unirl.gasto.ProveedorContable). El thinking no se configura: en Claude Fable 5.1, Opus 5.5 y Sonnet 5.5
         es adaptativo por omisión, y la profundidad la fija output_config.effort (Opus 5.5 usa `medium` si no se dice).
         Sin fallback va en streaming, porque con un max_tokens grande una llamada sin streaming puede agotar el tiempo
-        de HTTP; con fallback, la llamada beta de siempre (fallback de servidor ante un rechazo)."""
-        kw = dict(model=self.model, max_tokens=self.max_output_tokens, system=system,
+        de HTTP; con fallback, la llamada beta (fallback de servidor ante un rechazo).
+        El mensaje de sistema lleva `cache_control`: se repite en cada llamada y se cachea si alcanza el mínimo del
+        modelo (512 tokens en Sonnet 5.5 y Opus 5.5; por debajo, la API lo ignora sin error y no cobra la escritura).
+        No se envía temperatura: Opus 5.5 no admite el parámetro y Sonnet 5.5 solo su valor por omisión."""
+        sistema = [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]
+        kw = dict(model=self.model, max_tokens=self.max_output_tokens, system=sistema,
                   output_config={"effort": self.effort}, messages=[{"role": "user", "content": user}])
         if self.fallback_model:
             return self._client.beta.messages.create(betas=["server-side-fallback-2026-06-01"],
@@ -185,7 +189,9 @@ def make_provider(name: str, model: str | None, **kw):
             raise ProviderError("indica --model para OpenAI (p. ej. el identificador de GPT que uses)")
         return OpenAIProvider(model=model, **kw)
     if name == "anthropic":
-        return AnthropicProvider(model=model or "claude-fable-5-1", **kw)
+        if not model:
+            raise ProviderError("indica --model para Anthropic (p. ej. claude-sonnet-5-5 o claude-opus-5-5)")
+        return AnthropicProvider(model=model, **kw)
     if name == "mock":
         return MockProvider(scripts=list(MOCK_SCRIPTS))
     raise ProviderError(f"proveedor desconocido: {name}")

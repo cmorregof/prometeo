@@ -141,7 +141,7 @@ def test_episodio_b0_un_intento_sin_consultas(tmp_path, spec, sin_isabelle):
 
 
 def test_episodio_error_de_proveedor(tmp_path, spec, sin_isabelle, monkeypatch):
-    monkeypatch.setattr(RF, "complete_with_retries", lambda p, s, u, verbose=True: None)
+    monkeypatch.setattr(RF, "complete_with_retries", lambda p, s, u, **k: None)
     ep = RF.episodio(spec, RF.CONFIGS["C"], Simulado([]), tmp_path / "r.jsonl", {}, resueltos=set(), verbose=False)
     assert ep["intentos"] == 4 and not ep["aceptado"]
     monkeypatch.setattr(RF, "complete_with_retries", lambda *a, **k: (_ for _ in ()).throw(ProviderFatal("sin créditos")))

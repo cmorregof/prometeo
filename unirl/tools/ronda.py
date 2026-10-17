@@ -110,10 +110,13 @@ def carpeta_cuaderno(desde: str, modelo: str) -> Path | None:
 
 
 def red_ok(timeout: float = 10.0) -> bool:
+    """¿Responde la API del proponente? RONDA_RED_URL la elige (ronda 3: https://api.anthropic.com/v1/models);
+    por defecto, la de OpenAI."""
     import urllib.error
     import urllib.request
+    url = os.environ.get("RONDA_RED_URL") or "https://api.openai.com/v1/models"
     try:
-        urllib.request.urlopen(urllib.request.Request("https://api.openai.com/v1/models", method="HEAD"), timeout=timeout)
+        urllib.request.urlopen(urllib.request.Request(url, method="HEAD"), timeout=timeout)
         return True
     except urllib.error.HTTPError:
         return True  # 401 sin clave: el servidor responde

@@ -37,6 +37,7 @@ runs/pep/**
 !logs/**/*.log
 # la ronda en marcha: estado transitorio y ensayos en seco (los registros de la ronda real sí se versionan)
 logs/ronda_actual
+logs/ronda3_actual
 logs/ronda_dryrun_*
 logs/ronda_dryrun_*.log
 
