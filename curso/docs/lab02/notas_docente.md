@@ -1,7 +1,7 @@
 # Laboratorio 2 · notas del docente
 
 Resultados medidos el 22 de septiembre de 2026 (MacBook, Python 3.13, semilla 1). Todo se
-reproduce con `docs/curso/lab02/experimentos.py`. Cada experimento tarda menos de 1 s.
+reproduce con `curso/docs/lab02/experimentos.py`. Cada experimento tarda menos de 1 s.
 
 ## Plan de la sesión (90 min)
 

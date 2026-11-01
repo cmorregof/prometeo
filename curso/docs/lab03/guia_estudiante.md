@@ -10,7 +10,7 @@ de demostraciones del curso.
 
 Todas las órdenes se escriben dentro de `07_interpolacion` y están escritas para Windows.
 Mac/Linux: `.venv\Scripts\python` → `.venv/bin/python` y `..\docs\curso\lab03\` →
-`../docs/curso/lab03/`.
+`../curso/docs/lab03/`.
 
 ## Qué vas a hacer
 

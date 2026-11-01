@@ -8,7 +8,7 @@ Banach, el que está detrás de casi todos los métodos iterativos del curso.
 
 Todas las órdenes se escriben dentro de `02_punto_fijo` y están escritas para Windows. Mac/Linux:
 `.venv\Scripts\python` → `.venv/bin/python` y `..\docs\curso\lab02\experimentos.py` →
-`../docs/curso/lab02/experimentos.py`.
+`../curso/docs/lab02/experimentos.py`.
 
 ## Qué vas a hacer
 

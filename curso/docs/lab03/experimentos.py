@@ -3,7 +3,7 @@ r"""Laboratorio 3 · experimentos sobre el agente de interpolación (proyecto 07
 Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual activado:
 
     cd rl_metodos && source .venv/bin/activate
-    python docs/curso/lab03/experimentos.py basales
+    python curso/docs/lab03/experimentos.py basales
 
 Experimentos:
     basales [--nodos=-1,0,1] [--t=-0.5,0.5,2]   valores exactos de los basales (para revisar la Parte 1)

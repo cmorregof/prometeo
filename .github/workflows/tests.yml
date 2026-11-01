@@ -12,4 +12,4 @@ jobs:
       - run: pytest -q tests/didactica tests/steprl tests/unirl -m "not isabelle"
       - run: python -m didactica.biseccion --no-tui --episodes1 800 --episodes2 800 --out /tmp/runs
       - run: python -m steprl verify
-      - run: python docs/curso/lab03/experimentos.py basales && python docs/curso/lab03/experimentos.py grafo && python docs/curso/lab03/experimentos.py familias
+      - run: python curso/docs/lab03/experimentos.py basales && python curso/docs/lab03/experimentos.py grafo && python curso/docs/lab03/experimentos.py familias

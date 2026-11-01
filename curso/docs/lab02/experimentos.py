@@ -4,7 +4,7 @@ Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual:
 
     cd rl_metodos && source .venv/bin/activate
     .venv\Scripts\python ..\docs\curso\lab02\experimentos.py alfa_fijo     (Windows)
-    .venv/bin/python docs/curso/lab02/experimentos.py alfa_fijo         (Mac)
+    .venv/bin/python curso/docs/lab02/experimentos.py alfa_fijo         (Mac)
 
 Experimentos: alfa_fijo, hitos, ciego, potencial, dibujar, grafo.
 No modifica los archivos del paquete: cambia cosas en memoria y entrena de nuevo.

@@ -1,7 +1,7 @@
 \input{preambulo}
 \newcommand{\docpie}{Laboratorio 3 · notas del docente}
 \begin{document}
-\cabecera{Laboratorio 3 · notas del docente}{Interpolación con un agente de RL · 90 minutos}{Resultados medidos el 6 de octubre de 2026 en un MacBook Air (Apple M5, 24 GB) con macOS 26.5.2 y Python 3.13.13, semilla 1 salvo que se diga otra cosa. Las cifras son idénticas a las de la primera medición (Linux, Python 3.12); los tiempos son los de este Mac. Todo se reproduce con \codigo{docs/curso/lab03/experimentos.py} y \codigo{graficar.py}. Usa el proyecto 07; en el arco estaba como lab 5 y se adelantó porque la clase del 1 de octubre cubrió Taylor y Lagrange. El laboratorio de Taylor (proyecto 03) sigue pendiente.}
+\cabecera{Laboratorio 3 · notas del docente}{Interpolación con un agente de RL · 90 minutos}{Resultados medidos el 6 de octubre de 2026 en un MacBook Air (Apple M5, 24 GB) con macOS 26.5.2 y Python 3.13.13, semilla 1 salvo que se diga otra cosa. Las cifras son idénticas a las de la primera medición (Linux, Python 3.12); los tiempos son los de este Mac. Todo se reproduce con \codigo{curso/docs/lab03/experimentos.py} y \codigo{graficar.py}. Usa el proyecto 07; en el arco estaba como lab 5 y se adelantó porque la clase del 1 de octubre cubrió Taylor y Lagrange. El laboratorio de Taylor (proyecto 03) sigue pendiente.}
 
 \section{Plan de la sesión}
 \begin{tabularx}{\linewidth}{@{}l X l@{}}
@@ -119,7 +119,7 @@ Con seed 2 aparece además «$\ge 95\,\%$ de aciertos» en la 2490; con seed 1 n
 
 \section{Trampas}
 \begin{itemize}
-\item \textbf{El ZIP tiene que ser de hoy.} Si lo descargaron antes, no trae \codigo{docs/curso/lab03}.
+\item \textbf{El ZIP tiene que ser de hoy.} Si lo descargaron antes, no trae \codigo{curso/docs/lab03}.
 \item \codigo{matplotlib} va en la misma línea de instalación. Si falta, \codigo{graficar.py} dice cómo instalarlo.
 \item En \codigo{basales} los nodos van con \codigo{=}: \codigo{--nodos=-1,0,1}. Sin \codigo{=}, el \codigo{-1} parece una opción.
 \item \codigo{graficar.py} se edita. Si alguien lo rompe, se recupera del ZIP o con \codigo{git checkout}.

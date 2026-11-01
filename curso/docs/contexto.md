@@ -77,7 +77,7 @@ necesitan **proyectos nuevos en el repo** (07–10) con la misma anatomía que 0
 | 10 | verificadores y proyectos | mini-06 | patrón del 06 en pequeño: `verifica(propuesta) -> puntuación exacta` | presentación de proyectos | por construir |
 
 Entregables por lab: guía del estudiante, notas del docente con cifras medidas, script de
-experimentos. Reutilizar la estructura de `docs/curso/lab01/`.
+experimentos. Reutilizar la estructura de `curso/docs/lab01/`.
 
 ## Reglas para Claude al diseñar material
 
@@ -85,7 +85,7 @@ experimentos. Reutilizar la estructura de `docs/curso/lab01/`.
 * Los experimentos de laboratorio se hacen sobre copias o con constantes editadas y
   revertidas con `git checkout`; nunca cambiar el comportamiento de los paquetes.
 * Cada laboratorio lleva: guía del estudiante, notas del docente con resultados esperados
-  y tiempos, y un script de apoyo en `docs/curso/labNN/`.
+  y tiempos, y un script de apoyo en `curso/docs/labNN/`.
 * Lenguaje directo y sin tecnicismos innecesarios; los estudiantes son de 2.º–4.º semestre.
 * Ser explícito sobre qué es descubrimiento del agente y qué está escrito a mano.
 
@@ -95,9 +95,9 @@ experimentos. Reutilizar la estructura de `docs/curso/lab01/`.
   (bisección, 90 min). Decidido: 10 labs de 90 min, PCs del laboratorio, parejas.
   Pendiente: peso del proyecto final; construir 07–10 y la plantilla del lab 9;
   comprobar en un PC del laboratorio que Python y `pip` funcionan.
-* 6 oct 2026: laboratorio 3 (interpolación, proyecto 07) en `docs/curso/lab03/`: guía, notas del
+* 6 oct 2026: laboratorio 3 (interpolación, proyecto 07) en `curso/docs/lab03/`: guía, notas del
   docente con cifras medidas, `experimentos.py` (basales, familias, hitos, solo_equi, sin_runge,
   recompensa, dibujar, grafo, mi_grafo), `graficar.py` (el script que editan los estudiantes) y
   `pib_tres_paises.csv` congelado. Se adelantó del lab 5 al 3; Taylor pasa al 5. Arranca la
-  biblioteca de demostraciones escritas por los estudiantes (`docs/curso/biblioteca/`), con el
+  biblioteca de demostraciones escritas por los estudiantes (`curso/docs/biblioteca/`), con el
   mismo formato `Step` de los `proof_kb.py`.

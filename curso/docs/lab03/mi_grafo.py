@@ -9,7 +9,7 @@ Un distractor es un paso que suena bien pero está mal: distractor=True y sin de
 
 Comprueba tu grafo con (desde la raíz del repo, con el entorno virtual activado):
 
-    python docs/curso/lab03/experimentos.py mi_grafo
+    python curso/docs/lab03/experimentos.py mi_grafo
 
 El programa revisa que el grafo esté bien formado, lo dibuja y pone al agente de la
 fase 2 a buscar un orden válido. El agente no sabe matemáticas: solo respeta tus flechas.

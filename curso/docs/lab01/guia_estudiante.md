@@ -11,7 +11,7 @@ para Windows. **Si usas Mac o Linux**, cambia dos cosas en cada orden, siempre l
 | Windows | Mac / Linux |
 |---|---|
 | `.venv\Scripts\python` | `.venv/bin/python` |
-| `..\docs\curso\lab01\experimentos.py` | `../docs/curso/lab01/experimentos.py` |
+| `..\docs\curso\lab01\experimentos.py` | `../curso/docs/lab01/experimentos.py` |
 
 Si ves `command not found: .venvScriptspython`, es esto: la barra invertida no existe en Mac.
 

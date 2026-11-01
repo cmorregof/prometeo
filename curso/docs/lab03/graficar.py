@@ -2,7 +2,7 @@ r"""Laboratorio 3 · graficar los polinomios basales y usarlos con el PIB.
 
 Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual activado:
 
-    python docs/curso/lab03/graficar.py
+    python curso/docs/lab03/graficar.py
 
 Guarda dos figuras en runs/didactica/interpolacion/lab03/ (basales.png y pib_<ejemplo>.png) y escribe una
 tabla en la terminal. Tú solo cambias el bloque «AJUSTA AQUÍ»; el resto se lee, no

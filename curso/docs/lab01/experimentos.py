@@ -3,12 +3,12 @@
 Se ejecuta desde la raíz del repo (rl_metodos) con su entorno virtual activado:
 
     cd rl_metodos && source .venv/bin/activate
-    python docs/curso/lab01/experimentos.py generaciones
-    python docs/curso/lab01/experimentos.py recompensa
-    python docs/curso/lab01/experimentos.py recompensa --perder-raiz 0 --paso -1 --converger 0
-    python docs/curso/lab01/experimentos.py sin_medio
-    python docs/curso/lab01/experimentos.py dibujar     # el grafo de la demostración
-    python docs/curso/lab01/experimentos.py grafo
+    python curso/docs/lab01/experimentos.py generaciones
+    python curso/docs/lab01/experimentos.py recompensa
+    python curso/docs/lab01/experimentos.py recompensa --perder-raiz 0 --paso -1 --converger 0
+    python curso/docs/lab01/experimentos.py sin_medio
+    python curso/docs/lab01/experimentos.py dibujar     # el grafo de la demostración
+    python curso/docs/lab01/experimentos.py grafo
 
 No modifica los archivos del paquete: cambia constantes en memoria y entrena de nuevo.
 """

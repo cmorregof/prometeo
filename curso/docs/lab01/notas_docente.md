@@ -1,7 +1,7 @@
 # Laboratorio 1 · notas del docente
 
 Resultados medidos el 22 de septiembre de 2026 en un MacBook con Python 3.13, semilla 1.
-Todo lo que sigue se reproduce con `docs/curso/lab01/experimentos.py`.
+Todo lo que sigue se reproduce con `curso/docs/lab01/experimentos.py`.
 
 ## Tiempos
 

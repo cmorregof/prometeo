@@ -3,7 +3,7 @@
 Resultados medidos el 6 de octubre de 2026 en un MacBook Air (Apple M5, 24 GB) con macOS 26.5.2 y
 Python 3.13.13, semilla 1 salvo que se diga otra cosa. Las cifras son idénticas a las de la primera
 medición (Linux, Python 3.12); los tiempos son los de este Mac. Todo se reproduce con
-`docs/curso/lab03/experimentos.py` y `graficar.py`. Este laboratorio usa el proyecto 07
+`curso/docs/lab03/experimentos.py` y `graficar.py`. Este laboratorio usa el proyecto 07
 (interpolación); en el arco del curso estaba como lab 5 y se adelantó porque la clase del 1 de
 octubre ya cubrió Taylor y Lagrange. El laboratorio de Taylor (proyecto 03) sigue pendiente.
 
@@ -183,11 +183,11 @@ extendido (1.57017).
 
 ## Trampas
 
-* **El ZIP tiene que ser de hoy.** Si lo descargaron antes, no trae `docs/curso/lab03`.
+* **El ZIP tiene que ser de hoy.** Si lo descargaron antes, no trae `curso/docs/lab03`.
 * `matplotlib` va en la misma línea de instalación. Si falta, `graficar.py` dice cómo instalarlo.
 * En `basales` los nodos van con `=`: `--nodos=-1,0,1`. Sin `=` el `-1` parece una opción.
 * `graficar.py` se edita. Si alguien lo rompe (comillas, comas), se recupera del ZIP o con
-  `git checkout docs/curso/lab03/graficar.py`.
+  `git checkout curso/docs/lab03/graficar.py`.
 * Con `PUNTOS = [..., 2]` y `RANGO = None`, la línea en t = 2 existe pero cae fuera del eje:
   es intencional, es el ajuste 2.
 * El PIB está en dólares corrientes: mezcla producción, inflación y tasa de cambio. La caída de

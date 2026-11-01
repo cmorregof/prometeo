@@ -4,7 +4,7 @@ version = "0.2.0"
 description = "Agentes de RL que aprenden métodos numéricos y demuestran su convergencia; jueces intercambiables (grafo de lemas, PEP, Isabelle/HOL) y RL verbal con memoria certificada por el kernel."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 dependencies = [
   "rich>=13",                        # didactica: interfaz en la terminal
   "numpy>=1.26", "scipy>=1.11",      # steprl, unirl

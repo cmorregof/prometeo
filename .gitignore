@@ -22,7 +22,7 @@ dist/
 *.blg
 *.listing
 *.synctex.gz
-docs/curso/tex/*.pdf
+curso/docs/tex/*.pdf
 
 # corridas: se versiona la estructura y los informes, no los registros pesados
 runs/**/llamadas.jsonl
@@ -46,3 +46,13 @@ Conjeturas/
 *.zip
 Convocatoria*
 .snap_*/
+
+# entrega pública
+.env
+.env.*
+.lake/
+build/
+__pycache__/
+*.olean
+*.ilean
+.DS_Store
