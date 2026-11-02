@@ -1,0 +1,12 @@
+class Magma (α : Type _) where
+  op : α → α → α
+
+infix:65 " ◇ " => Magma.op
+
+def LeyA (G : Type _) [Magma G] : Prop :=
+  ∀ x y : G, x = (((x ◇ y) ◇ y) ◇ x) ◇ x
+
+def LeyB (G : Type _) [Magma G] : Prop :=
+  ∀ x y z w : G, x = ((y ◇ z) ◇ w) ◇ (x ◇ z)
+
+theorem falsa_3075_2214 : ∀ (G : Type) [Magma G], LeyA G → LeyB G
