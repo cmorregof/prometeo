@@ -32,8 +32,14 @@ The tag marks the commit that holds the registered document. **The confirmatory 
 
 ```bash
 shasum -a 256 docs/formulacion/SHA256SUMS_v6 unirl/corpus_confirmatorio.py
-(cd unirl && grep -v test_v6.py ../docs/formulacion/SHA256SUMS_v6 | shasum -a 256 -c -)
+(cd unirl && grep -v -E 'test_v6.py|fase2.py' ../docs/formulacion/SHA256SUMS_v6 | shasum -a 256 -c -)
 (cd tests/unirl && grep test_v6.py ../../docs/formulacion/SHA256SUMS_v6 | shasum -a 256 -c -)
+```
+
+Amendment A1 ([docs/formulacion/enmienda_A1_lectura_fase2.md](docs/formulacion/enmienda_A1_lectura_fase2.md)) changed `unirl/fase2.py` before phase 2, so that file no longer matches `SHA256SUMS_v6`. Its current hash is in `docs/formulacion/SHA256SUMS_v6_A1`, and its registered bytes remain in commit `22fad88`:
+
+```bash
+(cd unirl && shasum -a 256 -c ../docs/formulacion/SHA256SUMS_v6_A1)
 ```
 
 `unirl/frontera.py`, which the harness imports, was added in the same commit. Neither `SHA256SUMS_v6` nor the registered document records its hash.
