@@ -32,6 +32,8 @@ def test_una_linea_opaca(prueba, opaca):
 
 
 def test_legibilidad_de_una_prueba_estructurada():
+    if not (PRIV / "orden_1_lineal.txt").exists():
+        pytest.skip("falta la prueba de referencia privada (no se versiona)")
     leg = R.legibilidad((PRIV / "orden_1_lineal.txt").read_text())
     assert leg["pasos_explicitos"] == 4 and leg["invocaciones"] == 4 and leg["opacas"] == 0
     assert leg["invocaciones_no_triviales"] == 3 and not leg["una_linea"] and not leg["una_linea_opaca"]
@@ -52,6 +54,8 @@ def test_martillo_en_la_meta():
 
 
 def test_recompensa_aceptada_legible():
+    if not (PRIV / "orden_1_lineal.txt").exists():
+        pytest.skip("falta la prueba de referencia privada (no se versiona)")
     r = R.recompensa("orden_1_lineal", "ACCEPTED", (PRIV / "orden_1_lineal.txt").read_text(), resueltos=NADIE)
     assert r["r"] == 1 + R.BONO and r["motivo"] == "aceptada" and r["rho"] == 1
 
