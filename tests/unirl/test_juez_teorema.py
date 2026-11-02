@@ -48,7 +48,8 @@ def test_metadatos_en_cada_veredicto(monkeypatch):
     o = v.verify(v.target(), {"proof": "by simp"})
     m = o.raw["veredicto"]
     assert o.outcome_label == "PROOF_FAILED" and m["isabelle"] == "Isabelle2025" and m["limite_compilacion_s"] == 300
-    assert m["aislado"] is True and len(m["carga_1_5_15"]) == 3 and m["objetivo_hash"] == v.frozen_hash
+    assert m["aislado"] is Path("/usr/bin/sandbox-exec").exists()  # sandbox-exec solo existe en macOS
+    assert len(m["carga_1_5_15"]) == 3 and m["objetivo_hash"] == v.frozen_hash
     assert v.verify(v.target(), {"proof": "sorry"}).raw["veredicto"]["juez"] == TheoremVerifier.VERSION_JUEZ
 
 
