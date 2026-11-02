@@ -374,8 +374,9 @@ def correr(fase2: Path, anexo_dir: Path, tareas: dict[str, dict], lake, hacer_pr
     proyeccion_hecha = [(enmiendas / "proyeccion_n10.json").exists()]
 
     def _n10_completo() -> bool:
-        con_resultado = {r["celda"] for r in F1._leer_jsonl(f_res) if "resuelto" in r or "recortada" in r} | set(reprogramadas) \
-            | {r["celda"] for r in F1._leer_jsonl(f_rep)}
+        with K._LOCK_REG:  # enmienda A1: sin el cerrojo, una línea a medio escribir daba JSONDecodeError y una fila falsa de resultado
+            con_resultado = {r["celda"] for r in F1._leer_jsonl(f_res) if "resuelto" in r or "recortada" in r} | set(reprogramadas) \
+                | {r["celda"] for r in F1._leer_jsonl(f_rep)}
         return all(c in con_resultado for c in primeras)
 
     def proyectar_si_toca() -> None:
