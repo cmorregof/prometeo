@@ -1,0 +1,29 @@
+name = "prometeo"
+defaultTargets = ["RefutacionesFinitas", "PortF5", "RefutacionesF5"]
+
+# Sin leanOptions: cada .lean fija sus propias opciones, y las refutaciones se comprobaron con `lake env lean`,
+# que no aplica las del lakefile.
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.34.1"
+
+# Las 170 refutaciones con contramodelo finito: tantalus/refutaciones_etp/lean/ETP_<id>.lean
+# (la raíz no puede ser `lean`: en un disco que no distingue mayúsculas chocaría con el paquete `Lean`)
+[[lean_lib]]
+name = "RefutacionesFinitas"
+srcDir = "tantalus"
+globs = ["refutaciones_etp.lean.+"]
+
+# La biblioteca portada del ETP de la que dependen las 30 F5
+[[lean_lib]]
+name = "PortF5"
+srcDir = "tantalus/refutaciones_etp/infinitos"
+globs = ["PortF5.+"]
+
+# Las 30 refutaciones con modelo infinito (F5): tantalus/refutaciones_etp/infinitos/lean_f5/ETP_<id>.lean
+[[lean_lib]]
+name = "RefutacionesF5"
+srcDir = "tantalus/refutaciones_etp/infinitos"
+globs = ["lean_f5.+"]
