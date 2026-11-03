@@ -78,6 +78,20 @@ Amendment A1 ([docs/formulacion/enmienda_A1_lectura_fase2.md](docs/formulacion/e
 
 The API key is read from the environment variable `ANTHROPIC_API_KEY` and never goes in the repository. Running the study also needs the Lean corpus project and the hammer results, which are not in this repository yet; their paths are set with `UNIRL_CORPUS_LEAN` and `UNIRL_MARTILLO`.
 
+To compile the Lean refutations in `tantalus/refutaciones_etp/` from a fresh clone:
+
+```bash
+git clone https://github.com/cmorregof/prometeo && cd prometeo
+```
+
+```bash
+lake exe cache get
+```
+
+```bash
+lake build
+```
+
 ## Data and release
 
 All transcripts, libraries and the spend ledger will be published, whatever the result. No GISAID data is included.
