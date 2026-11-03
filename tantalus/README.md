@@ -8,10 +8,14 @@ In an exploratory pilot, our Lean judge rejected correct lemma proposals because
 configuration, a lemma accepted in one attempt was declared again in the Lean file of a later attempt. Lean stopped at
 `'<name>' has already been declared` and never checked the new proof. The judge recorded it as a failed proof.
 
-[PILOT NUMBERS: PENDING CARLOS]
+In four pilot runs, 218 rejections were name clashes. We re-judged them without the clash, keeping in context only
+the lemmas the original judge accepted. 184 of the 218 (84 %) were correct proofs. The 5 rejections with other causes
+kept their label. Details: [pilot_rejudging.md](pilot_rejudging.md).
 
-The current judge reports this case with its own label, `NOMBRE_YA_DECLARADO`, and says that the proof was not judged
-([`unirl/frontera.py`, lines 347 to 350](https://github.com/cmorregof/prometeo/blob/22fad88/unirl/frontera.py#L347-L350)).
+The harness now adds each accepted lemma to the Lean file once
+([`unirl/frontera.py`, lines 573 to 578](https://github.com/cmorregof/prometeo/blob/22fad88/unirl/frontera.py#L573-L578)).
+The judge reports a clash with its own label, `NOMBRE_YA_DECLARADO`, and says that the proof was not judged
+([lines 347 to 350](https://github.com/cmorregof/prometeo/blob/22fad88/unirl/frontera.py#L347-L350)).
 That file entered the repository in commit
 [`22fad88`](https://github.com/cmorregof/prometeo/commit/22fad88) with the fix already in place.
 
