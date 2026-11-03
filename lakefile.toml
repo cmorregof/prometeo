@@ -10,10 +10,11 @@ scope = "leanprover-community"
 rev = "v4.34.1"
 
 # Las 170 refutaciones con contramodelo finito: tantalus/refutaciones_etp/lean/ETP_<id>.lean
+# (la raíz no puede ser `lean`: en un disco que no distingue mayúsculas chocaría con el paquete `Lean`)
 [[lean_lib]]
 name = "RefutacionesFinitas"
-srcDir = "tantalus/refutaciones_etp"
-globs = ["lean.+"]
+srcDir = "tantalus"
+globs = ["refutaciones_etp.lean.+"]
 
 # La biblioteca portada del ETP de la que dependen las 30 F5
 [[lean_lib]]
