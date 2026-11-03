@@ -2,6 +2,8 @@
 
 Code for the MSc thesis "Prometeo desencadenado" (UNAL Manizales): a frozen LLM proposes Lean 4 proofs, the Lean kernel is the only judge, and a library admits only kernel-certified lemmas.
 
+Tantalus, with the 200 Lean refutations of false tasks from the Equational Theories Project: [tantalus/README.md](tantalus/README.md).
+
 ## Preregistered confirmatory study
 
 Two primary questions:
