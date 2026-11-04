@@ -18,13 +18,31 @@ on 24 Oct 2026. Each run had 10 episodes on one magma law.
 
 A rejection counts as a name clash when Lean reported `has already been declared`.
 
+## Two judges
+
+The table above and the tables under [Results](#results) come from two different judges.
+
+- **The pilot** was judged by `unirl/frontera.py` as it stood before the fix. The run metadata (`meta.json`, field
+  `codigo`) recorded only a 16-character fingerprint of four harness files (`frontera.py`, `juez_lean.py`, `loop.py`,
+  `gasto.py`): `4dde23ec5862dde9`, the same in the four runs. The runs did not record the SHA-256 of `frontera.py`
+  alone. A copy of `frontera.py` saved before the fix, with SHA-256
+  `3ef64496f1a5a4d458bbdc9b4fe87b52eb1de5512e2bff16133cd1b3fe9b55bf`, reproduces that fingerprint together with the
+  current versions of the other three files.
+- **The re-judging** used the patched file, SHA-256
+  `59b983ee829aea8da8d237fabe4d0e8c61a7fd49be2880b5683513f61e6d69fd`. The fix was made on 24 Oct 2026 in a working
+  copy where `frontera.py` was not under version control. The first commit that holds the patched file is
+  [`22fad88`](https://github.com/cmorregof/prometeo/commit/22fad88).
+
+Besides the context fix, the patched file gives a name clash its own label, `NOMBRE_YA_DECLARADO`, and reads the
+`#print axioms` line of a name that contains an apostrophe. Changing the judge is a change of protocol. A number on
+this page belongs to the judge that produced it.
+
 ## How we re-judged
 
 For each run we replayed the attempts in order and rebuilt the context that the fixed harness would have given Lean: the
 notebook at the start of the run (empty in all four runs) plus each accepted lemma, once. On that context we judged
-again every lemma that had been rejected. We used the same judge function, `admitir_bloque`, from `unirl/frontera.py`.
-The file had SHA-256 `59b983ee829aea8da8d237fabe4d0e8c61a7fd49be2880b5683513f61e6d69fd`, the same as
-[`unirl/frontera.py`](../unirl/frontera.py) in this repository.
+again every lemma that had been rejected. We used the judge function `admitir_bloque` from the patched
+`unirl/frontera.py` (SHA-256 `59b983ee…`, the same as [`unirl/frontera.py`](../unirl/frontera.py) in this repository).
 
 There are two variants:
 
@@ -44,8 +62,10 @@ For the 218 lemmas rejected by a name clash:
 | `NOMBRE_YA_DECLARADO` | 0 | 137 |
 | `FORBIDDEN` | 0 | 27 |
 
-In variant A, 184 of the 218 lemmas (84 %) were correct proofs. In variant B, 137 lemmas carry a name that a lemma
-accepted earlier in the cascade already declared, so Lean did not judge their proofs.
+184 of the 218 lemmas (84 %) were accepted by the patched judge under variant A, and 53 under variant B. In variant
+B, 137 lemmas carry a name that a lemma accepted earlier in the cascade already declared, so Lean did not judge their
+proofs. Whether an accepted proof is correct is for the reference check of O1 to decide, and that check does not
+exist yet.
 
 | Law | A accepted | B accepted |
 |---|---:|---:|
@@ -57,7 +77,8 @@ accepted earlier in the cascade already declared, so Lean did not judge their pr
 ## Checks
 
 - **Control.** The 5 rejections that were not name clashes should keep their label if the context is rebuilt
-  correctly. In variant A, all 5 were `PROOF_FAILED` again.
+  correctly. In variant A, all 5 were `PROOF_FAILED` again. In variant B, 3 were `PROOF_FAILED` and 2
+  `NOMBRE_YA_DECLARADO`.
 - **Axioms.** No lemma was marked unsound because the `#print axioms` line was missing from Lean's output (count: 0).
 
 ## The fix

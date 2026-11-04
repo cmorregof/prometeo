@@ -4,13 +4,17 @@
 
 ## A defect in our own judge
 
-In an exploratory pilot, our Lean judge rejected correct lemma proposals because of a name clash. In the CC
-configuration, a lemma accepted in one attempt was declared again in the Lean file of a later attempt. Lean stopped at
-`'<name>' has already been declared` and never checked the new proof. The judge recorded it as a failed proof.
+In an exploratory pilot, our Lean judge rejected lemma proposals because of a name clash, without checking their
+proofs. In the CC configuration, a lemma accepted in one attempt was declared again in the Lean file of a later
+attempt. Lean stopped at `'<name>' has already been declared` and never checked the new proof. The judge recorded it as
+a failed proof.
 
-In four pilot runs, 218 rejections were name clashes. We re-judged them without the clash, keeping in context only
-the lemmas the original judge accepted. 184 of the 218 (84 %) were correct proofs. The 5 rejections with other causes
-kept their label. Details: [pilot_rejudging.md](pilot_rejudging.md).
+In four pilot runs, 218 rejections were name clashes. We re-judged them without the clash, with the patched judge, in
+two variants. Variant A assumes the context holds only the lemmas the original judge accepted. Variant B assumes it
+also holds the lemmas the re-judging accepts, in the order they would have entered. Under variant A the patched judge
+accepted 184 of the 218 (84 %); under variant B, 53 of the 218. In variant A the 5 rejections with other causes kept
+their label. The pilot and the re-judging used different judges, and changing the judge is a change of protocol.
+Details: [pilot_rejudging.md](pilot_rejudging.md).
 
 The harness now adds each accepted lemma to the Lean file once
 ([`unirl/frontera.py`, lines 573 to 578](https://github.com/cmorregof/prometeo/blob/22fad88/unirl/frontera.py#L573-L578)).
@@ -97,6 +101,12 @@ It collects 427 tests. The 24 tests marked `isabelle` are deselected.
 
 On macOS all 25 skipped tests need private files that are not in this repository. Without Isabelle2025, one more test
 is skipped.
+
+## Related work
+
+The [Lean Kernel Arena](https://arena.lean-lang.org/) scores Lean kernels against known answers in both directions,
+with proofs that must be accepted and proofs that must be rejected. Tantalus applies that idea to the layer above the
+kernel: the judges that decide whether an AI proof proves the given statement with the allowed axioms.
 
 ## Preregistration
 
