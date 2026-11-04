@@ -27,7 +27,8 @@ The table above and the tables under [Results](#results) come from two different
   `gasto.py`): `4dde23ec5862dde9`, the same in the four runs. The runs did not record the SHA-256 of `frontera.py`
   alone. A copy of `frontera.py` saved before the fix, with SHA-256
   `3ef64496f1a5a4d458bbdc9b4fe87b52eb1de5512e2bff16133cd1b3fe9b55bf`, reproduces that fingerprint together with the
-  current versions of the other three files.
+  current versions of the other three files. The four files and the command that reproduces the fingerprint are in
+  [`pilot_judge/`](pilot_judge/).
 - **The re-judging** used the patched file, SHA-256
   `59b983ee829aea8da8d237fabe4d0e8c61a7fd49be2880b5683513f61e6d69fd`. The fix was made on 24 Oct 2026 in a working
   copy where `frontera.py` was not under version control. The first commit that holds the patched file is
@@ -64,8 +65,9 @@ For the 218 lemmas rejected by a name clash:
 
 184 of the 218 lemmas (84 %) were accepted by the patched judge under variant A, and 53 under variant B. In variant
 B, 137 lemmas carry a name that a lemma accepted earlier in the cascade already declared, so Lean did not judge their
-proofs. Whether an accepted proof is correct is for the reference check of O1 to decide, and that check does not
-exist yet.
+proofs. Whether an accepted proof is correct is for a reference check to decide: the statement must match, only the
+allowed axioms may appear, the proof is replayed in independent kernels (nanoda, lean4lean), and a person looks at
+each disagreement. That check is planned and does not exist yet.
 
 | Law | A accepted | B accepted |
 |---|---:|---:|

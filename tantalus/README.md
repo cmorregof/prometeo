@@ -1,6 +1,6 @@
 # Tantalus
 
-[FIRST PARAGRAPH: CARLOS WRITES THIS]
+Tantalus measures how often Lean proof judges are wrong. AI provers learn from these verdicts, so a judge that rejects a valid proof, or accepts a false one, teaches the model the wrong thing and nobody notices. We found this in our own pilot: our judge rejected 218 lemma submissions over a name clash, and after the fix, 184 of them were accepted under one of two re-judging variants. Tantalus is a set of Lean tasks with known answers, true and false, to measure that error in both directions for the judges people use.
 
 ## A defect in our own judge
 
